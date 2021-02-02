@@ -34,6 +34,8 @@ struct ButtonView: View {
                 .foregroundColor(textColor)
                 .font(.custom("Apple SD Gothic Neo", size: textSize))
                 .fontWeight(.heavy)
+                .padding(.top, 5)
+                
         }
     }
 }
@@ -41,5 +43,6 @@ struct ButtonView: View {
 struct ButtonView_Previews: PreviewProvider {
     static var previews: some View {
         ButtonView()
+            .preferredColorScheme(.dark)
     }
 }
