@@ -7,19 +7,35 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D034870D25C7FE3D00CFCAB2 /* RegisterPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D034870C25C7FE3D00CFCAB2 /* RegisterPageView.swift */; };
+		D034871225C80DA500CFCAB2 /* ButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D034871125C80DA500CFCAB2 /* ButtonView.swift */; };
 		D0369D1A25C76B1900718A52 /* megastonksApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0369D1925C76B1900718A52 /* megastonksApp.swift */; };
-		D0369D1C25C76B1900718A52 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0369D1B25C76B1900718A52 /* ContentView.swift */; };
+		D0369D1C25C76B1900718A52 /* FormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0369D1B25C76B1900718A52 /* FormView.swift */; };
 		D0369D1E25C76B1900718A52 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D0369D1D25C76B1900718A52 /* Assets.xcassets */; };
 		D0369D2125C76B1900718A52 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D0369D2025C76B1900718A52 /* Preview Assets.xcassets */; };
+		D057841825C88C360039E6CD /* OnBoardCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D057841725C88C360039E6CD /* OnBoardCardView.swift */; };
+		D057841B25C88C5E0039E6CD /* OnBoardCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = D057841A25C88C5E0039E6CD /* OnBoardCard.swift */; };
+		D057841E25C88D400039E6CD /* OnBoardCardModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D057841D25C88D400039E6CD /* OnBoardCardModel.swift */; };
+		D057842325C894530039E6CD /* OnBoardPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D057842225C894530039E6CD /* OnBoardPageView.swift */; };
+		D06B311525C7AFF400A37C08 /* LoginPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06B311425C7AFF400A37C08 /* LoginPageView.swift */; };
+		D06B311825C7BA5200A37C08 /* SecretFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06B311725C7BA5200A37C08 /* SecretFormView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		D034870C25C7FE3D00CFCAB2 /* RegisterPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterPageView.swift; sourceTree = "<group>"; };
+		D034871125C80DA500CFCAB2 /* ButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonView.swift; sourceTree = "<group>"; };
 		D0369D1625C76B1900718A52 /* megastonks.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = megastonks.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0369D1925C76B1900718A52 /* megastonksApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = megastonksApp.swift; sourceTree = "<group>"; };
-		D0369D1B25C76B1900718A52 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		D0369D1B25C76B1900718A52 /* FormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormView.swift; sourceTree = "<group>"; };
 		D0369D1D25C76B1900718A52 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D0369D2025C76B1900718A52 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		D0369D2225C76B1900718A52 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D057841725C88C360039E6CD /* OnBoardCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardCardView.swift; sourceTree = "<group>"; };
+		D057841A25C88C5E0039E6CD /* OnBoardCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardCard.swift; sourceTree = "<group>"; };
+		D057841D25C88D400039E6CD /* OnBoardCardModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardCardModel.swift; sourceTree = "<group>"; };
+		D057842225C894530039E6CD /* OnBoardPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardPageView.swift; sourceTree = "<group>"; };
+		D06B311425C7AFF400A37C08 /* LoginPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginPageView.swift; sourceTree = "<group>"; };
+		D06B311725C7BA5200A37C08 /* SecretFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecretFormView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -33,9 +49,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D034871425C80DAE00CFCAB2 /* SubViews */ = {
+			isa = PBXGroup;
+			children = (
+				D0369D1B25C76B1900718A52 /* FormView.swift */,
+				D034871125C80DA500CFCAB2 /* ButtonView.swift */,
+				D06B311725C7BA5200A37C08 /* SecretFormView.swift */,
+				D057841725C88C360039E6CD /* OnBoardCardView.swift */,
+			);
+			path = SubViews;
+			sourceTree = "<group>";
+		};
 		D0369D0D25C76B1900718A52 = {
 			isa = PBXGroup;
 			children = (
+				D0369D1925C76B1900718A52 /* megastonksApp.swift */,
+				D0369D2B25C76FCD00718A52 /* ViewModels */,
+				D0369D2A25C76FC700718A52 /* Views */,
+				D0369D2925C76FB300718A52 /* Models */,
 				D0369D1825C76B1900718A52 /* megastonks */,
 				D0369D1725C76B1900718A52 /* Products */,
 			);
@@ -52,8 +83,6 @@
 		D0369D1825C76B1900718A52 /* megastonks */ = {
 			isa = PBXGroup;
 			children = (
-				D0369D1925C76B1900718A52 /* megastonksApp.swift */,
-				D0369D1B25C76B1900718A52 /* ContentView.swift */,
 				D0369D1D25C76B1900718A52 /* Assets.xcassets */,
 				D0369D2225C76B1900718A52 /* Info.plist */,
 				D0369D1F25C76B1900718A52 /* Preview Content */,
@@ -67,6 +96,33 @@
 				D0369D2025C76B1900718A52 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		D0369D2925C76FB300718A52 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				D057841A25C88C5E0039E6CD /* OnBoardCard.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		D0369D2A25C76FC700718A52 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				D034871425C80DAE00CFCAB2 /* SubViews */,
+				D06B311425C7AFF400A37C08 /* LoginPageView.swift */,
+				D034870C25C7FE3D00CFCAB2 /* RegisterPageView.swift */,
+				D057842225C894530039E6CD /* OnBoardPageView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		D0369D2B25C76FCD00718A52 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				D057841D25C88D400039E6CD /* OnBoardCardModel.swift */,
+			);
+			path = ViewModels;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -138,8 +194,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D0369D1C25C76B1900718A52 /* ContentView.swift in Sources */,
+				D06B311825C7BA5200A37C08 /* SecretFormView.swift in Sources */,
+				D034870D25C7FE3D00CFCAB2 /* RegisterPageView.swift in Sources */,
+				D034871225C80DA500CFCAB2 /* ButtonView.swift in Sources */,
+				D057841E25C88D400039E6CD /* OnBoardCardModel.swift in Sources */,
+				D0369D1C25C76B1900718A52 /* FormView.swift in Sources */,
 				D0369D1A25C76B1900718A52 /* megastonksApp.swift in Sources */,
+				D057841B25C88C5E0039E6CD /* OnBoardCard.swift in Sources */,
+				D057842325C894530039E6CD /* OnBoardPageView.swift in Sources */,
+				D057841825C88C360039E6CD /* OnBoardCardView.swift in Sources */,
+				D06B311525C7AFF400A37C08 /* LoginPageView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
