@@ -25,6 +25,7 @@ struct OnBoardCardView: View {
                 .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
                 .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
                 .foregroundColor(.white)
+                .multilineTextAlignment(.center)
                 .padding()
             Text(card.description)
                 .multilineTextAlignment(.center)
