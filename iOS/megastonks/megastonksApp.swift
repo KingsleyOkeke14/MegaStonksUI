@@ -13,7 +13,9 @@ struct megastonksApp: App {
         WindowGroup {
             //LoginPageView()
             //RegisterPageView()
-            OnBoardPageView()
+            //StockSymbolView(stock: StockSymbolModel().symbols[0])
+            WatchListPageView(searchText: "")
+            //OnBoardPageView()
         }
     }
 }
