@@ -15,9 +15,6 @@ struct StockInfoView: View {
     
     
     var body: some View {
-        Color.black
-            .ignoresSafeArea() // Ignore just for the color
-            .overlay(
                 HStack{
                     VStack{
 
@@ -76,7 +73,6 @@ struct StockInfoView: View {
                         
                     }
                 }
-            )
     }
 }
 

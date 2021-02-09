@@ -14,7 +14,8 @@ struct megastonksApp: App {
             //LoginPageView()
             //RegisterPageView()
             //StockSymbolView(stock: StockSymbolModel().symbols[0])
-            WatchListPageView(searchText: "")
+//            WatchListPageView(searchText: "")
+            StocksInfoPageView()
             //OnBoardPageView()
         }
     }

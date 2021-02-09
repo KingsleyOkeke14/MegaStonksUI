@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -26,6 +26,9 @@
 		D06B311825C7BA5200A37C08 /* SecretFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06B311725C7BA5200A37C08 /* SecretFormView.swift */; };
 		D0D1933825CCB41900D83D87 /* StockInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D1933725CCB41900D83D87 /* StockInfoView.swift */; };
 		D0D1933B25CCCFAF00D83D87 /* ChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D1933A25CCCFAF00D83D87 /* ChartView.swift */; };
+		D0FC0FF425D2280C00366B26 /* SwiftUICharts in Frameworks */ = {isa = PBXBuildFile; productRef = D0FC0FF325D2280C00366B26 /* SwiftUICharts */; };
+		D0FC0FF725D2287600366B26 /* StocksInfoPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0FC0FF625D2287600366B26 /* StocksInfoPageView.swift */; };
+		D0FC0FFB25D22E8F00366B26 /* ChartButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0FC0FFA25D22E8F00366B26 /* ChartButtonView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -50,6 +53,9 @@
 		D06B311725C7BA5200A37C08 /* SecretFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecretFormView.swift; sourceTree = "<group>"; };
 		D0D1933725CCB41900D83D87 /* StockInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockInfoView.swift; sourceTree = "<group>"; };
 		D0D1933A25CCCFAF00D83D87 /* ChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartView.swift; sourceTree = "<group>"; };
+		D0FC0FF025D227E100366B26 /* ChartView */ = {isa = PBXFileReference; lastKnownFileType = folder; name = ChartView; path = ../../../../Projects/UIPlayground/UIPlayground/UIPlayground/ChartView; sourceTree = "<group>"; };
+		D0FC0FF625D2287600366B26 /* StocksInfoPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StocksInfoPageView.swift; sourceTree = "<group>"; };
+		D0FC0FFA25D22E8F00366B26 /* ChartButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartButtonView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,6 +63,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D0FC0FF425D2280C00366B26 /* SwiftUICharts in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -74,6 +81,7 @@
 				D00CA78025CB3BF600232915 /* StockSymbolView.swift */,
 				D0D1933725CCB41900D83D87 /* StockInfoView.swift */,
 				D0D1933A25CCCFAF00D83D87 /* ChartView.swift */,
+				D0FC0FFA25D22E8F00366B26 /* ChartButtonView.swift */,
 			);
 			path = SubViews;
 			sourceTree = "<group>";
@@ -82,11 +90,13 @@
 			isa = PBXGroup;
 			children = (
 				D0369D1925C76B1900718A52 /* megastonksApp.swift */,
+				D0FC0FF025D227E100366B26 /* ChartView */,
 				D0369D2B25C76FCD00718A52 /* ViewModels */,
 				D0369D2A25C76FC700718A52 /* Views */,
 				D0369D2925C76FB300718A52 /* Models */,
 				D0369D1825C76B1900718A52 /* megastonks */,
 				D0369D1725C76B1900718A52 /* Products */,
+				D0FC0FF225D2280C00366B26 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -133,6 +143,7 @@
 				D034870C25C7FE3D00CFCAB2 /* RegisterPageView.swift */,
 				D057842225C894530039E6CD /* OnBoardPageView.swift */,
 				D00CA78925CB93DD00232915 /* WatchListPageView.swift */,
+				D0FC0FF625D2287600366B26 /* StocksInfoPageView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -144,6 +155,13 @@
 				D00CA78625CB55CD00232915 /* StockSymbolModel.swift */,
 			);
 			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		D0FC0FF225D2280C00366B26 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -162,6 +180,9 @@
 			dependencies = (
 			);
 			name = megastonks;
+			packageProductDependencies = (
+				D0FC0FF325D2280C00366B26 /* SwiftUICharts */,
+			);
 			productName = megastonks;
 			productReference = D0369D1625C76B1900718A52 /* megastonks.app */;
 			productType = "com.apple.product-type.application";
@@ -215,6 +236,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D0FC0FF725D2287600366B26 /* StocksInfoPageView.swift in Sources */,
 				D06B311825C7BA5200A37C08 /* SecretFormView.swift in Sources */,
 				D034870D25C7FE3D00CFCAB2 /* RegisterPageView.swift in Sources */,
 				D00CA78725CB55CD00232915 /* StockSymbolModel.swift in Sources */,
@@ -224,6 +246,7 @@
 				D057841E25C88D400039E6CD /* OnBoardCardModel.swift in Sources */,
 				D0369D1C25C76B1900718A52 /* FormView.swift in Sources */,
 				D0369D1A25C76B1900718A52 /* megastonksApp.swift in Sources */,
+				D0FC0FFB25D22E8F00366B26 /* ChartButtonView.swift in Sources */,
 				D0D1933825CCB41900D83D87 /* StockInfoView.swift in Sources */,
 				D0D1933B25CCCFAF00D83D87 /* ChartView.swift in Sources */,
 				D057841B25C88C5E0039E6CD /* OnBoardCard.swift in Sources */,
@@ -418,6 +441,13 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		D0FC0FF325D2280C00366B26 /* SwiftUICharts */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = SwiftUICharts;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = D0369D0E25C76B1900718A52 /* Project object */;
 }
