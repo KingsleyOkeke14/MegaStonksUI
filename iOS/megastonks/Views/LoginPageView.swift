@@ -8,9 +8,7 @@
 import SwiftUI
 
 struct LoginPageView: View {
-    let greenColor:Color = Color.init(red: 72/255, green: 175/255, blue: 56/255)
-    
-    let grayColor:Color = Color.init(red: 22/255, green: 21/255, blue: 21/255)
+    let myColors = MyColors()
     
     @State var emailText:String = ""
     @State var passwordText:String = ""

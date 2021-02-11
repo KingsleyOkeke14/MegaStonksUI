@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SecretFormView: View {
     
-    let greencolor:Color = Color.init(red: 129/255, green: 182/255, blue: 121/255)
+    
     
     var formField:String
     
@@ -20,7 +20,7 @@ struct SecretFormView: View {
         VStack(spacing: 0.5){
             HStack{
                 Text(formField)
-                    .foregroundColor(greencolor)
+                    .foregroundColor(MyColors().greenColor)
                     .bold()
                     .fontWeight(.heavy)
                     .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
@@ -31,7 +31,7 @@ struct SecretFormView: View {
                 .foregroundColor(.white)
                 
             Rectangle()
-                 .fill(greencolor)
+                .fill(MyColors().greenColor)
                  .frame(height: 2)
                  .edgesIgnoringSafeArea(.horizontal)
             

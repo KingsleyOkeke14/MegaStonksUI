@@ -9,12 +9,14 @@ import SwiftUI
 
 struct ChartButtonView: View {
     
-    @State var buttonList: [(buttonName: String, buttonState: Bool)] = [("1D", true), ("5D", false), ("1M", false), ("3M", false), ("1Y", false), ("5Y", false)]
+
+
+    @State var buttonList: [(buttonName: String, buttonState: Bool)] = [(buttonName: String, buttonState: Bool)]()
     
+
+
     
-    let greenColor:Color = Color.init(red: 72/255, green: 175/255, blue: 56/255)
-    
-    func changeActiveButton(activeButton: Int){
+     func changeActiveButton(activeButton: Int){
         
         for index in 0..<buttonList.count{
             buttonList[index].buttonState = false
@@ -24,7 +26,7 @@ struct ChartButtonView: View {
         
     }
     var body: some View {
-                HStack{
+        HStack(spacing: 10){
                     
                     Button(action: {
                         changeActiveButton(activeButton: 0)
@@ -68,7 +70,8 @@ struct ChartButtonView: View {
                     })
            
                     
-                }
+        }
+        .padding(.horizontal)
         
     }
 }
@@ -78,11 +81,12 @@ struct ButtonSelected: View {
     var buttonName:String
     var buttonSelected:Bool
     
+    let myColors = MyColors()
     var body: some View{
         ZStack{
             if(buttonSelected){
                 Ellipse()
-                    .fill(Color.init(red: 72/255, green: 175/255, blue: 56/255))
+                    .fill(Color.green)
                     .frame(width: 44, height: 18)
                 Text(buttonName)
                     .foregroundColor(.black)
@@ -106,10 +110,10 @@ struct ButtonSelected: View {
     }
     
 }
-
 struct ChartButtonView_Previews: PreviewProvider {
     static var previews: some View {
-        ChartButtonView()
+        let mYbuttonList = [("1D", true), ("5D", false), ("1M", false), ("3M", false), ("1Y", false), ("5Y", false)]
+        ChartButtonView(buttonList: mYbuttonList)
     }
 }
 

@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ButtonView: View {
     
-    let grayColor:Color = Color.init(red: 22/255, green: 21/255, blue: 21/255)
+    
     
     
     var cornerRadius:CGFloat = 12
@@ -28,7 +28,7 @@ struct ButtonView: View {
             RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
                 .stroke(strokeColor, lineWidth: strokeLineWidth)
                 .frame(width: frameWidth, height: frameHeight)
-                .background(grayColor)
+                .background(MyColors().grayColor)
             
             Text(text)
                 .foregroundColor(textColor)

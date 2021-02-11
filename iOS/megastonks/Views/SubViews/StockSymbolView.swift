@@ -8,9 +8,8 @@
 import SwiftUI
 
 struct StockSymbolView: View {
-    let grayColor:Color = Color.init(red: 198/255, green: 197/255, blue: 197/255)
-    
-    let greenColor:Color = Color.init(red: 72/255, green: 175/255, blue: 56/255)
+
+    let myColors = MyColors()
     
     var stock:StockSymbol
     
@@ -29,15 +28,24 @@ struct StockSymbolView: View {
                                 .foregroundColor(.white)
                             Text(stock.exchange)
                                 .font(.custom("Helvetica", size: 14))
-                                .foregroundColor(grayColor)
+                                .foregroundColor(.gray)
                         }
                         Spacer()
                         VStack{
                             Image(stock.isGaining ? "arrowUp" : "arrowDown")
                                 .scaleEffect(1.4)
-                            Text(String("(" + getSignal() +  formatDouble(stock.percentChange) + "%)"))
-                                .font(.custom("Helvetica", size: 14))
-                                .foregroundColor(greenColor)
+
+                            if(getSignal() == "+"){
+                                Text(String("(" + getSignal() +  formatDouble(stock.percentChange) + "%)"))
+                                    .font(.custom("Helvetica", size: 14))
+                                    .foregroundColor(.green)
+                            }
+                            else{
+                                Text(String("(" + getSignal() +  formatDouble(stock.percentChange) + "%)"))
+                                    .font(.custom("Helvetica", size: 14))
+                                    .foregroundColor(.red)
+                            }
+                                
                             
                         }
                         Spacer()
@@ -49,10 +57,10 @@ struct StockSymbolView: View {
                             HStack{
                                 Text(getSignal() + formatDouble(stock.dollarChange))
                                     .font(.custom("Helvetica", size: 14))
-                                    .foregroundColor(grayColor)
+                                    .foregroundColor(.gray)
                                 Text(String(stock.currency))
                                     .font(.custom("Helvetica", size: 14))
-                                    .foregroundColor(grayColor)
+                                    .foregroundColor(.gray)
                             }
                         }
                     }

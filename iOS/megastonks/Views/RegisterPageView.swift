@@ -9,9 +9,7 @@ import SwiftUI
 
 struct RegisterPageView: View {
     
-    let greenColor:Color = Color.init(red: 72/255, green: 175/255, blue: 56/255)
-    
-    let grayColor:Color = Color.init(red: 22/255, green: 21/255, blue: 21/255)
+    let myColors = MyColors()
     
     
     @State var firstNameText:String = ""
@@ -59,7 +57,7 @@ struct RegisterPageView: View {
                             {
                                 Image(systemName: termsIsChecked ? "checkmark.square.fill" : "square")
                                     .scaleEffect(1.2)
-                                    .foregroundColor(greenColor)
+                                    .foregroundColor(myColors.greenColor)
                                 
                                 
                             }

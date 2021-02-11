@@ -9,7 +9,6 @@ import SwiftUI
 
 struct OnBoardCardView: View {
     
-    var greenColor:Color = Color.init(red: 72/255, green: 175/255, blue: 56/255)
     
     
     var card:OnBoardCard
@@ -19,7 +18,7 @@ struct OnBoardCardView: View {
             Spacer()
             Image(systemName: card.image)
                 .font(.system(size: 180))
-                .foregroundColor(greenColor)
+                .foregroundColor(MyColors().greenColor)
             Spacer()
             Text(card.title)
                 .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
