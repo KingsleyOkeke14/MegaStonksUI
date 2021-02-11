@@ -11,6 +11,8 @@
 		D004685A25D44037006C60E9 /* PortfolioSummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D004685925D44037006C60E9 /* PortfolioSummaryView.swift */; };
 		D004685D25D4BD2B006C60E9 /* PortfolioPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D004685C25D4BD2B006C60E9 /* PortfolioPageView.swift */; };
 		D004686025D4D2CD006C60E9 /* ProfilePageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D004685F25D4D2CD006C60E9 /* ProfilePageView.swift */; };
+		D004686425D5CCFB006C60E9 /* ProfileSettingsPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D004686325D5CCFB006C60E9 /* ProfileSettingsPageView.swift */; };
+		D004686725D5E461006C60E9 /* EditSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D004686625D5E461006C60E9 /* EditSelectionView.swift */; };
 		D00CA77B25CA40C400232915 /* SearchBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00CA77A25CA40C400232915 /* SearchBarView.swift */; };
 		D00CA78125CB3BF600232915 /* StockSymbolView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00CA78025CB3BF600232915 /* StockSymbolView.swift */; };
 		D00CA78425CB50CF00232915 /* StockSymbol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00CA78325CB50CF00232915 /* StockSymbol.swift */; };
@@ -44,6 +46,8 @@
 		D004685925D44037006C60E9 /* PortfolioSummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioSummaryView.swift; sourceTree = "<group>"; };
 		D004685C25D4BD2B006C60E9 /* PortfolioPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioPageView.swift; sourceTree = "<group>"; };
 		D004685F25D4D2CD006C60E9 /* ProfilePageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePageView.swift; sourceTree = "<group>"; };
+		D004686325D5CCFB006C60E9 /* ProfileSettingsPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSettingsPageView.swift; sourceTree = "<group>"; };
+		D004686625D5E461006C60E9 /* EditSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditSelectionView.swift; sourceTree = "<group>"; };
 		D00CA77A25CA40C400232915 /* SearchBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarView.swift; sourceTree = "<group>"; };
 		D00CA78025CB3BF600232915 /* StockSymbolView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockSymbolView.swift; sourceTree = "<group>"; };
 		D00CA78325CB50CF00232915 /* StockSymbol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockSymbol.swift; sourceTree = "<group>"; };
@@ -168,6 +172,8 @@
 				D0FC100225D2F96D00366B26 /* MyColors.swift */,
 				D004685C25D4BD2B006C60E9 /* PortfolioPageView.swift */,
 				D004685F25D4D2CD006C60E9 /* ProfilePageView.swift */,
+				D004686325D5CCFB006C60E9 /* ProfileSettingsPageView.swift */,
+				D004686625D5E461006C60E9 /* EditSelectionView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -270,9 +276,11 @@
 				D004685725D43795006C60E9 /* CompanyInfoView.swift in Sources */,
 				D034871225C80DA500CFCAB2 /* ButtonView.swift in Sources */,
 				D004685A25D44037006C60E9 /* PortfolioSummaryView.swift in Sources */,
+				D004686425D5CCFB006C60E9 /* ProfileSettingsPageView.swift in Sources */,
 				D00CA78125CB3BF600232915 /* StockSymbolView.swift in Sources */,
 				D00CA78425CB50CF00232915 /* StockSymbol.swift in Sources */,
 				D057841E25C88D400039E6CD /* OnBoardCardModel.swift in Sources */,
+				D004686725D5E461006C60E9 /* EditSelectionView.swift in Sources */,
 				D0369D1C25C76B1900718A52 /* FormView.swift in Sources */,
 				D0369D1A25C76B1900718A52 /* megastonksApp.swift in Sources */,
 				D0FC0FFB25D22E8F00366B26 /* ChartButtonView.swift in Sources */,

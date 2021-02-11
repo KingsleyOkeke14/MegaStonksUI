@@ -16,7 +16,15 @@ struct ProfilePageView: View {
             .ignoresSafeArea()
             .overlay(
                 VStack{
-                    
+                    HStack{
+                        Spacer()
+                        Button(action: {}, label: {
+                            Image(systemName: "person.crop.circle.fill")
+                                .font(.title)
+                                .foregroundColor(Color.green)
+                        }).padding(.horizontal)
+                    }
+                    Spacer()
                     UserProfileWalletSummary()
                     Rectangle()
                         .fill(myColors.greenColor)
@@ -29,27 +37,21 @@ struct ProfilePageView: View {
                             .foregroundColor(.white)
                             .font(.custom("Verdana", size: 34))
                             .bold()
-                              +
-                                Text(" CAD")
-                                .foregroundColor(.white)
-                                .font(.custom("Verdana", size: 20))
+                            +
+                            Text(" CAD")
+                            .foregroundColor(.white)
+                            .font(.custom("Verdana", size: 20))
                             .bold()
                             .baselineOffset(0)
-                            
+                        
                     }
                     ChartView(chartButtonList: [("1D", true), ("5D", false), ("1M", false), ("3M", false), ("1Y", false), ("ALL", false)])
-                    
+                    Spacer()
                 }
-            
-            
-
-        )
-    }
-}
-
-struct ProfilePageView_Previews: PreviewProvider {
-    static var previews: some View {
-        ProfilePageView()
+                
+                
+                
+            )
     }
 }
 
@@ -63,6 +65,8 @@ struct RadialWalletView: View {
         }
     }
 }
+
+
 
 struct UserProfileWalletSummary: View {
     var body: some View {
@@ -125,3 +129,10 @@ struct UserProfileWalletSummary: View {
         }
     }
 }
+
+struct ProfilePageView_Previews: PreviewProvider {
+    static var previews: some View {
+        ProfilePageView()
+    }
+}
+
