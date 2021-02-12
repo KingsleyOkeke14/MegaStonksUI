@@ -39,7 +39,7 @@ struct ProfileSettingsPageView: View {
                         Text("MegaStonks is a product offered by Striking Credit and is Striking Credit's first step in empowering individuals with tools to better understand and take control of their personal finances")
                             .foregroundColor(.gray)
                             .bold()
-                            .font(.title3)
+                            .font(.body)
                             .multilineTextAlignment(.center)
                             .padding()
                         Text("strikingcredit.ca")
