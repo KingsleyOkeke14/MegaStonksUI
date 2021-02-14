@@ -9,30 +9,42 @@ import SwiftUI
 
 struct EditSelectionView: View {
     var formField:String
+    @State var isLoading:Bool = false
     @Binding var formText:String
     var isSecret:Bool
     var body: some View {
-        Color.black
-            .ignoresSafeArea()
-            .overlay(
-                VStack{
-                    if(isSecret){
-                        SecretFormView(formField: formField, secretText: $formText)
-                        SecretFormView(formField: "Confirm " + formField, secretText: $formText)
-                    }
-                    else{
-                        FormView(formField: formField, formText: $formText)
-                    }
-                
-                    Button(action: /*@START_MENU_TOKEN@*/{}/*@END_MENU_TOKEN@*/, label: {
-                        ButtonView(text: "Update")
-                    }).padding()
-                }.padding(.horizontal)
-            
-            
-            
-            )
+        VStack {
+            Color.black
+                .ignoresSafeArea()
+                .overlay(
+                    VStack{
+                        if(isSecret){
+                            SecretFormView(formField: formField, secretText: $formText)
+                            SecretFormView(formField: "Confirm " + formField, secretText: $formText)
+                        }
+                        else{
+                            FormView(formField: formField, formText: $formText)
+                        }
+                        
+                        Button(action: {isLoading = true}, label: {
+                            ButtonView(text: "Update")
+                        }).padding()
+                    }.padding(.horizontal)
+                    
+                    
+                    
+                )
+        }.overlay(
+        
+            VStack{
+                if(isLoading){
+                    LoadingIndicatorView()
+                }
+
+            }
+        )
     }
+    
 }
 
 struct EditSelectionView_Previews: PreviewProvider {

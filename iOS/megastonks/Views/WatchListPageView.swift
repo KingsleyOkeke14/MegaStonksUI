@@ -9,6 +9,7 @@ import SwiftUI
 
 struct WatchListPageView: View {
     
+    let myColors = MyColors()
     @State var searchText:String
     
     var stocks:StockSymbolModel = StockSymbolModel()
@@ -28,9 +29,9 @@ struct WatchListPageView: View {
                             .font(.custom("Apple SD Gothic Neo", size: 22))
                             .fontWeight(.heavy)
                             .bold()
-                            .foregroundColor(.white)
+                            .foregroundColor(myColors.greenColor)
                         Image(systemName: "eye")
-                            .foregroundColor(.white)
+                            .foregroundColor(myColors.greenColor)
                             .font(.headline)
                         Spacer()
                         

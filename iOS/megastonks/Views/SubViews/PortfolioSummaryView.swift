@@ -19,7 +19,7 @@ struct PortfolioSummaryView: View {
                             .font(.custom("Apple SD Gothic Neo", size: 22))
                             .fontWeight(.heavy)
                             .bold()
-                            .foregroundColor(.white)
+                            .foregroundColor(myColors.greenColor)
                             .padding(.horizontal)
                         Spacer()
                     }

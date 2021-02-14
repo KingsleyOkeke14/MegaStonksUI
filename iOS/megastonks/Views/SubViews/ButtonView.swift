@@ -11,15 +11,16 @@ struct ButtonView: View {
     
     
     
-    
+    let myColors = MyColors()
     var cornerRadius:CGFloat = 12
-    var strokeColor:Color = Color.init(red: 72/255, green: 175/255, blue: 56/255)
+    var strokeColor:Color = MyColors().buttonStrokeGreenColor
     var text:String = ""
     var textColor:Color = Color.init(red: 72/255, green: 175/255, blue: 56/255)
     var textSize:CGFloat = 30
     var strokeLineWidth:CGFloat = 4
     var frameWidth:CGFloat = 140
     var frameHeight:CGFloat = 48
+    var backGroundColor:Color = MyColors().grayColor
     
     
     
@@ -28,7 +29,7 @@ struct ButtonView: View {
             RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
                 .stroke(strokeColor, lineWidth: strokeLineWidth)
                 .frame(width: frameWidth, height: frameHeight)
-                .background(MyColors().grayColor)
+                .background(backGroundColor)
             
             Text(text)
                 .foregroundColor(textColor)

@@ -15,7 +15,7 @@ struct ProfilePageView: View {
         Color.black
             .ignoresSafeArea()
             .overlay(
-                VStack{
+                VStack(spacing: 2){
                     HStack{
                         Spacer()
                         Button(action: {}, label: {
@@ -24,14 +24,14 @@ struct ProfilePageView: View {
                                 .foregroundColor(Color.green)
                         }).padding(.horizontal)
                     }
-                    Spacer()
+              
                     UserProfileWalletSummary()
                     Rectangle()
                         .fill(myColors.greenColor)
                         .frame(height: 2)
                         .edgesIgnoringSafeArea(.horizontal)
                         .padding(.horizontal)
-                        .padding(.vertical, 40)
+                        .padding(.vertical, 20)
                     HStack {
                         Text("$24,000.04")
                             .foregroundColor(.white)
@@ -46,7 +46,34 @@ struct ProfilePageView: View {
                         
                     }
                     ChartView(chartButtonList: [("1D", true), ("5D", false), ("1M", false), ("3M", false), ("1Y", false), ("ALL", false)])
+                  
+                    
                     Spacer()
+                    Button(action: {}, label: {
+                        VStack(spacing: 0) {
+               
+                            HStack {
+                                    Text("Orders")
+                                        .font(.title2)
+                                        .bold()
+                                        .foregroundColor(myColors.greenColor)
+                                       
+                                    Spacer()
+                                    Image(systemName: "chevron.forward.circle")
+                                        .foregroundColor(myColors.greenColor)
+                                        
+                            }
+                            Rectangle()
+                                .fill(myColors.greenColor)
+                                .frame(height: 2)
+                                .edgesIgnoringSafeArea(.horizontal)
+                            
+                        }.padding(.horizontal)
+                    })
+        
+                    OrderView().padding(.top, 10)
+                    Spacer()
+              
                 }
                 
                 

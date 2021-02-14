@@ -93,13 +93,6 @@ struct PriceActionView: View {
     }
 }
 
-struct StatisticsView_Previews: PreviewProvider {
-    static var previews: some View {
-        StatisticsView()
-    }
-}
-
-
 struct SingleStatView: View {
     var label:String
     var value:String
@@ -121,3 +114,12 @@ struct SingleStatView: View {
         }
     }
 }
+
+struct StatisticsView_Previews: PreviewProvider {
+    static var previews: some View {
+        StatisticsView()
+    }
+}
+
+
+
