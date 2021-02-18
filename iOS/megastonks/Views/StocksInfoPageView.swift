@@ -24,12 +24,12 @@ struct StocksInfoPageView: View {
                             HStack{
                                 Spacer()
                                 Button(action: /*@START_MENU_TOKEN@*/{}/*@END_MENU_TOKEN@*/, label: {
-                                    ButtonView(cornerRadius: 6,  text: "Buy", textColor: myColors.grayColor, frameWidth: 100, frameHeight: 40, backGroundColor: myColors.buttonStrokeGreenColor)
+                                    ButtonView(cornerRadius: 8,  text: "Buy", textColor: myColors.grayColor, frameWidth: 100, frameHeight: 40, backGroundColor: myColors.buttonStrokeGreenColor, strokeBorders: false, fillColor: myColors.buttonStrokeGreenColor)
                                 })
 
                                 Spacer()
                                 Button(action: /*@START_MENU_TOKEN@*/{}/*@END_MENU_TOKEN@*/, label: {
-                                    ButtonView(cornerRadius: 6, strokeColor: myColors.grayColor, text: "Sell", frameWidth: 100, frameHeight: 40)
+                                    ButtonView(cornerRadius: 8,  text: "Sell", textColor: myColors.buttonStrokeGreenColor, frameWidth: 100, frameHeight: 40, strokeBorders: false, fillColor: myColors.grayColor)
                                 })
 
                                 Spacer()

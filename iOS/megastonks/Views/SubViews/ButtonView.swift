@@ -21,29 +21,50 @@ struct ButtonView: View {
     var frameWidth:CGFloat = 140
     var frameHeight:CGFloat = 48
     var backGroundColor:Color = MyColors().grayColor
+    var strokeBorders:Bool = true
+    var fillColor:Color = Color.green
     
     
     
     var body: some View {
-        ZStack{
-            RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
-                .stroke(strokeColor, lineWidth: strokeLineWidth)
-                .frame(width: frameWidth, height: frameHeight)
-                .background(backGroundColor)
-            
-            Text(text)
-                .foregroundColor(textColor)
-                .font(.custom("Apple SD Gothic Neo", size: textSize))
-                .fontWeight(.heavy)
-                .padding(.top, 5)
+        if(strokeBorders){
+            ZStack{
+                RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
+                    .stroke(strokeColor, lineWidth: strokeLineWidth)
+                    .frame(width: frameWidth, height: frameHeight)
+                    .background(backGroundColor)
                 
+                Text(text)
+                    .foregroundColor(textColor)
+                    .font(.custom("Apple SD Gothic Neo", size: textSize))
+                    .fontWeight(.heavy)
+                    .padding(.top, 5)
+                    
+            }
+
         }
+        else{
+            ZStack{
+                RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
+                    .fill(fillColor)
+                    .frame(width: frameWidth, height: frameHeight)
+                    .background(backGroundColor)
+                
+                Text(text)
+                    .foregroundColor(textColor)
+                    .font(.custom("Apple SD Gothic Neo", size: textSize))
+                    .fontWeight(.heavy)
+                    .padding(.top, 5)
+                    
+            }.cornerRadius(cornerRadius)
+        }
+
     }
 }
 
 struct ButtonView_Previews: PreviewProvider {
     static var previews: some View {
-        ButtonView()
+        ButtonView(text: "MyName", strokeBorders: false)
             .preferredColorScheme(.dark)
     }
 }

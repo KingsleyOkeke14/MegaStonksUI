@@ -15,10 +15,13 @@ struct megastonksApp: App {
             //RegisterPageView()
             //StockSymbolView(stock: StockSymbolModel().symbols[0])
 //            WatchListPageView(searchText: "")
-            //StocksInfoPageView()
+            StocksInfoPageView()
             //ProfileSettingsPageView()
-            ProfilePageView()
+            //ProfilePageView()
+            //RegisterPageView()
             //OnBoardPageView()
+        //ButtonSelectionView()
+            //RegisterPageView()
         }
     }
 }
