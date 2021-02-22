@@ -34,7 +34,9 @@ struct StockInfoView: View {
                                 .font(.title)
                                 .bold()
                                 .foregroundColor(.white)
-                                .scaledToFill()
+                                .lineLimit(2)
+                                .minimumScaleFactor(0.5)
+                                .frame(width: 80, height: 80, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
                                 .padding()
                         }
                         
