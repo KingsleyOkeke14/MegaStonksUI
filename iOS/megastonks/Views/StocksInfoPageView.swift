@@ -10,12 +10,40 @@ import SwiftUICharts
 
 struct StocksInfoPageView: View {
     let myColors = MyColors()
+    @State var isInWatchList:Bool = false
     
     var body: some View {
         Color.black
             .ignoresSafeArea()
             .overlay(
                 VStack(spacing: 2){
+                    HStack {
+                        Spacer()
+                        Button(action: {
+                            isInWatchList.toggle()
+                        }, label: {
+                            HStack{
+                                if(isInWatchList){
+                                    Image(systemName: "eye")
+                                        .foregroundColor(.green)
+                                        .font(.title)
+                                        .padding(.trailing, 10)
+                                        
+                                }
+                                else{
+                                    Image(systemName: "eye.slash")
+                                        .foregroundColor(.green)
+                                        .font(.title2)
+                                        .padding(.trailing, 10)
+                                }
+                            }
+
+                              
+                                
+
+                    })
+                    }
+
                     StockInfoView()
                     ScrollView{
                         VStack(spacing: 12){

@@ -39,6 +39,8 @@ struct StatisticsView: View {
                 SingleStatView(label: "Market Cap", value: "46.06B")
                 SingleStatView(label: "Average Volume", value: "13.34M")
                 SingleStatView(label: "Volume", value: "26.30M")
+                
+                SingleStatView(label: "Exchange", value: "CNQ")
             }
             //                    )
         }.padding(.horizontal)
