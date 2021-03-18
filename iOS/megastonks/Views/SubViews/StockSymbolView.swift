@@ -30,15 +30,25 @@ struct StockSymbolView: View {
                                 .font(.custom("Helvetica", size: 14))
                                 .foregroundColor(.gray)
                         }
+                        VStack{
+                            Text("P")
+                                .font(.custom("Arial Bold", size:12))
+                                .foregroundColor(.black)
+                                .padding(2)
+                                .padding(.horizontal, 2)
+                                .background(myColors.greenColor)
+                                .cornerRadius(20)
+                        }
                         Spacer()
                         VStack{
-                            Image(stock.isGaining ? "arrowUp" : "arrowDown")
-                                .scaleEffect(1.4)
-
+                                Image(stock.isGaining ? "arrowUp" : "arrowDown")
+                                    .scaleEffect(1.4)
+                                
                             if(getSignal() == "+"){
                                 Text(String("(" + getSignal() +  formatDouble(stock.percentChange) + "%)"))
                                     .font(.custom("Helvetica", size: 14))
                                     .foregroundColor(.green)
+                                
                             }
                             else{
                                 Text(String("(" + getSignal() +  formatDouble(stock.percentChange) + "%)"))

@@ -51,16 +51,13 @@ struct OrderDetailView: View {
                         .multilineTextAlignment(.center)
                         .padding(.horizontal)
                     
-                    DoubleRowView(label1: "Order Type", value1: "Market", label2: "Status", value2: "Executed")
+                    TripleRowView(label1: "Order Type", value1: "Market", label2: "Status", value2: "Executed", label3: "Action", value3: "Buy")
                     DoubleRowView(label1: "Date Submitted", value1: "Feb 8, 2020 11:40AM", label2: "Date Filled", value2: "Feb 8, 2020 11:40AM")
                     DoubleRowView(label1: "Qty Submitted", value1: "32 Shares", label2: "Qty Filled", value2: "32 Shares")
                     SingleRowView(label: "Commission", value: "$4.00")
-                    TripleRowView(label1: "", value1: "200 Shares x $1.20", label2: "Price Filled", value2: "$240", label3: "Comission", value3: "$4")
+                    TripleRowView(label1: "", value1: "20 Shares x $10.20", label2: "Price Filled", value2: "$240", label3: "Comission", value3: "$4")
                     SingleRowView(label: "Total", value: "$244.00")
                 }
-            
-            
-            
             
             
             )

@@ -42,7 +42,7 @@ struct WatchListPageView: View {
                         VStack{
                             ForEach(0..<stocks.symbols.count){
                                 StockSymbolView(stock: stocks.symbols[$0])
-                            }
+                            }.redacted(reason: .placeholder)
                         }
                         
                         
