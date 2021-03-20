@@ -15,7 +15,7 @@ struct ProfilePageView: View {
         Color.black
             .ignoresSafeArea()
             .overlay(
-                VStack(spacing: 2){
+                VStack(spacing: 12){
                     HStack{
                         Spacer()
                         Button(action: {}, label: {
@@ -25,30 +25,25 @@ struct ProfilePageView: View {
                         }).padding(.horizontal)
                     }
               
-                    UserProfileWalletSummary()
-                    Rectangle()
-                        .fill(myColors.greenColor)
-                        .frame(height: 2)
-                        .edgesIgnoringSafeArea(.horizontal)
-                        .padding(.horizontal)
-                        .padding(.vertical, 20)
                     HStack {
-                        Text("$24,000.04")
-                            .foregroundColor(.white)
-                            .font(.custom("Verdana", size: 34))
+                        
+                        Text("$100,000.04")
+                            .foregroundColor(myColors.greenColor)
+                            .font(.custom("Verdana", size: 20))
                             .bold()
                             +
                             Text(" CAD")
-                            .foregroundColor(.white)
-                            .font(.custom("Verdana", size: 20))
+                            .foregroundColor(myColors.greenColor)
+                            .font(.custom("Verdana", size: 16))
                             .bold()
                             .baselineOffset(0)
                         
                     }
-                    ChartView(chartButtonList: [("1D", true), ("5D", false), ("1M", false), ("3M", false), ("1Y", false), ("ALL", false)])
-                  
                     
-                    Spacer()
+                    UserProfileWalletSummary()
+                  
+
+                    
                     Button(action: {}, label: {
                         VStack(spacing: 0) {
                
@@ -142,12 +137,12 @@ struct UserProfileWalletSummary: View {
                         .opacity(0)
                         .frame(width: 20, height: 20)
                         .foregroundColor(Color.green)
-                    Text("TOTAL:")
+                    Text("Initial Deposit:")
                         .foregroundColor(.white)
                         
                         .font(.custom("Verdana", size: 12))
                     Spacer()
-                    Text("$100,000")
+                    Text("$80,000")
                         .foregroundColor(.white)
                         .bold()
                         .font(.custom("Verdana", size: 12))
