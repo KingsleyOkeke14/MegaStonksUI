@@ -28,7 +28,7 @@ struct StocksInfoPageView: View {
                                         .foregroundColor(.green)
                                         .font(.title)
                                         .padding(.trailing, 10)
-                                        
+                                    
                                 }
                                 else{
                                     Image(systemName: "eye.slash")
@@ -37,29 +37,29 @@ struct StocksInfoPageView: View {
                                         .padding(.trailing, 10)
                                 }
                             }
-
-                              
-                                
-
-                    })
+                            
+                            
+                            
+                            
+                        })
                     }
-
+                    
                     StockInfoView()
                     ScrollView{
                         VStack(spacing: 12){
                             ChartView(chartButtonList: [("1D", true), ("5D", false), ("1M", false), ("3M", false), ("1Y", false), ("5Y", false)])
-                          
+                            
                             HStack{
                                 Spacer()
-                                Button(action: /*@START_MENU_TOKEN@*/{}/*@END_MENU_TOKEN@*/, label: {
+                                Button(action: {}, label: {
                                     ButtonView(cornerRadius: 8,  text: "Buy", textColor: myColors.grayColor, frameWidth: 100, frameHeight: 40, backGroundColor: myColors.buttonStrokeGreenColor, strokeBorders: false, fillColor: myColors.buttonStrokeGreenColor)
                                 })
-
+                                
                                 Spacer()
-                                Button(action: /*@START_MENU_TOKEN@*/{}/*@END_MENU_TOKEN@*/, label: {
+                                Button(action: {}, label: {
                                     ButtonView(cornerRadius: 8,  text: "Sell", textColor: myColors.buttonStrokeGreenColor, frameWidth: 100, frameHeight: 40, strokeBorders: false, fillColor: myColors.grayColor)
                                 })
-
+                                
                                 Spacer()
                             }
                             MyHoldingsView()

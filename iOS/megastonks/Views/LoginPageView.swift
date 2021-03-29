@@ -12,6 +12,7 @@ struct LoginPageView: View {
     
     @State var emailText:String = ""
     @State var passwordText:String = ""
+    @State var errorMessage:String = ""
     
     var body: some View {
         Color.black
@@ -22,42 +23,54 @@ struct LoginPageView: View {
                     Image("megastonkslogo")
                         .scaleEffect(0.8)
                         .aspectRatio(contentMode: .fit)
-                    Spacer()
+                    Spacer(minLength: 80)
+                    
                     FormView(formField: "Email Address", formText: $emailText)
                     SecretFormView(formField: "Password", secretText: $passwordText)
+                    Text(errorMessage)
+                        .foregroundColor(.red)
+                        .bold()
+                        .padding(.horizontal, 10)
+                    
                     Button(action: {
-                        
+                        if(emailText.isEmpty || passwordText.isEmpty){
+                            errorMessage = "Email or Address Field cannot be Empty. Please re-enter credentials"
+                        }
+                        //API().Authenticate(emailAddress: <#T##String#>, password: <#T##String#>)()
                     }, label: {
                         ButtonView(text: "Login")
                             
 
                     })
-                    Spacer()
-                    HStack{
+                    VStack{
                         Spacer()
-                        Button(action: /*@START_MENU_TOKEN@*/{}/*@END_MENU_TOKEN@*/, label: {
-                            Text("Forgot Password?")
-                                .bold()
-                                .foregroundColor(.red)
-                                .underline()
-                                .padding()
-                                .padding(.trailing)
-                        })
-                    }
-                    
-                    HStack{
+                        HStack{
+                            Spacer()
+                            Button(action: /*@START_MENU_TOKEN@*/{}/*@END_MENU_TOKEN@*/, label: {
+                                Text("Forgot Password?")
+                                    .bold()
+                                    .foregroundColor(.red)
+                                    .underline()
+                                    .padding()
+                                    .padding(.trailing)
+                            })
+                        }
+                        
+                        HStack{
+                            Spacer()
+                            Button(action: /*@START_MENU_TOKEN@*/{}/*@END_MENU_TOKEN@*/, label: {
+                                Text("Register")
+                                    .bold()
+                                    .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
+                                    .fontWeight(.black)
+                                    .foregroundColor(.white)
+                                    .padding()
+                                    .padding(.trailing)
+                            })
+                        }
                         Spacer()
-                        Button(action: /*@START_MENU_TOKEN@*/{}/*@END_MENU_TOKEN@*/, label: {
-                            Text("Register")
-                                .bold()
-                                .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
-                                .fontWeight(.black)
-                                .foregroundColor(.white)
-                                .padding()
-                                .padding(.trailing)
-                        })
                     }
-                    Spacer()
+
 
                 }.padding()
             )

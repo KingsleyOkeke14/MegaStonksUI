@@ -11,11 +11,11 @@ import SwiftUI
 struct megastonksApp: App {
     var body: some Scene {
         WindowGroup {
-            //LoginPageView()
+            LoginPageView()
             //RegisterPageView()
             //StockSymbolView(stock: StockSymbolModel().symbols[0])
             //WatchListPageView(searchText: "")
-            StocksInfoPageView()
+            //StocksInfoPageView()
             //ProfileSettingsPageView()
             //ProfilePageView()
             //RegisterPageView()
