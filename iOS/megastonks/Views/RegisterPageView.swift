@@ -124,13 +124,16 @@ struct RegisterPageView: View {
                 .navigationBarTitleDisplayMode(.inline)
                 .toolbar(content: {
                     ToolbarItem (placement: .navigationBarLeading)  {
-                      Image(systemName: "arrow.left")
-                        .foregroundColor(myColors.greenColor)
-                      .onTapGesture {
-                          // code to dismiss the view
-                          self.presentation.wrappedValue.dismiss()
-                      }
-                        .padding(.horizontal, 12)
+                        HStack(spacing: 0) {
+                            Image(systemName: "arrow.left")
+                            Text("Login")
+                            
+                          .onTapGesture {
+                              // code to dismiss the view
+                              self.presentation.wrappedValue.dismiss()
+                          }
+                                .padding(.horizontal, 12)
+                        }.foregroundColor(myColors.greenColor)
                     }
                 })
             )
