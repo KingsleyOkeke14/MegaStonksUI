@@ -16,7 +16,7 @@ struct PortfolioSummaryView: View {
                 VStack(spacing: 10) {
                     HStack{
                         Text("Portfolio")
-                            .font(.custom("Apple SD Gothic Neo", size: 22))
+                            .font(.custom("Apple SD Gothic Neo", fixedSize: 22))
                             .fontWeight(.heavy)
                             .bold()
                             .foregroundColor(myColors.greenColor)
@@ -33,7 +33,7 @@ struct PortfolioSummaryView: View {
                             
                         }, label: {
                             Text(gainsOptionText)
-                                .font(.custom("Marker Felt", size: 14))
+                                .font(.custom("Marker Felt", fixedSize: 14))
                                 .bold()
                                 .padding(.horizontal, 10)
                                 .padding(.vertical, 6)
@@ -77,66 +77,68 @@ struct SummarySectionView: View {
                 ZStack{
                     
                     
-                    RoundedRectangle(cornerRadius: 14)
-                        .stroke(Color.green, lineWidth: 4)
-                        .frame(width: 380, height: 180)
-                        .shadow(color: Color.green, radius: 6, x: 4, y: 4)
-                    RoundedRectangle(cornerRadius: 14)
-                        .fill(myColors.grayColor)
-                        .frame(width: 380, height: 180)
                     
-                    VStack(spacing: 34) {
+                    
+                    VStack(spacing: 24) {
                         HStack {
                             Text("Summary")
-                                .font(.custom("Marker Felt", size: 20))
+                                .font(.custom("Marker Felt", fixedSize: 20))
                                 .bold()
                                 .foregroundColor(.white)
                                 .padding(.leading, 20)
                             
                             Spacer()
                             Text(gainsOptionText)
-                                .font(.custom("Marker Felt", size: 20))
+                                .font(.custom("Marker Felt", fixedSize: 20))
                                 .bold()
                                 .foregroundColor(.white)
                                 .padding(.leading, 12)
                             
                         }.padding(.trailing, 20)
+                        .padding(.top, 4)
+                        
                         
                         HStack {
                             Text("$10,000,000.20")
                                 .foregroundColor(.white)
-                                .font(.custom("Verdana", size: 34))
+                                .font(.custom("Verdana", fixedSize: 24))
                                 .bold()
                                 +
                                 Text(" CAD")
                                 .foregroundColor(.white)
-                                .font(.custom("Verdana", size: 18))
+                                .font(.custom("Verdana", fixedSize: 14))
                                 .bold()
                                 .baselineOffset(0)
                         }.padding(.horizontal, 20)
                         HStack {
                             Text("+(10.20%)")
                                 .foregroundColor(.green)
-                                .font(.custom("Verdana", size: 18))
+                                .font(.custom("Verdana", fixedSize: 14))
                             Spacer()
                             Image("arrowUp")
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
-                                .frame(width: 100, height: 60)
-                                .scaleEffect(0.6)
-                                .padding(.bottom)
+                                .frame(width: 80, height: 40)
+                                .scaleEffect(0.4)
+                                //.padding(.bottom, 20)
                             
                             
                             Spacer()
-                            Text("+1,460,0000")
+                            Text("+1,460,00000")
                                 .foregroundColor(.green)
-                                .font(.custom("Verdana", size: 18))
+                                .font(.custom("Verdana", fixedSize: 14))
                             
-                        }.padding(.horizontal, 20).padding(.vertical, -20)
+                        }.padding(.horizontal, 20)
                         
                     }
                     
                 }
+                .overlay(
+                    RoundedRectangle(cornerRadius: 14)
+                        .stroke(Color.green, lineWidth: 4)
+                        .shadow(color: Color.green, radius: 6, x: 4, y: 4)
+                    )
+                .padding()
                 
             }
             

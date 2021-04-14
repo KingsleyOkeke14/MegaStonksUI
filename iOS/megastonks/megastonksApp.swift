@@ -11,7 +11,10 @@ import SwiftUI
 struct megastonksApp: App {
     var body: some Scene {
         WindowGroup {
-            LoginPageView()
+            let userAuth = UserAuth()
+            RootPageView().environmentObject(userAuth)
+            
+      
             //RegisterPageView()
             //StockSymbolView(stock: StockSymbolModel().symbols[0])
             //WatchListPageView(searchText: "")

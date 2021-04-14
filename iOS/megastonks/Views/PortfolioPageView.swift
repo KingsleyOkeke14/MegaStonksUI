@@ -15,14 +15,11 @@ struct PortfolioPageView: View {
         Color.black
             .ignoresSafeArea()
             .overlay(
-                VStack(spacing: 30){
-                    Image("megastonkslogo")
-                        .scaleEffect(0.6)
-                        .aspectRatio(contentMode: .fit)
-                    PortfolioSummaryView()
+                VStack(spacing: 20){
+                    PortfolioSummaryView().padding(.top, 10)
                     HStack {
                         Text("Holdings")
-                                .font(.title2)
+                            .font(.custom("Apple SD Gothic Neo", fixedSize: 20))
                                 .bold()
                                 .foregroundColor(myColors.greenColor)
                             .padding(.top)

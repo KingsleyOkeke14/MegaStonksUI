@@ -21,8 +21,11 @@ struct RegisterPageView: View {
     @State var termsandconditionsopened:Bool = false
     @State var errorMessage:String = ""
     
+    @State private var showingSheet = false
     
     @State private var selectedCurrency = "CAD"
+    
+    @Environment(\.presentationMode) var presentation
     
     func toggle(){
         termsIsChecked.toggle()
@@ -43,76 +46,114 @@ struct RegisterPageView: View {
         Color.black
             .ignoresSafeArea() // Ignore just for the color
             .overlay(
-                VStack {
-                    VStack{
-                        Image("megastonkslogo")
-                            .scaleEffect(0.8)
-                            .aspectRatio(contentMode: .fit)
-                        VStack(spacing: 2){
-                            
-                            
-                            FormView(formField: "First Name", formText: $firstNameText)
-                            FormView(formField: "Last Name", formText: $lastNameText)
-                            FormView(formField: "Email Address", formText: $emailAddressText)
-                            
-                            
-                            
-                            SecretFormView(formField: "Password", secretText: $passwordText)
-                            SecretFormView(formField: "Confirm Password", secretText: $confirmpasswordText)
-                            VStack{
-                                HStack{
-                                    Text("Select Currency")
-                                        .foregroundColor(MyColors().greenColor)
-                                        .bold()
-                                        .fontWeight(.heavy)
-                                        .font(.title2)
-                                }.padding(.horizontal)
-                                HStack{
-                                    ButtonSelectionView()
+                ScrollView {
+                    VStack {
+                        VStack{
+                            Image("megastonkslogo")
+                                .scaleEffect(0.8)
+                                .aspectRatio(contentMode: .fit)
+                            VStack(spacing: 2){
+                                
+                                
+                                FormView(formField: "First Name", formText: $firstNameText)
+                                FormView(formField: "Last Name", formText: $lastNameText)
+                                FormView(formField: "Email Address", formText: $emailAddressText)
+                                
+                                
+                                
+                                SecretFormView(formField: "Password", secretText: $passwordText)
+                                SecretFormView(formField: "Confirm Password", secretText: $confirmpasswordText)
+                                VStack{
+                                    HStack{
+                                        Text("Select Currency")
+                                            .foregroundColor(MyColors().greenColor)
+                                           .font(.custom("Apple SD Gothic Neo", fixedSize: 24))
+                                            .bold()
+                                    }.padding(.horizontal)
+                                    HStack{
+                                        ButtonSelectionView()
+                                    }
+                                    if(!errorMessage.isEmpty){
+                                        Text(errorMessage)
+                                            .foregroundColor(.red)
+                                    }
+                                    Spacer()
                                 }
-                                Spacer()
                             }
-                        }
-                        Spacer()
-                        HStack{
-                            if(termsandconditionsopened){
-                                Button(action:toggle)
+                            Spacer()
+                            HStack{
+                                if(termsandconditionsopened){
+                                    Button(action:toggle)
+                                    {
+                                        Image(systemName: termsIsChecked ? "checkmark.square.fill" : "square")
+                                            .scaleEffect(1.2)
+                                            .foregroundColor(myColors.greenColor)
+                                        
+                                        
+                                    }
+                                }
+                                
+                              
+                                Button(action: {
+                                    termsandconditionsopened = true
+                                    showingSheet.toggle()
+                                })
                                 {
-                                    Image(systemName: termsIsChecked ? "checkmark.square.fill" : "square")
-                                        .scaleEffect(1.2)
-                                        .foregroundColor(myColors.greenColor)
-                                    
-                                    
+                                    Text("TERMS AND CONDITIONS")
+                                        .bold()
+                                        .foregroundColor(.white)
                                 }
+                                .sheet(isPresented: $showingSheet) {
+                                      SheetView()
+                                    }
+                                
                             }
-                            
                             
                             Button(action: {
-                                termsandconditionsopened = true
+                                validateForm()
+                            }, label: {
+                                ButtonView(text: "Register", frameWidth: 200, frameHeight: 48)
                             })
-                            {
-                                Text("TERMS AND CONDITIONS")
-                                    .bold()
-                                    .foregroundColor(.white)
-                            }
+
                             
-                        }
-                        
-                        Button(action: {
-                            validateForm()
-                        }, label: {
-                            ButtonView(text: "Register", frameWidth: 200, frameHeight: 48)
-                        })
-                        if(!errorMessage.isEmpty){
-                            Text(errorMessage)
-                                .foregroundColor(.red)
-                        }
-                        
-                        
-                    }.padding()
+                            
+                        }.padding()
+                    }
                 }
-                
+                .navigationBarBackButtonHidden(true)
+                .navigationBarTitleDisplayMode(.inline)
+                .toolbar(content: {
+                    ToolbarItem (placement: .navigationBarLeading)  {
+                      Image(systemName: "arrow.left")
+                        .foregroundColor(myColors.greenColor)
+                      .onTapGesture {
+                          // code to dismiss the view
+                          self.presentation.wrappedValue.dismiss()
+                      }
+                        .padding(.horizontal, 12)
+                    }
+                })
             )
+    }
+}
+
+
+struct SheetView: View {
+    @Environment(\.presentationMode) var presentationMode
+
+    var body: some View {
+        Color.black
+            .ignoresSafeArea()
+            .overlay(
+                Button("Press to dismiss") {
+                    presentationMode.wrappedValue.dismiss()
+                }
+                .font(.title)
+                .padding()
+                .background(Color.black)
+            
+            )
+
     }
 }
 

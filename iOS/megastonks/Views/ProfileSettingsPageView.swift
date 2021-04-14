@@ -96,7 +96,7 @@ struct ProfileInformationView: View {
             }
             HStack {
                 Text(info)
-                    .font(.custom("Apple SD Gothic Neo", size: 22))
+                    .font(.custom("Apple SD Gothic Neo", fixedSize: 22))
                     .foregroundColor(.gray)
                 Spacer()
                 if(isEditable){

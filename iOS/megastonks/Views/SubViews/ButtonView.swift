@@ -36,7 +36,7 @@ struct ButtonView: View {
                 
                 Text(text)
                     .foregroundColor(textColor)
-                    .font(.custom("Apple SD Gothic Neo", size: textSize))
+                    .font(.custom("Apple SD Gothic Neo", fixedSize: textSize))
                     .fontWeight(.heavy)
                     .padding(.top, 5)
                     
@@ -52,7 +52,7 @@ struct ButtonView: View {
                 
                 Text(text)
                     .foregroundColor(textColor)
-                    .font(.custom("Apple SD Gothic Neo", size: textSize))
+                    .font(.custom("Apple SD Gothic Neo", fixedSize: textSize))
                     .fontWeight(.heavy)
                     .padding(.top, 5)
                     

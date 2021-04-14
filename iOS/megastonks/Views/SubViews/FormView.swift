@@ -17,13 +17,12 @@ struct FormView: View {
             HStack{
                 Text(formField)
                     .foregroundColor(greencolor)
+                    .font(.custom("Apple SD Gothic Neo", fixedSize: 28))
                     .bold()
-                    .fontWeight(.heavy)
-                    .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
                 Spacer()
             }
             TextField("", text: $formText)
-                .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
+                .font(.custom("Apple SD Gothic Neo", fixedSize: 20))
                 .foregroundColor(.white)
                 
             Rectangle()

@@ -8,9 +8,14 @@
 import SwiftUI
 
 struct EditSelectionView: View {
-    var formField:String
+    var formField1:String
+    var formField2:String = ""
+    var formField3:String = ""
     @State var isLoading:Bool = false
-    @Binding var formText:String
+    
+    @Binding var formText1:String
+    @Binding var formText2:String
+    @Binding var formText3:String
     var isSecret:Bool
     var body: some View {
         VStack {
@@ -19,11 +24,13 @@ struct EditSelectionView: View {
                 .overlay(
                     VStack{
                         if(isSecret){
-                            SecretFormView(formField: formField, secretText: $formText)
-                            SecretFormView(formField: "Confirm " + formField, secretText: $formText)
+                            FormView(formField: formField1, formText: $formText1)
+                            
+                            SecretFormView(formField: formField2, secretText: $formText2)
+                            SecretFormView(formField: formField3, secretText: $formText3)
                         }
                         else{
-                            FormView(formField: formField, formText: $formText)
+                            FormView(formField: formField1, formText: $formText1)
                         }
                         
                         Button(action: {isLoading = true}, label: {
@@ -49,7 +56,7 @@ struct EditSelectionView: View {
 
 struct EditSelectionView_Previews: PreviewProvider {
     static var previews: some View {
-        EditSelectionView(formField: "Password", formText: Binding.constant(""), isSecret: true )
+        EditSelectionView(formField1: "Reset Token", formField2: "Password", formField3: "Confirm Password", formText1: Binding.constant(""), formText2: Binding.constant(""), formText3: Binding.constant(""), isSecret: true )
     }
 }
 

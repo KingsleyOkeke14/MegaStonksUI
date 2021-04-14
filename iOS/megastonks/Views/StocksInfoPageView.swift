@@ -26,7 +26,7 @@ struct StocksInfoPageView: View {
                                 if(isInWatchList){
                                     Image(systemName: "eye")
                                         .foregroundColor(.green)
-                                        .font(.title)
+                                        .font(.custom("Apple SD Gothic Neo", fixedSize: 22))
                                         .padding(.trailing, 10)
                                     
                                 }

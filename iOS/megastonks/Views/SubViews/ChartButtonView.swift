@@ -26,7 +26,7 @@ struct ChartButtonView: View {
         
     }
     var body: some View {
-        HStack(spacing: 10){
+        HStack{
                     
                     Button(action: {
                         changeActiveButton(activeButton: 0)
@@ -71,7 +71,6 @@ struct ChartButtonView: View {
            
                     
         }
-        .padding(.horizontal)
         
     }
 }
@@ -90,7 +89,7 @@ struct ButtonSelected: View {
                     .frame(width: 44, height: 18)
                 Text(buttonName)
                     .foregroundColor(.black)
-                    .font(.custom("Verdana", size: 12))
+                    .font(.custom("Verdana", fixedSize: 12))
                     .bold()
                     .padding(.horizontal, 8)
             }
@@ -100,7 +99,7 @@ struct ButtonSelected: View {
                     .frame(width: 44, height: 18)
                 Text(buttonName)
                     .foregroundColor(.white)
-                    .font(.custom("Verdana", size: 12))
+                    .font(.custom("Verdana", fixedSize: 12))
                     .bold()
                     .padding(.horizontal, 8)
             }

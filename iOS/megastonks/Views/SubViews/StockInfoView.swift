@@ -41,7 +41,7 @@ struct StockInfoView: View {
                         }
                         
                         Text("CloudMD Software & Services Inc ")
-                            .font(.custom("Helvetica", size: 20))
+                            .font(.custom("Helvetica", fixedSize: 20))
                             .foregroundColor(.white)
                             .bold()
                             .multilineTextAlignment(.center)
@@ -51,12 +51,12 @@ struct StockInfoView: View {
                         HStack {
                             Text("$247.20")
                                 .foregroundColor(.white)
-                                .font(.custom("Verdana", size: 40))
+                                .font(.custom("Verdana", fixedSize: 40))
                                 .bold()
                                   +
                                     Text(" CAD")
                                     .foregroundColor(.white)
-                                    .font(.custom("Verdana", size: 20))
+                                    .font(.custom("Verdana", fixedSize: 20))
                                 .bold()
                                 .baselineOffset(0)
                                 

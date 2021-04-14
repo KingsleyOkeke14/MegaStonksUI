@@ -10,7 +10,7 @@ import SwiftUI
 struct WatchListPageView: View {
     
     let myColors = MyColors()
-    @State var searchText:String
+    @State var searchText:String = ""
     
     var stocks:StockSymbolModel = StockSymbolModel()
     
@@ -26,7 +26,7 @@ struct WatchListPageView: View {
                     SearchBarView(text: $searchText)
                     HStack{
                         Text("Watchlist")
-                            .font(.custom("Apple SD Gothic Neo", size: 22))
+                            .font(.custom("Apple SD Gothic Neo", fixedSize: 22))
                             .fontWeight(.heavy)
                             .bold()
                             .foregroundColor(myColors.greenColor)

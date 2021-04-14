@@ -23,16 +23,16 @@ struct StockSymbolView: View {
                     HStack{
                         VStack(alignment: .leading){
                             Text(stock.tickerSymbol)
-                                .font(.custom("Apple SD Gothic Neo", size: 20))
+                                .font(.custom("Apple SD Gothic Neo", fixedSize: 20))
                                 .bold()
                                 .foregroundColor(.white)
                             Text(stock.exchange)
-                                .font(.custom("Helvetica", size: 14))
+                                .font(.custom("Helvetica", fixedSize: 14))
                                 .foregroundColor(.gray)
                         }
                         VStack{
                             Text("P")
-                                .font(.custom("Arial Bold", size:12))
+                                .font(.custom("Arial Bold", fixedSize:12))
                                 .foregroundColor(.black)
                                 .padding(2)
                                 .padding(.horizontal, 2)
@@ -46,13 +46,13 @@ struct StockSymbolView: View {
                                 
                             if(getSignal() == "+"){
                                 Text(String("(" + getSignal() +  formatDouble(stock.percentChange) + "%)"))
-                                    .font(.custom("Helvetica", size: 14))
+                                    .font(.custom("Helvetica", fixedSize: 14))
                                     .foregroundColor(.green)
                                 
                             }
                             else{
                                 Text(String("(" + getSignal() +  formatDouble(stock.percentChange) + "%)"))
-                                    .font(.custom("Helvetica", size: 14))
+                                    .font(.custom("Helvetica", fixedSize: 14))
                                     .foregroundColor(.red)
                             }
                                 
@@ -61,15 +61,15 @@ struct StockSymbolView: View {
                         Spacer()
                         VStack(alignment: .trailing){
                             Text("$" + formatDouble(stock.price))
-                                .font(.custom("Apple SD Gothic Neo", size: 20))
+                                .font(.custom("Apple SD Gothic Neo", fixedSize: 20))
                                 .bold()
                                 .foregroundColor(.white)
                             HStack{
                                 Text(getSignal() + formatDouble(stock.dollarChange))
-                                    .font(.custom("Helvetica", size: 14))
+                                    .font(.custom("Helvetica", fixedSize: 14))
                                     .foregroundColor(.gray)
                                 Text(String(stock.currency))
-                                    .font(.custom("Helvetica", size: 14))
+                                    .font(.custom("Helvetica", fixedSize: 14))
                                     .foregroundColor(.gray)
                             }
                         }

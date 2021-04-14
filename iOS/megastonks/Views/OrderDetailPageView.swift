@@ -17,7 +17,7 @@ struct OrderDetailView: View {
                     HStack{
                         Text("Executed")
                             .foregroundColor(myColors.greenColor)
-                            .font(.custom("Verdana", size: 24))
+                            .font(.custom("Verdana", fixedSize: 24))
                             .bold()
 
                     }
@@ -45,7 +45,7 @@ struct OrderDetailView: View {
 
                     
                     Text("CloudMD Software & Services Inc")
-                        .font(.custom("Helvetica", size: 20))
+                        .font(.custom("Helvetica", fixedSize: 20))
                         .foregroundColor(.white)
                         .bold()
                         .multilineTextAlignment(.center)
@@ -76,12 +76,12 @@ struct SingleRowView: View {
                 Text(label)
                     .foregroundColor(myColors.lightGrayColor)
                   
-                    .font(.custom("Verdana", size: 18))
+                    .font(.custom("Verdana", fixedSize: 18))
                 Spacer()
                 Text(value)
                     .foregroundColor(.white)
                     .bold()
-                    .font(.custom("Verdana", size: 18))
+                    .font(.custom("Verdana", fixedSize: 18))
             }
 
             Rectangle()
@@ -104,22 +104,22 @@ struct DoubleRowView: View {
             HStack {
                 Text(label1)
                     .foregroundColor(myColors.lightGrayColor)
-                    .font(.custom("Verdana", size: 18))
+                    .font(.custom("Verdana", fixedSize: 18))
                 Spacer()
                 Text(value1)
                     .foregroundColor(.white)
                     .bold()
-                    .font(.custom("Verdana", size: 18))
+                    .font(.custom("Verdana", fixedSize: 18))
             }
             HStack {
                 Text(label2)
                     .foregroundColor(myColors.lightGrayColor)
-                    .font(.custom("Verdana", size: 18))
+                    .font(.custom("Verdana", fixedSize: 18))
                 Spacer()
                 Text(value2)
                     .foregroundColor(.white)
                     .bold()
-                    .font(.custom("Verdana", size: 18))
+                    .font(.custom("Verdana", fixedSize: 18))
             }
 
             Rectangle()
@@ -144,32 +144,32 @@ struct TripleRowView: View {
             HStack {
                 Text(label1)
                     .foregroundColor(myColors.lightGrayColor)
-                    .font(.custom("Verdana", size: 18))
+                    .font(.custom("Verdana", fixedSize: 18))
                 Spacer()
                 Text(value1)
                     .foregroundColor(.white)
                     .bold()
-                    .font(.custom("Verdana", size: 18))
+                    .font(.custom("Verdana", fixedSize: 18))
             }
             HStack {
                 Text(label2)
                     .foregroundColor(myColors.lightGrayColor)
-                    .font(.custom("Verdana", size: 18))
+                    .font(.custom("Verdana", fixedSize: 18))
                 Spacer()
                 Text(value2)
                     .foregroundColor(.white)
                     .bold()
-                    .font(.custom("Verdana", size: 18))
+                    .font(.custom("Verdana", fixedSize: 18))
             }
             HStack {
                 Text(label3)
                     .foregroundColor(myColors.lightGrayColor)
-                    .font(.custom("Verdana", size: 18))
+                    .font(.custom("Verdana", fixedSize: 18))
                 Spacer()
                 Text(value3)
                     .foregroundColor(.white)
                     .bold()
-                    .font(.custom("Verdana", size: 18))
+                    .font(.custom("Verdana", fixedSize: 18))
             }
 
             Rectangle()

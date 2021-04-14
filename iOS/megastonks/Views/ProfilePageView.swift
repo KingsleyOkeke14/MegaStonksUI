@@ -24,17 +24,27 @@ struct ProfilePageView: View {
                                 .foregroundColor(Color.green)
                         }).padding(.horizontal)
                     }
-              
+                    
+                    HStack{
+                        Text("Account")
+                            .font(.custom("Apple SD Gothic Neo", fixedSize: 22))
+                            .fontWeight(.heavy)
+                            .bold()
+                            .foregroundColor(myColors.greenColor)
+                            .padding(.horizontal)
+                        Spacer()
+                    }
+                    
                     HStack {
                         
                         Text("$100,000.04")
                             .foregroundColor(myColors.greenColor)
-                            .font(.custom("Verdana", size: 20))
+                            .font(.custom("Verdana", fixedSize: 20))
                             .bold()
                             +
                             Text(" CAD")
                             .foregroundColor(myColors.greenColor)
-                            .font(.custom("Verdana", size: 16))
+                            .font(.custom("Verdana", fixedSize: 16))
                             .bold()
                             .baselineOffset(0)
                         
@@ -49,7 +59,7 @@ struct ProfilePageView: View {
                
                             HStack {
                                     Text("Orders")
-                                        .font(.title2)
+                                        .font(.custom("Apple SD Gothic Neo", fixedSize: 22))
                                         .bold()
                                         .foregroundColor(myColors.greenColor)
                                        
@@ -81,10 +91,10 @@ struct RadialWalletView: View {
     var body: some View {
         ZStack{
             Image("megastonkslogo")
-                .scaleEffect(0.4)
+                .scaleEffect(0.3)
                 .aspectRatio(contentMode: .fit)
-            RadialChartView(percentage: 0.4, width: 140, height: 140, lineWidth: 8, lineCapStyle: CGLineCap.square)
-        }
+            RadialChartView(percentage: 0.4, width: 120, height: 120, lineWidth: 6, lineCapStyle: CGLineCap.square)
+        }.padding(.horizontal, -20)
     }
 }
 
@@ -98,11 +108,11 @@ struct UserProfileWalletSummary: View {
             }
             VStack(alignment: .leading){
                 Text("KINGSLEY")
-                    .font(.custom("Marker Felt", size: 30))
+                    .font(.custom("Marker Felt", fixedSize: 26))
                     .bold()
                     .foregroundColor(.white)
                 Text("OKEKE")
-                    .font(.custom("Marker Felt", size: 30))
+                    .font(.custom("Marker Felt", fixedSize: 26))
                     .bold()
                     .foregroundColor(.white)
                 HStack{
@@ -111,12 +121,12 @@ struct UserProfileWalletSummary: View {
                         .foregroundColor(Color.green)
                     Text("CASH:")
                         .foregroundColor(.white)
-                        .font(.custom("Verdana", size: 12))
+                        .font(.custom("Verdana", fixedSize: 12))
                     Spacer()
                     Text("$40,000")
                         .foregroundColor(.white)
                         .bold()
-                        .font(.custom("Verdana", size: 12))
+                        .font(.custom("Verdana", fixedSize: 12))
                 }
                 HStack{
                     Circle()
@@ -125,12 +135,12 @@ struct UserProfileWalletSummary: View {
                         .foregroundColor(Color.green)
                     Text("INVESTMENTS:")
                         .foregroundColor(.white)
-                        .font(.custom("Verdana", size: 12))
+                        .font(.custom("Verdana", fixedSize: 12))
                     Spacer()
                     Text("$60,000")
                         .foregroundColor(.white)
                         .bold()
-                        .font(.custom("Verdana", size: 12))
+                        .font(.custom("Verdana", fixedSize: 12))
                 }
                 HStack{
                     Circle()//This is not visible. Just there to ensure the same space with Investments Text
@@ -140,12 +150,12 @@ struct UserProfileWalletSummary: View {
                     Text("Initial Deposit:")
                         .foregroundColor(.white)
                         
-                        .font(.custom("Verdana", size: 12))
+                        .font(.custom("Verdana", fixedSize: 12))
                     Spacer()
                     Text("$80,000")
                         .foregroundColor(.white)
                         .bold()
-                        .font(.custom("Verdana", size: 12))
+                        .font(.custom("Verdana", fixedSize: 12))
                 }
             }.padding(.trailing)
         }

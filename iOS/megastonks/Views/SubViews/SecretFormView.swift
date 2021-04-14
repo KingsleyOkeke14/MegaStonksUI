@@ -21,13 +21,12 @@ struct SecretFormView: View {
             HStack{
                 Text(formField)
                     .foregroundColor(MyColors().greenColor)
+                    .font(.custom("Apple SD Gothic Neo", fixedSize: 28))
                     .bold()
-                    .fontWeight(.heavy)
-                    .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
                 Spacer()
             }
             SecureField("", text: $secretText)
-                .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
+                .font(.custom("Apple SD Gothic Neo", fixedSize: 20))
                 .foregroundColor(.white)
                 
             Rectangle()

@@ -23,6 +23,7 @@
 		D00CA78A25CB93DD00232915 /* WatchListPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00CA78925CB93DD00232915 /* WatchListPageView.swift */; };
 		D02D7C2D25DC496600DAC07A /* ButtonSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D02D7C2C25DC496600DAC07A /* ButtonSelectionView.swift */; };
 		D031EB3F26118C7F001504B5 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = D031EB3E26118C7F001504B5 /* API.swift */; };
+		D031EB4326143B71001504B5 /* APIResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D031EB4226143B71001504B5 /* APIResponse.swift */; };
 		D034870D25C7FE3D00CFCAB2 /* RegisterPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D034870C25C7FE3D00CFCAB2 /* RegisterPageView.swift */; };
 		D034871225C80DA500CFCAB2 /* ButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D034871125C80DA500CFCAB2 /* ButtonView.swift */; };
 		D0369D1A25C76B1900718A52 /* megastonksApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0369D1925C76B1900718A52 /* megastonksApp.swift */; };
@@ -37,8 +38,13 @@
 		D06B311525C7AFF400A37C08 /* LoginPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06B311425C7AFF400A37C08 /* LoginPageView.swift */; };
 		D06B311825C7BA5200A37C08 /* SecretFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06B311725C7BA5200A37C08 /* SecretFormView.swift */; };
 		D06E429425D3545E009701A2 /* StatisticsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06E429325D3545E009701A2 /* StatisticsView.swift */; };
+		D09EF9DD2624989B00D9EF05 /* RootPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D09EF9DC2624989B00D9EF05 /* RootPageView.swift */; };
+		D09EF9E02624994C00D9EF05 /* UserAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = D09EF9DF2624994C00D9EF05 /* UserAuth.swift */; };
+		D0A94F8A2626CF6B005477B6 /* ResetPasswordPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A94F892626CF6B005477B6 /* ResetPasswordPageView.swift */; };
+		D0A94F8D2626D1F3005477B6 /* ForgotPasswordPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A94F8C2626D1F3005477B6 /* ForgotPasswordPageView.swift */; };
 		D0D1933825CCB41900D83D87 /* StockInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D1933725CCB41900D83D87 /* StockInfoView.swift */; };
 		D0D1933B25CCCFAF00D83D87 /* ChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D1933A25CCCFAF00D83D87 /* ChartView.swift */; };
+		D0D3C40226249E5E00DC6B36 /* AppPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D3C40126249E5E00DC6B36 /* AppPageView.swift */; };
 		D0DEFFB425DB050C008D8C9C /* SwiftUICharts in Frameworks */ = {isa = PBXBuildFile; productRef = D0DEFFB325DB050C008D8C9C /* SwiftUICharts */; };
 		D0FC0FF725D2287600366B26 /* StocksInfoPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0FC0FF625D2287600366B26 /* StocksInfoPageView.swift */; };
 		D0FC0FFB25D22E8F00366B26 /* ChartButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0FC0FFA25D22E8F00366B26 /* ChartButtonView.swift */; };
@@ -63,6 +69,7 @@
 		D00CA78925CB93DD00232915 /* WatchListPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchListPageView.swift; sourceTree = "<group>"; };
 		D02D7C2C25DC496600DAC07A /* ButtonSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonSelectionView.swift; sourceTree = "<group>"; };
 		D031EB3E26118C7F001504B5 /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
+		D031EB4226143B71001504B5 /* APIResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIResponse.swift; sourceTree = "<group>"; };
 		D034870C25C7FE3D00CFCAB2 /* RegisterPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterPageView.swift; sourceTree = "<group>"; };
 		D034871125C80DA500CFCAB2 /* ButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonView.swift; sourceTree = "<group>"; };
 		D0369D1625C76B1900718A52 /* megastonks.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = megastonks.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -79,8 +86,13 @@
 		D06B311425C7AFF400A37C08 /* LoginPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginPageView.swift; sourceTree = "<group>"; };
 		D06B311725C7BA5200A37C08 /* SecretFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecretFormView.swift; sourceTree = "<group>"; };
 		D06E429325D3545E009701A2 /* StatisticsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsView.swift; sourceTree = "<group>"; };
+		D09EF9DC2624989B00D9EF05 /* RootPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootPageView.swift; sourceTree = "<group>"; };
+		D09EF9DF2624994C00D9EF05 /* UserAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAuth.swift; sourceTree = "<group>"; };
+		D0A94F892626CF6B005477B6 /* ResetPasswordPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPasswordPageView.swift; sourceTree = "<group>"; };
+		D0A94F8C2626D1F3005477B6 /* ForgotPasswordPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordPageView.swift; sourceTree = "<group>"; };
 		D0D1933725CCB41900D83D87 /* StockInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockInfoView.swift; sourceTree = "<group>"; };
 		D0D1933A25CCCFAF00D83D87 /* ChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartView.swift; sourceTree = "<group>"; };
+		D0D3C40126249E5E00DC6B36 /* AppPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppPageView.swift; sourceTree = "<group>"; };
 		D0FC0FF625D2287600366B26 /* StocksInfoPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StocksInfoPageView.swift; sourceTree = "<group>"; };
 		D0FC0FFA25D22E8F00366B26 /* ChartButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartButtonView.swift; sourceTree = "<group>"; };
 		D0FC0FFF25D2EFB400366B26 /* MyHoldingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyHoldingsView.swift; sourceTree = "<group>"; };
@@ -102,9 +114,19 @@
 		D031EB3D26118BAA001504B5 /* Service */ = {
 			isa = PBXGroup;
 			children = (
+				D031EB4126143B56001504B5 /* Models */,
 				D031EB3E26118C7F001504B5 /* API.swift */,
+				D09EF9DF2624994C00D9EF05 /* UserAuth.swift */,
 			);
 			path = Service;
+			sourceTree = "<group>";
+		};
+		D031EB4126143B56001504B5 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				D031EB4226143B71001504B5 /* APIResponse.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 		D034871425C80DAE00CFCAB2 /* SubViews */ = {
@@ -195,6 +217,10 @@
 				D004685F25D4D2CD006C60E9 /* ProfilePageView.swift */,
 				D004686325D5CCFB006C60E9 /* ProfileSettingsPageView.swift */,
 				D004686625D5E461006C60E9 /* EditSelectionView.swift */,
+				D09EF9DC2624989B00D9EF05 /* RootPageView.swift */,
+				D0D3C40126249E5E00DC6B36 /* AppPageView.swift */,
+				D0A94F892626CF6B005477B6 /* ResetPasswordPageView.swift */,
+				D0A94F8C2626D1F3005477B6 /* ForgotPasswordPageView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -297,16 +323,21 @@
 				D034870D25C7FE3D00CFCAB2 /* RegisterPageView.swift in Sources */,
 				D00CA78725CB55CD00232915 /* StockSymbolModel.swift in Sources */,
 				D04F7EA725D323AE00E52997 /* RadialChartView.swift in Sources */,
+				D0A94F8A2626CF6B005477B6 /* ResetPasswordPageView.swift in Sources */,
+				D0D3C40226249E5E00DC6B36 /* AppPageView.swift in Sources */,
 				D004685725D43795006C60E9 /* CompanyInfoView.swift in Sources */,
 				D004686A25D64E87006C60E9 /* LoadingIndicatorView.swift in Sources */,
+				D0A94F8D2626D1F3005477B6 /* ForgotPasswordPageView.swift in Sources */,
 				D034871225C80DA500CFCAB2 /* ButtonView.swift in Sources */,
 				D004685A25D44037006C60E9 /* PortfolioSummaryView.swift in Sources */,
 				D004686425D5CCFB006C60E9 /* ProfileSettingsPageView.swift in Sources */,
 				D00CA78125CB3BF600232915 /* StockSymbolView.swift in Sources */,
+				D09EF9DD2624989B00D9EF05 /* RootPageView.swift in Sources */,
 				D00CA78425CB50CF00232915 /* StockSymbol.swift in Sources */,
 				D057841E25C88D400039E6CD /* OnBoardCardModel.swift in Sources */,
 				D004686725D5E461006C60E9 /* EditSelectionView.swift in Sources */,
 				D0369D1C25C76B1900718A52 /* FormView.swift in Sources */,
+				D09EF9E02624994C00D9EF05 /* UserAuth.swift in Sources */,
 				D0369D1A25C76B1900718A52 /* megastonksApp.swift in Sources */,
 				D0FC0FFB25D22E8F00366B26 /* ChartButtonView.swift in Sources */,
 				D0D1933825CCB41900D83D87 /* StockInfoView.swift in Sources */,
@@ -318,6 +349,7 @@
 				D057842325C894530039E6CD /* OnBoardPageView.swift in Sources */,
 				D004686025D4D2CD006C60E9 /* ProfilePageView.swift in Sources */,
 				D004687325D8D19F006C60E9 /* OrderDetailPageView.swift in Sources */,
+				D031EB4326143B71001504B5 /* APIResponse.swift in Sources */,
 				D00CA78A25CB93DD00232915 /* WatchListPageView.swift in Sources */,
 				D057841825C88C360039E6CD /* OnBoardCardView.swift in Sources */,
 				D0FC100325D2F96D00366B26 /* MyColors.swift in Sources */,
@@ -453,6 +485,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"megastonks/Preview Content\"";
+				DEVELOPMENT_TEAM = 7W882CNH7H;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = megastonks/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -474,6 +507,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"megastonks/Preview Content\"";
+				DEVELOPMENT_TEAM = 7W882CNH7H;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = megastonks/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;

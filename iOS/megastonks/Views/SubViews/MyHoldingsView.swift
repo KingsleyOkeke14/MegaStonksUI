@@ -16,7 +16,7 @@ struct MyHoldingsView: View {
                 VStack{
                     VStack(alignment: .leading, spacing: 2){
                         Text("My Holdings")
-                            .font(.title2)
+                            .font(.custom("Apple SD Gothic Neo", fixedSize: 22))
                             .bold()
                             .foregroundColor(myColors.greenColor)
                             .padding(.top)
@@ -55,12 +55,12 @@ struct DoubleColumnedView: View {
             HStack{
                 VStack(alignment: .center){
                     Text(column1Field)
-                        .font(.title2)
+                        .font(.custom("Verdana", fixedSize: 16))
                         .bold()
                         .foregroundColor(myColors.lightGrayColor)
                     Text(column1Text)
                         .foregroundColor(.white)
-                        .font(.custom("Verdana", size: 22))
+                        .font(.custom("Verdana", fixedSize: 22))
                     
                     
                 }
@@ -70,26 +70,26 @@ struct DoubleColumnedView: View {
                     if(isPortfolio){
                         VStack(spacing:2){
                             Text(column2Field)
-                                .font(.title2)
+                                .font(.custom("Verdana", fixedSize: 14))
                                 .bold()
                                 .foregroundColor(myColors.lightGrayColor)
                             HStack{
                                 RadialChartView(percentage: 0.4, width: 20, height: 20, lineWidth: 2, lineCapStyle: CGLineCap.round).offset(x: 0, y: 2)
                                 Text(column2Text)
                                     .foregroundColor(.white)
-                                    .font(.custom("Verdana", size: 22))
+                                    .font(.custom("Verdana", fixedSize: 22))
                             }
                         }
 
                     }
                     else{
                         Text(column2Field)
-                            .font(.title2)
+                            .font(.custom("Verdana", fixedSize: 14))
                             .bold()
                             .foregroundColor(myColors.lightGrayColor)
                         Text(column2Text)
                             .foregroundColor(.white)
-                            .font(.custom("Verdana", size: 22))
+                            .font(.custom("Verdana", fixedSize: 22))
                     }
 
                     
@@ -111,13 +111,13 @@ struct SingleColumnView: View {
         HStack{
             VStack{
                 Text(columnField)
-                    .font(.title2)
+                    .font(.custom("Verdana", fixedSize: 12))
                     .bold()
                     .foregroundColor(myColors.lightGrayColor)
                 Text(textField)
                     .foregroundColor(.white)
                     .bold()
-                    .font(.custom("Verdana", size: 24))
+                    .font(.custom("Verdana", fixedSize: 22))
                 Rectangle()
                     .fill(myColors.lightGrayColor)
                     .frame(height: 2)
