@@ -1,0 +1,16 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "SwiftUICharts",
+        "repositoryURL": "https://github.com/KingsleyOkeke14/SwiftUICharts.git",
+        "state": {
+          "branch": "master",
+          "revision": "2f3f6f9b05a574de1c65adc98737a45b8605acaa",
+          "version": null
+        }
+      }
+    ]
+  },
+  "version": 1
+}
