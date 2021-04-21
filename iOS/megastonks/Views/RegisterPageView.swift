@@ -95,6 +95,7 @@ struct RegisterPageView: View {
                                 
                               
                                 Button(action: {
+                                    hideKeyboard()
                                     termsandconditionsopened = true
                                     showingSheet.toggle()
                                 })
@@ -110,6 +111,7 @@ struct RegisterPageView: View {
                             }
                             
                             Button(action: {
+                                hideKeyboard()
                                 validateForm()
                             }, label: {
                                 ButtonView(text: "Register", frameWidth: 200, frameHeight: 48)
@@ -124,16 +126,18 @@ struct RegisterPageView: View {
                 .navigationBarTitleDisplayMode(.inline)
                 .toolbar(content: {
                     ToolbarItem (placement: .navigationBarLeading)  {
-                        HStack(spacing: 0) {
+                        HStack(spacing: 20) {
                             Image(systemName: "arrow.left")
                             Text("Login")
-                            
-                          .onTapGesture {
-                              // code to dismiss the view
-                              self.presentation.wrappedValue.dismiss()
-                          }
-                                .padding(.horizontal, 12)
-                        }.foregroundColor(myColors.greenColor)
+                                
+                                
+                        }
+                        .onTapGesture {
+                            // code to dismiss the view
+                            self.presentation.wrappedValue.dismiss()
+                        }
+                        .foregroundColor(myColors.greenColor)
+                        .padding(.horizontal, 12)
                     }
                 })
             )
@@ -148,6 +152,7 @@ struct SheetView: View {
         Color.black
             .ignoresSafeArea()
             .overlay(
+                
                 Button("Press to dismiss") {
                     presentationMode.wrappedValue.dismiss()
                 }

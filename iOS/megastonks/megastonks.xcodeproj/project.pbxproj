@@ -30,6 +30,8 @@
 		D0369D1C25C76B1900718A52 /* FormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0369D1B25C76B1900718A52 /* FormView.swift */; };
 		D0369D1E25C76B1900718A52 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D0369D1D25C76B1900718A52 /* Assets.xcassets */; };
 		D0369D2125C76B1900718A52 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D0369D2025C76B1900718A52 /* Preview Assets.xcassets */; };
+		D045DB1B262BCEBE0040C067 /* SwiftKeychainWrapper in Frameworks */ = {isa = PBXBuildFile; productRef = D045DB1A262BCEBE0040C067 /* SwiftKeychainWrapper */; };
+		D045DB1E262BE5530040C067 /* APIRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D045DB1D262BE5530040C067 /* APIRequest.swift */; };
 		D04F7EA725D323AE00E52997 /* RadialChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D04F7EA625D323AE00E52997 /* RadialChartView.swift */; };
 		D057841825C88C360039E6CD /* OnBoardCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D057841725C88C360039E6CD /* OnBoardCardView.swift */; };
 		D057841B25C88C5E0039E6CD /* OnBoardCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = D057841A25C88C5E0039E6CD /* OnBoardCard.swift */; };
@@ -78,6 +80,7 @@
 		D0369D1D25C76B1900718A52 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D0369D2025C76B1900718A52 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		D0369D2225C76B1900718A52 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D045DB1D262BE5530040C067 /* APIRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIRequest.swift; sourceTree = "<group>"; };
 		D04F7EA625D323AE00E52997 /* RadialChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadialChartView.swift; sourceTree = "<group>"; };
 		D057841725C88C360039E6CD /* OnBoardCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardCardView.swift; sourceTree = "<group>"; };
 		D057841A25C88C5E0039E6CD /* OnBoardCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardCard.swift; sourceTree = "<group>"; };
@@ -104,6 +107,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D045DB1B262BCEBE0040C067 /* SwiftKeychainWrapper in Frameworks */,
 				D0DEFFB425DB050C008D8C9C /* SwiftUICharts in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -125,6 +129,7 @@
 			isa = PBXGroup;
 			children = (
 				D031EB4226143B71001504B5 /* APIResponse.swift */,
+				D045DB1D262BE5530040C067 /* APIRequest.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -259,6 +264,7 @@
 			name = megastonks;
 			packageProductDependencies = (
 				D0DEFFB325DB050C008D8C9C /* SwiftUICharts */,
+				D045DB1A262BCEBE0040C067 /* SwiftKeychainWrapper */,
 			);
 			productName = megastonks;
 			productReference = D0369D1625C76B1900718A52 /* megastonks.app */;
@@ -289,6 +295,7 @@
 			mainGroup = D0369D0D25C76B1900718A52;
 			packageReferences = (
 				D0DEFFB225DB050C008D8C9C /* XCRemoteSwiftPackageReference "SwiftUICharts" */,
+				D045DB19262BCEBD0040C067 /* XCRemoteSwiftPackageReference "SwiftKeychainWrapper" */,
 			);
 			productRefGroup = D0369D1725C76B1900718A52 /* Products */;
 			projectDirPath = "";
@@ -333,6 +340,7 @@
 				D004686425D5CCFB006C60E9 /* ProfileSettingsPageView.swift in Sources */,
 				D00CA78125CB3BF600232915 /* StockSymbolView.swift in Sources */,
 				D09EF9DD2624989B00D9EF05 /* RootPageView.swift in Sources */,
+				D045DB1E262BE5530040C067 /* APIRequest.swift in Sources */,
 				D00CA78425CB50CF00232915 /* StockSymbol.swift in Sources */,
 				D057841E25C88D400039E6CD /* OnBoardCardModel.swift in Sources */,
 				D004686725D5E461006C60E9 /* EditSelectionView.swift in Sources */,
@@ -546,6 +554,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		D045DB19262BCEBD0040C067 /* XCRemoteSwiftPackageReference "SwiftKeychainWrapper" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/jrendel/SwiftKeychainWrapper";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.0.1;
+			};
+		};
 		D0DEFFB225DB050C008D8C9C /* XCRemoteSwiftPackageReference "SwiftUICharts" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/KingsleyOkeke14/SwiftUICharts.git";
@@ -557,6 +573,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		D045DB1A262BCEBE0040C067 /* SwiftKeychainWrapper */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D045DB19262BCEBD0040C067 /* XCRemoteSwiftPackageReference "SwiftKeychainWrapper" */;
+			productName = SwiftKeychainWrapper;
+		};
 		D0DEFFB325DB050C008D8C9C /* SwiftUICharts */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = D0DEFFB225DB050C008D8C9C /* XCRemoteSwiftPackageReference "SwiftUICharts" */;

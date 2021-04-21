@@ -38,7 +38,7 @@ struct ResetPasswordPageView: View {
                 .padding(.horizontal, 12)
             }
         })
-        
+    
     }
 }
 

@@ -24,6 +24,10 @@ struct FormView: View {
             TextField("", text: $formText)
                 .font(.custom("Apple SD Gothic Neo", fixedSize: 20))
                 .foregroundColor(.white)
+                .onAppear()
+                
+            
+                
                 
             Rectangle()
                  .fill(greencolor)

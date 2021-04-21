@@ -38,66 +38,72 @@ struct LoginPageView: View {
     
     var body: some View {
         NavigationView{
-        Color.black
-            .ignoresSafeArea() // Ignore just for the color
-            .overlay(
-              
-                VStack{
-                    Spacer()
-                    Image("megastonkslogo")
-                        .scaleEffect(0.8)
-                        .aspectRatio(contentMode: .fit)
-                    Spacer(minLength: 80)
+            Color.black
+                .ignoresSafeArea() // Ignore just for the color
+                .overlay(
                     
-                    FormView(formField: "Email Address", formText: $emailText)
-                    SecretFormView(formField: "Password", secretText: $passwordText)
-                    Text(errorMessage)
-                        .font(.custom("Apple SD Gothic Neo", fixedSize: 16))
-                        .foregroundColor(.red)
-                        .bold()
-                        .padding(.horizontal, 10)
-                    
-                    Button(action: {
-                        isLoading = true
-                        if(emailText.isEmpty || passwordText.isEmpty){
-                            errorMessage = "Email or Address Field cannot be Empty. Please re-enter credentials"
-                        isLoading = false
-
-                        }
-                        else{
-                            isLoading = true
-                            self.userAuth.login(email: emailText, password: passwordText) { authResponse in
-                                errorMessage = authResponse.errorMessage
-                                isLoading = false
-                            }
-                            
-                        }
-
-                    }, label: {
-                        ButtonView(text: "Login")
-                            
-
-                    })
                     VStack{
                         Spacer()
-                        HStack{
-                            Spacer()
-                            NavigationLink(
-                                destination: ForgotPasswordPageView()){
-                                Text("Forgot Password?")
-                                    .bold()
-                                    .foregroundColor(.red)
-                                    .underline()
-                                    .padding()
-                                    .padding(.trailing)
+                        Image("megastonkslogo")
+                            .scaleEffect(0.8)
+                            .aspectRatio(contentMode: .fit)
+                        Spacer(minLength: 80)
+                        
+                        FormView(formField: "Email Address", formText: $emailText)
+                        SecretFormView(formField: "Password", secretText: $passwordText)
+                        Text(errorMessage)
+                            .font(.custom("Apple SD Gothic Neo", fixedSize: 16))
+                            .foregroundColor(.red)
+                            .bold()
+                            .padding(.horizontal, 10)
+                        
+                        Button(action: {
+                            hideKeyboard()
+                            isLoading = true
+                            if(emailText.isEmpty || passwordText.isEmpty){
+                                errorMessage = "Email or Address Field cannot be Empty. Please re-enter credentials"
+                                isLoading = false
+                                
                             }
-                            .navigationBarBackButtonHidden(true)
-                        }
-                        NavigationLink(
-                            destination: RegisterPageView()){
+                            else{
+                                isLoading = true
+                                self.userAuth.login(email: emailText, password: passwordText) { authResponse in
+                                    errorMessage = authResponse.errorMessage
+                                    isLoading = false
+                                }
+//                                API().GetWatchList(){
+//                                    test in
+//                                    
+//                                    print(test.isSuccessful)
+//                                }
+                            }
                             
+                        }, label: {
+                            ButtonView(text: "Login")
+                            
+                            
+                        })
+                        VStack{
+                            Spacer()
                             HStack{
                                 Spacer()
+                                NavigationLink(
+                                    destination: ForgotPasswordPageView()){
+                                    Text("Forgot Password?")
+                                        .bold()
+                                        .foregroundColor(.red)
+                                        .underline()
+                                        .padding()
+                                        .padding(.trailing)
+                                }
+                                .navigationBarBackButtonHidden(true)
+                            }
+                            HStack{
+                                Spacer()
+                                NavigationLink(
+                                    destination: RegisterPageView()){
+                                    
+                                    
                                     Text("Register")
                                         .bold()
                                         .font(.custom("Apple SD Gothic Neo", fixedSize: 28))
@@ -105,45 +111,55 @@ struct LoginPageView: View {
                                         .foregroundColor(.white)
                                         .padding()
                                         .padding(.trailing)
+                                }
+                                
+                                
+                                
                             }
                             
-
                             
+                            Spacer()
                         }
                         
-
-                        Spacer()
-                    }
-
-
-                }.padding()
-                .overlay(
-                
-                    VStack{
-                        if(isLoading){
-                            LoadingIndicatorView()
+                        
+                    }.padding()
+                    .overlay(
+                        
+                        VStack{
+                            if(isLoading){
+                                LoadingIndicatorView()
+                            }
+                            
+                            
+                            
+                            
                         }
-
-                    
-                
-
-                }
+                    )
                 )
-            )
-            .navigationBarHidden(true)
-            .navigationBarBackButtonHidden(true)
-            .navigationBarTitle("")
+                .navigationBarHidden(true)
+                .navigationBarBackButtonHidden(true)
+                .navigationBarTitle("")
             
-
+            
             
         }
-        .navigationViewStyle(StackNavigationViewStyle())
-        }
+        .navigationBarHidden(true)
+        
+    }
     
 }
+
+#if canImport(UIKit)
+extension View {
+    func hideKeyboard() {
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+    }
+}
+#endif
 
 struct LoginPageView_Previews: PreviewProvider {
     static var previews: some View {
         LoginPageView()
+        
     }
 }

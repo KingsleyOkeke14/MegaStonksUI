@@ -38,16 +38,19 @@ struct WatchListPageView: View {
                     }
                     .padding(.horizontal)
                     
-                    ScrollView(.vertical) {
                         VStack{
-                            ForEach(0..<stocks.symbols.count){
-                                StockSymbolView(stock: stocks.symbols[$0])
-                            }//.redacted(reason: .placeholder)
+                            List{
+                                ForEach(stocks.symbols){ stock in
+                                    ZStack {
+                                        StockSymbolView(stock: stock)
+                                        NavigationLink(
+                                            destination: StocksInfoPageView(),
+                                            label: {}).opacity(0)
+                                    }
+                                    
+                                }//.redacted(reason: .placeholder)
+                            }
                         }
-                        
-                        
-                        
-                    }
                     
                 }
                 

@@ -12,78 +12,85 @@ struct ProfilePageView: View {
     var percentage:CGFloat = 0.3
     
     var body: some View {
-        Color.black
-            .ignoresSafeArea()
-            .overlay(
-                VStack(spacing: 12){
-                    HStack{
-                        Spacer()
+        NavigationView{
+            Color.black
+                .ignoresSafeArea() // Ignore just for the color
+                .overlay(
+                    VStack(spacing: 12){
+                        HStack{
+                            Spacer()
+                            NavigationLink(
+                                destination: ProfileSettingsPageView()){
+                                Image(systemName: "person.crop.circle.fill")
+                                    .font(.title)
+                                    .foregroundColor(Color.green)
+                            }.padding(.horizontal)
+                        
+                        }
+                        
+                        HStack{
+                            Text("Account")
+                                .font(.custom("Apple SD Gothic Neo", fixedSize: 22))
+                                .fontWeight(.heavy)
+                                .bold()
+                                .foregroundColor(myColors.greenColor)
+                                .padding(.horizontal)
+                            Spacer()
+                        }
+                        
+                        HStack {
+                            
+                            Text("$100,000.04")
+                                .foregroundColor(myColors.greenColor)
+                                .font(.custom("Verdana", fixedSize: 20))
+                                .bold()
+                                +
+                                Text(" CAD")
+                                .foregroundColor(myColors.greenColor)
+                                .font(.custom("Verdana", fixedSize: 16))
+                                .bold()
+                                .baselineOffset(0)
+                            
+                        }
+                        
+                        UserProfileWalletSummary()
+                        
+                        
+                        
                         Button(action: {}, label: {
-                            Image(systemName: "person.crop.circle.fill")
-                                .font(.title)
-                                .foregroundColor(Color.green)
-                        }).padding(.horizontal)
-                    }
-                    
-                    HStack{
-                        Text("Account")
-                            .font(.custom("Apple SD Gothic Neo", fixedSize: 22))
-                            .fontWeight(.heavy)
-                            .bold()
-                            .foregroundColor(myColors.greenColor)
-                            .padding(.horizontal)
-                        Spacer()
-                    }
-                    
-                    HStack {
-                        
-                        Text("$100,000.04")
-                            .foregroundColor(myColors.greenColor)
-                            .font(.custom("Verdana", fixedSize: 20))
-                            .bold()
-                            +
-                            Text(" CAD")
-                            .foregroundColor(myColors.greenColor)
-                            .font(.custom("Verdana", fixedSize: 16))
-                            .bold()
-                            .baselineOffset(0)
-                        
-                    }
-                    
-                    UserProfileWalletSummary()
-                  
-
-                    
-                    Button(action: {}, label: {
-                        VStack(spacing: 0) {
-               
-                            HStack {
+                            VStack(spacing: 0) {
+                                
+                                HStack {
                                     Text("Orders")
                                         .font(.custom("Apple SD Gothic Neo", fixedSize: 22))
                                         .bold()
                                         .foregroundColor(myColors.greenColor)
-                                       
+                                    
                                     Spacer()
                                     Image(systemName: "chevron.forward.circle")
                                         .foregroundColor(myColors.greenColor)
-                                        
-                            }
-                            Rectangle()
-                                .fill(myColors.greenColor)
-                                .frame(height: 2)
-                                .edgesIgnoringSafeArea(.horizontal)
-                            
-                        }.padding(.horizontal)
-                    })
+                                    
+                                }
+                                Rectangle()
+                                    .fill(myColors.greenColor)
+                                    .frame(height: 2)
+                                    .edgesIgnoringSafeArea(.horizontal)
+                                
+                            }.padding(.horizontal)
+                        })
+                        
+                        OrderView().padding(.top, 10)
+                        Spacer()
+                        
+                    }
+                    
+                )
+                .navigationBarHidden(true)
+                .navigationBarBackButtonHidden(true)
+                .navigationBarTitle("")
         
-                    OrderView().padding(.top, 10)
-                    Spacer()
-              
-                }
-                
-                
-                
-            )
+        
+        }
     }
 }
 

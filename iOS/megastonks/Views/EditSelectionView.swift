@@ -33,7 +33,10 @@ struct EditSelectionView: View {
                             FormView(formField: formField1, formText: $formText1)
                         }
                         
-                        Button(action: {isLoading = true}, label: {
+                        Button(action: {
+                                hideKeyboard()
+                                isLoading = true},
+                               label: {
                             ButtonView(text: "Update")
                         }).padding()
                     }.padding(.horizontal)

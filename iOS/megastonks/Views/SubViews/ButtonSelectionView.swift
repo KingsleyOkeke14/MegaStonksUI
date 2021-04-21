@@ -27,6 +27,7 @@ struct ButtonSelectionView: View {
                 HStack {
                     Spacer()
                     Button(action: {
+                        hideKeyboard()
                         changeActiveButton(activeButton: 0)
                         activeSelction = buttonList[0].buttonName
                         
@@ -36,7 +37,7 @@ struct ButtonSelectionView: View {
                     })
                     Spacer()
                     Button(action: {
-                        
+                        hideKeyboard()
                         changeActiveButton(activeButton: 1)
                         activeSelction = buttonList[1].buttonName
                         

@@ -7,6 +7,7 @@
 
 import Combine
 import Foundation
+import SwiftKeychainWrapper
 
 class UserAuth: ObservableObject {
         @Published var isLoggedin:Bool = false
@@ -22,6 +23,17 @@ class UserAuth: ObservableObject {
                 }
                 completion(response)
             }
-        //return response
         }
+    
+    func logout() {
+        let jwtRemoveSuccess: Bool = KeychainWrapper.standard.removeObject(forKey: "jwtToken")
+        let refreshRemoveSuccess: Bool = KeychainWrapper.standard.removeObject(forKey: "refreshToken")
+                if jwtRemoveSuccess && refreshRemoveSuccess{
+                    DispatchQueue.main.async {
+                        self.isLoggedin = false
+                    }
+                }
+               
+            }
+        
     }

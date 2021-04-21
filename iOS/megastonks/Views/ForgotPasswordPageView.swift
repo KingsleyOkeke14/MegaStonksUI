@@ -33,13 +33,12 @@ struct ForgotPasswordPageView: View {
     @State var isPromptError:Bool = false
     
     var body: some View {
-//        NavigationView{
+       NavigationView{
         Color.black
             .ignoresSafeArea(.all)
             .overlay(
-                VStack(spacing: 60){
-                    
-                
+                VStack(spacing: 40){
+
                     VStack {
                         FormView(formField: "Email Address", formText: $formText1)
                         
@@ -47,6 +46,7 @@ struct ForgotPasswordPageView: View {
                         
 
                         Button(action: {
+                            hideKeyboard()
                             if(formText1.isEmpty){
                                 promptText = "Please Enter a Valid Email Address to Request a Reset Token"
                                 isPromptError = true
@@ -77,14 +77,32 @@ struct ForgotPasswordPageView: View {
                         }
                     })
                     
+                    NavigationLink(
+                      destination: LoginPageView(),
+                      label: {
+                        HStack(spacing:1){
+                              Spacer()
+                                 Image(systemName: "arrow.backward.circle")
+                                    .font(.custom("Apple SD Gothic Neo", fixedSize: 20))
+                                    .foregroundColor(myColors.greenColor)
+                                  Text("Back to Login")
+                                      .bold()
+                                      .font(.custom("Apple SD Gothic Neo", fixedSize: 20))
+                                      .bold()
+                                    .foregroundColor(myColors.greenColor)
+                                      .padding()
+                                      .padding(.trailing)
+                        }
+                      })
+                    
                 }
             )
-            .navigationBarHidden(true)
-            .navigationBarBackButtonHidden(true)
-            .navigationBarTitleDisplayMode(.inline)
             
             
-        //}.navigationViewStyle(StackNavigationViewStyle())
+        }.navigationBarHidden(true)
+       .navigationBarBackButtonHidden(true)
+       .navigationBarTitle("")
+       .navigationViewStyle(StackNavigationViewStyle())
     }
 }
 
