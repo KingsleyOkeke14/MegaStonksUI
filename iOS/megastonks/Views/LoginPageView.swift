@@ -92,10 +92,12 @@ struct LoginPageView: View {
                                     destination: ForgotPasswordPageView()){
                                     Text("Forgot Password?")
                                         .bold()
+                                        .font(.custom("Apple SD Gothic Neo", fixedSize: 16))
                                         .foregroundColor(.red)
                                         .underline()
                                         .padding()
                                         .padding(.trailing)
+                                    
                                 }
                 
                             }
@@ -140,10 +142,6 @@ struct LoginPageView: View {
                 .navigationBarTitleDisplayMode(.inline)
                 .navigationBarTitle("Login")
                 .navigationBarHidden(true)
-                
-            
-            
-            
         }
         
     }

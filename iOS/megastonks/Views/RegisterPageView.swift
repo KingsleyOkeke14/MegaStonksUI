@@ -125,6 +125,7 @@ struct RegisterPageView: View {
                 .navigationBarTitleDisplayMode(.inline)
                 
             )
+
     }
 }
 
