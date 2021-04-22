@@ -33,6 +33,8 @@ struct LoginPageView: View {
         // to make everything work normally
         UINavigationBar.appearance().standardAppearance = coloredAppearance
         UINavigationBar.appearance().scrollEdgeAppearance = coloredAppearance
+        
+        UINavigationBar.appearance().tintColor = .green
     }
     
     
@@ -43,7 +45,6 @@ struct LoginPageView: View {
                 .overlay(
                     
                     VStack{
-                        Spacer()
                         Image("megastonkslogo")
                             .scaleEffect(0.8)
                             .aspectRatio(contentMode: .fit)
@@ -79,7 +80,7 @@ struct LoginPageView: View {
                             }
                             
                         }, label: {
-                            ButtonView(text: "Login")
+                            ButtonView(text: "Login", textSize: 22, frameWidth: 140, frameHeight: 34)
                             
                             
                         })
@@ -96,7 +97,7 @@ struct LoginPageView: View {
                                         .padding()
                                         .padding(.trailing)
                                 }
-                                .navigationBarBackButtonHidden(true)
+                
                             }
                             HStack{
                                 Spacer()
@@ -136,14 +137,14 @@ struct LoginPageView: View {
                         }
                     )
                 )
+                .navigationBarTitleDisplayMode(.inline)
+                .navigationBarTitle("Login")
                 .navigationBarHidden(true)
-                .navigationBarBackButtonHidden(true)
-                .navigationBarTitle("")
+                
             
             
             
         }
-        .navigationBarHidden(true)
         
     }
     

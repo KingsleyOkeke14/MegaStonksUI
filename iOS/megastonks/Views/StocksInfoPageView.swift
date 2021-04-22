@@ -26,14 +26,14 @@ struct StocksInfoPageView: View {
                                 if(isInWatchList){
                                     Image(systemName: "eye")
                                         .foregroundColor(.green)
-                                        .font(.custom("Apple SD Gothic Neo", fixedSize: 22))
+                                        .font(.custom("", fixedSize: 18))
                                         .padding(.trailing, 10)
                                     
                                 }
                                 else{
                                     Image(systemName: "eye.slash")
                                         .foregroundColor(.green)
-                                        .font(.title2)
+                                        .font(.custom("", fixedSize: 18))
                                         .padding(.trailing, 10)
                                 }
                             }
@@ -52,12 +52,12 @@ struct StocksInfoPageView: View {
                             HStack{
                                 Spacer()
                                 Button(action: {}, label: {
-                                    ButtonView(cornerRadius: 8,  text: "Buy", textColor: myColors.grayColor, frameWidth: 100, frameHeight: 40, backGroundColor: myColors.buttonStrokeGreenColor, strokeBorders: false, fillColor: myColors.buttonStrokeGreenColor)
+                                    ButtonView(cornerRadius: 12,  text: "Buy", textColor: myColors.grayColor, textSize: 20, frameWidth: 80, frameHeight: 34, backGroundColor: myColors.buttonStrokeGreenColor, strokeBorders: false, fillColor: myColors.buttonStrokeGreenColor)
                                 })
                                 
                                 Spacer()
                                 Button(action: {}, label: {
-                                    ButtonView(cornerRadius: 8,  text: "Sell", textColor: myColors.buttonStrokeGreenColor, frameWidth: 100, frameHeight: 40, strokeBorders: false, fillColor: myColors.grayColor)
+                                    ButtonView(cornerRadius: 12,  text: "Sell", textColor: myColors.buttonStrokeGreenColor, textSize: 20, frameWidth: 80, frameHeight: 34, strokeBorders: false, fillColor: myColors.grayColor)
                                 })
                                 
                                 Spacer()
@@ -71,6 +71,7 @@ struct StocksInfoPageView: View {
                     
                 }
             )
+            .navigationBarTitleDisplayMode(.inline)
         
     }
 }

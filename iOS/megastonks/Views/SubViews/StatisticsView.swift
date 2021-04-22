@@ -75,7 +75,6 @@ struct PriceActionView: View {
             HStack{
                 Text(lowPrice)
                     .foregroundColor(.white)
-                    .bold()
                     .font(.custom("Verdana", fixedSize: 20))
                 Spacer()
                 Image(systemName: "chart.bar.fill")
@@ -84,7 +83,6 @@ struct PriceActionView: View {
                 Spacer()
                 Text(highPrice)
                     .foregroundColor(.white)
-                    .bold()
                     .font(.custom("Verdana", fixedSize: 20))
             }
             Rectangle()
@@ -107,7 +105,6 @@ struct SingleStatView: View {
                 .foregroundColor(myColors.lightGrayColor)
             Text(value)
                 .foregroundColor(.white)
-                .bold()
                 .font(.custom("Verdana", fixedSize: 20))
             Rectangle()
                 .fill(myColors.lightGrayColor)
@@ -120,6 +117,7 @@ struct SingleStatView: View {
 struct StatisticsView_Previews: PreviewProvider {
     static var previews: some View {
         StatisticsView()
+            .preferredColorScheme(.dark)
     }
 }
 

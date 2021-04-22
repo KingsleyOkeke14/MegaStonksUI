@@ -11,18 +11,33 @@ struct PortfolioPageView: View {
     var stocks:StockSymbolModel = StockSymbolModel()
     let myColors = MyColors()
     
+    init() {
+        let coloredAppearance = UINavigationBarAppearance()
+        
+        // this overrides everything you have set up earlier.
+        coloredAppearance.configureWithTransparentBackground()
+        coloredAppearance.backgroundColor = .black
+        coloredAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.black]
+        
+        // to make everything work normally
+        UINavigationBar.appearance().standardAppearance = coloredAppearance
+        UINavigationBar.appearance().scrollEdgeAppearance = coloredAppearance
+        
+        UINavigationBar.appearance().tintColor = .green
+    }
+    
     var body: some View {
-        Color.black
-            .ignoresSafeArea()
-            .overlay(
-                VStack(spacing: 20){
-                    PortfolioSummaryView().padding(.top, 10)
+        NavigationView{
+            Color.black
+                .ignoresSafeArea() // Ignore just for the color
+                .overlay(
+                VStack(spacing: 1){
+                    PortfolioSummaryView()
                     HStack {
                         Text("Holdings")
                             .font(.custom("Apple SD Gothic Neo", fixedSize: 20))
                                 .bold()
                                 .foregroundColor(myColors.greenColor)
-                            .padding(.top)
                         Spacer()
                     }.padding(.horizontal)
                            
@@ -34,13 +49,16 @@ struct PortfolioPageView: View {
                                 StockSymbolView(stock: stocks.symbols[$0])
                             }
                         }
-                    }
+                    }.padding()
                 }
                 
             )
+                .navigationBarTitleDisplayMode(.inline)
+                .navigationBarTitle("")
+                .navigationBarHidden(true)
         
         
-        
+        }
         
     }
 }

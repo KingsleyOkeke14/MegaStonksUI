@@ -26,7 +26,11 @@ struct ProfileSettingsPageView: View {
         // to make everything work normally
         UINavigationBar.appearance().standardAppearance = coloredAppearance
         UINavigationBar.appearance().scrollEdgeAppearance = coloredAppearance
+        
+        UINavigationBar.appearance().tintColor = .green
     }
+    
+
     
     let myColors = MyColors()
     var body: some View {
@@ -43,10 +47,10 @@ struct ProfileSettingsPageView: View {
                             HStack{
                                 Image(systemName: "gear")
                                     .foregroundColor(.green)
-                                    .font(.title)
+                                    .font(.custom("Apple SD Gothic Neo", fixedSize: 22))
                                 Text("Account Settings")
                                     .foregroundColor(.white)
-                                    .font(.title)
+                                    .font(.custom("Apple SD Gothic Neo", fixedSize: 22))
                                 Spacer()
                             }.padding()
                             ProfileInformationView(infoHeader: "Email Address", info: "Kingsleyokeke14@gmail.com", isEditable: false)
@@ -58,21 +62,21 @@ struct ProfileSettingsPageView: View {
                                     .foregroundColor(myColors.greenColor)
                                     .bold()
                                     .fontWeight(.heavy)
-                                    .font(.title)
+                                    .font(.custom("Apple SD Gothic Neo", fixedSize: 26))
                                 Text("MegaStonks is a product offered by Striking Credit and is Striking Credit's first step in empowering individuals with tools to better understand and take control of their personal finances")
                                     .foregroundColor(.gray)
                                     .bold()
-                                    .font(.body)
+                                    .font(.custom("Apple SD Gothic Neo", fixedSize: 12))
                                     .multilineTextAlignment(.center)
                                     .padding()
                                 Text("strikingcredit.ca")
                                     .foregroundColor(.white)
                                     .bold()
-                                    .font(.body)
+                                    .font(.custom("Apple SD Gothic Neo", fixedSize: 12))
                                 Text("Version 5.4.2.0")
                                     .foregroundColor(myColors.greenColor)
                                     .bold()
-                                    .font(.title3)
+                                    .font(.custom("Apple SD Gothic Neo", fixedSize: 16))
                                     .padding()
                             }
                             Spacer()
@@ -84,7 +88,7 @@ struct ProfileSettingsPageView: View {
                                     
                                 },
                                 label: {
-                                    ButtonView(text: "LogOut", strokeLineWidth: 1)
+                                    ButtonView(text: "LogOut", textSize: 20, strokeLineWidth: 1, frameWidth: 100, frameHeight: 40)
                                 })
                                 
                             }
@@ -102,24 +106,7 @@ struct ProfileSettingsPageView: View {
                 
             }
         )
-        .navigationBarBackButtonHidden(true)
         .navigationBarTitleDisplayMode(.inline)
-        .toolbar(content: {
-            ToolbarItem (placement: .navigationBarLeading)  {
-                HStack(spacing: 20) {
-                    Image(systemName: "arrow.left")
-                    Text("Profile")
-                    
-                    
-                }
-                .onTapGesture {
-                    // code to dismiss the view
-                    self.presentation.wrappedValue.dismiss()
-                }
-                .foregroundColor(myColors.greenColor)
-                .padding(.horizontal, 12)
-            }
-        })
         
         
     }
@@ -138,24 +125,24 @@ struct ProfileInformationView: View {
                     .foregroundColor(myColors.greenColor)
                     .bold()
                     .fontWeight(.heavy)
-                    .font(.title2)
+                    .font(.custom("Apple SD Gothic Neo", fixedSize: 18))
                 Spacer()
             }
             HStack {
                 Text(info)
-                    .font(.custom("Apple SD Gothic Neo", fixedSize: 22))
+                    .font(.custom("Apple SD Gothic Neo", fixedSize: 18))
                     .foregroundColor(.gray)
                 Spacer()
                 if(isEditable){
                     Button(action: /*@START_MENU_TOKEN@*/{}/*@END_MENU_TOKEN@*/, label: {
                         Image(systemName: "pencil")
-                            .font(.title2)
+                            .font(.custom("Apple SD Gothic Neo", fixedSize: 18))
                             .foregroundColor(.green)
                     })
                 }
                 else{
                     Image(systemName: "pencil")
-                        .font(.title2)
+                        .font(.custom("Apple SD Gothic Neo", fixedSize: 18))
                         .foregroundColor(.gray)
                     
                 }

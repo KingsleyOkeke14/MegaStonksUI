@@ -67,7 +67,7 @@ struct RegisterPageView: View {
                                     HStack{
                                         Text("Select Currency")
                                             .foregroundColor(MyColors().greenColor)
-                                           .font(.custom("Apple SD Gothic Neo", fixedSize: 24))
+                                           .font(.custom("Apple SD Gothic Neo", fixedSize: 20))
                                             .bold()
                                     }.padding(.horizontal)
                                     HStack{
@@ -86,7 +86,6 @@ struct RegisterPageView: View {
                                     Button(action:toggle)
                                     {
                                         Image(systemName: termsIsChecked ? "checkmark.square.fill" : "square")
-                                            .scaleEffect(1.2)
                                             .foregroundColor(myColors.greenColor)
                                         
                                         
@@ -102,6 +101,7 @@ struct RegisterPageView: View {
                                 {
                                     Text("TERMS AND CONDITIONS")
                                         .bold()
+                                        .font(.custom("Apple SD Gothic Neo", fixedSize: 16))
                                         .foregroundColor(.white)
                                 }
                                 .sheet(isPresented: $showingSheet) {
@@ -114,7 +114,7 @@ struct RegisterPageView: View {
                                 hideKeyboard()
                                 validateForm()
                             }, label: {
-                                ButtonView(text: "Register", frameWidth: 200, frameHeight: 48)
+                                ButtonView(text: "Register", textSize: 22, frameWidth: 140, frameHeight: 34)
                             })
 
                             
@@ -122,24 +122,8 @@ struct RegisterPageView: View {
                         }.padding()
                     }
                 }
-                .navigationBarBackButtonHidden(true)
                 .navigationBarTitleDisplayMode(.inline)
-                .toolbar(content: {
-                    ToolbarItem (placement: .navigationBarLeading)  {
-                        HStack(spacing: 20) {
-                            Image(systemName: "arrow.left")
-                            Text("Login")
-                                
-                                
-                        }
-                        .onTapGesture {
-                            // code to dismiss the view
-                            self.presentation.wrappedValue.dismiss()
-                        }
-                        .foregroundColor(myColors.greenColor)
-                        .padding(.horizontal, 12)
-                    }
-                })
+                
             )
     }
 }

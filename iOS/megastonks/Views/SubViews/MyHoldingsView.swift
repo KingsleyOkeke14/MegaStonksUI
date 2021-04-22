@@ -55,12 +55,12 @@ struct DoubleColumnedView: View {
             HStack{
                 VStack(alignment: .center){
                     Text(column1Field)
-                        .font(.custom("Verdana", fixedSize: 16))
+                        .font(.custom("Verdana", fixedSize: 14))
                         .bold()
                         .foregroundColor(myColors.lightGrayColor)
                     Text(column1Text)
                         .foregroundColor(.white)
-                        .font(.custom("Verdana", fixedSize: 22))
+                        .font(.custom("Verdana", fixedSize: 20))
                     
                     
                 }
@@ -77,7 +77,7 @@ struct DoubleColumnedView: View {
                                 RadialChartView(percentage: 0.4, width: 20, height: 20, lineWidth: 2, lineCapStyle: CGLineCap.round).offset(x: 0, y: 2)
                                 Text(column2Text)
                                     .foregroundColor(.white)
-                                    .font(.custom("Verdana", fixedSize: 22))
+                                    .font(.custom("Verdana", fixedSize: 20))
                             }
                         }
 
@@ -89,7 +89,7 @@ struct DoubleColumnedView: View {
                             .foregroundColor(myColors.lightGrayColor)
                         Text(column2Text)
                             .foregroundColor(.white)
-                            .font(.custom("Verdana", fixedSize: 22))
+                            .font(.custom("Verdana", fixedSize: 20))
                     }
 
                     
@@ -111,13 +111,12 @@ struct SingleColumnView: View {
         HStack{
             VStack{
                 Text(columnField)
-                    .font(.custom("Verdana", fixedSize: 12))
+                    .font(.custom("Verdana", fixedSize: 14))
                     .bold()
                     .foregroundColor(myColors.lightGrayColor)
                 Text(textField)
                     .foregroundColor(.white)
-                    .bold()
-                    .font(.custom("Verdana", fixedSize: 22))
+                    .font(.custom("Verdana", fixedSize: 20))
                 Rectangle()
                     .fill(myColors.lightGrayColor)
                     .frame(height: 2)
@@ -134,5 +133,6 @@ struct SingleColumnView: View {
 struct MyHoldingsView_Previews: PreviewProvider {
     static var previews: some View {
         MyHoldingsView()
+            .preferredColorScheme(.dark)
     }
 }

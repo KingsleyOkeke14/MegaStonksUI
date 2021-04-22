@@ -11,6 +11,17 @@ import SwiftKeychainWrapper
 
 class UserAuth: ObservableObject {
         @Published var isLoggedin:Bool = false
+    
+    init() {
+        if let _: String = KeychainWrapper.standard.string(forKey: "jwtToken"){
+            isLoggedin = true
+        }
+        else{
+            return
+        }
+       
+
+    }
 
     func login(email:String, password:String, completion: @escaping (RequestResponse) -> ()) {
         var response = RequestResponse()

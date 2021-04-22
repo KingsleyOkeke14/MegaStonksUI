@@ -116,54 +116,49 @@ struct API{
     func GetWatchList(completion: @escaping (RequestResponse) -> ()) {
 
         var request = AppUrlRequest(url: apiRoutes.watchList!, httpMethod: "GET").request
-        let jwtToken: String? = KeychainWrapper.standard.string(forKey: "jwtToken")
-        request.setValue( "Bearer \(jwtToken!)", forHTTPHeaderField: "Authorization")
-        
-        var result = RequestResponse()
+        if let jwtToken: String = KeychainWrapper.standard.string(forKey: "jwtToken"){
+        request.setValue( "Bearer \(jwtToken)", forHTTPHeaderField: "Authorization")
+            
+            var result = RequestResponse()
 
-        let task = session.dataTask(with: request) { (data, response, error) in
-            result.data = data
-            
-            if error != nil || data == nil {
-                print("Client error!")
-                print("Error is \(error!)")
-                return
-            }
-            
-            if let httpResponse = response as? HTTPURLResponse{
+            let task = session.dataTask(with: request) { (data, response, error) in
+                result.data = data
                 
-                if httpResponse.statusCode == 200 ||  httpResponse.statusCode == 201{
+                if error != nil || data == nil {
+                    print("Client error!")
+                    print("Error is \(error!)")
+                    return
+                }
+                
+                if let httpResponse = response as? HTTPURLResponse{
                     
-                    result.isSuccessful = true
-                    
-                    //let jsonResponse = try? decoder.decode(WatchListResponses.self, from: result.data!)
-                        //print(jsonResponse!)
-                    if let jsonResponse = try? decoder.decode(WatchListResponse.self, from: result.data!) {
-                        print(jsonResponse)
+                    if httpResponse.statusCode == 200 ||  httpResponse.statusCode == 201{
+                        
+                        result.isSuccessful = true
                     }
-    
-                        // make sure this JSON is in the format we expect
-//                        if let jsonString = String(data: result.data!, encoding: .utf8) {
-//                           print(jsonString)
-//                        }
-  
+                    else if(httpResponse.statusCode == 401){
+                     print("Unauthorized")
+                     print(response!)
+                        
+                    }
+                    else{
+                        result.isSuccessful = false
+                        result.errorMessage = "Could Not Retrieve WatchList"
+                        print("Error Retrieving WatchList")
+                        print(response!)
+                    }
                 }
-                else if(httpResponse.statusCode == 401){
-                 print("Unauthorized")
-                 print(response!)
-                    
-                }
-                else{
-                    result.isSuccessful = false
-                    result.errorMessage = "Could Not Retrieve WatchList"
-                    print("Error Retrieving WatchList")
-                    print(response!)
-                }
-            }
-            completion(result)
+                completion(result)
+            
+               
         }
-        task.resume()
+            task.resume()
+            
+            
+        }
+       
+       
     }
-        
+    
 
 }

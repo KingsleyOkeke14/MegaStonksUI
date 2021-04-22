@@ -22,23 +22,8 @@ struct ResetPasswordPageView: View {
         EditSelectionView(formField1: "Reset Token", formField2: "New Password", formField3: "Confirm password", formText1: $formText1, formText2: $formText2, formText3: $formText3, isSecret: true)
             
         }
-        .navigationBarBackButtonHidden(true)
-        .navigationBarTitleDisplayMode(.inline)
-        .toolbar(content: {
-            ToolbarItem (placement: .navigationBarLeading)  {
-                HStack{
-                    Image(systemName: "arrow.left")
-                    Text("Request Token")
-                }
-                .foregroundColor(myColors.greenColor)
-                .onTapGesture {
-                  // code to dismiss the view
-                  self.presentation.wrappedValue.dismiss()
-              }
-                .padding(.horizontal, 12)
-            }
-        })
-    
+        .navigationBarHidden(true)
+        
     }
 }
 

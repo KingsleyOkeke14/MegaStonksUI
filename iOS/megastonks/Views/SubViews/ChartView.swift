@@ -21,21 +21,21 @@ struct ChartView: View {
     var body: some View {
         
         HStack {
-            VStack{
+            VStack(spacing: 0){
                 HStack{
                     Text("+22.33 (+10.12%)")
                         .foregroundColor(.green)
-                        .font(.title3)
+                        .font(.custom("Verdana", fixedSize: 16))
                         .bold()
                         
                     Text("Today")
                         .foregroundColor(.white)
+                        .font(.custom("Verdana", fixedSize: 12))
                         .bold()
                 }
                         
                 CardView(showShadow: true) {
                     ChartLabel("")
-                        
                         .background(Color.black)
                         .foregroundColor(.white)
                         
@@ -43,10 +43,10 @@ struct ChartView: View {
                         .background(Color.black)
                         
                         
+                        
                 }
                 .data(data)
                 .chartStyle(greenStyle)
-                .padding()
                 ChartButtonView(buttonList: chartButtonList)
             }.background(Color.black)
         }

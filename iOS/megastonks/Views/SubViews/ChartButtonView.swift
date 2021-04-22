@@ -26,7 +26,7 @@ struct ChartButtonView: View {
         
     }
     var body: some View {
-        HStack{
+        HStack(spacing: 12){
                     
                     Button(action: {
                         changeActiveButton(activeButton: 0)
@@ -104,7 +104,7 @@ struct ButtonSelected: View {
                     .padding(.horizontal, 8)
             }
 
-        }.padding(.horizontal, 6)
+        }
 
     }
     

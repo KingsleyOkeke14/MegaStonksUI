@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct FormView: View {
-    let greencolor:Color = Color.init(red: 129/255, green: 182/255, blue: 121/255)
+   let myColor = MyColors()
     var formField:String
     @Binding var formText:String
     
@@ -16,26 +16,25 @@ struct FormView: View {
         VStack(spacing: 0.5){
             HStack{
                 Text(formField)
-                    .foregroundColor(greencolor)
-                    .font(.custom("Apple SD Gothic Neo", fixedSize: 28))
+                    .foregroundColor(myColor.greenColor)
+                    .font(.custom("Apple SD Gothic Neo", fixedSize: 20))
                     .bold()
                 Spacer()
             }
             TextField("", text: $formText)
-                .font(.custom("Apple SD Gothic Neo", fixedSize: 20))
+                .font(.custom("Apple SD Gothic Neo", fixedSize: 18))
                 .foregroundColor(.white)
-                .onAppear()
-                
-            
-                
-                
+                            
             Rectangle()
-                 .fill(greencolor)
+                .fill(myColor.greenColor)
                  .frame(height: 2)
                  .edgesIgnoringSafeArea(.horizontal)
             
     
-        }.padding()
+        }
+        .padding()
+        .lineLimit(1)
+        .minimumScaleFactor(0.8)
     }
 }
 

@@ -26,7 +26,7 @@ struct CompanyInfoView: View {
                 .edgesIgnoringSafeArea(.horizontal)
             Text("CloudMD is part of CloudMD Software & Services Inc.. The company offers SAAS based health technology solutions to medical clinics across Canada and has developed proprietary technology to deliver quality healthcare through the combination of connected primary care clinics, telemedicine, and artificial intelligence (AI).")
                 .foregroundColor(.white)
-                .font(.custom("Verdana", fixedSize: 18))
+                .font(.custom("Verdana", fixedSize: 14))
             
         }.padding()
             
@@ -36,5 +36,6 @@ struct CompanyInfoView: View {
 struct CompanyInfoView_Previews: PreviewProvider {
     static var previews: some View {
         CompanyInfoView()
+            .preferredColorScheme(.dark)
     }
 }

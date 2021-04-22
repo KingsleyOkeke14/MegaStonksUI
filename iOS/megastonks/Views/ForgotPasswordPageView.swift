@@ -22,6 +22,8 @@ struct ForgotPasswordPageView: View {
         UINavigationBar.appearance().standardAppearance = coloredAppearance
         UINavigationBar.appearance().scrollEdgeAppearance = coloredAppearance
         
+        UINavigationBar.appearance().tintColor = .green
+        
     }
     
     let myColors = MyColors()
@@ -69,7 +71,7 @@ struct ForgotPasswordPageView: View {
                             Spacer()
                                 Text("Reset Password")
                                     .bold()
-                                    .font(.custom("Apple SD Gothic Neo", fixedSize: 28))
+                                    .font(.custom("Apple SD Gothic Neo", fixedSize: 22))
                                     .bold()
                                     .foregroundColor(.white)
                                     .padding()
@@ -77,32 +79,14 @@ struct ForgotPasswordPageView: View {
                         }
                     })
                     
-                    NavigationLink(
-                      destination: LoginPageView(),
-                      label: {
-                        HStack(spacing:1){
-                              Spacer()
-                                 Image(systemName: "arrow.backward.circle")
-                                    .font(.custom("Apple SD Gothic Neo", fixedSize: 20))
-                                    .foregroundColor(myColors.greenColor)
-                                  Text("Back to Login")
-                                      .bold()
-                                      .font(.custom("Apple SD Gothic Neo", fixedSize: 20))
-                                      .bold()
-                                    .foregroundColor(myColors.greenColor)
-                                      .padding()
-                                      .padding(.trailing)
-                        }
-                      })
-                    
                 }
             )
             
-            
-        }.navigationBarHidden(true)
-       .navigationBarBackButtonHidden(true)
-       .navigationBarTitle("")
-       .navigationViewStyle(StackNavigationViewStyle())
+            .navigationBarTitleDisplayMode(.inline)
+            .navigationBarTitle("Forgot Password")
+            .navigationBarHidden(true)
+        }
+
     }
 }
 

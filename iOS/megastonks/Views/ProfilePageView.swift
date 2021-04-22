@@ -11,22 +11,27 @@ struct ProfilePageView: View {
     let myColors = MyColors()
     var percentage:CGFloat = 0.3
     
+    init() {
+        let coloredAppearance = UINavigationBarAppearance()
+        
+        // this overrides everything you have set up earlier.
+        coloredAppearance.configureWithTransparentBackground()
+        coloredAppearance.backgroundColor = .black
+        coloredAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.black]
+        
+        // to make everything work normally
+        UINavigationBar.appearance().standardAppearance = coloredAppearance
+        UINavigationBar.appearance().scrollEdgeAppearance = coloredAppearance
+        
+        UINavigationBar.appearance().tintColor = .green
+    }
+    
     var body: some View {
         NavigationView{
             Color.black
                 .ignoresSafeArea() // Ignore just for the color
                 .overlay(
                     VStack(spacing: 12){
-                        HStack{
-                            Spacer()
-                            NavigationLink(
-                                destination: ProfileSettingsPageView()){
-                                Image(systemName: "person.crop.circle.fill")
-                                    .font(.title)
-                                    .foregroundColor(Color.green)
-                            }.padding(.horizontal)
-                        
-                        }
                         
                         HStack{
                             Text("Account")
@@ -37,6 +42,18 @@ struct ProfilePageView: View {
                                 .padding(.horizontal)
                             Spacer()
                         }
+
+                        HStack{
+                            Spacer()
+                            NavigationLink(
+                                destination: ProfileSettingsPageView()){
+                                Image(systemName: "person.crop.circle.fill")
+                                    .font(.custom("Apple SD Gothic Neo", fixedSize: 24))
+                                    .foregroundColor(Color.green)
+                            }.padding(.horizontal)
+                        
+                        }
+                        
                         
                         HStack {
                             
@@ -47,9 +64,9 @@ struct ProfilePageView: View {
                                 +
                                 Text(" CAD")
                                 .foregroundColor(myColors.greenColor)
-                                .font(.custom("Verdana", fixedSize: 16))
+                                .font(.custom("Verdana", fixedSize: 12))
                                 .bold()
-                                .baselineOffset(0)
+                                .baselineOffset(-0.4)
                             
                         }
                         
@@ -85,9 +102,9 @@ struct ProfilePageView: View {
                     }
                     
                 )
-                .navigationBarHidden(true)
-                .navigationBarBackButtonHidden(true)
+                .navigationBarTitleDisplayMode(.inline)
                 .navigationBarTitle("")
+                .navigationBarHidden(true)
         
         
         }
@@ -100,7 +117,7 @@ struct RadialWalletView: View {
             Image("megastonkslogo")
                 .scaleEffect(0.3)
                 .aspectRatio(contentMode: .fit)
-            RadialChartView(percentage: 0.4, width: 120, height: 120, lineWidth: 6, lineCapStyle: CGLineCap.square)
+            RadialChartView(percentage: 0.4, width: 100, height: 100, lineWidth: 6, lineCapStyle: CGLineCap.square)
         }.padding(.horizontal, -20)
     }
 }
@@ -115,13 +132,18 @@ struct UserProfileWalletSummary: View {
             }
             VStack(alignment: .leading){
                 Text("KINGSLEY")
-                    .font(.custom("Marker Felt", fixedSize: 26))
+                    .font(.custom("Marker Felt", fixedSize: 20))
                     .bold()
                     .foregroundColor(.white)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.8)
+                
                 Text("OKEKE")
-                    .font(.custom("Marker Felt", fixedSize: 26))
+                    .font(.custom("Marker Felt", fixedSize: 20))
                     .bold()
                     .foregroundColor(.white)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.8)
                 HStack{
                     Circle()
                         .frame(width: 20, height: 20)
@@ -134,7 +156,7 @@ struct UserProfileWalletSummary: View {
                         .foregroundColor(.white)
                         .bold()
                         .font(.custom("Verdana", fixedSize: 12))
-                }
+                }.lineLimit(1).minimumScaleFactor(0.8)
                 HStack{
                     Circle()
                         .opacity(0.3)
@@ -144,11 +166,11 @@ struct UserProfileWalletSummary: View {
                         .foregroundColor(.white)
                         .font(.custom("Verdana", fixedSize: 12))
                     Spacer()
-                    Text("$60,000")
+                    Text("$60,0000")
                         .foregroundColor(.white)
                         .bold()
                         .font(.custom("Verdana", fixedSize: 12))
-                }
+                }.lineLimit(1).minimumScaleFactor(0.8)
                 HStack{
                     Circle()//This is not visible. Just there to ensure the same space with Investments Text
                         .opacity(0)
@@ -156,14 +178,13 @@ struct UserProfileWalletSummary: View {
                         .foregroundColor(Color.green)
                     Text("Initial Deposit:")
                         .foregroundColor(.white)
-                        
                         .font(.custom("Verdana", fixedSize: 12))
                     Spacer()
                     Text("$80,000")
                         .foregroundColor(.white)
                         .bold()
                         .font(.custom("Verdana", fixedSize: 12))
-                }
+                }.lineLimit(1).minimumScaleFactor(0.8)
             }.padding(.trailing)
         }
     }

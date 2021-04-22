@@ -21,9 +21,9 @@ struct AuthenticateResponse: Codable {
     let jwtToken: String
 }
 
-struct WatchListElement: Codable {
-    let stockID: Int
-    let symbol, name, watchListDescription: String
+struct StockElementResponse: Codable, Hashable {
+    let stockId: Int
+    let symbol, name, description: String
     let price: Double
     let currency: String
     let changesPercentage, change, dayLow, dayHigh: Double
@@ -32,17 +32,9 @@ struct WatchListElement: Codable {
     let priceAvg50, priceAvg200: Double
     let volume, avgVolume: Int
     let exchange: String
-    let watchListOpen, previousClose: Double
+    let open, previousClose: Double
     let isInWatchList, isInPortfolio: Bool
 
-    enum CodingKeys: String, CodingKey {
-        case stockID = "stockId"
-        case symbol, name
-        case watchListDescription = "description"
-        case price, currency, changesPercentage, change, dayLow, dayHigh, yearHigh, yearLow, marketCap, priceAvg50, priceAvg200, volume, avgVolume, exchange
-        case watchListOpen = "open"
-        case previousClose, isInWatchList, isInPortfolio
-    }
 }
 
-typealias WatchListResponse = [WatchListElement]
+typealias StockListResponse = [StockElementResponse]

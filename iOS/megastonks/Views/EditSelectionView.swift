@@ -37,11 +37,9 @@ struct EditSelectionView: View {
                                 hideKeyboard()
                                 isLoading = true},
                                label: {
-                            ButtonView(text: "Update")
+                            ButtonView(text: "Update", textSize: 20, frameWidth: 120, frameHeight: 40)
                         }).padding()
                     }.padding(.horizontal)
-                    
-                    
                     
                 )
         }.overlay(

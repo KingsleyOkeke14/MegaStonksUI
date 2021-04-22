@@ -9,25 +9,23 @@ import Foundation
 struct StockSymbolModel{
     var symbols:[StockSymbol] = [
         
-        StockSymbol(tickerSymbol: "GOOGL", price: 1727.62, exchange: "NASDAQ", percentChange: 10.00, dollarChange: 120.00, currency: "USD", isGaining: true),
-        StockSymbol(tickerSymbol: "BRK.A", price: 350320.00, exchange: "NASDAQ", percentChange: 2600.00, dollarChange: 6000.00, currency: "USD", isGaining: true),
-        StockSymbol(tickerSymbol: "TSLA", price: 826.16, exchange: "NASDAQ", percentChange: -40.00, dollarChange: -240.00, currency: "USD", isGaining: false),
-        StockSymbol(tickerSymbol: "SHOP", price: 1547.20, exchange: "TSX", percentChange: 1.76, dollarChange: 26.17, currency: "CAD", isGaining: true),
-        StockSymbol(tickerSymbol: "TSLA", price: 826.16, exchange: "NASDAQ", percentChange: -40.00, dollarChange: -240.00, currency: "USD", isGaining: false),
-        StockSymbol(tickerSymbol: "TSLA", price: 826.16, exchange: "NASDAQ", percentChange: -40.00, dollarChange: -240.00, currency: "USD", isGaining: false),
-        StockSymbol(tickerSymbol: "TSLA", price: 826.16, exchange: "NASDAQ", percentChange: -40.00, dollarChange: -240.00, currency: "USD", isGaining: false),
-        StockSymbol(tickerSymbol: "BRK.A", price: 350320.00, exchange: "NASDAQ", percentChange: 2600.00, dollarChange: 6000.00, currency: "USD", isGaining: true),
-        StockSymbol(tickerSymbol: "TSLA", price: 826.16, exchange: "NASDAQ", percentChange: -40.00, dollarChange: -240.00, currency: "USD", isGaining: false),
-        StockSymbol(tickerSymbol: "SHOP", price: 1547.20, exchange: "TSX", percentChange: 1.76, dollarChange: 26.17, currency: "CAD", isGaining: true),
-        StockSymbol(tickerSymbol: "GOOGL", price: 1727.62, exchange: "NASDAQ", percentChange: 10.00, dollarChange: 120.00, currency: "USD", isGaining: true),
-        StockSymbol(tickerSymbol: "BRK.A", price: 350320.00, exchange: "NASDAQ", percentChange: 2600.00, dollarChange: 6000.00, currency: "USD", isGaining: true),
-        StockSymbol(tickerSymbol: "TSLA", price: 826.16, exchange: "NASDAQ", percentChange: -40.00, dollarChange: -240.00, currency: "USD", isGaining: false),
-        StockSymbol(tickerSymbol: "BRK.A", price: 350320.00, exchange: "NASDAQ", percentChange: 2600.00, dollarChange: 6000.00, currency: "USD", isGaining: true),
-        StockSymbol(tickerSymbol: "TSLA", price: 826.16, exchange: "NASDAQ", percentChange: -40.00, dollarChange: -240.00, currency: "USD", isGaining: false),
-        StockSymbol(tickerSymbol: "SHOP", price: 1547.20, exchange: "TSX", percentChange: 1.76, dollarChange: 26.17, currency: "CAD", isGaining: true),
-        StockSymbol(tickerSymbol: "GOOGL", price: 1727.62, exchange: "NASDAQ", percentChange: 10.00, dollarChange: 120.00, currency: "USD", isGaining: true),
-        StockSymbol(tickerSymbol: "BRK.A", price: 350320.00, exchange: "NASDAQ", percentChange: 2600.00, dollarChange: 6000.00, currency: "USD", isGaining: true)
+        StockSymbol(StockElementResponse( stockId: 12, symbol: "DOC", name: "CloudMD Services", description: "Test", price: 20.0, currency: "CAD", changesPercentage: -10, change: -100, dayLow: 18, dayHigh: 22, yearHigh: 28, yearLow: 8, marketCap: 1000000, priceAvg50: 20, priceAvg200: 22, volume: 2000000, avgVolume: 400000000, exchange: "TSXV", open: 20, previousClose: 0, isInWatchList: true, isInPortfolio: false)),
         
+        StockSymbol(StockElementResponse(stockId: 14, symbol: "TSLA", name: "Tesla Inc", description: "Test", price: 200.0, currency: "USD", changesPercentage: 10, change: 100, dayLow: 18, dayHigh: 22, yearHigh: 28, yearLow: 8, marketCap: 1000000, priceAvg50: 20, priceAvg200: 22, volume: 2000000, avgVolume: 400000000, exchange: "NASDAQ", open: 220, previousClose: 0, isInWatchList: true, isInPortfolio: false)),
+        
+        StockSymbol(StockElementResponse(stockId: 18, symbol: "AAPL", name: "Apple Inc", description: "Apple Products", price: 134, currency: "USD", changesPercentage: 10, change: 10, dayLow: 18, dayHigh: 22, yearHigh: 28, yearLow: 8, marketCap: 1000000, priceAvg50: 20, priceAvg200: 22, volume: 2000000, avgVolume: 400000000, exchange: "TSXV", open: 20, previousClose: 0, isInWatchList: true, isInPortfolio: false)),
+        
+        StockSymbol(StockElementResponse(stockId: 12, symbol: "BRK.A", name: "Berkshire Hathaway", description: "Test", price: 123000, currency: "USD", changesPercentage: -10, change: -12000, dayLow: 18, dayHigh: 22, yearHigh: 28, yearLow: 8, marketCap: 1000000, priceAvg50: 20, priceAvg200: 22, volume: 2000000, avgVolume: 400000000, exchange: "NYSE", open: 20, previousClose: 0, isInWatchList: true, isInPortfolio: false)),
+        
+        StockSymbol(StockElementResponse(stockId: 12, symbol: "WELL", name: "Well Health Technologies", description: "Test", price: 7.90, currency: "CAD", changesPercentage: -20, change: -3.2, dayLow: 18, dayHigh: 22, yearHigh: 28, yearLow: 8, marketCap: 1000000, priceAvg50: 20, priceAvg200: 22, volume: 2000000, avgVolume: 400000000, exchange: "TSX", open: 20, previousClose: 0, isInWatchList: true, isInPortfolio: false)),
+        
+        StockSymbol(StockElementResponse(stockId: 18, symbol: "AAPL", name: "Apple Inc", description: "Apple Products", price: 134, currency: "USD", changesPercentage: 10, change: 10, dayLow: 18, dayHigh: 22, yearHigh: 28, yearLow: 8, marketCap: 1000000, priceAvg50: 20, priceAvg200: 22, volume: 2000000, avgVolume: 400000000, exchange: "TSXV", open: 20, previousClose: 0, isInWatchList: true, isInPortfolio: false)),
+        
+        StockSymbol(StockElementResponse(stockId: 12, symbol: "BRK.A", name: "Berkshire Hathaway", description: "Test", price: 123000, currency: "USD", changesPercentage: -10, change: -12000, dayLow: 18, dayHigh: 22, yearHigh: 28, yearLow: 8, marketCap: 1000000, priceAvg50: 20, priceAvg200: 22, volume: 2000000, avgVolume: 400000000, exchange: "NYSE", open: 20, previousClose: 0, isInWatchList: true, isInPortfolio: false)),
+        
+        StockSymbol(StockElementResponse(stockId: 12, symbol: "DOC", name: "CloudMD Services", description: "Test", price: 20.0, currency: "CAD", changesPercentage: -10, change: -100, dayLow: 18, dayHigh: 22, yearHigh: 28, yearLow: 8, marketCap: 1000000, priceAvg50: 20, priceAvg200: 22, volume: 2000000, avgVolume: 400000000, exchange: "TSXV", open: 20, previousClose: 0, isInWatchList: true, isInPortfolio: false)),
+        
+        StockSymbol(StockElementResponse(stockId: 14, symbol: "TSLA", name: "Tesla Inc", description: "Test", price: 200.0, currency: "USD", changesPercentage: 10, change: 100, dayLow: 18, dayHigh: 22, yearHigh: 28, yearLow: 8, marketCap: 1000000, priceAvg50: 20, priceAvg200: 22, volume: 2000000, avgVolume: 400000000, exchange: "NASDAQ", open: 220, previousClose: 0, isInWatchList: true, isInPortfolio: false))
     ]
     
 }
