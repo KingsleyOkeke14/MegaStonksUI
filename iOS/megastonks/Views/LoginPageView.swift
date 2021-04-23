@@ -142,7 +142,7 @@ struct LoginPageView: View {
                 .navigationBarTitleDisplayMode(.inline)
                 .navigationBarTitle("Login")
                 .navigationBarHidden(true)
-        }
+        }.navigationViewStyle(StackNavigationViewStyle())
         
     }
     

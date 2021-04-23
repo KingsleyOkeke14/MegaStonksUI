@@ -107,7 +107,7 @@ struct ProfilePageView: View {
                 .navigationBarHidden(true)
         
         
-        }
+        }.navigationViewStyle(StackNavigationViewStyle())
     }
 }
 

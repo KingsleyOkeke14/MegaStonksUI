@@ -151,7 +151,7 @@ struct WatchListPageView: View {
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarTitle("")
             .navigationBarHidden(true)
-        }
+        }.navigationViewStyle(StackNavigationViewStyle())
 
     }
 }

@@ -85,7 +85,7 @@ struct ForgotPasswordPageView: View {
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarTitle("Forgot Password")
             .navigationBarHidden(true)
-        }
+        }.navigationViewStyle(StackNavigationViewStyle())
 
     }
 }

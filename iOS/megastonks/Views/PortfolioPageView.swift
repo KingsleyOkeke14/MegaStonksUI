@@ -58,7 +58,7 @@ struct PortfolioPageView: View {
                 .navigationBarHidden(true)
         
         
-        }
+        }.navigationViewStyle(StackNavigationViewStyle())
         
     }
 }
