@@ -16,12 +16,14 @@ struct RequestResponse{
 struct AuthenticateResponse: Codable {
     let id: Int
     let title, firstName, lastName, email: String
-    let role, created: String
+    let role, currency: String
+    let isOnboarded: Bool
+    let created: String
     let isVerified: Bool
     let jwtToken: String
 }
 
-struct StockElementResponse: Codable, Hashable {
+struct StockElementResponse: Codable {
     let stockId: Int
     let symbol, name, description: String
     let price: Double
@@ -38,3 +40,8 @@ struct StockElementResponse: Codable, Hashable {
 }
 
 typealias StockListResponse = [StockElementResponse]
+
+
+struct CommonAPIResponse: Codable {
+    let message: String
+}

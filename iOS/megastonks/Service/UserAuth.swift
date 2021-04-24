@@ -11,16 +11,24 @@ import SwiftKeychainWrapper
 
 class UserAuth: ObservableObject {
         @Published var isLoggedin:Bool = false
+        @Published var user:User = User(firstName: "", lastName: "", emailAddress: "", currency: "", isOnBoarded: false)
     
     init() {
-        if let _: String = KeychainWrapper.standard.string(forKey: "jwtToken"){
-            isLoggedin = true
+        if let refreshToken: String = KeychainWrapper.standard.string(forKey: "refreshToken"){
+            API().RefreshToken(token: refreshToken){ result in
+                if(result.isSuccessful){
+                    let jsonResponse = try! JSONDecoder().decode(AuthenticateResponse.self, from: result.data!)
+                    
+                    DispatchQueue.main.async {
+                        self.user = User(firstName: jsonResponse.firstName, lastName: jsonResponse.lastName, emailAddress: jsonResponse.email, currency: jsonResponse.currency, isOnBoarded: jsonResponse.isOnboarded)
+                        self.isLoggedin = true
+                    }
+                }
+            }
         }
         else{
             return
         }
-       
-
     }
 
     func login(email:String, password:String, completion: @escaping (RequestResponse) -> ()) {
@@ -28,7 +36,9 @@ class UserAuth: ObservableObject {
             API().Authenticate(emailAddress: email, password:password) { result in
             response = result
                 if result.isSuccessful{
+                    let jsonResponse = try! JSONDecoder().decode(AuthenticateResponse.self, from: result.data!)
                     DispatchQueue.main.async {
+                        self.user = User(firstName: jsonResponse.firstName, lastName: jsonResponse.lastName, emailAddress: jsonResponse.email, currency: jsonResponse.currency, isOnBoarded: jsonResponse.isOnboarded)
                         self.isLoggedin = true
                     }
                 }
@@ -36,15 +46,25 @@ class UserAuth: ObservableObject {
             }
         }
     
-    func logout() {
-        let jwtRemoveSuccess: Bool = KeychainWrapper.standard.removeObject(forKey: "jwtToken")
-        let refreshRemoveSuccess: Bool = KeychainWrapper.standard.removeObject(forKey: "refreshToken")
-                if jwtRemoveSuccess && refreshRemoveSuccess{
-                    DispatchQueue.main.async {
-                        self.isLoggedin = false
-                    }
-                }
-               
+    func logout(completion: @escaping (RequestResponse) -> ()) {
+        var response = RequestResponse()
+        response.errorMessage = "Error Logging Out"
+        var revokeTokenResult:Bool = false
+        API().RevokeToken(){ result in
+            if(result.isSuccessful){
+                revokeTokenResult = true
             }
+            
+            let jwtRemoveSuccess: Bool = KeychainWrapper.standard.removeObject(forKey: "jwtToken")
+            let refreshRemoveSuccess: Bool = KeychainWrapper.standard.removeObject(forKey: "refreshToken")
+                    if (jwtRemoveSuccess && refreshRemoveSuccess || revokeTokenResult){
+                        response.isSuccessful = true
+                        response.errorMessage = ""
+                    }
+            
+            //self.user = User(firstName: "", lastName: "", emailAddress: "", currency: "", isOnBoarded: false)
+            completion(response)
+        }
+    }
         
     }

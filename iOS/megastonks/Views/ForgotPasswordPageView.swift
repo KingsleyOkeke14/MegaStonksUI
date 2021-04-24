@@ -10,6 +10,21 @@ import SwiftUI
 struct ForgotPasswordPageView: View {
 
     
+
+    
+    let myColors = MyColors()
+    
+    @Environment(\.presentationMode) var presentation
+    
+    @State var formText1:String = ""
+    @State var promptText:String = ""
+    @State var isPromptError:Bool = false
+    
+    @State var isLoading:Bool = false
+    
+    let decoder = JSONDecoder()
+    
+    
     init() {
         let coloredAppearance = UINavigationBarAppearance()
         
@@ -26,14 +41,6 @@ struct ForgotPasswordPageView: View {
         
     }
     
-    let myColors = MyColors()
-    
-    @Environment(\.presentationMode) var presentation
-    
-    @State var formText1:String = ""
-    @State var promptText:String = ""
-    @State var isPromptError:Bool = false
-    
     var body: some View {
        NavigationView{
         Color.black
@@ -49,13 +56,29 @@ struct ForgotPasswordPageView: View {
 
                         Button(action: {
                             hideKeyboard()
+                            promptText = ""
                             if(formText1.isEmpty){
                                 promptText = "Please Enter a Valid Email Address to Request a Reset Token"
                                 isPromptError = true
                             }
                             else{
-                                promptText = "Please Check your Email for the Reset Token. Click on Reset Password to Continue"
-                                isPromptError = false
+                                isLoading = true
+                                API().ForgotPassword(emailAddress: formText1){ result in
+                                    
+                                    if(result.isSuccessful){
+                                        
+                                    
+
+                                        promptText = "Please check your email for the password reset token then click on \"Reset Password\" below to continue"
+                                        isPromptError = false
+                                    }
+                                    else{
+                                        promptText = result.errorMessage
+                                        isPromptError = true
+                                    }
+                                    isLoading = false
+                                }
+
                             }
                             
                         }, label: {
@@ -79,7 +102,16 @@ struct ForgotPasswordPageView: View {
                         }
                     })
                     
-                }
+                }.overlay(
+                    
+                    VStack{
+                        if(isLoading){
+                            LoadingIndicatorView()
+                        }
+                        
+                    }
+                )
+                
             )
             
             .navigationBarTitleDisplayMode(.inline)
@@ -93,31 +125,5 @@ struct ForgotPasswordPageView: View {
 struct ForgotPasswordPageView_Previews: PreviewProvider {
     static var previews: some View {
         ForgotPasswordPageView()
-    }
-}
-
-struct PromptView: View {
-    
-    @Binding var promptText:String
-    @Binding var isError:Bool
-    
-    var body: some View {
-        if(isError){
-            Text(promptText)
-                .font(.custom("Apple SD Gothic Neo", fixedSize: 16))
-                .foregroundColor(.red)
-                .bold()
-                .padding(.horizontal, 10)
-                .multilineTextAlignment(.center)
-        }
-        else{
-            Text(promptText)
-                .font(.custom("Apple SD Gothic Neo", fixedSize: 16))
-                .foregroundColor(.white)
-                .bold()
-                .padding(.horizontal, 10)
-                .multilineTextAlignment(.center)
-        }
-
     }
 }

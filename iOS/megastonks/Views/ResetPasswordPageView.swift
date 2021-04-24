@@ -9,21 +9,64 @@ import SwiftUI
 
 struct ResetPasswordPageView: View {
     
-    let myColors = MyColors()
+    @State var isLoading:Bool = false
     
     @State var formText1:String = ""
     @State var formText2:String = ""
     @State var formText3:String = ""
     
-    @Environment(\.presentationMode) var presentation
+    @State var promptText:String = ""
+    @State var isPromptError:Bool = false
+    
     
     var body: some View {
-        VStack{
-        EditSelectionView(formField1: "Reset Token", formField2: "New Password", formField3: "Confirm password", formText1: $formText1, formText2: $formText2, formText3: $formText3, isSecret: true)
-            
-        }
-        .navigationBarHidden(true)
+        VStack {
+            Color.black
+                .ignoresSafeArea()
+                .overlay(
+                    VStack{
+                            FormView(formField: "Reset Token", formText: $formText1)
+                            
+                            SecretFormView(formField: "New Password", secretText: $formText2)
+                            SecretFormView(formField: "Confirm Password", secretText: $formText3)
+                        
+                      
+                        PromptView(promptText: $promptText, isError: $isPromptError)
+                        Button(action: {
+                                hideKeyboard()
+                                isLoading = true
+                            API().ResetPassword(token: formText1, newpassword: formText2, confirmPassword: formText3){ result in
+                                
+                                if(result.isSuccessful){
+                                    promptText = "Password Reset Successful. Please Login with your new Password"
+                                    isPromptError = false
+                                }
+                                else{
+                                    promptText = result.errorMessage
+                                    isPromptError = true
+                                }
+                                isLoading = false
+                                
+                            }
+                            
+                            
+                        },
+                               label: {
+                            ButtonView(text: "Update", textSize: 20, frameWidth: 120, frameHeight: 40)
+                        }).padding()
+                    }.padding(.horizontal)
+                    
+                )
+        }.overlay(
         
+            VStack{
+                if(isLoading){
+                    LoadingIndicatorView()
+                }
+
+            }
+        )
+        .navigationBarHidden(true)
     }
 }
 

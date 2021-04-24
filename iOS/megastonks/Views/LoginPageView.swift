@@ -66,17 +66,16 @@ struct LoginPageView: View {
                                 isLoading = false
                                 
                             }
+                            else if(!emailText.isValidEmail){
+                                errorMessage = "Invalid Email Address"
+                                isLoading = false
+                            }
                             else{
                                 isLoading = true
                                 self.userAuth.login(email: emailText, password: passwordText) { authResponse in
                                     errorMessage = authResponse.errorMessage
                                     isLoading = false
                                 }
-//                                API().GetWatchList(){
-//                                    test in
-//                                    
-//                                    print(test.isSuccessful)
-//                                }
                             }
                             
                         }, label: {

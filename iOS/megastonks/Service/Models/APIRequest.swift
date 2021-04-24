@@ -54,3 +54,29 @@ class AuthenticateRequest: Codable {
         self.password = password
     }
 }
+
+class TokenRequest: Codable {
+    let token: String
+
+    enum CodingKeys: String, CodingKey {
+        case token = "Token"
+    }
+
+    init(token: String) {
+        self.token = token
+    }
+}
+
+class ForgotPasswordRequest: Codable {
+    let email: String
+
+    enum CodingKeys: String, CodingKey {
+        case email = "Email"
+    }
+
+    init(email: String) {
+        self.email = email
+    }
+}
+
+

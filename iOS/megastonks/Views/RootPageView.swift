@@ -15,7 +15,7 @@ struct RootPageView: View {
         if !userAuth.isLoggedin {
             LoginPageView().preferredColorScheme(/*@START_MENU_TOKEN@*/.dark/*@END_MENU_TOKEN@*/)
         } else {
-            AppPageView()
+            AppPageView().environmentObject(userAuth)
         }
 
     }

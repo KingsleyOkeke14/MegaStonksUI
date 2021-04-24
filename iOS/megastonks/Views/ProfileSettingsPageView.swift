@@ -13,6 +13,9 @@ struct ProfileSettingsPageView: View {
     
     @EnvironmentObject var userAuth: UserAuth
     
+    
+    @State var errorMessage: String = ""
+    
     @Environment(\.presentationMode) var presentation
     
     init() {
@@ -53,8 +56,8 @@ struct ProfileSettingsPageView: View {
                                     .font(.custom("Apple SD Gothic Neo", fixedSize: 22))
                                 Spacer()
                             }.padding()
-                            ProfileInformationView(infoHeader: "Email Address", info: "Kingsleyokeke14@gmail.com", isEditable: false)
-                            ProfileInformationView(infoHeader: "Currency", info: "USD", isEditable: false)
+                            ProfileInformationView(infoHeader: "Email Address", info: userAuth.user.emailAddress, isEditable: false)
+                            ProfileInformationView(infoHeader: "Currency", info: userAuth.user.currency, isEditable: false)
                             ProfileInformationView(infoHeader: "Password", info: "***********", isEditable: true)
                             Spacer()
                             VStack(spacing:1){
@@ -78,13 +81,34 @@ struct ProfileSettingsPageView: View {
                                     .bold()
                                     .font(.custom("Apple SD Gothic Neo", fixedSize: 16))
                                     .padding()
+                                
+                                if(!errorMessage.isEmpty){
+                                    Text(errorMessage)
+                                        .font(.custom("Apple SD Gothic Neo", fixedSize: 16))
+                                        .foregroundColor(.red)
+                                        .bold()
+                                        .padding(.horizontal, 10)
+                                }
+
+                        
                             }
                             Spacer()
                             HStack{
                                 Button(action: {
                                     isLoading = true
-                                    userAuth.logout()
-                                    isLoading = false
+                                    userAuth.logout(){ result in
+                                        if(result.isSuccessful){
+                                            isLoading = false
+                                            DispatchQueue.main.async {
+                                                userAuth.isLoggedin = false
+                                            }
+                                        }
+                                        else{
+                                            isLoading = false
+                                            errorMessage = result.errorMessage
+                                        }
+                                    }
+                                    
                                     
                                 },
                                 label: {
@@ -161,7 +185,7 @@ struct ProfileInformationView: View {
 
 struct ProfileSettingsPageView_Previews: PreviewProvider {
     static var previews: some View {
-        ProfileSettingsPageView()
+        ProfileSettingsPageView().environmentObject(UserAuth())
     }
 }
 

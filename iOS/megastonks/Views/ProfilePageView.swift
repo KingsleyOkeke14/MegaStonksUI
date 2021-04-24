@@ -11,6 +11,8 @@ struct ProfilePageView: View {
     let myColors = MyColors()
     var percentage:CGFloat = 0.3
     
+    @EnvironmentObject var userAuth: UserAuth
+    
     init() {
         let coloredAppearance = UINavigationBarAppearance()
         
@@ -46,7 +48,7 @@ struct ProfilePageView: View {
                         HStack{
                             Spacer()
                             NavigationLink(
-                                destination: ProfileSettingsPageView()){
+                                destination: ProfileSettingsPageView().environmentObject(userAuth)){
                                 Image(systemName: "person.crop.circle.fill")
                                     .font(.custom("Apple SD Gothic Neo", fixedSize: 24))
                                     .foregroundColor(Color.green)
@@ -136,7 +138,7 @@ struct UserProfileWalletSummary: View {
                     .bold()
                     .foregroundColor(.white)
                     .lineLimit(1)
-                    .minimumScaleFactor(0.8)
+                    .minimumScaleFactor(0.8)                    
                 
                 Text("OKEKE")
                     .font(.custom("Marker Felt", fixedSize: 20))
@@ -192,7 +194,7 @@ struct UserProfileWalletSummary: View {
 
 struct ProfilePageView_Previews: PreviewProvider {
     static var previews: some View {
-        ProfilePageView()
+        ProfilePageView().environmentObject(UserAuth())
     }
 }
 

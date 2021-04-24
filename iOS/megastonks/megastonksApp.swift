@@ -13,18 +13,6 @@ struct megastonksApp: App {
         WindowGroup {
             let userAuth = UserAuth()
             RootPageView().environmentObject(userAuth)
-            
-      
-            //RegisterPageView()
-            //StockSymbolView(stock: StockSymbolModel().symbols[0])
-            //WatchListPageView(searchText: "")
-            //StocksInfoPageView()
-            //ProfileSettingsPageView()
-            //ProfilePageView()
-            //RegisterPageView()
-            //OnBoardPageView()
-        //ButtonSelectionView()
-            //RegisterPageView()
         }
     }
 }

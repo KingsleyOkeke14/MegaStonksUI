@@ -11,7 +11,7 @@ struct ButtonSelectionView: View {
     let myColors = MyColors()
     
     @State var buttonList: [(buttonName: String, buttonState: Bool)] = [("CAD", true), ("USD", false)]
-    @State var activeSelction:String = ""
+    @Binding var activeSelction:String
     
     func changeActiveButton(activeButton: Int){
         
@@ -85,7 +85,7 @@ struct SelectButton: View {
 
 struct ButtonSelectionView_Previews: PreviewProvider {
     static var previews: some View {
-        ButtonSelectionView()
+        ButtonSelectionView(activeSelction: Binding.constant(""))
         
     }
 }
