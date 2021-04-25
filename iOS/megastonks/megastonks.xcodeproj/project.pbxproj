@@ -50,6 +50,7 @@
 		D0D1933B25CCCFAF00D83D87 /* ChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D1933A25CCCFAF00D83D87 /* ChartView.swift */; };
 		D0D3C40226249E5E00DC6B36 /* AppPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D3C40126249E5E00DC6B36 /* AppPageView.swift */; };
 		D0DEFFB425DB050C008D8C9C /* SwiftUICharts in Frameworks */ = {isa = PBXBuildFile; productRef = D0DEFFB325DB050C008D8C9C /* SwiftUICharts */; };
+		D0F948802635B20C0069D2B7 /* BannerViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0F9487F2635B20C0069D2B7 /* BannerViewModifier.swift */; };
 		D0FC0FF725D2287600366B26 /* StocksInfoPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0FC0FF625D2287600366B26 /* StocksInfoPageView.swift */; };
 		D0FC0FFB25D22E8F00366B26 /* ChartButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0FC0FFA25D22E8F00366B26 /* ChartButtonView.swift */; };
 		D0FC100025D2EFB400366B26 /* MyHoldingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0FC0FFF25D2EFB400366B26 /* MyHoldingsView.swift */; };
@@ -100,6 +101,7 @@
 		D0D1933725CCB41900D83D87 /* StockInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockInfoView.swift; sourceTree = "<group>"; };
 		D0D1933A25CCCFAF00D83D87 /* ChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartView.swift; sourceTree = "<group>"; };
 		D0D3C40126249E5E00DC6B36 /* AppPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppPageView.swift; sourceTree = "<group>"; };
+		D0F9487F2635B20C0069D2B7 /* BannerViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerViewModifier.swift; sourceTree = "<group>"; };
 		D0FC0FF625D2287600366B26 /* StocksInfoPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StocksInfoPageView.swift; sourceTree = "<group>"; };
 		D0FC0FFA25D22E8F00366B26 /* ChartButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartButtonView.swift; sourceTree = "<group>"; };
 		D0FC0FFF25D2EFB400366B26 /* MyHoldingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyHoldingsView.swift; sourceTree = "<group>"; };
@@ -159,6 +161,7 @@
 				D004686E25D8B96E006C60E9 /* OrderView.swift */,
 				D02D7C2C25DC496600DAC07A /* ButtonSelectionView.swift */,
 				D0A3125826339880008993C2 /* PromptView.swift */,
+				D0F9487F2635B20C0069D2B7 /* BannerViewModifier.swift */,
 			);
 			path = SubViews;
 			sourceTree = "<group>";
@@ -206,9 +209,9 @@
 		D0369D2925C76FB300718A52 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				D057841A25C88C5E0039E6CD /* OnBoardCard.swift */,
-				D00CA78325CB50CF00232915 /* StockSymbol.swift */,
 				D0A3125B2633A031008993C2 /* EULA.swift */,
+				D057841D25C88D400039E6CD /* OnBoardCardModel.swift */,
+				D00CA78625CB55CD00232915 /* StockSymbolModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -239,8 +242,8 @@
 		D0369D2B25C76FCD00718A52 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
-				D057841D25C88D400039E6CD /* OnBoardCardModel.swift */,
-				D00CA78625CB55CD00232915 /* StockSymbolModel.swift */,
+				D057841A25C88C5E0039E6CD /* OnBoardCard.swift */,
+				D00CA78325CB50CF00232915 /* StockSymbol.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -371,6 +374,7 @@
 				D06B311525C7AFF400A37C08 /* LoginPageView.swift in Sources */,
 				D031EB3F26118C7F001504B5 /* API.swift in Sources */,
 				D004686F25D8B96E006C60E9 /* OrderView.swift in Sources */,
+				D0F948802635B20C0069D2B7 /* BannerViewModifier.swift in Sources */,
 				D00A6687263486AD0085EB1C /* User.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

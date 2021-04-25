@@ -68,7 +68,7 @@ struct ResetPasswordPageView: View {
                             ButtonView(text: "Update", textSize: 20, frameWidth: 120, frameHeight: 40)
                         }).padding()
                         if(userAuth.isLoggedin!){
-                            Text("You will be logged out on Successful Password Reset")
+                            Text("You will be logged out on Successfull Password Reset")
                                 .foregroundColor(myColors.greenColor)
                                 .font(.custom("Apple SD Gothic Neo", fixedSize: 16))
                                 .multilineTextAlignment(.center)

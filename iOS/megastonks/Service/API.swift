@@ -416,6 +416,61 @@ struct API{
         task.resume()
     }
     
+    func OnBoardCompleted() {
+        
+        var request = AppUrlRequest(url: apiRoutes.onBoard!, httpMethod: "POST").request
+        if let jwtToken: String = KeychainWrapper.standard.string(forKey: "jwtToken"){
+            request.setValue( "Bearer \(jwtToken)", forHTTPHeaderField: "Authorization")
+            
+            var result = RequestResponse()
+            
+            let jsonData = try! JSONEncoder().encode("")
+            
+            let task = session.uploadTask(with: request, from: jsonData) { (data, response, error) in
+                result.data = data
+                
+                if error != nil || data == nil {
+                    print("Client error!")
+                    print("Error is \(error!)")
+                    result.isSuccessful = false
+                    result.errorMessage = "Error contacting the server. Please Check your internet connection"
+                    return
+                }
+                
+                if let httpResponse = response as? HTTPURLResponse{
+                    
+                    if httpResponse.statusCode == 200{
+                        
+                        result.isSuccessful = true
+                    }
+                    else if(httpResponse.statusCode == 401){
+                        print("Unauthorized")
+                        print(response!)
+                        
+                    }
+                    else{
+                        result.isSuccessful = false
+                        
+                        if let jsonResponse = try? decoder.decode(CommonAPIResponse.self, from: result.data!){
+                            result.errorMessage = jsonResponse.message
+                        }
+                        else{
+                            result.errorMessage = "Couldn Not OnBoard User"
+                        }
+                        
+                    }
+                }
+                
+                
+            }
+            task.resume()
+            
+            
+        }
+        
+        
+    }
+    
     func GetWatchList(completion: @escaping (RequestResponse) -> ()) {
         
         var request = AppUrlRequest(url: apiRoutes.watchList!, httpMethod: "GET").request
@@ -471,58 +526,5 @@ struct API{
         
     }
     
-    func OnBoardCompleted() {
-        
-        var request = AppUrlRequest(url: apiRoutes.onBoard!, httpMethod: "POST").request
-        if let jwtToken: String = KeychainWrapper.standard.string(forKey: "jwtToken"){
-            request.setValue( "Bearer \(jwtToken)", forHTTPHeaderField: "Authorization")
-            
-            var result = RequestResponse()
-            
-            let jsonData = try! JSONEncoder().encode("")
-            
-            let task = session.uploadTask(with: request, from: jsonData) { (data, response, error) in
-                result.data = data
-                
-                if error != nil || data == nil {
-                    print("Client error!")
-                    print("Error is \(error!)")
-                    result.isSuccessful = false
-                    result.errorMessage = "Error contacting the server. Please Check your internet connection"
-                    return
-                }
-                
-                if let httpResponse = response as? HTTPURLResponse{
-                    
-                    if httpResponse.statusCode == 200{
-                        
-                        result.isSuccessful = true
-                    }
-                    else if(httpResponse.statusCode == 401){
-                        print("Unauthorized")
-                        print(response!)
-                        
-                    }
-                    else{
-                        result.isSuccessful = false
-                        
-                        if let jsonResponse = try? decoder.decode(CommonAPIResponse.self, from: result.data!){
-                            result.errorMessage = jsonResponse.message
-                        }
-                        else{
-                            result.errorMessage = "Couldn Not OnBoard User"
-                        }
-                        
-                    }
-                }
-                
-                
-            }
-            task.resume()
-            
-            
-        }
-        
-        
-    }
+    
 }

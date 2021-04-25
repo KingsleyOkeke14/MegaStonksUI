@@ -68,12 +68,18 @@ class UserAuth: ObservableObject {
                         self.isLoggedin = true
                     }
                 }
+                else{
+                    DispatchQueue.main.async {
+                        self.user = User(firstName: "", lastName: "", emailAddress: "", currency: "", isOnBoarded: true)
+                        self.isLoggedin = false
+                    }
+                }
             }
         }
         else{
             self.isLoggedin = false
         }
-        print("Credentials Refreshed")
+        
     }
     
 }

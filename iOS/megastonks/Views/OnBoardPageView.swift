@@ -30,7 +30,7 @@ struct OnBoardPageView: View {
                                     Spacer()
                                     Image(systemName: cards[index].image)
                                         .font(.custom("Apple SD Gothic Neo", fixedSize: 180))
-                                        .foregroundColor(MyColors().greenColor)
+                                        .foregroundColor(myColors.greenColor)
                                     Spacer()
                                     Text(cards[index].title)
                                         .font(.custom("Apple SD Gothic Neo", fixedSize: 26))

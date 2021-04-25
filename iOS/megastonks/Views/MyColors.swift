@@ -9,6 +9,7 @@ import SwiftUI
 
 struct MyColors{
     let greenColor:Color = Color.init(red: 129/255, green: 182/255, blue: 121/255)
+    let darkYellowColor:Color = Color(red: 206/255, green: 110/255, blue: 0/255)
     let grayColor:Color = Color.init(red: 22/255, green: 21/255, blue: 21/255)
     let lightGrayColor:Color = Color.init(red: 88/255, green: 87/255, blue: 92/255)
     let lightGrayColor2:Color = Color.init(red: 200/255, green: 200/255, blue: 200/255)

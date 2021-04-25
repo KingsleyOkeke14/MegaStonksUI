@@ -12,6 +12,16 @@ struct AppPageView: View {
     
     @EnvironmentObject var userAuth: UserAuth
     
+//    var handler: Binding<Int> { Binding(
+//        get: { self.selection },
+//        set: {
+//            if $0 == self.selection {
+//                print("Reset here!!")
+//            }
+//            self.selection = $0
+//        }
+//    )}
+    
     let myColors = MyColors()
     
     var body: some View {
@@ -28,6 +38,7 @@ struct AppPageView: View {
                                         Label("WatchList", systemImage: "eyeglasses")
                                     }.tag(0)
                                     .preferredColorScheme(/*@START_MENU_TOKEN@*/.dark/*@END_MENU_TOKEN@*/)
+                                    
                                     .onAppear(perform: {
                                         API().GetWatchList(){ response in
                                             if(response.isSuccessful){

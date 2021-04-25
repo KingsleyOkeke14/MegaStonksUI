@@ -134,7 +134,17 @@ struct WatchListPageView: View {
                 ScrollView{
                     ForEach(stocks.symbols, id: \.self){ stock in
                         NavigationLink(
-                            destination: StocksInfoPageView(),
+                            destination: StocksInfoPageView().onDisappear(perform: {
+                                API().GetWatchList(){ response in
+                                    if(response.isSuccessful){
+                                        let decoder = JSONDecoder()
+                                        if let jsonResponse = try? decoder.decode(StockListResponse.self, from: response.data!) {
+                                            print(jsonResponse)
+                                        }
+                                    }
+                                    
+                                }
+                            }),
                             tag: stock.id.uuidString,
                             selection: $selectedItem,
                             label: {StockSymbolView(stock: stock)})
