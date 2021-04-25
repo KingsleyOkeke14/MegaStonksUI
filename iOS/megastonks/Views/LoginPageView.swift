@@ -88,7 +88,7 @@ struct LoginPageView: View {
                             HStack{
                                 Spacer()
                                 NavigationLink(
-                                    destination: ForgotPasswordPageView()){
+                                    destination: ForgotPasswordPageView(emailField: "")){
                                     Text("Forgot Password?")
                                         .bold()
                                         .font(.custom("Apple SD Gothic Neo", fixedSize: 16))

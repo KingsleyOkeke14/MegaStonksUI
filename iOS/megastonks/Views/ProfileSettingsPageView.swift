@@ -37,7 +37,7 @@ struct ProfileSettingsPageView: View {
     
     let myColors = MyColors()
     var body: some View {
-        
+        NavigationView{
         VStack {
             Color.black
                 .ignoresSafeArea()
@@ -131,8 +131,10 @@ struct ProfileSettingsPageView: View {
             }
         )
         .navigationBarTitleDisplayMode(.inline)
+        .navigationBarTitle("")
+        .navigationBarHidden(true)
         
-        
+        }.navigationViewStyle(StackNavigationViewStyle())
     }
 }
 
@@ -141,6 +143,8 @@ struct ProfileInformationView: View {
     var infoHeader:String
     var info:String
     var isEditable:Bool
+    
+    @EnvironmentObject var userAuth: UserAuth
     
     var body: some View {
         VStack(spacing: 0.5){
@@ -158,11 +162,13 @@ struct ProfileInformationView: View {
                     .foregroundColor(.gray)
                 Spacer()
                 if(isEditable){
-                    Button(action: /*@START_MENU_TOKEN@*/{}/*@END_MENU_TOKEN@*/, label: {
-                        Image(systemName: "pencil")
-                            .font(.custom("Apple SD Gothic Neo", fixedSize: 18))
-                            .foregroundColor(.green)
-                    })
+                    NavigationLink(
+                        destination: ForgotPasswordPageView(emailField: userAuth.user.emailAddress).navigationBarTitle("").navigationBarHidden(true),
+                        label: {
+                            Image(systemName: "pencil")
+                                .font(.custom("Apple SD Gothic Neo", fixedSize: 18))
+                                .foregroundColor(.green)
+                        })
                 }
                 else{
                     Image(systemName: "pencil")

@@ -12,10 +12,16 @@ struct RootPageView: View {
     @EnvironmentObject var userAuth: UserAuth
 
     var body: some View {
-        if !userAuth.isLoggedin {
+        if (userAuth.isLoggedin == nil) {
+            LoginPageView().preferredColorScheme(/*@START_MENU_TOKEN@*/.dark/*@END_MENU_TOKEN@*/).redacted(reason: .placeholder)
+        }
+        else if(!userAuth.isLoggedin!){
             LoginPageView().preferredColorScheme(/*@START_MENU_TOKEN@*/.dark/*@END_MENU_TOKEN@*/)
-        } else {
-            AppPageView().environmentObject(userAuth)
+        }
+        else {
+            AppPageView().onAppear(perform: {
+                userAuth.refreshLogin()
+            }).environmentObject(userAuth)
         }
 
     }
@@ -23,7 +29,7 @@ struct RootPageView: View {
 
 struct RootPageView_Previews: PreviewProvider {
     static var previews: some View {
-        let userAuth = UserAuth()
-        RootPageView().environmentObject(userAuth)
+        RootPageView().environmentObject(UserAuth())
+        
     }
 }

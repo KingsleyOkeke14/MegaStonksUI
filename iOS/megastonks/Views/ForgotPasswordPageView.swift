@@ -16,16 +16,18 @@ struct ForgotPasswordPageView: View {
     
     @Environment(\.presentationMode) var presentation
     
-    @State var formText1:String = ""
+    @State var formText1:String
     @State var promptText:String = ""
     @State var isPromptError:Bool = false
     
     @State var isLoading:Bool = false
     
+    @EnvironmentObject var userAuth: UserAuth
+    
     let decoder = JSONDecoder()
     
     
-    init() {
+    init(emailField: String) {
         let coloredAppearance = UINavigationBarAppearance()
         
         // this overrides everything you have set up earlier.
@@ -39,6 +41,9 @@ struct ForgotPasswordPageView: View {
         
         UINavigationBar.appearance().tintColor = .green
         
+        _formText1 = State(initialValue: emailField)
+        
+        
     }
     
     var body: some View {
@@ -49,11 +54,10 @@ struct ForgotPasswordPageView: View {
                 VStack(spacing: 40){
 
                     VStack {
-                        FormView(formField: "Email Address", formText: $formText1)
-                        
+                            FormView(formField: "Email Address", formText: $formText1)
+    
                             PromptView(promptText: $promptText, isError: $isPromptError)
                         
-
                         Button(action: {
                             hideKeyboard()
                             promptText = ""
@@ -124,6 +128,6 @@ struct ForgotPasswordPageView: View {
 
 struct ForgotPasswordPageView_Previews: PreviewProvider {
     static var previews: some View {
-        ForgotPasswordPageView()
+        ForgotPasswordPageView(emailField: "").environmentObject(UserAuth())
     }
 }

@@ -84,6 +84,9 @@ struct API{
             if error != nil || data == nil {
                 print("Client error!")
                 print("Error is \(error!)")
+                result.isSuccessful = false
+                result.errorMessage = "Error contacting the server. Please Check your internet connection"
+                completion(result)
                 return
             }
             
@@ -166,6 +169,9 @@ struct API{
                 if error != nil || data == nil {
                     print("Client error!")
                     print("Error is \(error!)")
+                    result.isSuccessful = false
+                    result.errorMessage = "Error contacting the server. Please Check your internet connection"
+                    completion(result)
                     return
                 }
                 
@@ -242,6 +248,9 @@ struct API{
             if error != nil || data == nil {
                 print("Client error!")
                 print("Error is \(error!)")
+                result.isSuccessful = false
+                result.errorMessage = "Error contacting the server. Please Check your internet connection"
+                completion(result)
                 return
             }
             
@@ -288,6 +297,9 @@ struct API{
             if error != nil || data == nil {
                 print("Client error!")
                 print("Error is \(error!)")
+                result.isSuccessful = false
+                result.errorMessage = "Error contacting the server. Please Check your internet connection"
+                completion(result)
                 return
             }
             
@@ -329,6 +341,9 @@ struct API{
             if error != nil || data == nil {
                 print("Client error!")
                 print("Error is \(error!)")
+                result.isSuccessful = false
+                result.errorMessage = "Error contacting the server. Please Check your internet connection"
+                completion(result)
                 return
             }
             
@@ -371,6 +386,9 @@ struct API{
             if error != nil || data == nil {
                 print("Client error!")
                 print("Error is \(error!)")
+                result.isSuccessful = false
+                result.errorMessage = "Error contacting the server. Please Check your internet connection"
+                completion(result)
                 return
             }
             
@@ -412,6 +430,9 @@ struct API{
                 if error != nil || data == nil {
                     print("Client error!")
                     print("Error is \(error!)")
+                    result.isSuccessful = false
+                    result.errorMessage = "Error contacting the server. Please Check your internet connection"
+                    completion(result)
                     return
                 }
                 
@@ -466,6 +487,8 @@ struct API{
                 if error != nil || data == nil {
                     print("Client error!")
                     print("Error is \(error!)")
+                    result.isSuccessful = false
+                    result.errorMessage = "Error contacting the server. Please Check your internet connection"
                     return
                 }
                 
