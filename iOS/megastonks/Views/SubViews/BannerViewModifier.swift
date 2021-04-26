@@ -45,7 +45,7 @@ struct BannerViewModifier: ViewModifier {
     func body(content: Content) -> some View {
         ZStack {
             content
-            if(show){
+            if(show && !data.detail.isEmpty ){
                 VStack {
                     HStack(alignment: .center){
                         // Banner Content Here
@@ -91,7 +91,7 @@ struct BannerViewModifier: ViewModifier {
                         
                             
                         }.onAppear(perform: {
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 6) {
                                 withAnimation {
                                     self.show = false
                                 }

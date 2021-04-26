@@ -9,17 +9,21 @@ import SwiftUI
 
 struct WatchListPageView: View {
     
-    
+
     let myColors = MyColors()
     @State var searchText:String = ""
+    
     @State private var selectedItem: String?
-    @State private var listViewId = UUID()
+    
+    @EnvironmentObject var watchListObject:WatchListObject
+    
+    @State var stocksToSearch:[StockSymbol] = [StockSymbol]()
     
     @State var isEditing = false
     
     @Environment(\.presentationMode) var presentationMode
     
-    var stocks:StockSymbolModel = StockSymbolModel()
+    @EnvironmentObject var userAuth:UserAuth
     
     init() {
         let coloredAppearance = UINavigationBarAppearance()
@@ -37,6 +41,7 @@ struct WatchListPageView: View {
         let color = UIView()
         color.backgroundColor = .systemGray6
         UITableViewCell.appearance().selectedBackgroundView = color
+        
     }
     
     
@@ -47,7 +52,6 @@ struct WatchListPageView: View {
                     .scaleEffect(0.6)
                     .aspectRatio(contentMode: .fit)
                 HStack {
-                    
                     TextField("Tap to Start Search", text: $searchText)
                         .padding()
                         .padding(.horizontal, 24)
@@ -101,19 +105,24 @@ struct WatchListPageView: View {
                         }
                         .padding(.horizontal)
                         
-                        ScrollView{
-                            ForEach(stocks.symbols, id: \.self){ stock in
-                                NavigationLink(
-                                    destination: StocksInfoPageView(),
-                                    tag: stock.id.uuidString,
-                                    selection: $selectedItem,
-                                    label: {StockSymbolView(stock: stock)})
-                                
+                            if(!stocksToSearch.isEmpty){
+                                ScrollView{
+                                    ForEach(stocksToSearch, id: \.self){ stock in
+                                        NavigationLink(
+                                            destination: StocksInfoPageView(stock: stock),
+                                            tag: stock.id.uuidString,
+                                            selection: $selectedItem,
+                                            label: {StockSymbolView(stock: stock)})
+                                        
+                                    }
+                                    .padding()
+                                    
+                                    
+                                }
                             }
-                            .padding()
                             
-                            
-                        }
+                        
+                        Spacer()
                     }.frame(height: 300)
                 }
                 HStack{
@@ -131,44 +140,45 @@ struct WatchListPageView: View {
                 }
                 .padding(.horizontal)
                 
-                ScrollView{
-                    ForEach(stocks.symbols, id: \.self){ stock in
-                        NavigationLink(
-                            destination: StocksInfoPageView().onDisappear(perform: {
-                                API().GetWatchList(){ response in
-                                    if(response.isSuccessful){
-                                        let decoder = JSONDecoder()
-                                        if let jsonResponse = try? decoder.decode(StockListResponse.self, from: response.data!) {
-                                            print(jsonResponse)
-                                        }
-                                    }
-                                    
-                                }
-                            }),
-                            tag: stock.id.uuidString,
-                            selection: $selectedItem,
-                            label: {StockSymbolView(stock: stock)})
-                        
-                    }
-                    .padding()
-                    
+                if(!watchListObject.watchList.isEmpty){
+                        ScrollView{
+                            ForEach(watchListObject.watchList, id: \.self){ stock in
+                                
+                                NavigationLink(
+                                    destination: StocksInfoPageView(stock: stock).onDisappear(perform: {
+                                        watchListObject.updateWatchListAsync()
+                                    }),
+                                    tag: stock.id.uuidString,
+                                    selection: $selectedItem,
+                                    label: {StockSymbolView(stock: stock)})
+                                
+                            }
+                            .padding()
+                            
+                            
+                        }
                     
                 }
-                //.redacted(reason: .placeholder)
-                
-               
+                Spacer()
             }
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarTitle("")
             .navigationBarHidden(true)
-        }.navigationViewStyle(StackNavigationViewStyle())
-
+            
+        }.onAppear(perform: {
+            
+            watchListObject.updateWatchListAsync()
+        })
+        .banner(data: $watchListObject.bannerData, show: $watchListObject.showBanner)
+        .navigationViewStyle(StackNavigationViewStyle())
+        
     }
 }
 
 struct WatchListPageView_Previews: PreviewProvider {
     static var previews: some View {
         WatchListPageView()
+            .environmentObject(WatchListObject())
             .preferredColorScheme(.dark)
         
         

@@ -25,6 +25,8 @@
 		D02D7C2D25DC496600DAC07A /* ButtonSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D02D7C2C25DC496600DAC07A /* ButtonSelectionView.swift */; };
 		D031EB3F26118C7F001504B5 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = D031EB3E26118C7F001504B5 /* API.swift */; };
 		D031EB4326143B71001504B5 /* APIResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D031EB4226143B71001504B5 /* APIResponse.swift */; };
+		D0336E1F2635DD09004DB6A3 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0336E1E2635DD09004DB6A3 /* Extensions.swift */; };
+		D0336E252635F52E004DB6A3 /* AppEnvironmentObjects.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0336E242635F52E004DB6A3 /* AppEnvironmentObjects.swift */; };
 		D034870D25C7FE3D00CFCAB2 /* RegisterPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D034870C25C7FE3D00CFCAB2 /* RegisterPageView.swift */; };
 		D034871225C80DA500CFCAB2 /* ButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D034871125C80DA500CFCAB2 /* ButtonView.swift */; };
 		D0369D1A25C76B1900718A52 /* megastonksApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0369D1925C76B1900718A52 /* megastonksApp.swift */; };
@@ -76,6 +78,8 @@
 		D02D7C2C25DC496600DAC07A /* ButtonSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonSelectionView.swift; sourceTree = "<group>"; };
 		D031EB3E26118C7F001504B5 /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
 		D031EB4226143B71001504B5 /* APIResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIResponse.swift; sourceTree = "<group>"; };
+		D0336E1E2635DD09004DB6A3 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		D0336E242635F52E004DB6A3 /* AppEnvironmentObjects.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppEnvironmentObjects.swift; sourceTree = "<group>"; };
 		D034870C25C7FE3D00CFCAB2 /* RegisterPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterPageView.swift; sourceTree = "<group>"; };
 		D034871125C80DA500CFCAB2 /* ButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonView.swift; sourceTree = "<group>"; };
 		D0369D1625C76B1900718A52 /* megastonks.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = megastonks.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -141,6 +145,15 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
+		D0336E1D2635DCE5004DB6A3 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				D0336E1E2635DD09004DB6A3 /* Extensions.swift */,
+				D0336E242635F52E004DB6A3 /* AppEnvironmentObjects.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
 		D034871425C80DAE00CFCAB2 /* SubViews */ = {
 			isa = PBXGroup;
 			children = (
@@ -172,6 +185,7 @@
 				D0369D1925C76B1900718A52 /* megastonksApp.swift */,
 				D0369D2B25C76FCD00718A52 /* ViewModels */,
 				D0369D2A25C76FC700718A52 /* Views */,
+				D0336E1D2635DCE5004DB6A3 /* Helpers */,
 				D0369D2925C76FB300718A52 /* Models */,
 				D0369D1825C76B1900718A52 /* megastonks */,
 				D031EB3D26118BAA001504B5 /* Service */,
@@ -333,6 +347,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D0336E252635F52E004DB6A3 /* AppEnvironmentObjects.swift in Sources */,
 				D0FC0FF725D2287600366B26 /* StocksInfoPageView.swift in Sources */,
 				D0A3125926339880008993C2 /* PromptView.swift in Sources */,
 				D06B311825C7BA5200A37C08 /* SecretFormView.swift in Sources */,
@@ -364,6 +379,7 @@
 				D0FC100025D2EFB400366B26 /* MyHoldingsView.swift in Sources */,
 				D0D1933B25CCCFAF00D83D87 /* ChartView.swift in Sources */,
 				D057841B25C88C5E0039E6CD /* OnBoardCard.swift in Sources */,
+				D0336E1F2635DD09004DB6A3 /* Extensions.swift in Sources */,
 				D00CA77B25CA40C400232915 /* SearchBarView.swift in Sources */,
 				D057842325C894530039E6CD /* OnBoardPageView.swift in Sources */,
 				D004686025D4D2CD006C60E9 /* ProfilePageView.swift in Sources */,

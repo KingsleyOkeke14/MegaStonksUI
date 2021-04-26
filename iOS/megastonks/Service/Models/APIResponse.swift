@@ -11,6 +11,7 @@ struct RequestResponse{
     var isSuccessful:Bool = false
     var data:Data? = nil
     var errorMessage:String = ""
+    var watchListResponse:[StockSymbol] = [StockSymbol]()
 }
 
 struct AuthenticateResponse: Codable {

@@ -7,19 +7,19 @@
 
 import Foundation
 struct StockSymbol: Identifiable, Hashable{
-    var id = UUID()
-    let stockId: Int
-    let symbol, name, description: String
-    let price: Double
-    let currency: String
-    let changesPercentage, change, dayLow, dayHigh: Double
-    let yearHigh, yearLow: Double
-    let marketCap: Int
-    let priceAvg50, priceAvg200: Double
-    let volume, avgVolume: Int
-    let exchange: String
-    let open, previousClose: Double
-    let isInWatchList, isInPortfolio: Bool
+    var id:UUID = UUID()
+    var stockId: Int
+    var symbol, name, description: String
+    var price: Double
+    var currency: String
+    var changesPercentage, change, dayLow, dayHigh: Double
+    var yearHigh, yearLow: Double
+    var marketCap: Int
+    var priceAvg50, priceAvg200: Double
+    var volume, avgVolume: Int
+    var exchange: String
+    var open, previousClose: Double
+    var isInWatchList, isInPortfolio: Bool
     
     init(_ stockElement:StockElementResponse){
         stockId = stockElement.stockId
@@ -44,5 +44,20 @@ struct StockSymbol: Identifiable, Hashable{
         previousClose = stockElement.previousClose
         isInWatchList = stockElement.isInWatchList
         isInPortfolio = stockElement.isInPortfolio
+    }
+    
+}
+
+struct StockSymbols{
+    
+    var stocks: [StockSymbol] = [StockSymbol]()
+    
+    init(stockElementArray:[StockElementResponse]){
+        
+        for stock in stockElementArray{
+            
+            let stockToAdd = StockSymbol(stock)
+            stocks.append(stockToAdd)
+        }
     }
 }

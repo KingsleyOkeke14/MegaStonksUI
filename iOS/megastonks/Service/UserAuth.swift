@@ -12,9 +12,12 @@ import SwiftKeychainWrapper
 class UserAuth: ObservableObject {
     @Published var isLoggedin:Bool?
     @Published var user:User = User(firstName: "", lastName: "", emailAddress: "", currency: "", isOnBoarded: true)
+    @Published var showAuthError:Bool = false
+    
+    
     
     init() {
-      refreshLogin()
+        refreshLogin(isFirstLogin: true)
     }
     
     func login(email:String, password:String, completion: @escaping (RequestResponse) -> ()) {
@@ -57,7 +60,8 @@ class UserAuth: ObservableObject {
         }
     }
     
-    func refreshLogin(){
+    @objc func refreshLogin(isFirstLogin: Bool = false){
+        print("Refresh Login...")
         if let refreshToken: String = KeychainWrapper.standard.string(forKey: "refreshToken"){
             API().RefreshToken(token: refreshToken){ result in
                 if(result.isSuccessful){
@@ -66,18 +70,37 @@ class UserAuth: ObservableObject {
                     DispatchQueue.main.async {
                         self.user = User(firstName: jsonResponse.firstName, lastName: jsonResponse.lastName, emailAddress: jsonResponse.email, currency: jsonResponse.currency, isOnBoarded: jsonResponse.isOnboarded)
                         self.isLoggedin = true
+                        print("Login Successfull")
                     }
                 }
                 else{
-                    DispatchQueue.main.async {
-                        self.user = User(firstName: "", lastName: "", emailAddress: "", currency: "", isOnBoarded: true)
-                        self.isLoggedin = false
+                    
+                    if(isFirstLogin){
+                        DispatchQueue.main.async {
+                            self.user = User(firstName: "", lastName: "", emailAddress: "", currency: "", isOnBoarded: true)
+                            self.isLoggedin = false
+
+                        }
                     }
+                    else{
+                        DispatchQueue.main.async {
+                            self.showAuthError = true
+                        }
+        
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 6) {
+                            self.user = User(firstName: "", lastName: "", emailAddress: "", currency: "", isOnBoarded: true)
+                            self.isLoggedin = false
+                            self.showAuthError = false
+                            print("Login Failed #1")
+                        }
+                    }
+
                 }
             }
         }
         else{
             self.isLoggedin = false
+            print("Login Failed #2")
         }
         
     }

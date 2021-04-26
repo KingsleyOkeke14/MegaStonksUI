@@ -16,7 +16,6 @@ struct OnBoardPageView: View {
     var cards:[OnBoardCard] = OnBoardCardModel().cards
     
     var body: some View {
-        
         Color.black
             .ignoresSafeArea() // Ignore just for the color
             .overlay(

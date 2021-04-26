@@ -11,10 +11,11 @@ struct StockInfoView: View {
     
     let mycolors = MyColors()
     
+    @Binding var stockSymbol: StockSymbol
     
     var body: some View {
         HStack{
-            VStack{
+            VStack(spacing: 2){
                 
                 
                 ZStack{
@@ -25,17 +26,17 @@ struct StockInfoView: View {
                     Circle()
                         .fill(mycolors.grayColor)
                         .frame(width: 80, height: 80)
-                    Text("DOC")
+                    Text(stockSymbol.symbol)
                         .font(.custom("Helvetica", fixedSize: 20))
                         .bold()
                         .foregroundColor(.white)
-                        .lineLimit(2)
+                        .lineLimit(1)
                         .minimumScaleFactor(0.5)
                         .frame(width: 60, height: 60, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
                         .padding()
                 }
                 
-                Text("CloudMD Software & Services Inc ")
+                Text(stockSymbol.name)
                     .font(.custom("Helvetica", fixedSize: 18))
                     .foregroundColor(.white)
                     .bold()
@@ -44,7 +45,7 @@ struct StockInfoView: View {
                 
                 
                 HStack {
-                    Text("$247.20")
+                    Text(stockSymbol.price.formatPrice())
                         .foregroundColor(.white)
                         .font(.custom("Verdana", fixedSize: 24))
                         .bold()
@@ -65,7 +66,7 @@ struct StockInfoView: View {
 
 struct StockInfoView_Previews: PreviewProvider {
     static var previews: some View {
-        StockInfoView()
+        StockInfoView(stockSymbol: Binding.constant(StockSymbolModel().symbols[0]))
             .preferredColorScheme(.dark)
     }
 }

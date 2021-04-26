@@ -48,8 +48,8 @@ struct LoginPageView: View {
                         Image("megastonkslogo")
                             .scaleEffect(0.8)
                             .aspectRatio(contentMode: .fit)
-                        Spacer(minLength: 80)
-                        
+                        Spacer(minLength: 100)
+                    
                         FormView(formField: "Email Address", formText: $emailText)
                         SecretFormView(formField: "Password", secretText: $passwordText)
                         Text(errorMessage)

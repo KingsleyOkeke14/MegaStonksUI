@@ -53,13 +53,15 @@ struct AppUrlRequest {
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue("application/json", forHTTPHeaderField: "Accept")
     }
-    
 }
 
 struct API{
     let session = URLSession.shared
     let apiRoutes = APIRoutes()
     let decoder = JSONDecoder()
+    
+    
+    
     
     func Authenticate(emailAddress: String, password: String, completion: @escaping (RequestResponse) -> ()) {
         
@@ -445,7 +447,6 @@ struct API{
                     }
                     else if(httpResponse.statusCode == 401){
                         print("Unauthorized")
-                        print(response!)
                         
                     }
                     else{
@@ -482,7 +483,7 @@ struct API{
             let task = session.dataTask(with: request) { (data, response, error) in
                 result.data = data
                 
-                if error != nil || data == nil {
+                if error != nil  {
                     print("Client error!")
                     print("Error is \(error!)")
                     result.isSuccessful = false
@@ -493,13 +494,19 @@ struct API{
                 
                 if let httpResponse = response as? HTTPURLResponse{
                     
-                    if httpResponse.statusCode == 200 ||  httpResponse.statusCode == 201{
+                    if httpResponse.statusCode == 200{
                         
                         result.isSuccessful = true
                     }
+                    else if(httpResponse.statusCode == 201){
+                        result.isSuccessful = true
+                        result.data = Data()
+                    }
                     else if(httpResponse.statusCode == 401){
-                        print("Unauthorized")
-                        print(response!)
+                        DispatchQueue.main.async {
+                            NotificationCenter.default.post(name: .didAuthTokenExpire, object: nil)
+                            print("401 Unauthorized")
+                        }
                         
                     }
                     else{
