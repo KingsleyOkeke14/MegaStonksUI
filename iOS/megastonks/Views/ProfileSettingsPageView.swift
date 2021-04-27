@@ -30,7 +30,7 @@ struct ProfileSettingsPageView: View {
         UINavigationBar.appearance().standardAppearance = coloredAppearance
         UINavigationBar.appearance().scrollEdgeAppearance = coloredAppearance
         
-        UINavigationBar.appearance().tintColor = .green
+        UINavigationBar.appearance().tintColor = .systemGray4
     }
     
 

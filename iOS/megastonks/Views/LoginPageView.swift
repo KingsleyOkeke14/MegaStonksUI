@@ -34,7 +34,7 @@ struct LoginPageView: View {
         UINavigationBar.appearance().standardAppearance = coloredAppearance
         UINavigationBar.appearance().scrollEdgeAppearance = coloredAppearance
         
-        UINavigationBar.appearance().tintColor = .green
+        UINavigationBar.appearance().tintColor = .systemGray4
     }
     
     
@@ -49,7 +49,7 @@ struct LoginPageView: View {
                             .scaleEffect(0.8)
                             .aspectRatio(contentMode: .fit)
                         Spacer(minLength: 100)
-                    
+                        
                         FormView(formField: "Email Address", formText: $emailText)
                         SecretFormView(formField: "Password", secretText: $passwordText)
                         Text(errorMessage)
@@ -64,7 +64,6 @@ struct LoginPageView: View {
                             if(emailText.isEmpty || passwordText.isEmpty){
                                 errorMessage = "Email or Address Field cannot be Empty. Please re-enter credentials"
                                 isLoading = false
-                                
                             }
                             else if(!emailText.isValidEmail){
                                 errorMessage = "Invalid Email Address"
@@ -77,7 +76,6 @@ struct LoginPageView: View {
                                     isLoading = false
                                 }
                             }
-                            
                         }, label: {
                             ButtonView(text: "Login", textSize: 22, frameWidth: 140, frameHeight: 34)
                             
@@ -98,7 +96,7 @@ struct LoginPageView: View {
                                         .padding(.trailing)
                                     
                                 }
-                
+                                
                             }
                             HStack{
                                 Spacer()
@@ -114,15 +112,9 @@ struct LoginPageView: View {
                                         .padding()
                                         .padding(.trailing)
                                 }
-                                
-                                
-                                
                             }
-                            
-                            
                             Spacer()
                         }
-                        
                         
                     }.padding()
                     .overlay(
@@ -130,11 +122,7 @@ struct LoginPageView: View {
                         VStack{
                             if(isLoading){
                                 LoadingIndicatorView()
-                            }
-                            
-                            
-                            
-                            
+                            } 
                         }
                     )
                 )

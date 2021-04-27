@@ -44,7 +44,7 @@ class WatchListObject: ObservableObject {
             response = result
             if(result.isSuccessful){
                 let decoder = JSONDecoder()
-                if let jsonResponse = try? decoder.decode(StockListResponse.self, from: result.data!) {
+                 if let jsonResponse = try? decoder.decode(StockListResponse.self, from: result.data!) {
                     response.watchListResponse = StockSymbols(stockElementArray: jsonResponse).stocks
                     if(response.watchListResponse.count != self.watchList.count){
                         DispatchQueue.main.async {
@@ -53,6 +53,13 @@ class WatchListObject: ObservableObject {
                     }
 
                 }
+                 else{
+                    DispatchQueue.main.async {
+                        self.bannerData.detail = "Error Updating Watchlist. Please contact Support if the problem persists. (hello@megastonks.com)"
+                        self.bannerData.type = .Error
+                        self.showBanner = true
+                    }
+                 }
                 
             }
             

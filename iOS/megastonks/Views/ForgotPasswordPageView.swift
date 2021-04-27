@@ -39,7 +39,7 @@ struct ForgotPasswordPageView: View {
         UINavigationBar.appearance().standardAppearance = coloredAppearance
         UINavigationBar.appearance().scrollEdgeAppearance = coloredAppearance
         
-        UINavigationBar.appearance().tintColor = .green
+        UINavigationBar.appearance().tintColor = .systemGray4
         
         _formText1 = State(initialValue: emailField)
         

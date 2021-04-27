@@ -12,9 +12,16 @@ struct ChartView: View {
     
     let myColors = MyColors()
     let greenStyle = ChartStyle(backgroundColor: .green,
-                               foregroundColor: [ColorGradient(Color.init(red: 72/255, green: 175/255, blue: 56/255), Color.init(red: 72/255, green: 175/255, blue: 56/255))])
+                               foregroundColor: [ColorGradient(Color.green, Color.green)])
     
-    @State var data1D = [("AMonday 1st 2020", 2.0), ("BMonday 1st 2020", 4.0), ("CMonday 1st 2020", 6.0), ("DMonday 1st 2020", 8.0), ("Monday 1st 2020", 10.0), ("Monday 1st 2020", 12.0), ("EMonday 1st 2020", 8.0), ("FMonday 1st 2020", 6.0), ("GMonday 1st 2020", 4.0), ("HMonday 1st 2020", 2.0), ("IMonday 1st 2020", 6.0), ("J", 4.0), ("K", 8.0), ("LMonday 1st 2020", 12.0), ("MMonday 1st 2020", 14.0), ("NMonday 1st 2020", 20.0), ("OMonday 1st 2020", 22.0), ("PMonday 1st 2020", 21.0), ("QMonday 1st 2020", 20.0), ("RMonday 1st 2020", 24.0), ("SMonday 1st 2020", 24.8), ("TMonday 1st 2020", 26.0), ("UMonday 1st 2020", 24.0), ("VMonday 1st 2020", 26.0), ("WMonday 1st 2020", 28.0), ("XMonday 1st 2020", 29.0), ("YMonday 1st 2020", 30.0), ("ZMonday 1st 2020", 34.0), ("ABMonday 1st 2020", 32.0), ("CDMonday 1st 2020", 38.0)]
+    let redStyle = ChartStyle(backgroundColor: .red,
+                              foregroundColor: [ColorGradient(Color.red, Color.red)])
+    
+    @State var isStockGaining:Bool
+    
+    @Binding var themeColor: Color
+    
+    @State var data1D = [("AMonday 1st 2020", 2.0), ("BMonday 1st 2020", 4.0), ("CMonday 1st 2020", 6.0), ("DMonday 1st 2020", 8.0), ("Monday 1st 2020", 10.0), ("Monday 1st 2020", 12.0), ("EMonday 1st 2020", 8.0), ("FMonday 1st 2020", 6.0), ("GMonday 1st 2020", 4.0), ("HMonday 1st 2020", 2.0), ("IMonday 1st 2020", 6.0), ("J", 4.0), ("K", 8.0), ("LMonday 1st 2020", 12.0), ("MMonday 1st 2020", 14.0), ("NMonday 1st 2020", 20.0), ("OMonday 1st 2020", 22.0), ("PMonday 1st 2020", 21.0), ("QMonday 1st 2020", 20.0), ("RMonday 1st 2020", 24.0), ("SMonday 1st 2020", 24.8), ("TMonday 1st 2020", 26.0), ("UMonday 1st 2020", 24.0), ("VMonday 1st 2020", 26.0), ("WMonday 1st 2020", 28.0), ("XMonday 1st 2020", 29.0), ("YMonday 1st 2020", 30.0), ("ZMonday 1st 2020", 34.0), ("ABMonday 1st 2020", 32.0), ("CDMonday 1st 2020", 6)]
     
     @State var data5D = [("AMonday 1st 2020", 2.0), ("BMonday 1st 2020", 4.0), ("CMonday 1st 2020", 6.0), ("DMonday 1st 2020", 8.0), ("Monday 1st 2020", 10.0), ("Monday 1st 2020", 12.0), ("EMonday 1st 2020", 8.0), ("FMonday 1st 2020", 6.0), ("GMonday 1st 2020", 4.0), ("HMonday 1st 2020", 2.0), ("IMonday 1st 2020", 6.0), ("J", 4.0), ("K", 8.0), ("LMonday 1st 2020", 12.0), ("MMonday 1st 2020", 14.0), ("NMonday 1st 2020", 20.0), ("OMonday 1st 2020", 22.0), ("PMonday 1st 2020", 21.0), ("QMonday 1st 2020", 20.0), ("RMonday 1st 2020", 24.0), ("SMonday 1st 2020", 24.8), ("TMonday 1st 2020", 26.0), ("UMonday 1st 2020", 24.0), ("VMonday 1st 2020", 26.0), ("WMonday 1st 2020", 28.0), ("XMonday 1st 2020", 29.0), ("YMonday 1st 2020", 30.0), ("ZMonday 1st 2020", 34.0), ("ABMonday 1st 2020", 32.0), ("CDMonday 1st 2020", 38.0)]
     
@@ -36,28 +43,11 @@ struct ChartView: View {
         HStack {
             VStack(spacing: 0){
                 HStack{
+                    Text(String(stock.change.formatPrice() + "  (" + stock.changesPercentage.formatPercentChange() + "%)"))
+                            .font(.custom("Verdana", fixedSize: 16))
+                            .bold()
+                            .foregroundColor(themeColor)
                     
-                        
-                    if(stock.change > 0){
-                        Text(String(stock.change.formatPrice() + "  (" + stock.changesPercentage.formatPercentChange() + "%)"))
-                            .font(.custom("Verdana", fixedSize: 16))
-                            .bold()
-                            .foregroundColor(.green)
-                        
-                    }
-                    else if(stock.change < 0){
-                        Text(String(stock.change.formatPrice() + "  (" + stock.changesPercentage.formatPercentChange() + "%)"))
-                            .font(.custom("Verdana", fixedSize: 16))
-                            .bold()
-                            .foregroundColor(.red)
-                    }
-                    else if(stock.change == 0){
-                        Text(String(stock.change.formatPrice() + "  (" + stock.changesPercentage.formatPercentChange() + "%)"))
-                            .font(.custom("Verdana", fixedSize: 16))
-                            .bold()
-                            .foregroundColor(.gray)
-                    }
-
                     Text("Today")
                         .foregroundColor(.white)
                         .font(.custom("Verdana", fixedSize: 12))
@@ -68,16 +58,13 @@ struct ChartView: View {
                     ChartLabel("")
                         .background(Color.black)
                         .foregroundColor(.white)
-                        
+
                     LineChart()
                         .background(Color.black)
-                        
-                        
-                        
                 }
                 .data(data1D)
-                .chartStyle(greenStyle)
-                ChartButtonView(buttonList: chartButtonList)
+                .chartStyle(isStockGaining ? greenStyle : redStyle)
+            
             }.background(Color.black)
         }
     }
@@ -85,7 +72,6 @@ struct ChartView: View {
 
 struct ChartView_Previews: PreviewProvider {
     static var previews: some View {
-        let buttonTexts = [("1D", true), ("5D", false), ("1M", false), ("3M", false), ("1Y", false), ("5Y", false)]
-        ChartView(stock: StockSymbolModel().symbols[0], chartButtonList: buttonTexts )
+        ChartView(isStockGaining: false, themeColor: Binding.constant(MyColors().redColor), stock: StockSymbolModel().symbols[1])
     }
 }

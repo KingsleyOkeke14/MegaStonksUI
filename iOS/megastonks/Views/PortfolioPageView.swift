@@ -23,7 +23,7 @@ struct PortfolioPageView: View {
         UINavigationBar.appearance().standardAppearance = coloredAppearance
         UINavigationBar.appearance().scrollEdgeAppearance = coloredAppearance
         
-        UINavigationBar.appearance().tintColor = .green
+        UINavigationBar.appearance().tintColor = .systemGray4
     }
     
     var body: some View {

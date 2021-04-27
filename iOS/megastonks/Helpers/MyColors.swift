@@ -15,5 +15,8 @@ struct MyColors{
     let lightGrayColor2:Color = Color.init(red: 200/255, green: 200/255, blue: 200/255)
     let lightGreenColor:Color = Color.init(red: 37/255, green: 52/255, blue: 35/255)
     let buttonStrokeGreenColor:Color = Color.init(red: 72/255, green: 175/255, blue: 56/255)
+    //let redColor:Color = Color.init(red: 255/255, green: 0/255, blue: 0/255)
+    let redColor:Color = Color.init(red: 221/255, green: 77/255, blue: 77/255)
+    
   
 }

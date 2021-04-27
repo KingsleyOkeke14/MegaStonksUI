@@ -13,6 +13,8 @@ struct StockInfoView: View {
     
     @Binding var stockSymbol: StockSymbol
     
+    @Binding var highlightColor:Color
+    
     var body: some View {
         HStack{
             VStack(spacing: 2){
@@ -20,9 +22,9 @@ struct StockInfoView: View {
                 
                 ZStack{
                     Circle()
-                        .stroke(Color.green, lineWidth: 4)
+                        .stroke(highlightColor, lineWidth: 4)
                         .frame(width: 80, height: 80)
-                        .shadow(color: Color.green, radius: 6, x: 4, y: 4)
+                        .shadow(color: highlightColor, radius: 6, x: 4, y: 4)
                     Circle()
                         .fill(mycolors.grayColor)
                         .frame(width: 80, height: 80)
@@ -50,9 +52,9 @@ struct StockInfoView: View {
                         .font(.custom("Verdana", fixedSize: 24))
                         .bold()
                         +
-                        Text(" CAD")
+                        Text(" \(stockSymbol.currency)")
                         .foregroundColor(.white)
-                        .font(.custom("Verdana", fixedSize: 18))
+                        .font(.custom("Verdana", fixedSize: 16))
                         .bold()
                         .baselineOffset(0)
                     
@@ -66,7 +68,7 @@ struct StockInfoView: View {
 
 struct StockInfoView_Previews: PreviewProvider {
     static var previews: some View {
-        StockInfoView(stockSymbol: Binding.constant(StockSymbolModel().symbols[0]))
+        StockInfoView(stockSymbol: Binding.constant(StockSymbolModel().symbols[0]), highlightColor: Binding.constant(Color.init(red: 255/255, green: 0/255, blue: 0/255)))
             .preferredColorScheme(.dark)
     }
 }

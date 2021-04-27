@@ -8,17 +8,17 @@
 import SwiftUI
 
 struct MyHoldingsView: View {
+    
+    @Binding var themeColor:Color
+    
     let myColors = MyColors()
     var body: some View {
-//        Color.black
-//            .ignoresSafeArea()
-//            .overlay(
                 VStack{
                     VStack(alignment: .leading, spacing: 2){
                         Text("My Holdings")
                             .font(.custom("Apple SD Gothic Neo", fixedSize: 22))
                             .bold()
-                            .foregroundColor(myColors.greenColor)
+                            .foregroundColor(themeColor)
                             .padding(.top)
                         
                         Rectangle()
@@ -27,22 +27,19 @@ struct MyHoldingsView: View {
                             .edgesIgnoringSafeArea(.horizontal)
                         
                     }
-                    DoubleColumnedView(column1Field: "My Shares", column1Text: "188", column2Field: "Market Value", column2Text: "$464.36", isPortfolio: false)
-                    DoubleColumnedView(column1Field: "Average Cost", column1Text: "$1.83", column2Field: "% of My Portfolio", column2Text: "10.00%", isPortfolio: true)
+                    DoubleColumnedView(themeColor: $themeColor, column1Field: "My Shares", column1Text: "188", column2Field: "Market Value", column2Text: "$464.36", isPortfolio: false)
+                    DoubleColumnedView(themeColor: $themeColor, column1Field: "Average Cost", column1Text: "$1.83", column2Field: "% of My Portfolio", column2Text: "10.00%", isPortfolio: true)
                     SingleColumnView(columnField: "Today's Return", textField: "+$2.88 (+10.12%)")
                     SingleColumnView(columnField: "Total Return", textField: "$200.88 (+25.46%)")
                 }.padding(.horizontal)
-                
-                
-                
-                
-                
-//            )
         
     }
 }
 
 struct DoubleColumnedView: View {
+    
+    @Binding var themeColor:Color
+    
     let myColors = MyColors()
     var column1Field:String
     var column1Text:String
@@ -74,13 +71,27 @@ struct DoubleColumnedView: View {
                                 .bold()
                                 .foregroundColor(myColors.lightGrayColor)
                             HStack{
-                                RadialChartView(percentage: 0.4, width: 20, height: 20, lineWidth: 2, lineCapStyle: CGLineCap.round).offset(x: 0, y: 2)
+                                
+                                ZStack{
+                                    Circle()
+                                        .stroke(lineWidth: 2)
+                                        .opacity(0.3)
+                                        .foregroundColor(themeColor)
+                                    
+                                    Circle()
+                                        .trim(from: 0.0, to: 0.4)
+                                        .stroke(style: StrokeStyle(lineWidth: 2, lineCap: CGLineCap.round, lineJoin: .round))
+                                        .foregroundColor(themeColor)
+                                        .rotationEffect(Angle(degrees: 270))
+                                        .animation(.linear)
+                                }.frame(width: 20, height: 20, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                                
+                                //RadialChartView(percentage: 0.4, width: 20, height: 20, lineWidth: 2, lineCapStyle: CGLineCap.round).offset(x: 0, y: 2)
                                 Text(column2Text)
                                     .foregroundColor(.white)
                                     .font(.custom("Verdana", fixedSize: 20))
                             }
                         }
-
                     }
                     else{
                         Text(column2Field)
@@ -132,7 +143,7 @@ struct SingleColumnView: View {
 
 struct MyHoldingsView_Previews: PreviewProvider {
     static var previews: some View {
-        MyHoldingsView()
+        MyHoldingsView(themeColor: Binding.constant(Color.red))
             .preferredColorScheme(.dark)
     }
 }

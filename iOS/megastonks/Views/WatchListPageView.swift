@@ -19,6 +19,7 @@ struct WatchListPageView: View {
     
     @State var stocksToSearch:[StockSymbol] = [StockSymbol]()
     
+    
     @State var isEditing = false
     
     @Environment(\.presentationMode) var presentationMode
@@ -37,13 +38,12 @@ struct WatchListPageView: View {
         UINavigationBar.appearance().standardAppearance = coloredAppearance
         UINavigationBar.appearance().scrollEdgeAppearance = coloredAppearance
         
-        UINavigationBar.appearance().tintColor = .green
+        UINavigationBar.appearance().tintColor = .systemGray4
+        
         let color = UIView()
         color.backgroundColor = .systemGray6
         UITableViewCell.appearance().selectedBackgroundView = color
-        
     }
-    
     
     var body: some View {
         NavigationView{

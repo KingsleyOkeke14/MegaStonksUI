@@ -522,8 +522,6 @@ struct API{
                     }
                 }
                 completion(result)
-                
-                
             }
             task.resume()
             

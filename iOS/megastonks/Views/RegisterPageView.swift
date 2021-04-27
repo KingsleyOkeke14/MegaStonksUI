@@ -98,7 +98,7 @@ struct RegisterPageView: View {
                                                     .bold()
                                             }.padding(.horizontal)
                                             HStack{
-                                                ButtonSelectionView(activeSelction: $selectedCurrency)
+                                                ButtonSelectionView(activeSelction: $selectedCurrency, buttonColor: myColors.greenColor)
                                             }
                                         }
                                     }.padding(.horizontal, 10)

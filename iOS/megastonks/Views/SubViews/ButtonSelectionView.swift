@@ -12,6 +12,7 @@ struct ButtonSelectionView: View {
     
     @State var buttonList: [(buttonName: String, buttonState: Bool)] = [("CAD", true), ("USD", false)]
     @Binding var activeSelction:String
+    @State var buttonColor:Color
     
     func changeActiveButton(activeButton: Int){
         
@@ -33,7 +34,7 @@ struct ButtonSelectionView: View {
                         
                         
                     }, label: {
-                        SelectButton(buttonText: buttonList[0].buttonName, buttonSelected: $buttonList[0].buttonState)
+                        SelectButton(buttonText: buttonList[0].buttonName, buttonSelected: $buttonList[0].buttonState, buttonColor: $buttonColor)
                     })
                     Spacer()
                     Button(action: {
@@ -43,7 +44,7 @@ struct ButtonSelectionView: View {
                         
                     },
                     label: {
-                        SelectButton(buttonText: buttonList[1].buttonName, buttonSelected: $buttonList[1].buttonState)
+                        SelectButton(buttonText: buttonList[1].buttonName, buttonSelected: $buttonList[1].buttonState, buttonColor: $buttonColor)
                     })
                     Spacer()
                 }
@@ -57,6 +58,7 @@ struct SelectButton: View {
     let myColors = MyColors()
     var buttonText:String = ""
     @Binding var buttonSelected:Bool
+    @Binding var buttonColor:Color
     
     var body: some View {
         HStack{
@@ -65,12 +67,12 @@ struct SelectButton: View {
                     .foregroundColor(.black)
                     .padding(.vertical, 8)
                     .padding(.horizontal, 16)
-                    .background(myColors.greenColor)
+                    .background(buttonColor)
                     .cornerRadius(12)
             }
             else{
                 Text(buttonText)
-                    .foregroundColor(myColors.greenColor)
+                    .foregroundColor(buttonColor)
                     .padding(.vertical, 8)
                     .padding(.horizontal, 16)
                     .background(myColors.grayColor)
@@ -85,7 +87,7 @@ struct SelectButton: View {
 
 struct ButtonSelectionView_Previews: PreviewProvider {
     static var previews: some View {
-        ButtonSelectionView(activeSelction: Binding.constant(""))
+        ButtonSelectionView(activeSelction: Binding.constant(""), buttonColor: Color.green)
         
     }
 }

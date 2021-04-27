@@ -119,8 +119,6 @@ struct StockSymbolView: View {
                     }
             }
             .frame(height: 54, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-        
-//            )
     }
 }
 
