@@ -28,4 +28,11 @@ struct StockSymbolModel{
 //        StockSymbol(StockElementResponse(stockId: 14, symbol: "TSLA", name: "Tesla Inc", description: "Test", price: 200.0, currency: "USD", changesPercentage: 10, change: 100, dayLow: 18, dayHigh: 22, yearHigh: 28, yearLow: 8, marketCap: 1000000, priceAvg50: 20, priceAvg200: 22, volume: 2000000, avgVolume: 400000000, exchange: "NASDAQ", open: 220, previousClose: 0, isInWatchList: true, isInPortfolio: false))
     ]
     
+    var stockSearch:[StockSearchResult] = [
+        StockSearchResult(StockSearchElementResponse(id: 20, symbol: "DOC", companyName: "Document Tracking", marketCap: 100000, sector: "Pharma", industry: "WEst", beta: 0, price: 20.000, lastAnnualDividend: 1, volume: 1, exchange: "", exchangeShortName: "TSX-V", country: "", isEtf: false, isActivelyTrading: false, lastUpdated: "")),
+        StockSearchResult(StockSearchElementResponse(id: 40, symbol: "AAPL", companyName: "Apple INC", marketCap: 100000, sector: "Tech", industry: "Tech", beta: 0, price: 220.246, lastAnnualDividend: 1, volume: 1, exchange: "", exchangeShortName: "NYSE", country: "", isEtf: false, isActivelyTrading: false, lastUpdated: ""))
+    
+    
+    ]
+    
 }

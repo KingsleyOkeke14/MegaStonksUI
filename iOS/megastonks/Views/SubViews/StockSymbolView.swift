@@ -50,41 +50,29 @@ struct StockSymbolView: View {
 
                             Spacer()
                             VStack(spacing: 4){
-                                if(stock.change > 0){
+                                if(stock.change >= 0){
                                     Image(systemName: "arrow.up.circle.fill")
                                         .font(.custom("Apple SD Gothic Neo", fixedSize: 12))
                                         .foregroundColor(.green)
                                         .scaleEffect(1.4)
                                 }
-                                else if(stock.change < 0)
-                                {
+                                else{
                                     Image(systemName:  "arrow.down.circle.fill")
                                         .font(.custom("Apple SD Gothic Neo", fixedSize: 12))
                                         .foregroundColor(.red)
                                         .scaleEffect(1.4)
                                 }
-                                else if(stock.change == 0){
-                                    Image(systemName:  "circle.fill")
-                                        .font(.custom("Apple SD Gothic Neo", fixedSize: 12))
-                                        .foregroundColor(.gray)
-                                        .scaleEffect(1.4)
-                                }
                                     
-                                if(stock.change > 0){
+                                if(stock.change >= 0){
                                     Text(String("(" +  stock.changesPercentage.formatPercentChange() + "%)"))
                                         .font(.custom("Helvetica", fixedSize: 14))
                                         .foregroundColor(.green)
                                     
                                 }
-                                else if(stock.change < 0){
+                                else{
                                     Text(String("(" +  stock.changesPercentage.formatPercentChange() + "%)"))
                                         .font(.custom("Helvetica", fixedSize: 14))
                                         .foregroundColor(.red)
-                                }
-                                else if(stock.change == 0){
-                                    Text(String("(" +  stock.changesPercentage.formatPercentChange() + "%)"))
-                                        .font(.custom("Helvetica", fixedSize: 14))
-                                        .foregroundColor(.gray)
                                 }
                                     
                                 

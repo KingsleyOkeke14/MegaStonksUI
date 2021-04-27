@@ -29,10 +29,9 @@ struct MyHoldingsView: View {
                     }
                     DoubleColumnedView(themeColor: $themeColor, column1Field: "My Shares", column1Text: "188", column2Field: "Market Value", column2Text: "$464.36", isPortfolio: false)
                     DoubleColumnedView(themeColor: $themeColor, column1Field: "Average Cost", column1Text: "$1.83", column2Field: "% of My Portfolio", column2Text: "10.00%", isPortfolio: true)
-                    SingleColumnView(columnField: "Today's Return", textField: "+$2.88 (+10.12%)")
+                    SingleColumnView(columnField: "Today's Return", textField: "$2.88 (+10.12%)")
                     SingleColumnView(columnField: "Total Return", textField: "$200.88 (+25.46%)")
                 }.padding(.horizontal)
-        
     }
 }
 

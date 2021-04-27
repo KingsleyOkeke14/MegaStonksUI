@@ -26,7 +26,7 @@
 		D031EB3F26118C7F001504B5 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = D031EB3E26118C7F001504B5 /* API.swift */; };
 		D031EB4326143B71001504B5 /* APIResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D031EB4226143B71001504B5 /* APIResponse.swift */; };
 		D0336E1F2635DD09004DB6A3 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0336E1E2635DD09004DB6A3 /* Extensions.swift */; };
-		D0336E252635F52E004DB6A3 /* AppEnvironmentObjects.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0336E242635F52E004DB6A3 /* AppEnvironmentObjects.swift */; };
+		D0336E252635F52E004DB6A3 /* AppObjects.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0336E242635F52E004DB6A3 /* AppObjects.swift */; };
 		D034870D25C7FE3D00CFCAB2 /* RegisterPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D034870C25C7FE3D00CFCAB2 /* RegisterPageView.swift */; };
 		D034871225C80DA500CFCAB2 /* ButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D034871125C80DA500CFCAB2 /* ButtonView.swift */; };
 		D0369D1A25C76B1900718A52 /* megastonksApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0369D1925C76B1900718A52 /* megastonksApp.swift */; };
@@ -39,6 +39,8 @@
 		D057841B25C88C5E0039E6CD /* OnBoardCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = D057841A25C88C5E0039E6CD /* OnBoardCard.swift */; };
 		D057841E25C88D400039E6CD /* OnBoardCardModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D057841D25C88D400039E6CD /* OnBoardCardModel.swift */; };
 		D057842325C894530039E6CD /* OnBoardPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D057842225C894530039E6CD /* OnBoardPageView.swift */; };
+		D0585E6D26385451000C8546 /* StockSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0585E6C26385451000C8546 /* StockSearchView.swift */; };
+		D0585E74263856A4000C8546 /* StockSearchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0585E73263856A4000C8546 /* StockSearchResult.swift */; };
 		D06B311525C7AFF400A37C08 /* LoginPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06B311425C7AFF400A37C08 /* LoginPageView.swift */; };
 		D06B311825C7BA5200A37C08 /* SecretFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06B311725C7BA5200A37C08 /* SecretFormView.swift */; };
 		D06E429425D3545E009701A2 /* StatisticsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06E429325D3545E009701A2 /* StatisticsView.swift */; };
@@ -78,7 +80,7 @@
 		D031EB3E26118C7F001504B5 /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
 		D031EB4226143B71001504B5 /* APIResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIResponse.swift; sourceTree = "<group>"; };
 		D0336E1E2635DD09004DB6A3 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
-		D0336E242635F52E004DB6A3 /* AppEnvironmentObjects.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppEnvironmentObjects.swift; sourceTree = "<group>"; };
+		D0336E242635F52E004DB6A3 /* AppObjects.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppObjects.swift; sourceTree = "<group>"; };
 		D034870C25C7FE3D00CFCAB2 /* RegisterPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterPageView.swift; sourceTree = "<group>"; };
 		D034871125C80DA500CFCAB2 /* ButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonView.swift; sourceTree = "<group>"; };
 		D0369D1625C76B1900718A52 /* megastonks.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = megastonks.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -92,6 +94,8 @@
 		D057841A25C88C5E0039E6CD /* OnBoardCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardCard.swift; sourceTree = "<group>"; };
 		D057841D25C88D400039E6CD /* OnBoardCardModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardCardModel.swift; sourceTree = "<group>"; };
 		D057842225C894530039E6CD /* OnBoardPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardPageView.swift; sourceTree = "<group>"; };
+		D0585E6C26385451000C8546 /* StockSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockSearchView.swift; sourceTree = "<group>"; };
+		D0585E73263856A4000C8546 /* StockSearchResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockSearchResult.swift; sourceTree = "<group>"; };
 		D06B311425C7AFF400A37C08 /* LoginPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginPageView.swift; sourceTree = "<group>"; };
 		D06B311725C7BA5200A37C08 /* SecretFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecretFormView.swift; sourceTree = "<group>"; };
 		D06E429325D3545E009701A2 /* StatisticsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsView.swift; sourceTree = "<group>"; };
@@ -147,7 +151,7 @@
 			isa = PBXGroup;
 			children = (
 				D0FC100225D2F96D00366B26 /* MyColors.swift */,
-				D0336E242635F52E004DB6A3 /* AppEnvironmentObjects.swift */,
+				D0336E242635F52E004DB6A3 /* AppObjects.swift */,
 				D0336E1E2635DD09004DB6A3 /* Extensions.swift */,
 			);
 			path = Helpers;
@@ -173,6 +177,7 @@
 				D02D7C2C25DC496600DAC07A /* ButtonSelectionView.swift */,
 				D0A3125826339880008993C2 /* PromptView.swift */,
 				D0F9487F2635B20C0069D2B7 /* BannerViewModifier.swift */,
+				D0585E6C26385451000C8546 /* StockSearchView.swift */,
 			);
 			path = SubViews;
 			sourceTree = "<group>";
@@ -255,6 +260,7 @@
 			children = (
 				D057841A25C88C5E0039E6CD /* OnBoardCard.swift */,
 				D00CA78325CB50CF00232915 /* StockSymbol.swift */,
+				D0585E73263856A4000C8546 /* StockSearchResult.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -344,7 +350,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D0336E252635F52E004DB6A3 /* AppEnvironmentObjects.swift in Sources */,
+				D0336E252635F52E004DB6A3 /* AppObjects.swift in Sources */,
 				D0FC0FF725D2287600366B26 /* StocksInfoPageView.swift in Sources */,
 				D0A3125926339880008993C2 /* PromptView.swift in Sources */,
 				D06B311825C7BA5200A37C08 /* SecretFormView.swift in Sources */,
@@ -356,6 +362,7 @@
 				D04F7EA725D323AE00E52997 /* RadialChartView.swift in Sources */,
 				D0A94F8A2626CF6B005477B6 /* ResetPasswordPageView.swift in Sources */,
 				D0D3C40226249E5E00DC6B36 /* AppPageView.swift in Sources */,
+				D0585E74263856A4000C8546 /* StockSearchResult.swift in Sources */,
 				D004685725D43795006C60E9 /* CompanyInfoView.swift in Sources */,
 				D004686A25D64E87006C60E9 /* LoadingIndicatorView.swift in Sources */,
 				D0A94F8D2626D1F3005477B6 /* ForgotPasswordPageView.swift in Sources */,
@@ -379,6 +386,7 @@
 				D00CA77B25CA40C400232915 /* SearchBarView.swift in Sources */,
 				D057842325C894530039E6CD /* OnBoardPageView.swift in Sources */,
 				D004686025D4D2CD006C60E9 /* ProfilePageView.swift in Sources */,
+				D0585E6D26385451000C8546 /* StockSearchView.swift in Sources */,
 				D004687325D8D19F006C60E9 /* OrderDetailPageView.swift in Sources */,
 				D031EB4326143B71001504B5 /* APIResponse.swift in Sources */,
 				D00CA78A25CB93DD00232915 /* WatchListPageView.swift in Sources */,

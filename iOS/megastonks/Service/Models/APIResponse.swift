@@ -12,6 +12,7 @@ struct RequestResponse{
     var data:Data? = nil
     var errorMessage:String = ""
     var watchListResponse:[StockSymbol] = [StockSymbol]()
+    var stockSearchResponse:[StockSearchResult] = [StockSearchResult]()
 }
 
 struct AuthenticateResponse: Codable {
@@ -42,6 +43,20 @@ struct StockElementResponse: Codable {
 
 typealias StockListResponse = [StockElementResponse]
 
+
+struct StockSearchElementResponse: Codable{
+    let id: Int
+    let symbol, companyName: String?
+    let marketCap: Int?
+    let sector, industry: String?
+    let beta, price, lastAnnualDividend: Double?
+    let volume: Int?
+    let exchange, exchangeShortName, country: String?
+    let isEtf, isActivelyTrading: Bool?
+    let lastUpdated: String?
+}
+
+typealias StockSearchResponse = [StockSearchElementResponse]
 
 struct CommonAPIResponse: Codable {
     let message: String

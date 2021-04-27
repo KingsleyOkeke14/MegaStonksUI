@@ -42,6 +42,8 @@ struct StockInfoView: View {
                     .font(.custom("Helvetica", fixedSize: 18))
                     .foregroundColor(.white)
                     .bold()
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.5)
                     .multilineTextAlignment(.center)
                     .padding(.horizontal)
                 
