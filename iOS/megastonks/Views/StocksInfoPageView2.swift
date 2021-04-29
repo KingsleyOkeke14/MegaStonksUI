@@ -263,7 +263,7 @@ struct StocksInfoPageView2: View {
                         }
                     }
                     
-                    myAppObjects.getPriceChart(stockId: stockSymbol.stockId, isPriceHistory: false){
+                    myAppObjects.getPriceChart(stockId: stockToSearch.stockId, isPriceHistory: false){
                         result in
                         if(result.isSuccessful){
                             chartData = result.chartDataResponse!.dataSet
