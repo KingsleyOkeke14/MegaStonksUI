@@ -94,7 +94,12 @@ struct StocksInfoPageView2: View {
                                             changeActiveButton(activeButton: 0)
                                             myAppObjects.getPriceChart(stockId: stockSymbol.stockId, isPriceHistory: false){
                                                 result in
-                                                chartData = result.chartDataResponse!.dataSet
+                                                if(result.isSuccessful){
+                                                    chartData = result.chartDataResponse!.dataSet
+                                                }
+                                                else{
+                                                    chartData = [(String, Double)]()
+                                                }
                                             }
                                         }, label: {
                                             ButtonSelected(buttonName: buttonList[0].buttonName, buttonSelected: buttonList[0].buttonState, buttonColor: $themeColor)
@@ -104,7 +109,12 @@ struct StocksInfoPageView2: View {
                                             changeActiveButton(activeButton: 1)
                                             myAppObjects.getPriceChart(stockId: stockSymbol.stockId, interval: buttonList[1].buttonName){
                                                 result in
-                                                chartData = result.chartDataResponse!.dataSet
+                                                if(result.isSuccessful){
+                                                    chartData = result.chartDataResponse!.dataSet
+                                                }
+                                                else{
+                                                    chartData = [(String, Double)]()
+                                                }
                                             }
                                         }, label: {
                                             ButtonSelected(buttonName: buttonList[1].buttonName, buttonSelected: buttonList[1].buttonState, buttonColor: $themeColor)
@@ -114,7 +124,12 @@ struct StocksInfoPageView2: View {
                                             changeActiveButton(activeButton: 2)
                                             myAppObjects.getPriceChart(stockId: stockSymbol.stockId, interval: buttonList[2].buttonName){
                                                 result in
-                                                chartData = result.chartDataResponse!.dataSet
+                                                if(result.isSuccessful){
+                                                    chartData = result.chartDataResponse!.dataSet
+                                                }
+                                                else{
+                                                    chartData = [(String, Double)]()
+                                                }
                                             }
                                             
                                         }, label: {
@@ -125,7 +140,12 @@ struct StocksInfoPageView2: View {
                                             changeActiveButton(activeButton: 3)
                                             myAppObjects.getPriceChart(stockId: stockSymbol.stockId, interval: buttonList[3].buttonName){
                                                 result in
-                                                chartData = result.chartDataResponse!.dataSet
+                                                if(result.isSuccessful){
+                                                    chartData = result.chartDataResponse!.dataSet
+                                                }
+                                                else{
+                                                    chartData = [(String, Double)]()
+                                                }
                                             }
                                             
                                         }, label: {
@@ -136,7 +156,12 @@ struct StocksInfoPageView2: View {
                                             changeActiveButton(activeButton: 4)
                                             myAppObjects.getPriceChart(stockId: stockSymbol.stockId, interval: buttonList[4].buttonName){
                                                 result in
-                                                chartData = result.chartDataResponse!.dataSet
+                                                if(result.isSuccessful){
+                                                    chartData = result.chartDataResponse!.dataSet
+                                                }
+                                                else{
+                                                    chartData = [(String, Double)]()
+                                                }
                                             }
                                             
                                         }, label: {
@@ -148,7 +173,12 @@ struct StocksInfoPageView2: View {
                                             changeActiveButton(activeButton: 5)
                                             myAppObjects.getPriceChart(stockId: stockSymbol.stockId, interval: buttonList[5].buttonName){
                                                 result in
-                                                chartData = result.chartDataResponse!.dataSet
+                                                if(result.isSuccessful){
+                                                    chartData = result.chartDataResponse!.dataSet
+                                                }
+                                                else{
+                                                    chartData = [(String, Double)]()
+                                                }
                                             }
                                             
                                         }, label: {
@@ -235,8 +265,12 @@ struct StocksInfoPageView2: View {
                     
                     myAppObjects.getPriceChart(stockId: stockSymbol.stockId, isPriceHistory: false){
                         result in
-                        chartData = result.chartDataResponse!.dataSet
+                        if(result.isSuccessful){
+                            chartData = result.chartDataResponse!.dataSet
+                        }
+                        
                     }
+                    
                 }
             )
             .navigationBarTitleDisplayMode(.inline)
