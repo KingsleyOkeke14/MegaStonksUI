@@ -13,6 +13,10 @@ struct RequestResponse{
     var errorMessage:String = ""
     var watchListResponse:[StockSymbol] = [StockSymbol]()
     var stockSearchResponse:[StockSearchResult] = [StockSearchResult]()
+    var stockInfoSearchStocksPage:StockSymbol?
+    var stockHoldingResponse:StockHolding?
+    var stockHoldingInfoPageResponse:StockHoldingInfoPage?
+    var chartDataResponse: ChartData?
 }
 
 struct AuthenticateResponse: Codable {
@@ -57,6 +61,44 @@ struct StockSearchElementResponse: Codable{
 }
 
 typealias StockSearchResponse = [StockSearchElementResponse]
+
+
+
+
+struct HoldingsResponseElement: Codable {
+    let id, stockId: Int
+    let symbol, exchange: String?
+    let changesPercentage, averageCost: Double?
+    let quantity: Double?
+    let marketValue, percentReturnToday, moneyReturnToday, percentReturnTotal: Double?
+    let moneyReturnTotal, percentOfPortfolio: Double?
+}
+
+
+
+
+typealias HoldingsResponse = [HoldingsResponseElement]
+
+
+
+struct HoldingResponseInfoPage: Codable {
+    let id: Int?
+    let averageCost: Double?
+    let quantity, marketValue: Double?
+    let percentReturnToday, moneyReturnToday, percentReturnTotal: Double?
+    let moneyReturnTotal: Double?
+    let percentOfPortfolio: Double?
+    let lastUpdated: String?
+}
+
+
+struct ChartDataResponseElement: Codable {
+    let date: String?
+    let close: Double?
+}
+
+typealias ChartDataResponse = [ChartDataResponseElement]
+
 
 struct CommonAPIResponse: Codable {
     let message: String

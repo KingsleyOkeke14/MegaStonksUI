@@ -15,6 +15,16 @@ extension Double {
         return String(self)
     }
     
+    func formatNoDecimal() -> String {
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = .decimal
+        numberFormatter.minimumFractionDigits = 0
+        numberFormatter.maximumFractionDigits = 0
+        
+        return  numberFormatter.string(from: NSNumber(value: self))!
+        
+    }
+    
     func formatPrice() -> String {
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .decimal

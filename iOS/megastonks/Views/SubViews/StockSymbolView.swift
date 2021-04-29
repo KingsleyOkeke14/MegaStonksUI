@@ -34,13 +34,24 @@ struct StockSymbolView: View {
                                         .foregroundColor(.gray)
                                 }
                                 if(stock.isInPortfolio){
-                                Text("P")
-                                    .font(.custom("Arial Bold", fixedSize:8))
-                                    .foregroundColor(.black)
-                                    .padding(2)
-                                    .padding(.horizontal, 2)
-                                    .background(myColors.greenColor)
-                                    .cornerRadius(30)
+                                    if(stock.change >= 0){
+                                        Text("P")
+                                            .font(.custom("Arial Bold", fixedSize:8))
+                                            .foregroundColor(.black)
+                                            .padding(2)
+                                            .padding(.horizontal, 2)
+                                            .background(myColors.greenColor)
+                                            .cornerRadius(30)
+                                    }
+                                    else{
+                                        Text("P")
+                                            .font(.custom("Arial Bold", fixedSize:8))
+                                            .foregroundColor(.black)
+                                            .padding(2)
+                                            .padding(.horizontal, 2)
+                                            .background(myColors.redColor)
+                                            .cornerRadius(30)
+                                    }
                                 }
                                 
                             }.frame(width: geometry.size.width * 0.3, alignment: .leading)

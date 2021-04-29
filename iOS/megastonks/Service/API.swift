@@ -20,6 +20,12 @@ struct APIRoutes {
     private let resetPasswordRoute = "accounts/reset-password"
     private let onBoardRoute = "accounts/onboard-completed"
     private let searchStockRoute = "stocks/searchstock"
+    private let addStockRoute = "watchlist/addstock"
+    private let removeStockRoute = "watchlist/removestock"
+    private let stockInfoRoute = "stocks/stockinfo"
+    private let stockHoldingRoute = "stocks/stockholding"
+    private let priceChartRoute = "stocks/pricechart"
+    private let priceHistoryRoute = "stocks/pricehistory"
     
     
     var auth = URL(string: "")
@@ -31,6 +37,12 @@ struct APIRoutes {
     var resetPassword = URL(string: "")
     var onBoard = URL(string: "")
     var searchStock = URL(string: "")
+    var addStock = URL(string: "")
+    var removeStock = URL(string: "")
+    var stockInfo = URL(string: "")
+    var stockHolding = URL(string: "")
+    var priceChart = URL(string: "")
+    var priceHistory = URL(string: "")
     
     init() {
         server = "https://\(domain)/"
@@ -43,8 +55,13 @@ struct APIRoutes {
         resetPassword = URL(string: server + resetPasswordRoute)!
         onBoard = URL(string: server + onBoardRoute)!
         searchStock = URL(string: server + searchStockRoute)!
+        addStock = URL(string: server + addStockRoute)!
+        removeStock = URL(string: server + removeStockRoute)!
+        stockInfo = URL(string: server + stockInfoRoute)!
+        stockHolding = URL(string: server + stockHoldingRoute)!
+        priceChart = URL(string: server + priceChartRoute)!
+        priceHistory = URL(string: server + priceHistoryRoute)!
     }
-    
 }
 
 struct AppUrlRequest {
@@ -62,8 +79,6 @@ struct API{
     let session = URLSession.shared
     let apiRoutes = APIRoutes()
     let decoder = JSONDecoder()
-    
-    
     
     
     func Authenticate(emailAddress: String, password: String, completion: @escaping (RequestResponse) -> ()) {
@@ -567,6 +582,313 @@ struct API{
                     else if(httpResponse.statusCode == 201){
                         result.isSuccessful = true
                         result.data = Data()
+                    }
+                    else if(httpResponse.statusCode == 401){
+                        DispatchQueue.main.async {
+                            NotificationCenter.default.post(name: .didAuthTokenExpire, object: nil)
+                            print("401 Unauthorized")
+                        }
+                        
+                    }
+                    else{
+                        result.isSuccessful = false
+                        
+                        if let jsonResponse = try? decoder.decode(CommonAPIResponse.self, from: result.data!){
+                            result.errorMessage = jsonResponse.message
+                        }
+                        else{
+                            result.errorMessage = "Could Not Retrieve Stock Information"
+                        }
+                        
+                    }
+                }
+                completion(result)
+            }
+            task.resume()
+            
+            
+        }
+        
+        
+    }
+    
+    func AddStockToWatchList(stockId: Int, completion: @escaping (RequestResponse) -> ()) {
+        
+        let url = apiRoutes.addStock!
+        let queryItems = [URLQueryItem(name: "stockId", value: "\(stockId)")]
+        let newUrl = url.appending(queryItems)!
+        
+        var request = AppUrlRequest(url: newUrl, httpMethod: "PUT").request
+        if let jwtToken: String = KeychainWrapper.standard.string(forKey: "jwtToken"){
+            request.setValue("Bearer \(jwtToken)", forHTTPHeaderField: "Authorization")
+            
+            var result = RequestResponse()
+            
+            let task = session.dataTask(with: request) { (data, response, error) in
+                result.data = data
+                
+                if error != nil  {
+                    print("Client error!")
+                    print("Error is \(error!)")
+                    result.isSuccessful = false
+                    result.errorMessage = "Error contacting the server. Please Check your internet connection"
+                    completion(result)
+                    return
+                }
+                
+                if let httpResponse = response as? HTTPURLResponse{
+                    
+                    if httpResponse.statusCode == 200{
+                        result.isSuccessful = true
+                    }
+                    else if(httpResponse.statusCode == 401){
+                        DispatchQueue.main.async {
+                            NotificationCenter.default.post(name: .didAuthTokenExpire, object: nil)
+                            print("401 Unauthorized")
+                        }
+                        
+                    }
+                    else{
+                        result.isSuccessful = false
+                        
+                        if let jsonResponse = try? decoder.decode(CommonAPIResponse.self, from: result.data!){
+                            result.errorMessage = jsonResponse.message
+                        }
+                        else{
+                            result.errorMessage = "Could Not Add Stock To Watchliist"
+                        }
+                        
+                    }
+                }
+                completion(result)
+            }
+            task.resume()
+            
+            
+        }
+        
+        
+    }
+    
+    func RemoveStockFromWatchList(stockId: Int, completion: @escaping (RequestResponse) -> ()) {
+        
+        let url = apiRoutes.removeStock!
+        let queryItems = [URLQueryItem(name: "stockId", value: "\(stockId)")]
+        let newUrl = url.appending(queryItems)!
+        
+        var request = AppUrlRequest(url: newUrl, httpMethod: "DELETE").request
+        
+        if let jwtToken: String = KeychainWrapper.standard.string(forKey: "jwtToken"){
+            request.setValue("Bearer \(jwtToken)", forHTTPHeaderField: "Authorization")
+            
+            var result = RequestResponse()
+            
+            let task = session.dataTask(with: request) { (data, response, error) in
+                result.data = data
+                
+                if error != nil  {
+                    print("Client error!")
+                    print("Error is \(error!)")
+                    result.isSuccessful = false
+                    result.errorMessage = "Error contacting the server. Please Check your internet connection"
+                    completion(result)
+                    return
+                }
+                
+                if let httpResponse = response as? HTTPURLResponse{
+                    
+                    if httpResponse.statusCode == 200{
+                        result.isSuccessful = true
+                    }
+                    else if(httpResponse.statusCode == 401){
+                        DispatchQueue.main.async {
+                            NotificationCenter.default.post(name: .didAuthTokenExpire, object: nil)
+                            print("401 Unauthorized")
+                        }
+                        
+                    }
+                    else{
+                        result.isSuccessful = false
+                        
+                        if let jsonResponse = try? decoder.decode(CommonAPIResponse.self, from: result.data!){
+                            result.errorMessage = jsonResponse.message
+                        }
+                        else{
+                            result.errorMessage = "Could Not Add Stock To Watchliist"
+                        }
+                        
+                    }
+                }
+                completion(result)
+            }
+            task.resume()
+            
+            
+        }
+        
+        
+    }
+    
+    
+    func GetStockInfo(stockId: Int, completion: @escaping (RequestResponse) -> ()) {
+        
+        let url = apiRoutes.stockInfo!
+        let queryItems = [URLQueryItem(name: "stockId", value: "\(stockId)")]
+        let newUrl = url.appending(queryItems)!
+        
+        var request = AppUrlRequest(url: newUrl, httpMethod: "GET").request
+        if let jwtToken: String = KeychainWrapper.standard.string(forKey: "jwtToken"){
+            request.setValue( "Bearer \(jwtToken)", forHTTPHeaderField: "Authorization")
+            
+            var result = RequestResponse()
+            
+            let task = session.dataTask(with: request) { (data, response, error) in
+                result.data = data
+                
+                if error != nil  {
+                    print("Client error!")
+                    print("Error is \(error!)")
+                    result.isSuccessful = false
+                    result.errorMessage = "Error contacting the server. Please Check your internet connection"
+                    completion(result)
+                    return
+                }
+                
+                if let httpResponse = response as? HTTPURLResponse{
+                    
+                    if httpResponse.statusCode == 200{
+                        
+                        result.isSuccessful = true
+                    }
+                    else if(httpResponse.statusCode == 401){
+                        DispatchQueue.main.async {
+                            NotificationCenter.default.post(name: .didAuthTokenExpire, object: nil)
+                            print("401 Unauthorized")
+                        }
+                        
+                    }
+                    else{
+                        result.isSuccessful = false
+                        
+                        if let jsonResponse = try? decoder.decode(CommonAPIResponse.self, from: result.data!){
+                            result.errorMessage = jsonResponse.message
+                        }
+                        else{
+                            result.errorMessage = "Could Not Retrieve Stock Information"
+                        }
+                        
+                    }
+                }
+                completion(result)
+            }
+            task.resume()
+            
+            
+        }
+        
+        
+    }
+    
+    
+    func GetStockHolding(stockId: Int, completion: @escaping (RequestResponse) -> ()) {
+        
+        let url = apiRoutes.stockHolding!
+        let queryItems = [URLQueryItem(name: "stockId", value: "\(stockId)")]
+        let newUrl = url.appending(queryItems)!
+        
+        var request = AppUrlRequest(url: newUrl, httpMethod: "GET").request
+        if let jwtToken: String = KeychainWrapper.standard.string(forKey: "jwtToken"){
+            request.setValue( "Bearer \(jwtToken)", forHTTPHeaderField: "Authorization")
+            
+            var result = RequestResponse()
+            
+            let task = session.dataTask(with: request) { (data, response, error) in
+                result.data = data
+                
+                if error != nil  {
+                    print("Client error!")
+                    print("Error is \(error!)")
+                    result.isSuccessful = false
+                    result.errorMessage = "Error contacting the server. Please Check your internet connection"
+                    completion(result)
+                    return
+                }
+                
+                if let httpResponse = response as? HTTPURLResponse{
+                    
+                    if httpResponse.statusCode == 200{
+                        
+                        result.isSuccessful = true
+                    }
+                    else if(httpResponse.statusCode == 401){
+                        DispatchQueue.main.async {
+                            NotificationCenter.default.post(name: .didAuthTokenExpire, object: nil)
+                            print("401 Unauthorized")
+                        }
+                        
+                    }
+                    else{
+                        result.isSuccessful = false
+                        
+                        if let jsonResponse = try? decoder.decode(CommonAPIResponse.self, from: result.data!){
+                            result.errorMessage = jsonResponse.message
+                        }
+                        else{
+                            result.errorMessage = "Could Not Retrieve Stock Information"
+                        }
+                        
+                    }
+                }
+                completion(result)
+            }
+            task.resume()
+            
+            
+        }
+        
+        
+    }
+    
+    func GetPriceChart(stockId: Int, interval: String, isPriceHistory: Bool, completion: @escaping (RequestResponse) -> ()) {
+        
+        var url:URL
+        
+        var queryItems:[URLQueryItem]
+        
+        if(isPriceHistory){
+            url = apiRoutes.priceHistory!
+            queryItems = [URLQueryItem(name: "stockId", value: "\(stockId)"), URLQueryItem(name: "interval", value: "\(interval)")]
+        }
+        else{
+            url = apiRoutes.priceChart!
+            queryItems = [URLQueryItem(name: "stockId", value: "\(stockId)")]
+        }
+        
+        let newUrl = url.appending(queryItems)!
+        
+        var request = AppUrlRequest(url: newUrl, httpMethod: "GET").request
+        if let jwtToken: String = KeychainWrapper.standard.string(forKey: "jwtToken"){
+            request.setValue( "Bearer \(jwtToken)", forHTTPHeaderField: "Authorization")
+            
+            var result = RequestResponse()
+            
+            let task = session.dataTask(with: request) { (data, response, error) in
+                result.data = data
+                
+                if error != nil  {
+                    print("Client error!")
+                    print("Error is \(error!)")
+                    result.isSuccessful = false
+                    result.errorMessage = "Error contacting the server. Please Check your internet connection"
+                    completion(result)
+                    return
+                }
+                
+                if let httpResponse = response as? HTTPURLResponse{
+                    
+                    if (httpResponse.statusCode == 200 && data != nil){
+                        
+                        result.isSuccessful = true
                     }
                     else if(httpResponse.statusCode == 401){
                         DispatchQueue.main.async {

@@ -27,7 +27,7 @@ struct StockSearchView: View {
                 }
                 Spacer()
                 VStack(alignment: .trailing){
-                    Text("$\(stock.price.formatPrice())")
+                    Text(stock.country)
                         .font(.custom("Apple SD Gothic Neo", fixedSize: 20))
                         .bold()
                         .foregroundColor(.white)

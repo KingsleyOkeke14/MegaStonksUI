@@ -9,26 +9,25 @@ import SwiftUI
 
 struct WatchListPageView: View {
     
-
+    
     let myColors = MyColors()
     @State var searchText:String = ""
     
     @State private var selectedItem: String?
     
-    @EnvironmentObject var myAppObjects:AppObjects
-    
-    
     @State var isEditing: Bool = false
     
-    @State var isLoading: Bool = false
+    @State var isLoadingStock: Bool = false
+    @State var isLoadingWatchlist: Bool = false
+    
     
     @Environment(\.presentationMode) var presentationMode
     
     @EnvironmentObject var userAuth:UserAuth
+    @EnvironmentObject var myAppObjects:AppObjects
     
     init() {
         let coloredAppearance = UINavigationBarAppearance()
-        
         // this overrides everything you have set up earlier.
         coloredAppearance.configureWithTransparentBackground()
         coloredAppearance.backgroundColor = .black
@@ -44,7 +43,7 @@ struct WatchListPageView: View {
         color.backgroundColor = .systemGray6
         UITableViewCell.appearance().selectedBackgroundView = color
     }
-    
+        
     var body: some View {
         NavigationView{
             VStack{
@@ -53,8 +52,8 @@ struct WatchListPageView: View {
                     .aspectRatio(contentMode: .fit)
                 HStack {
                     TextField("Tap to Start Search", text: $searchText, onCommit: {
-                        isLoading = true
-                        myAppObjects.SearchStock(stockToSearch: searchText){
+                        isLoadingStock = true
+                        myAppObjects.searchStock(stockToSearch: searchText){
                             result in
                             if(result.isSuccessful){
                                 
@@ -62,36 +61,34 @@ struct WatchListPageView: View {
                                     myAppObjects.stockSearchResult = result.stockSearchResponse
                                 }
                             }
+                            isLoadingStock = false
                         }
-                        isLoading = false
+                        
                     })
-                        .padding()
-                        .padding(.horizontal, 24)
-                        .background(myColors.grayColor)
-                        .foregroundColor(.white)
-                        .font(.system(size: 18, weight: .bold, design: .rounded))
-                        .cornerRadius(20)
-                        
-                        
-                        .overlay(
-                            HStack{
-                                Image(systemName: "magnifyingglass")
-                                    .foregroundColor(myColors.lightGrayColor)
-                                    .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-                                    .padding(.leading, 12)
-                            }
-                            
-                        )
-                        .onTapGesture {
-                            self.isEditing = true
+                    .padding()
+                    .padding(.horizontal, 24)
+                    .background(myColors.grayColor)
+                    .foregroundColor(.white)
+                    .font(.system(size: 18, weight: .bold, design: .rounded))
+                    .cornerRadius(20)
+                    .overlay(
+                        HStack{
+                            Image(systemName: "magnifyingglass")
+                                .foregroundColor(myColors.lightGrayColor)
+                                .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+                                .padding(.leading, 12)
                         }
+                        
+                    )
+                    .onTapGesture {
+                        self.isEditing = true
+                    }
                     
                     if isEditing {
                         Button(action: {
                             self.isEditing = false
                             self.searchText = ""
-                            myAppObjects.SearchStockAsync()
-                            isLoading = false
+                            isLoadingStock = false
                             hideKeyboard()
                             presentationMode.wrappedValue.dismiss()
                             
@@ -120,29 +117,31 @@ struct WatchListPageView: View {
                         .padding(.horizontal)
                         
                         if(!myAppObjects.stockSearchResult.isEmpty){
+                            
                                 ScrollView{
+                                    LazyVStack{
                                     ForEach(myAppObjects.stockSearchResult, id: \.self){ stock in
                                         NavigationLink(
-                                            destination: StocksInfoPageView(stock: StockSymbolModel().symbols[0]),
+                                            destination: StocksInfoPageView2(stockToGet: stock)
+                                                .onDisappear(perform: {
+                                                myAppObjects.updateWatchListAsync()
+                                            }),
                                             tag: stock.id.uuidString,
                                             selection: $selectedItem,
                                             label: {StockSearchView(stock: stock)})
-                                        
                                     }
-                                    .padding()
-                                    
-                                    
-                                }.overlay(
-                                    VStack{
-                                        if(isLoading){
+                                    }.padding(.horizontal)
+                                
+                            }.overlay(
+                                VStack{
+                                    if(isLoadingStock){
                                         ProgressView()
-                                                .accentColor(.green)
-                                                .scaleEffect(x: 1.4, y: 1.4)
-                                        .progressViewStyle(CircularProgressViewStyle(tint: myColors.greenColor))
-                                        }
+                                            .accentColor(.green)
+                                            .scaleEffect(x: 1.4, y: 1.4)
+                                            .progressViewStyle(CircularProgressViewStyle(tint: myColors.greenColor))
+                                    }
                                 })
-
-                            }
+                        }
                         else{
                             Spacer()
                             Text("Could not find what you were looking for? Please remember that we only provide access to the US and Canadian stock market at this time. Please contact us if you have any further questions")
@@ -151,7 +150,6 @@ struct WatchListPageView: View {
                                 .foregroundColor(.white)
                                 .padding(.horizontal)
                         }
-                            
                         
                         Spacer()
                     }.frame(height: 300)
@@ -165,44 +163,82 @@ struct WatchListPageView: View {
                     Image(systemName: "eye")
                         .foregroundColor(myColors.greenColor)
                         .font(.custom("", fixedSize: 18))
-                    
                     Spacer()
                     
                 }
                 .padding(.horizontal)
-                
-                if(!myAppObjects.watchList.isEmpty){
+                VStack{
+                    if(!myAppObjects.watchList.isEmpty){
                         ScrollView{
-                            ForEach(myAppObjects.watchList, id: \.self){ stock in
-                                
-                                NavigationLink(
-                                    destination: StocksInfoPageView(stock: stock).onDisappear(perform: {
-                                        myAppObjects.updateWatchListAsync()
-                                    }),
-                                    tag: stock.id.uuidString,
-                                    selection: $selectedItem,
-                                    label: {StockSymbolView(stock: stock)})
-                                
-                            }
-                            .padding()
-                            
-                            
+                            LazyVStack {
+                                ForEach(myAppObjects.watchList, id: \.self){ stock in
+                                    NavigationLink(
+                                        destination: StocksInfoPageView(stock: stock).environmentObject(myAppObjects).onDisappear(perform: {
+                                            myAppObjects.updateWatchListAsync()
+                                        }),
+                                        tag: stock.id.uuidString,
+                                        selection: $selectedItem,
+                                        label: {StockSymbolView(stock: stock)})
+
+                                }
+                            }.padding(.horizontal)
                         }
-                    
-                }
-                Spacer()
+
+                    }
+                    else if(myAppObjects.watchList.isEmpty && !isLoadingWatchlist){
+                        Spacer()
+                        VStack(spacing: 16){
+                                Text("Wow! Such Empty!")
+                                    .font(.custom("Apple SD Gothic Neo", fixedSize: 20))
+                                    .bold()
+                                    .foregroundColor(.gray)
+                                    .padding(.horizontal)
+                                Text("😒")
+                                    .font(.custom("Apple SD Gothic Neo", fixedSize: 16))
+                                    .foregroundColor(.gray)
+                                    .padding(.horizontal)
+                                Text("Surely, there are some assets you would like to track in your watchlist")
+                                    .font(.custom("Apple SD Gothic Neo", fixedSize: 16))
+                                    .bold()
+                                    .foregroundColor(.gray)
+                                    .padding(.horizontal)
+                                    .multilineTextAlignment(.center)
+                            }
+                    }
+                    Spacer()
+                }.overlay(
+                        VStack{
+                            if(isLoadingWatchlist){
+                                Color.black
+                                    .overlay(
+                                        ProgressView()
+                                            .accentColor(.green)
+                                            .scaleEffect(x: 1.4, y: 1.4)
+                                            .progressViewStyle(CircularProgressViewStyle(tint: myColors.greenColor))
+                                    )
+
+                            }
+                        }
+                )
             }
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarTitle("")
             .navigationBarHidden(true)
             
         }.onAppear(perform: {
-            
-            myAppObjects.updateWatchListAsync()
+            isLoadingWatchlist = true
+            myAppObjects.updateWatchList(){
+                result in
+                if(result.isSuccessful){
+                    isLoadingWatchlist = false
+                }
+                else{
+                    isLoadingWatchlist = false
+                }
+            }
         })
         .banner(data: $myAppObjects.bannerData, show: $myAppObjects.showBanner)
         .navigationViewStyle(StackNavigationViewStyle())
-        
     }
 }
 
@@ -211,7 +247,5 @@ struct WatchListPageView_Previews: PreviewProvider {
         WatchListPageView()
             .environmentObject(AppObjects())
             .preferredColorScheme(.dark)
-        
-        
     }
 }

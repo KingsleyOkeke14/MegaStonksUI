@@ -11,27 +11,32 @@ struct MyHoldingsView: View {
     
     @Binding var themeColor:Color
     
+    @Binding var holding:StockHoldingInfoPage
+    
     let myColors = MyColors()
     var body: some View {
-                VStack{
-                    VStack(alignment: .leading, spacing: 2){
-                        Text("My Holdings")
-                            .font(.custom("Apple SD Gothic Neo", fixedSize: 22))
-                            .bold()
-                            .foregroundColor(themeColor)
-                            .padding(.top)
-                        
-                        Rectangle()
-                            .fill(myColors.lightGrayColor)
-                            .frame(height: 2)
-                            .edgesIgnoringSafeArea(.horizontal)
-                        
-                    }
-                    DoubleColumnedView(themeColor: $themeColor, column1Field: "My Shares", column1Text: "188", column2Field: "Market Value", column2Text: "$464.36", isPortfolio: false)
-                    DoubleColumnedView(themeColor: $themeColor, column1Field: "Average Cost", column1Text: "$1.83", column2Field: "% of My Portfolio", column2Text: "10.00%", isPortfolio: true)
-                    SingleColumnView(columnField: "Today's Return", textField: "$2.88 (+10.12%)")
-                    SingleColumnView(columnField: "Total Return", textField: "$200.88 (+25.46%)")
-                }.padding(.horizontal)
+        if(holding.quantity! > 0){
+            VStack{
+                VStack(alignment: .leading, spacing: 2){
+                    Text("My Holdings")
+                        .font(.custom("Apple SD Gothic Neo", fixedSize: 22))
+                        .bold()
+                        .foregroundColor(themeColor)
+                        .padding(.top)
+                    
+                    Rectangle()
+                        .fill(myColors.lightGrayColor)
+                        .frame(height: 2)
+                        .edgesIgnoringSafeArea(.horizontal)
+                    
+                }
+                DoubleColumnedView(themeColor: $themeColor, column1Field: "My Shares", column1Text: "\(holding.quantity!.formatNoDecimal())", column2Field: "Market Value", column2Text: "$\(holding.marketValue!.formatPrice())", isPortfolio: false, percentofPortfolio: 0)
+                DoubleColumnedView(themeColor: $themeColor, column1Field: "Average Cost", column1Text: "$\(holding.averageCost!.formatPrice())", column2Field: "% of My Portfolio", column2Text: "\(holding.percentOfPortfolio!.toString())%", isPortfolio: true, percentofPortfolio: CGFloat(holding.percentOfPortfolio!/100))
+                SingleColumnView(columnField: "Today's Return", textField: "$\(holding.moneyReturnToday!.formatPrice()) (\(holding.percentReturnToday!.formatPercentChange())%)")
+                SingleColumnView(columnField: "Total Return", textField: "$\(holding.moneyReturnTotal!.formatPrice()) (\(holding.percentReturnTotal!.formatPercentChange())%)")
+            }.padding(.horizontal)
+        }
+
     }
 }
 
@@ -45,6 +50,7 @@ struct DoubleColumnedView: View {
     var column2Field:String
     var column2Text:String
     var isPortfolio:Bool
+    var percentofPortfolio:CGFloat
     var body: some View {
         VStack{
 
@@ -78,7 +84,7 @@ struct DoubleColumnedView: View {
                                         .foregroundColor(themeColor)
                                     
                                     Circle()
-                                        .trim(from: 0.0, to: 0.4)
+                                        .trim(from: 0.0, to: percentofPortfolio)
                                         .stroke(style: StrokeStyle(lineWidth: 2, lineCap: CGLineCap.round, lineJoin: .round))
                                         .foregroundColor(themeColor)
                                         .rotationEffect(Angle(degrees: 270))
@@ -142,7 +148,7 @@ struct SingleColumnView: View {
 
 struct MyHoldingsView_Previews: PreviewProvider {
     static var previews: some View {
-        MyHoldingsView(themeColor: Binding.constant(Color.red))
+        MyHoldingsView(themeColor: Binding.constant(Color.red), holding: Binding.constant(StockHoldingInfoPage(HoldingResponseInfoPage(id: 0, averageCost: 10000, quantity: 200.00, marketValue: 0, percentReturnToday: 0, moneyReturnToday: 0, percentReturnTotal: 0, moneyReturnTotal: 0, percentOfPortfolio: 0, lastUpdated: ""))))
             .preferredColorScheme(.dark)
     }
 }

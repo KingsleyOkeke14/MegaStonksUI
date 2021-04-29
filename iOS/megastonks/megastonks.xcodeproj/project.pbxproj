@@ -41,6 +41,9 @@
 		D057842325C894530039E6CD /* OnBoardPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D057842225C894530039E6CD /* OnBoardPageView.swift */; };
 		D0585E6D26385451000C8546 /* StockSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0585E6C26385451000C8546 /* StockSearchView.swift */; };
 		D0585E74263856A4000C8546 /* StockSearchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0585E73263856A4000C8546 /* StockSearchResult.swift */; };
+		D05F0A2B2639BE7B00CCC115 /* StocksInfoPageView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = D05F0A2A2639BE7B00CCC115 /* StocksInfoPageView2.swift */; };
+		D05F0A31263A0A6300CCC115 /* StockHolding.swift in Sources */ = {isa = PBXBuildFile; fileRef = D05F0A30263A0A6300CCC115 /* StockHolding.swift */; };
+		D05F0A36263A3E6800CCC115 /* ChartData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D05F0A35263A3E6800CCC115 /* ChartData.swift */; };
 		D06B311525C7AFF400A37C08 /* LoginPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06B311425C7AFF400A37C08 /* LoginPageView.swift */; };
 		D06B311825C7BA5200A37C08 /* SecretFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06B311725C7BA5200A37C08 /* SecretFormView.swift */; };
 		D06E429425D3545E009701A2 /* StatisticsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06E429325D3545E009701A2 /* StatisticsView.swift */; };
@@ -96,6 +99,9 @@
 		D057842225C894530039E6CD /* OnBoardPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardPageView.swift; sourceTree = "<group>"; };
 		D0585E6C26385451000C8546 /* StockSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockSearchView.swift; sourceTree = "<group>"; };
 		D0585E73263856A4000C8546 /* StockSearchResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockSearchResult.swift; sourceTree = "<group>"; };
+		D05F0A2A2639BE7B00CCC115 /* StocksInfoPageView2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StocksInfoPageView2.swift; sourceTree = "<group>"; };
+		D05F0A30263A0A6300CCC115 /* StockHolding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockHolding.swift; sourceTree = "<group>"; };
+		D05F0A35263A3E6800CCC115 /* ChartData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartData.swift; sourceTree = "<group>"; };
 		D06B311425C7AFF400A37C08 /* LoginPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginPageView.swift; sourceTree = "<group>"; };
 		D06B311725C7BA5200A37C08 /* SecretFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecretFormView.swift; sourceTree = "<group>"; };
 		D06E429325D3545E009701A2 /* StatisticsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsView.swift; sourceTree = "<group>"; };
@@ -243,6 +249,7 @@
 				D057842225C894530039E6CD /* OnBoardPageView.swift */,
 				D00CA78925CB93DD00232915 /* WatchListPageView.swift */,
 				D0FC0FF625D2287600366B26 /* StocksInfoPageView.swift */,
+				D05F0A2A2639BE7B00CCC115 /* StocksInfoPageView2.swift */,
 				D004685C25D4BD2B006C60E9 /* PortfolioPageView.swift */,
 				D004685F25D4D2CD006C60E9 /* ProfilePageView.swift */,
 				D004686325D5CCFB006C60E9 /* ProfileSettingsPageView.swift */,
@@ -261,6 +268,8 @@
 				D057841A25C88C5E0039E6CD /* OnBoardCard.swift */,
 				D00CA78325CB50CF00232915 /* StockSymbol.swift */,
 				D0585E73263856A4000C8546 /* StockSearchResult.swift */,
+				D05F0A30263A0A6300CCC115 /* StockHolding.swift */,
+				D05F0A35263A3E6800CCC115 /* ChartData.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -361,6 +370,7 @@
 				D00CA78725CB55CD00232915 /* StockSymbolModel.swift in Sources */,
 				D04F7EA725D323AE00E52997 /* RadialChartView.swift in Sources */,
 				D0A94F8A2626CF6B005477B6 /* ResetPasswordPageView.swift in Sources */,
+				D05F0A36263A3E6800CCC115 /* ChartData.swift in Sources */,
 				D0D3C40226249E5E00DC6B36 /* AppPageView.swift in Sources */,
 				D0585E74263856A4000C8546 /* StockSearchResult.swift in Sources */,
 				D004685725D43795006C60E9 /* CompanyInfoView.swift in Sources */,
@@ -372,9 +382,11 @@
 				D00CA78125CB3BF600232915 /* StockSymbolView.swift in Sources */,
 				D09EF9DD2624989B00D9EF05 /* RootPageView.swift in Sources */,
 				D045DB1E262BE5530040C067 /* APIRequest.swift in Sources */,
+				D05F0A31263A0A6300CCC115 /* StockHolding.swift in Sources */,
 				D00CA78425CB50CF00232915 /* StockSymbol.swift in Sources */,
 				D057841E25C88D400039E6CD /* OnBoardCardModel.swift in Sources */,
 				D0369D1C25C76B1900718A52 /* FormView.swift in Sources */,
+				D05F0A2B2639BE7B00CCC115 /* StocksInfoPageView2.swift in Sources */,
 				D09EF9E02624994C00D9EF05 /* UserAuth.swift in Sources */,
 				D0369D1A25C76B1900718A52 /* megastonksApp.swift in Sources */,
 				D0D1933825CCB41900D83D87 /* StockInfoView.swift in Sources */,
