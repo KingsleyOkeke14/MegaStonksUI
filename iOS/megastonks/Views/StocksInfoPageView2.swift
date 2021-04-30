@@ -21,12 +21,13 @@ struct StocksInfoPageView2: View {
     @State var buttonList: [(buttonName: String, buttonState: Bool)] = [("1D", true), ("5D", false), ("1M", false), ("3M", false), ("1Y", false), ("5Y", false)]
     
     @State var chartData = [(String, Double)]()
-     var data1D = [(String, Double)]()
-     var data5D = [(String, Double)]()
-     var data1M = [(String, Double)]()
-     var data3M = [(String, Double)]()
-     var data1Y = [(String, Double)]()
-     var data5Y = [(String, Double)]()
+
+    
+    @State var chartDiscrepancy = ""
+    
+    @State var chartPeriod = ""
+    
+    @State var isStockGaining:Bool = false
     
     @EnvironmentObject var myAppObjects:AppObjects
     
@@ -86,7 +87,7 @@ struct StocksInfoPageView2: View {
                             StockInfoView(stockSymbol: $stockSymbol, highlightColor: $themeColor)
                             ScrollView{
                                 VStack(spacing: 12){
-                                    ChartView(isStockGaining: (stockSymbol.change >= 0), themeColor: $themeColor, data: $chartData, stock: stockSymbol)
+                                    ChartView(isStockGaining: $isStockGaining, themeColor: $themeColor, data: $chartData, chartDiscrepancy: $chartDiscrepancy, chartLabel: $chartPeriod, stock: stockSymbol)
                                     
                                     HStack(spacing: 12){
                                         
@@ -96,6 +97,10 @@ struct StocksInfoPageView2: View {
                                                 result in
                                                 if(result.isSuccessful){
                                                     chartData = result.chartDataResponse!.dataSet
+                                                    chartDiscrepancy = String(stockSymbol.change.formatPrice() + "  (" + stockSymbol.changesPercentage.formatPercentChange() + "%)")
+                                                    chartPeriod = "Today"
+                                                    themeColor = (stockSymbol.change >= 0) ? Color.green : Color.red
+                                                    isStockGaining = (stockSymbol.change >= 0) ? true : false
                                                 }
                                                 else{
                                                     chartData = [(String, Double)]()
@@ -111,6 +116,13 @@ struct StocksInfoPageView2: View {
                                                 result in
                                                 if(result.isSuccessful){
                                                     chartData = result.chartDataResponse!.dataSet
+                                                    let dataSet = result.chartDataResponse!.dataSet.map({$0.1})
+                                                    let discrepancy:Double = (dataSet.last! - dataSet[0])
+                                                    let percentChange = (discrepancy / dataSet.last! * 100)
+                                                    chartDiscrepancy = String(discrepancy.formatPrice() + "  (" + percentChange.formatPercentChange() + "%)")
+                                                    chartPeriod = "5 Days"
+                                                    themeColor = (percentChange >= 0) ? Color.green : Color.red
+                                                    isStockGaining = (percentChange >= 0) ? true : false
                                                 }
                                                 else{
                                                     chartData = [(String, Double)]()
@@ -126,6 +138,13 @@ struct StocksInfoPageView2: View {
                                                 result in
                                                 if(result.isSuccessful){
                                                     chartData = result.chartDataResponse!.dataSet
+                                                    let dataSet = result.chartDataResponse!.dataSet.map({$0.1})
+                                                    let discrepancy:Double = (dataSet.last! - dataSet[0])
+                                                    let percentChange = (discrepancy / dataSet.last! * 100)
+                                                    chartDiscrepancy = String(discrepancy.formatPrice() + "  (" + percentChange.formatPercentChange() + "%)")
+                                                    chartPeriod = "1 Month"
+                                                    themeColor = (percentChange >= 0) ? Color.green : Color.red
+                                                    isStockGaining = (percentChange >= 0) ? true : false
                                                 }
                                                 else{
                                                     chartData = [(String, Double)]()
@@ -142,6 +161,13 @@ struct StocksInfoPageView2: View {
                                                 result in
                                                 if(result.isSuccessful){
                                                     chartData = result.chartDataResponse!.dataSet
+                                                    let dataSet = result.chartDataResponse!.dataSet.map({$0.1})
+                                                    let discrepancy:Double = (dataSet.last! - dataSet[0])
+                                                    let percentChange = (discrepancy / dataSet.last! * 100)
+                                                    chartDiscrepancy = String(discrepancy.formatPrice() + "  (" + percentChange.formatPercentChange() + "%)")
+                                                    chartPeriod = "3 Months"
+                                                    themeColor = (percentChange >= 0) ? Color.green : Color.red
+                                                    isStockGaining = (percentChange >= 0) ? true : false
                                                 }
                                                 else{
                                                     chartData = [(String, Double)]()
@@ -158,6 +184,13 @@ struct StocksInfoPageView2: View {
                                                 result in
                                                 if(result.isSuccessful){
                                                     chartData = result.chartDataResponse!.dataSet
+                                                    let dataSet = result.chartDataResponse!.dataSet.map({$0.1})
+                                                    let discrepancy:Double = (dataSet.last! - dataSet[0])
+                                                    let percentChange = (discrepancy / dataSet.last! * 100)
+                                                    chartDiscrepancy = String(discrepancy.formatPrice() + "  (" + percentChange.formatPercentChange() + "%)")
+                                                    chartPeriod = "1 Year"
+                                                    themeColor = (percentChange >= 0) ? Color.green : Color.red
+                                                    isStockGaining = (percentChange >= 0) ? true : false
                                                 }
                                                 else{
                                                     chartData = [(String, Double)]()
@@ -175,6 +208,13 @@ struct StocksInfoPageView2: View {
                                                 result in
                                                 if(result.isSuccessful){
                                                     chartData = result.chartDataResponse!.dataSet
+                                                    let dataSet = result.chartDataResponse!.dataSet.map({$0.1})
+                                                    let discrepancy:Double = (dataSet.last! - dataSet[0])
+                                                    let percentChange = (discrepancy / dataSet.last! * 100)
+                                                    chartDiscrepancy = String(discrepancy.formatPrice() + "  (" + percentChange.formatPercentChange() + "%)")
+                                                    chartPeriod = "5 years"
+                                                    themeColor = (percentChange >= 0) ? Color.green : Color.red
+                                                    isStockGaining = (percentChange >= 0) ? true : false
                                                 }
                                                 else{
                                                     chartData = [(String, Double)]()
@@ -266,7 +306,10 @@ struct StocksInfoPageView2: View {
                     myAppObjects.getPriceChart(stockId: stockToSearch.stockId, isPriceHistory: false){
                         result in
                         if(result.isSuccessful){
+                            chartDiscrepancy = String(stockSymbol.change.formatPrice() + "  (" + stockSymbol.changesPercentage.formatPercentChange() + "%)")
+                            chartPeriod = "Today"
                             chartData = result.chartDataResponse!.dataSet
+                            isStockGaining = (stockSymbol.changesPercentage >= 0) ? true : false
                         }
                         
                     }

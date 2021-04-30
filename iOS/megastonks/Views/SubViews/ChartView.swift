@@ -17,11 +17,15 @@ struct ChartView: View {
     let redStyle = ChartStyle(backgroundColor: .red,
                               foregroundColor: [ColorGradient(Color.red, Color.red)])
     
-    @State var isStockGaining:Bool
+    @Binding var isStockGaining:Bool
     
     @Binding var themeColor: Color
     
     @Binding var data:[(String, Double)]
+    
+    @Binding var chartDiscrepancy:String
+    
+    @Binding var chartLabel:String
     
     
     @State var stock:StockSymbol
@@ -32,12 +36,12 @@ struct ChartView: View {
         HStack {
             VStack(spacing: 0){
                 HStack{
-                    Text(String(stock.change.formatPrice() + "  (" + stock.changesPercentage.formatPercentChange() + "%)"))
+                    Text(chartDiscrepancy)
                             .font(.custom("Verdana", fixedSize: 16))
                             .bold()
                             .foregroundColor(themeColor)
                     
-                    Text("Today")
+                    Text(chartLabel)
                         .foregroundColor(.white)
                         .font(.custom("Verdana", fixedSize: 12))
                         .bold()
@@ -79,6 +83,6 @@ struct ChartView: View {
 
 struct ChartView_Previews: PreviewProvider {
     static var previews: some View {
-        ChartView(isStockGaining: false, themeColor: Binding.constant(MyColors().redColor), data: Binding.constant([(String, Double)]()), stock: StockSymbolModel().symbols[1])
+        ChartView(isStockGaining: Binding.constant(false), themeColor: Binding.constant(MyColors().redColor), data: Binding.constant([(String, Double)]()), chartDiscrepancy: Binding.constant(""), chartLabel: Binding.constant(""), stock: StockSymbolModel().symbols[1])
     }
 }
