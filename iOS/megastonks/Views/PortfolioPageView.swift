@@ -11,6 +11,9 @@ struct PortfolioPageView: View {
     var stocks:StockSymbolModel = StockSymbolModel()
     let myColors = MyColors()
     
+    @EnvironmentObject var myAppObjects:AppObjects
+    @EnvironmentObject var userAuth: UserAuth
+    
     init() {
         let coloredAppearance = UINavigationBarAppearance()
         
@@ -31,8 +34,10 @@ struct PortfolioPageView: View {
             Color.black
                 .ignoresSafeArea() // Ignore just for the color
                 .overlay(
-                VStack(spacing: 1){
+                VStack(spacing: 20){
                     PortfolioSummaryView()
+                        .environmentObject(myAppObjects)
+                        .environmentObject(userAuth)
                     HStack {
                         Text("Holdings")
                             .font(.custom("Apple SD Gothic Neo", fixedSize: 20))
@@ -40,9 +45,7 @@ struct PortfolioPageView: View {
                                 .foregroundColor(myColors.greenColor)
                         Spacer()
                     }.padding(.horizontal)
-                           
-                            
-                        
+ 
                     ScrollView(.vertical) {
                         VStack{
                             ForEach(0..<stocks.symbols.count){
@@ -58,7 +61,10 @@ struct PortfolioPageView: View {
                 .navigationBarHidden(true)
         
         
-        }.navigationViewStyle(StackNavigationViewStyle())
+        }.onAppear(perform: {
+            myAppObjects.getWallet()
+        })
+        .navigationViewStyle(StackNavigationViewStyle())
         
     }
 }
@@ -66,5 +72,8 @@ struct PortfolioPageView: View {
 struct PortfolioPageView_Previews: PreviewProvider {
     static var previews: some View {
         PortfolioPageView()
+            .environmentObject(AppObjects())
+            .environmentObject(UserAuth())
+            
     }
 }

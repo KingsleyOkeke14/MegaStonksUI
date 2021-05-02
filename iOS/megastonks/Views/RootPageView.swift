@@ -19,17 +19,11 @@ struct RootPageView: View {
     var body: some View {
         if (userAuth.isLoggedin == nil) {
             VStack{
-                LoginPageView().redacted(reason: .placeholder).preferredColorScheme(/*@START_MENU_TOKEN@*/.dark/*@END_MENU_TOKEN@*/).disabled(/*@START_MENU_TOKEN@*/true/*@END_MENU_TOKEN@*/)
-            }
-            .overlay(
-                ZStack{
-                    Text("Confirming Authentication....")
-                        .bold()
-                        .font(.custom("Apple SD Gothic Neo", fixedSize: 18))
-                }.background(Color.black).opacity(0.8)
-                    
-            )
-            
+                LoginPageView().redacted(reason: .placeholder).preferredColorScheme(/*@START_MENU_TOKEN@*/.dark/*@END_MENU_TOKEN@*/)
+                Text("Confirming Authentication....")
+                    .bold()
+                    .font(.custom("Apple SD Gothic Neo", fixedSize: 18))
+            }.disabled(true)
         }
         else if(!userAuth.isLoggedin!){
             LoginPageView().preferredColorScheme(/*@START_MENU_TOKEN@*/.dark/*@END_MENU_TOKEN@*/)

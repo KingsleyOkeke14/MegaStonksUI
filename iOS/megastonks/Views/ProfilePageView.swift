@@ -9,9 +9,11 @@ import SwiftUI
 
 struct ProfilePageView: View {
     let myColors = MyColors()
-    var percentage:CGFloat = 0.3
+    
+    
     
     @EnvironmentObject var userAuth: UserAuth
+    @EnvironmentObject var myAppObjects:AppObjects
     
     init() {
         let coloredAppearance = UINavigationBarAppearance()
@@ -44,7 +46,6 @@ struct ProfilePageView: View {
                                 .padding(.horizontal)
                             Spacer()
                         }
-
                         HStack{
                             Spacer()
                             NavigationLink(
@@ -53,26 +54,24 @@ struct ProfilePageView: View {
                                     .font(.custom("Apple SD Gothic Neo", fixedSize: 24))
                                     .foregroundColor(Color.green)
                             }.padding(.horizontal)
-                        
                         }
                         
                         
-                        HStack {
-                            
-                            Text("$100,000.04")
+                        HStack{
+                            Text("$ \(myAppObjects.userWallet.total.formatPrice())")
                                 .foregroundColor(myColors.greenColor)
-                                .font(.custom("Verdana", fixedSize: 20))
+                                .font(.custom("Verdana", fixedSize: 24))
                                 .bold()
                                 +
-                                Text(" CAD")
+                                Text(" \(userAuth.user.currency)")
                                 .foregroundColor(myColors.greenColor)
                                 .font(.custom("Verdana", fixedSize: 12))
                                 .bold()
                                 .baselineOffset(-0.4)
                             
-                        }
+                        }.lineLimit(1).minimumScaleFactor(0.5)
                         
-                        UserProfileWalletSummary()
+                        UserProfileWalletSummary(firsName: $userAuth.user.firstName, lastName: $userAuth.user.lastName, cash: $myAppObjects.userWallet.cash, investments: $myAppObjects.userWallet.investments, initialDeposit: $myAppObjects.userWallet.initialDeposit, cashPercentage: $myAppObjects.userWallet.cashPercentage)
                         
                         
                         
@@ -109,17 +108,22 @@ struct ProfilePageView: View {
                 .navigationBarHidden(true)
         
         
-        }.navigationViewStyle(StackNavigationViewStyle())
+        }.onAppear(perform: {
+            myAppObjects.getWallet()
+        })
+        .navigationViewStyle(StackNavigationViewStyle())
     }
 }
 
 struct RadialWalletView: View {
+    @Binding var percentage:Double
+    
     var body: some View {
         ZStack{
             Image("megastonkslogo")
                 .scaleEffect(0.3)
                 .aspectRatio(contentMode: .fit)
-            RadialChartView(percentage: 0.4, width: 100, height: 100, lineWidth: 6, lineCapStyle: CGLineCap.square)
+            RadialChartView(percentage: CGFloat(percentage), width: 100, height: 100, lineWidth: 6, lineCapStyle: CGLineCap.square)
         }.padding(.horizontal, -20)
     }
 }
@@ -127,20 +131,28 @@ struct RadialWalletView: View {
 
 
 struct UserProfileWalletSummary: View {
+    
+    @Binding var firsName:String
+    @Binding var lastName:String
+    @Binding var cash:Double
+    @Binding var investments:Double
+    @Binding var initialDeposit:Double
+    @Binding var cashPercentage:Double
+    
     var body: some View {
         HStack(spacing: 0) {
             VStack {
-                RadialWalletView()
+                RadialWalletView(percentage: $cashPercentage)
             }
             VStack(alignment: .leading){
-                Text("KINGSLEY")
+                Text(firsName.uppercased())
                     .font(.custom("Marker Felt", fixedSize: 20))
                     .bold()
                     .foregroundColor(.white)
                     .lineLimit(1)
                     .minimumScaleFactor(0.8)                    
                 
-                Text("OKEKE")
+                Text(lastName.uppercased())
                     .font(.custom("Marker Felt", fixedSize: 20))
                     .bold()
                     .foregroundColor(.white)
@@ -154,7 +166,7 @@ struct UserProfileWalletSummary: View {
                         .foregroundColor(.white)
                         .font(.custom("Verdana", fixedSize: 12))
                     Spacer()
-                    Text("$40,000")
+                    Text("$\(cash.formatPrice())")
                         .foregroundColor(.white)
                         .bold()
                         .font(.custom("Verdana", fixedSize: 12))
@@ -168,7 +180,7 @@ struct UserProfileWalletSummary: View {
                         .foregroundColor(.white)
                         .font(.custom("Verdana", fixedSize: 12))
                     Spacer()
-                    Text("$60,0000")
+                    Text("$\(investments.formatPrice())")
                         .foregroundColor(.white)
                         .bold()
                         .font(.custom("Verdana", fixedSize: 12))
@@ -182,7 +194,7 @@ struct UserProfileWalletSummary: View {
                         .foregroundColor(.white)
                         .font(.custom("Verdana", fixedSize: 12))
                     Spacer()
-                    Text("$80,000")
+                    Text("$\(initialDeposit.formatPrice())")
                         .foregroundColor(.white)
                         .bold()
                         .font(.custom("Verdana", fixedSize: 12))
@@ -195,6 +207,7 @@ struct UserProfileWalletSummary: View {
 struct ProfilePageView_Previews: PreviewProvider {
     static var previews: some View {
         ProfilePageView().environmentObject(UserAuth())
+            .environmentObject(AppObjects())
     }
 }
 

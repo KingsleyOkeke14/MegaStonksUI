@@ -66,13 +66,13 @@ struct ProfileSettingsPageView: View {
                                     .bold()
                                     .fontWeight(.heavy)
                                     .font(.custom("Apple SD Gothic Neo", fixedSize: 26))
-                                Text("MegaStonks is a product offered by Striking Credit and is Striking Credit's first step in empowering individuals with tools to better understand and take control of their personal finances")
+                                Text("MegaStonks is a product offered by Striking Financial and is Striking Financial's first step in empowering individuals with tools to better understand and take control of their personal finances")
                                     .foregroundColor(.gray)
                                     .bold()
                                     .font(.custom("Apple SD Gothic Neo", fixedSize: 12))
                                     .multilineTextAlignment(.center)
                                     .padding()
-                                Text("strikingcredit.ca")
+                                Text("strikingfinancial.com")
                                     .foregroundColor(.white)
                                     .bold()
                                     .font(.custom("Apple SD Gothic Neo", fixedSize: 12))
@@ -89,8 +89,6 @@ struct ProfileSettingsPageView: View {
                                         .bold()
                                         .padding(.horizontal, 10)
                                 }
-
-                        
                             }
                             Spacer()
                             HStack{

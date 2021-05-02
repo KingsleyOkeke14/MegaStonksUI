@@ -20,6 +20,7 @@ struct WatchListPageView: View {
     @State var isLoadingStock: Bool = false
     @State var isLoadingWatchlist: Bool = false
     
+    @State var isMarketOpen:Bool?
     
     @Environment(\.presentationMode) var presentationMode
     
@@ -50,6 +51,45 @@ struct WatchListPageView: View {
                 Image("megastonkslogo")
                     .scaleEffect(0.6)
                     .aspectRatio(contentMode: .fit)
+                HStack{
+                    if(isMarketOpen == nil){
+                        Circle()
+                            .frame(width: 10, height: 10)
+                            .foregroundColor(Color.gray)
+                            .shadow(color: Color.gray, radius: 4, x: -0.8, y: -1)
+                        Text("Could Not Get Market Status")
+                            .font(.custom("Apple SD Gothic Neo", fixedSize: 14))
+                            .offset(x: 0, y: 2)
+                    }
+                    else if(isMarketOpen!){
+                        Circle()
+                            .frame(width: 10, height: 10)
+                            .foregroundColor(Color.green)
+                            .shadow(color: Color.green, radius: 6, x: -0.8, y: 1)
+                        Text("Market is Open")
+                            .font(.custom("Apple SD Gothic Neo", fixedSize: 14))
+                            .offset(x: 0, y: 2)
+                    }
+                    else {
+                        Circle()
+                            .frame(width: 10, height: 10)
+                            .foregroundColor(Color.red)
+                            .shadow(color: Color.red, radius: 6, x: -0.8, y: 1)
+                        Text("Market is Closed")
+                            .font(.custom("Apple SD Gothic Neo", fixedSize: 14))
+                            .offset(x: 0, y: 2)
+                    }
+
+                }.onAppear(perform: {
+                    API().IsMarketOpen(){
+                        result in
+                        if(result.isSuccessful){
+                            if let data = result.data, let jsonString = String(data: data, encoding: .utf8) {
+                                isMarketOpen = jsonString.toBool
+                            }
+                        }
+                    }
+                })
                 HStack {
                     TextField("Tap to Start Search", text: $searchText, onCommit: {
                         isLoadingStock = true
@@ -236,6 +276,7 @@ struct WatchListPageView: View {
                     isLoadingWatchlist = false
                 }
             }
+           
         })
         .banner(data: $myAppObjects.bannerData, show: $myAppObjects.showBanner)
         .navigationViewStyle(StackNavigationViewStyle())

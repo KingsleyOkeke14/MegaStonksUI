@@ -14,6 +14,12 @@ extension Double {
     func toString(withFloatingPoints points: Int = 0) -> String {
         return String(self)
     }
+     
+    func signToString() -> String {
+        return String(self >= 0 ? "+" : "-")
+    }
+    
+    
     
     func formatNoDecimal() -> String {
         let numberFormatter = NumberFormatter()
@@ -109,6 +115,15 @@ extension String {
     var isValidEmail: Bool {
         NSPredicate(format: "SELF MATCHES %@", "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}").evaluate(with: self)
     }
+
+    var toBool: Bool {
+        return (self as NSString).boolValue
+    }
+    
+    func removingWhitespaces() -> String {
+            return components(separatedBy: .whitespaces).joined()
+    }
+    
 }
 
 extension Notification.Name {

@@ -100,6 +100,13 @@ struct ChartDataResponseElement: Codable {
 typealias ChartDataResponse = [ChartDataResponseElement]
 
 
+struct WalletResponse: Codable {
+    let firstName, lastName: String?
+    let cash, initialDeposit, investments, total: Double?
+    let percentReturnToday, moneyReturnToday, percentReturnTotal, moneyReturnTotal: Double?
+}
+
+
 struct CommonAPIResponse: Codable {
     let message: String
 }

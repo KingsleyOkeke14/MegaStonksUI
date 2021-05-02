@@ -8,7 +8,7 @@
 import Foundation
 
 struct User{
-    let firstName, lastName, emailAddress, currency : String
+    var firstName, lastName, emailAddress, currency : String
     var isOnBoarded:Bool
     
     init(firstName: String, lastName: String, emailAddress: String, currency: String, isOnBoarded: Bool) {

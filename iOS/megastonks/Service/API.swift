@@ -26,6 +26,8 @@ struct APIRoutes {
     private let stockHoldingRoute = "stocks/stockholding"
     private let priceChartRoute = "stocks/pricechart"
     private let priceHistoryRoute = "stocks/pricehistory"
+    private let isMarketOpenRoute = "fmpApi/ismarketopen"
+    private let walletRoute = "wallet"
     
     
     var auth = URL(string: "")
@@ -43,6 +45,8 @@ struct APIRoutes {
     var stockHolding = URL(string: "")
     var priceChart = URL(string: "")
     var priceHistory = URL(string: "")
+    var isMarketOpen = URL(string: "")
+    var wallet = URL(string: "")
     
     init() {
         server = "https://\(domain)/"
@@ -61,6 +65,8 @@ struct APIRoutes {
         stockHolding = URL(string: server + stockHoldingRoute)!
         priceChart = URL(string: server + priceChartRoute)!
         priceHistory = URL(string: server + priceHistoryRoute)!
+        isMarketOpen = URL(string: server + isMarketOpenRoute)!
+        wallet = URL(string: server + walletRoute)!
     }
 }
 
@@ -905,6 +911,124 @@ struct API{
                         }
                         else{
                             result.errorMessage = "Could Not Retrieve Stock Information"
+                        }
+                        
+                    }
+                }
+                completion(result)
+            }
+            task.resume()
+            
+            
+        }
+        
+        
+    }
+    
+    func IsMarketOpen(completion: @escaping (RequestResponse) -> ()) {
+        
+        var request = AppUrlRequest(url: apiRoutes.isMarketOpen!, httpMethod: "GET").request
+        if let jwtToken: String = KeychainWrapper.standard.string(forKey: "jwtToken"){
+            request.setValue( "Bearer \(jwtToken)", forHTTPHeaderField: "Authorization")
+            
+            var result = RequestResponse()
+            
+            let task = session.dataTask(with: request) { (data, response, error) in
+                result.data = data
+                
+                if error != nil  {
+                    print("Client error!")
+                    print("Error is \(error!)")
+                    result.isSuccessful = false
+                    result.errorMessage = "Error contacting the server. Please Check your internet connection"
+                    completion(result)
+                    return
+                }
+                
+                if let httpResponse = response as? HTTPURLResponse{
+                    
+                    if httpResponse.statusCode == 200{
+                        
+                        result.isSuccessful = true
+                    }
+                    else if(httpResponse.statusCode == 201){
+                        result.isSuccessful = true
+                        result.data = Data()
+                    }
+                    else if(httpResponse.statusCode == 401){
+                        DispatchQueue.main.async {
+                            NotificationCenter.default.post(name: .didAuthTokenExpire, object: nil)
+                            print("401 Unauthorized")
+                        }
+                        
+                    }
+                    else{
+                        result.isSuccessful = false
+                        
+                        if let jsonResponse = try? decoder.decode(CommonAPIResponse.self, from: result.data!){
+                            result.errorMessage = jsonResponse.message
+                        }
+                        else{
+                            result.errorMessage = "Could Not Retrieve Market Hours"
+                        }
+                        
+                    }
+                }
+                completion(result)
+            }
+            task.resume()
+            
+            
+        }
+        
+        
+    }
+    
+    func GetWallet(completion: @escaping (RequestResponse) -> ()) {
+        
+        var request = AppUrlRequest(url: apiRoutes.wallet!, httpMethod: "GET").request
+        if let jwtToken: String = KeychainWrapper.standard.string(forKey: "jwtToken"){
+            request.setValue( "Bearer \(jwtToken)", forHTTPHeaderField: "Authorization")
+            
+            var result = RequestResponse()
+            
+            let task = session.dataTask(with: request) { (data, response, error) in
+                result.data = data
+                
+                if error != nil  {
+                    print("Client error!")
+                    print("Error is \(error!)")
+                    result.isSuccessful = false
+                    result.errorMessage = "Error contacting the server. Please Check your internet connection"
+                    completion(result)
+                    return
+                }
+                
+                if let httpResponse = response as? HTTPURLResponse{
+                    
+                    if httpResponse.statusCode == 200{
+                        
+                        result.isSuccessful = true
+                    }
+                    else if(httpResponse.statusCode == 201){
+                        result.isSuccessful = true
+                        result.data = Data()
+                    }
+                    else if(httpResponse.statusCode == 401){
+                        DispatchQueue.main.async {
+                            NotificationCenter.default.post(name: .didAuthTokenExpire, object: nil)
+                            print("401 Unauthorized")
+                        }
+                        
+                    }
+                    else{
+                        result.isSuccessful = false
+                        
+                        if let jsonResponse = try? decoder.decode(CommonAPIResponse.self, from: result.data!){
+                            result.errorMessage = jsonResponse.message
+                        }
+                        else{
+                            result.errorMessage = "Could Not Retrieve User Wallet"
                         }
                         
                     }

@@ -12,13 +12,14 @@ class AppObjects: ObservableObject {
     @Published var showBanner:Bool = false
     @Published var bannerData:BannerData = BannerData(title: "", detail: "", type: .Info)
     @Published var stockSearchResult:[StockSearchResult]
+    @Published var userWallet:UserWallet
     
     
     init() {
         
         self.watchList = [StockSymbol]()
         self.stockSearchResult = [StockSearchResult]()
-        //searchStockAsync()
+        self.userWallet = UserWallet(WalletResponse(firstName: "", lastName: "", cash: 0.0, initialDeposit: 0.0, investments: 0.0, total: 0.0, percentReturnToday: 0.0, moneyReturnToday: 0.0, percentReturnTotal: 0.0, moneyReturnTotal: 0.0))
     }
     
     func updateWatchList(completion: @escaping (RequestResponse) -> ()) {
@@ -279,6 +280,19 @@ class AppObjects: ObservableObject {
                 }
             }
             completion(response)
+        }
+    }
+    
+    func getWallet() {
+        API().GetWallet(){ result in
+            if(result.isSuccessful){
+                let decoder = JSONDecoder()
+                 if let jsonResponse = try? decoder.decode(WalletResponse.self, from: result.data!) {
+                    DispatchQueue.main.async {
+                        self.userWallet  = UserWallet(jsonResponse)
+                    }
+                }
+            }
         }
     }
 }

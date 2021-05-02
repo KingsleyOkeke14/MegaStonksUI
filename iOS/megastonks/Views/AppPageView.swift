@@ -26,20 +26,25 @@ struct AppPageView: View {
                         .tabItem {
                             Label("WatchList", systemImage: "eyeglasses")
                         }.tag(0)
-                        .preferredColorScheme(/*@START_MENU_TOKEN@*/.dark/*@END_MENU_TOKEN@*/)
+                        .preferredColorScheme(.dark)
                         .environmentObject(appObject)
                     
                     PortfolioPageView()
+                        .environmentObject(userAuth)
+                        .environmentObject(appObject)
                         .tabItem {
                             Label("Portfolio", systemImage: "banknote")
                         }.tag(1)
-                        .preferredColorScheme(/*@START_MENU_TOKEN@*/.dark/*@END_MENU_TOKEN@*/)
+                        .preferredColorScheme(.dark
+                        )
                     
                     ProfilePageView()
+                        .environmentObject(userAuth)
+                        .environmentObject(appObject)
                         .tabItem {
                             Label("Account", systemImage: "person")
                         }.tag(2)
-                        .preferredColorScheme(/*@START_MENU_TOKEN@*/.dark/*@END_MENU_TOKEN@*/)
+                        .preferredColorScheme(.dark)
                 }.accentColor(.white)
                 .onAppear() {
                     UITabBar.appearance().barTintColor = .black
@@ -57,5 +62,6 @@ struct AppPageView: View {
 struct AppPageView_Previews: PreviewProvider {
     static var previews: some View {
         AppPageView().environmentObject(UserAuth())
+            .environmentObject(AppObjects())
     }
 }
