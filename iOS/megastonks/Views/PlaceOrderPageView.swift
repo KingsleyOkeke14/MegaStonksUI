@@ -12,6 +12,7 @@ struct PlaceOrderPageView: View {
     @State var estimatedCost:Double = 0.0
     @Binding var stockSymbol:StockSymbol
     @Binding var orderAction:String
+    @State var showTip:Bool = false
     @Environment(\.presentationMode) var presentationMode
     
     @EnvironmentObject var myAppObjects:AppObjects
@@ -31,11 +32,11 @@ struct PlaceOrderPageView: View {
                     VStack{
                         Text("How many shares of \"\(stockSymbol.symbol)\"")
                             .foregroundColor(.white)
-                            .font(.custom("Verdana", fixedSize: 30))
+                            .font(.custom("Verdana", fixedSize: 24))
                             .multilineTextAlignment(.center)
                         Text("do you want to \(orderAction.uppercased())?")
                             .foregroundColor(.white)
-                            .font(.custom("Verdana", fixedSize: 30))
+                            .font(.custom("Verdana", fixedSize: 24))
                             .multilineTextAlignment(.center)
                     }.padding()
                     HStack{
@@ -47,6 +48,7 @@ struct PlaceOrderPageView: View {
                     }
                     Spacer()
                     VStack(spacing: 8){
+                        
                             HStack{
                                Text("Order Type")
                                 .bold()
@@ -117,24 +119,38 @@ struct PlaceOrderPageView: View {
                                 let impactMed = UIImpactFeedbackGenerator(style: .heavy)
                                 impactMed.impactOccurred()
                             }
-
-                        Button(action: {
-                            presentationMode.wrappedValue.dismiss()
-                            
-                        }, label: {
-                            Text("Cancel")
-                                .bold()
-                                .font(.custom("Apple SD Gothic Neo", fixedSize: 18))
-                                .foregroundColor(myColors.greenColor)
-                        })
+                        HStack{
+                            Button(action: {
+                                showTip.toggle()
+                            }, label: {
+                                Image(systemName: "questionmark.circle")
+                                    .foregroundColor(.white)
+                                    .font(.custom("Apple SD Gothic Neo", fixedSize: 12))
+                            })
+                            if(showTip){
+                                Text("Please note that your order might not fill at the price shown above. Your order will be filled at the market price at the time of execution")
+                                 .font(.custom("Apple SD Gothic Neo", fixedSize: 12))
+                                 .foregroundColor(.white)
+                                 .lineLimit(2)
+                                 .multilineTextAlignment(.center)
+                            }
+                            Spacer()
+                            Button(action: {
+                                presentationMode.wrappedValue.dismiss()
+                                
+                            }, label: {
+                                Text("Cancel")
+                                    .bold()
+                                    .font(.custom("Apple SD Gothic Neo", fixedSize: 18))
+                                    .foregroundColor(myColors.greenColor)
+                            })
+                        }.padding(.horizontal)
                         
                         
                         }
              
                     .padding(.horizontal)
                 }.lineLimit(1)
-                .onTapGesture {
-                }
                 .minimumScaleFactor(0.4)
                 .onAppear(perform: {
                     myAppObjects.getWallet()
