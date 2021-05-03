@@ -13,6 +13,7 @@ struct PlaceOrderPageView: View {
     @Binding var stockSymbol:StockSymbol
     @Binding var orderAction:String
     @State var showTip:Bool = false
+    @State var ownedShares:Double = 0.0
     @Environment(\.presentationMode) var presentationMode
     
     @EnvironmentObject var myAppObjects:AppObjects
@@ -48,7 +49,6 @@ struct PlaceOrderPageView: View {
                     }
                     Spacer()
                     VStack(spacing: 8){
-                        
                             HStack{
                                Text("Order Type")
                                 .bold()
@@ -100,11 +100,13 @@ struct PlaceOrderPageView: View {
                                          .foregroundColor(estimatedCost > myAppObjects.userWallet.cash ? .red : .white)
                                          .onChange(of: quantityEntry, perform: { newValue in
                                              estimatedCost = (stockSymbol.price  * (Double(String(newValue.joined(separator: ""))) ?? 0.0))
+                                        
                                          })
                                 }
 
                             }
                             HStack{
+                            if (orderAction.uppercased() == "BUY"){
                                Text("Available Balance")
                                 .bold()
                                 .font(.custom("Apple SD Gothic Neo", fixedSize: 18))
@@ -115,10 +117,34 @@ struct PlaceOrderPageView: View {
                                  .font(.custom("Apple SD Gothic Neo", fixedSize: 18))
                                     .foregroundColor(.white)
                             }
+                            else if(orderAction.uppercased() == "SELL"){
+                                Text("Available Shares")
+                                 .bold()
+                                 .font(.custom("Apple SD Gothic Neo", fixedSize: 18))
+                                 .foregroundColor(.white)
+                                 Spacer()
+                                Text("\(ownedShares.formatNoDecimal())")
+                                      .bold()
+                                      .font(.custom("Apple SD Gothic Neo", fixedSize: 18))
+                                      .foregroundColor(.white)
+              
+                            }
+                            }
                             NumberPadView(codes: $quantityEntry).onTapGesture {
                                 let impactMed = UIImpactFeedbackGenerator(style: .heavy)
                                 impactMed.impactOccurred()
                             }
+                        Button(action: /*@START_MENU_TOKEN@*/{}/*@END_MENU_TOKEN@*/, label: {
+                            Text("SEND ORDER")
+                                .bold()
+                                .font(.custom("Apple SD Gothic Neo", fixedSize: 18))
+                                .foregroundColor(.green)
+                                .padding(.horizontal, 12)
+                                .padding(.vertical, 6)
+                                .background(myColors.grayColor)
+                                .cornerRadius(12)
+                                
+                        })
                         HStack{
                             Button(action: {
                                 showTip.toggle()
@@ -153,7 +179,22 @@ struct PlaceOrderPageView: View {
                 }.lineLimit(1)
                 .minimumScaleFactor(0.4)
                 .onAppear(perform: {
-                    myAppObjects.getWallet()
+                    myAppObjects.getWalletAsync()
+                    myAppObjects.getStockHoldings(){
+                        result in
+                        if(result.isSuccessful){
+                            DispatchQueue.main.async {
+                                myAppObjects.holdings = result.stockHoldingsResponse!
+                            }
+                            if(orderAction.uppercased() == "SELL"){
+                                let filtered = myAppObjects.holdings.holdings.filter {$0.stockId == stockSymbol.stockId}
+                                if(!filtered.isEmpty){
+                                    ownedShares = filtered[0].quantity
+                                }
+                              
+                            }
+                        }
+                    }
                 })
             )
         

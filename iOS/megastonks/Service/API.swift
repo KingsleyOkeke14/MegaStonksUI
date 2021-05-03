@@ -24,6 +24,7 @@ struct APIRoutes {
     private let removeStockRoute = "watchlist/removestock"
     private let stockInfoRoute = "stocks/stockinfo"
     private let stockHoldingRoute = "stocks/stockholding"
+    private let stockHoldingsRoute = "stocks/stockholdings"
     private let priceChartRoute = "stocks/pricechart"
     private let priceHistoryRoute = "stocks/pricehistory"
     private let isMarketOpenRoute = "fmpApi/ismarketopen"
@@ -43,6 +44,7 @@ struct APIRoutes {
     var removeStock = URL(string: "")
     var stockInfo = URL(string: "")
     var stockHolding = URL(string: "")
+    var stockHoldings = URL(string: "")
     var priceChart = URL(string: "")
     var priceHistory = URL(string: "")
     var isMarketOpen = URL(string: "")
@@ -63,6 +65,7 @@ struct APIRoutes {
         removeStock = URL(string: server + removeStockRoute)!
         stockInfo = URL(string: server + stockInfoRoute)!
         stockHolding = URL(string: server + stockHoldingRoute)!
+        stockHoldings = URL(string: server + stockHoldingsRoute)!
         priceChart = URL(string: server + priceChartRoute)!
         priceHistory = URL(string: server + priceHistoryRoute)!
         isMarketOpen = URL(string: server + isMarketOpenRoute)!
@@ -823,6 +826,63 @@ struct API{
                 if let httpResponse = response as? HTTPURLResponse{
                     
                     if httpResponse.statusCode == 200{
+                        
+                        result.isSuccessful = true
+                    }
+                    else if(httpResponse.statusCode == 401){
+                        DispatchQueue.main.async {
+                            NotificationCenter.default.post(name: .didAuthTokenExpire, object: nil)
+                            print("401 Unauthorized")
+                        }
+                        
+                    }
+                    else{
+                        result.isSuccessful = false
+                        
+                        if let jsonResponse = try? decoder.decode(CommonAPIResponse.self, from: result.data!){
+                            result.errorMessage = jsonResponse.message
+                        }
+                        else{
+                            result.errorMessage = "Could Not Retrieve Stock Information"
+                        }
+                        
+                    }
+                }
+                completion(result)
+            }
+            task.resume()
+            
+            
+        }
+        
+        
+    }
+    
+    func GetStockHoldings(completion: @escaping (RequestResponse) -> ()) {
+        
+        let url = apiRoutes.stockHoldings!
+        
+        var request = AppUrlRequest(url: url, httpMethod: "GET").request
+        if let jwtToken: String = KeychainWrapper.standard.string(forKey: "jwtToken"){
+            request.setValue( "Bearer \(jwtToken)", forHTTPHeaderField: "Authorization")
+            
+            var result = RequestResponse()
+            
+            let task = session.dataTask(with: request) { (data, response, error) in
+                result.data = data
+                
+                if error != nil  {
+                    print("Client error!")
+                    print("Error is \(error!)")
+                    result.isSuccessful = false
+                    result.errorMessage = "Error contacting the server. Please Check your internet connection"
+                    completion(result)
+                    return
+                }
+                
+                if let httpResponse = response as? HTTPURLResponse{
+                    
+                    if (httpResponse.statusCode == 200 || httpResponse.statusCode == 200){
                         
                         result.isSuccessful = true
                     }

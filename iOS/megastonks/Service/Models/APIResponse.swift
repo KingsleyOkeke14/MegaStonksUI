@@ -15,6 +15,7 @@ struct RequestResponse{
     var stockSearchResponse:[StockSearchResult] = [StockSearchResult]()
     var stockInfoSearchStocksPage:StockSymbol?
     var stockHoldingResponse:StockHolding?
+    var stockHoldingsResponse:StockHoldings?
     var stockHoldingInfoPageResponse:StockHoldingInfoPage?
     var chartDataResponse: ChartData?
 }

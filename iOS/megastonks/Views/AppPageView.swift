@@ -35,8 +35,7 @@ struct AppPageView: View {
                         .tabItem {
                             Label("Portfolio", systemImage: "banknote")
                         }.tag(1)
-                        .preferredColorScheme(.dark
-                        )
+                        .preferredColorScheme(.dark)
                     
                     ProfilePageView()
                         .environmentObject(userAuth)

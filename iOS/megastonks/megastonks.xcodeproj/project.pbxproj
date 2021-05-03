@@ -46,6 +46,7 @@
 		D05F0A36263A3E6800CCC115 /* ChartData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D05F0A35263A3E6800CCC115 /* ChartData.swift */; };
 		D06B311525C7AFF400A37C08 /* LoginPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06B311425C7AFF400A37C08 /* LoginPageView.swift */; };
 		D06B311825C7BA5200A37C08 /* SecretFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06B311725C7BA5200A37C08 /* SecretFormView.swift */; };
+		D06C297A263F587100F1B31A /* PortfolioStockSymbolView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06C2979263F587100F1B31A /* PortfolioStockSymbolView.swift */; };
 		D06E429425D3545E009701A2 /* StatisticsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06E429325D3545E009701A2 /* StatisticsView.swift */; };
 		D09EF9DD2624989B00D9EF05 /* RootPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D09EF9DC2624989B00D9EF05 /* RootPageView.swift */; };
 		D09EF9E02624994C00D9EF05 /* UserAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = D09EF9DF2624994C00D9EF05 /* UserAuth.swift */; };
@@ -107,6 +108,7 @@
 		D05F0A35263A3E6800CCC115 /* ChartData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartData.swift; sourceTree = "<group>"; };
 		D06B311425C7AFF400A37C08 /* LoginPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginPageView.swift; sourceTree = "<group>"; };
 		D06B311725C7BA5200A37C08 /* SecretFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecretFormView.swift; sourceTree = "<group>"; };
+		D06C2979263F587100F1B31A /* PortfolioStockSymbolView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioStockSymbolView.swift; sourceTree = "<group>"; };
 		D06E429325D3545E009701A2 /* StatisticsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsView.swift; sourceTree = "<group>"; };
 		D09EF9DC2624989B00D9EF05 /* RootPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootPageView.swift; sourceTree = "<group>"; };
 		D09EF9DF2624994C00D9EF05 /* UserAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAuth.swift; sourceTree = "<group>"; };
@@ -191,6 +193,7 @@
 				D0F9487F2635B20C0069D2B7 /* BannerViewModifier.swift */,
 				D0585E6C26385451000C8546 /* StockSearchView.swift */,
 				D0E282FB263E5A2C0027EFDB /* NumberPadView.swift */,
+				D06C2979263F587100F1B31A /* PortfolioStockSymbolView.swift */,
 			);
 			path = SubViews;
 			sourceTree = "<group>";
@@ -402,6 +405,7 @@
 				D0369D1A25C76B1900718A52 /* megastonksApp.swift in Sources */,
 				D0D1933825CCB41900D83D87 /* StockInfoView.swift in Sources */,
 				D02D7C2D25DC496600DAC07A /* ButtonSelectionView.swift in Sources */,
+				D06C297A263F587100F1B31A /* PortfolioStockSymbolView.swift in Sources */,
 				D0FC100025D2EFB400366B26 /* MyHoldingsView.swift in Sources */,
 				D0D1933B25CCCFAF00D83D87 /* ChartView.swift in Sources */,
 				D057841B25C88C5E0039E6CD /* OnBoardCard.swift in Sources */,

@@ -41,7 +41,7 @@ struct StocksInfoPageView2: View {
     init(stockToGet: StockSearchResult) {
         //_themeColor = State(initialValue: (stock.change >= 0) ? Color.green : Color.red )
         stockToSearch = stockToGet
-        _stockSymbol = State.init(initialValue: StockSymbol(StockElementResponse(stockId: 0, symbol: "", name: "", description: "", price: 0, currency: "", changesPercentage: 0.0, change: 0.0, dayLow: 0.0, dayHigh: 0.0, yearHigh: 0.0, yearLow: 0.0, marketCap: 0, priceAvg50: 0.0, priceAvg200: 0.0, volume: 0, avgVolume: 0, exchange: "", open: 0.0, previousClose: 0.0, isInWatchList: false, isInPortfolio: false)))
+        _stockSymbol = State.init(initialValue: StockSymbol(StockElementResponse(stockId: 0, symbol: "", name: "", description: "", price: nil, currency: "", changesPercentage: nil, change: nil, dayLow: nil, dayHigh: nil, yearHigh: nil, yearLow: nil, marketCap: nil, priceAvg50: nil, priceAvg200: nil, volume: nil, avgVolume: nil, exchange: nil, open: nil, previousClose: nil, isInWatchList: false, isInPortfolio: false)))
         _stockHolding = State.init( initialValue: StockHoldingInfoPage(HoldingResponseInfoPage(id: 0, averageCost: 0, quantity: 0, marketValue: 0, percentReturnToday: 0, moneyReturnToday: 0, percentReturnTotal: 0, moneyReturnTotal: 0, percentOfPortfolio: 0, lastUpdated: "")))
     }
     
@@ -313,6 +313,16 @@ struct StocksInfoPageView2: View {
                         
                         if(result.isSuccessful){
                             stockSymbol = result.stockInfoSearchStocksPage!
+                            myAppObjects.getPriceChart(stockId: stockToSearch.stockId, isPriceHistory: false){
+                                result in
+                                if(result.isSuccessful){
+                                    chartDiscrepancy = String(stockSymbol.change.formatPrice() + "  (" + stockSymbol.changesPercentage.formatPercentChange() + "%)")
+                                    chartPeriod = "Today"
+                                    chartData = result.chartDataResponse!.dataSet
+                                    isStockGaining = (stockSymbol.change >= 0) ? true : false
+                                }
+                                
+                            }
                         }
                         isLoading = false
                         themeColor =  (stockSymbol.change >= 0) ? Color.green : Color.red
@@ -324,17 +334,6 @@ struct StocksInfoPageView2: View {
                         if(result.isSuccessful){
                             stockHolding = result.stockHoldingInfoPageResponse!
                         }
-                    }
-                    
-                    myAppObjects.getPriceChart(stockId: stockToSearch.stockId, isPriceHistory: false){
-                        result in
-                        if(result.isSuccessful){
-                            chartDiscrepancy = String(stockSymbol.change.formatPrice() + "  (" + stockSymbol.changesPercentage.formatPercentChange() + "%)")
-                            chartPeriod = "Today"
-                            chartData = result.chartDataResponse!.dataSet
-                            isStockGaining = (stockSymbol.changesPercentage >= 0) ? true : false
-                        }
-                        
                     }
                     
                 }

@@ -165,6 +165,7 @@ struct WatchListPageView: View {
                                             destination: StocksInfoPageView2(stockToGet: stock)
                                                 .onDisappear(perform: {
                                                 myAppObjects.updateWatchListAsync()
+                                                myAppObjects.getStockHoldingsAsync()
                                             }),
                                             tag: stock.id.uuidString,
                                             selection: $selectedItem,
@@ -215,6 +216,7 @@ struct WatchListPageView: View {
                                     NavigationLink(
                                         destination: StocksInfoPageView(stock: stock).environmentObject(myAppObjects).onDisappear(perform: {
                                             myAppObjects.updateWatchListAsync()
+                                            myAppObjects.getStockHoldingsAsync()
                                         }),
                                         tag: stock.id.uuidString,
                                         selection: $selectedItem,
@@ -267,12 +269,14 @@ struct WatchListPageView: View {
             
         }.onAppear(perform: {
             isLoadingWatchlist = true
+            myAppObjects.getStockHoldingsAsync()
             myAppObjects.updateWatchList(){
                 result in
                 if(result.isSuccessful){
                     isLoadingWatchlist = false
                 }
                 else{
+                    //Would need to show error message here or something 
                     isLoadingWatchlist = false
                 }
             }

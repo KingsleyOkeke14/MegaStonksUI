@@ -32,8 +32,8 @@ struct MyHoldingsView: View {
                 }
                 DoubleColumnedView(themeColor: $themeColor, column1Field: "My Shares", column1Text: "\(holding.quantity!.formatNoDecimal())", column2Field: "Market Value", column2Text: "$\(holding.marketValue!.formatPrice())", isPortfolio: false, percentofPortfolio: 0)
                 DoubleColumnedView(themeColor: $themeColor, column1Field: "Average Cost", column1Text: "$\(holding.averageCost!.formatPrice())", column2Field: "% of My Portfolio", column2Text: "\(holding.percentOfPortfolio!.toString())%", isPortfolio: true, percentofPortfolio: CGFloat(holding.percentOfPortfolio!/100))
-                SingleColumnView(columnField: "Today's Return", textField: "$\(holding.moneyReturnToday!.formatPrice()) (\(holding.percentReturnToday!.formatPercentChange())%)")
-                SingleColumnView(columnField: "Total Return", textField: "$\(holding.moneyReturnTotal!.formatPrice()) (\(holding.percentReturnTotal!.formatPercentChange())%)")
+                SingleColumnView(columnField: "Today's Return", textField: "\(holding.moneyReturnToday!.signToString())$\(holding.moneyReturnToday!.toString()) (\(holding.percentReturnToday!.formatPercentChange())%)")
+                SingleColumnView(columnField: "Total Return", textField: "\(holding.moneyReturnTotal!.signToString())$\(holding.moneyReturnTotal!.toString()) (\(holding.percentReturnTotal!.formatPercentChange())%)")
             }.padding(.horizontal)
         }
 

@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct PortfolioSummaryView: View {
-    @State var isAllTimeGains:Bool = true
+    @Binding var isAllTimeGains:Bool
     
     @EnvironmentObject var myAppObjects:AppObjects
     @EnvironmentObject var userAuth: UserAuth
@@ -168,7 +168,7 @@ struct PortfolioSummaryView: View {
 
 struct PortfolioSummaryView_Previews: PreviewProvider {
     static var previews: some View {
-        PortfolioSummaryView()
+        PortfolioSummaryView(isAllTimeGains: Binding.constant(false))
             .environmentObject(AppObjects())
             .environmentObject(UserAuth())
             .preferredColorScheme(.dark)

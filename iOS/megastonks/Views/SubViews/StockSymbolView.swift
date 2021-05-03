@@ -14,11 +14,7 @@ struct StockSymbolView: View {
     var stock:StockSymbol
     
 
-    
     var body: some View {
-//        Color.black
-//            .ignoresSafeArea() // Ignore just for the color
-//            .overlay(
             GeometryReader { geometry in
                 VStack(spacing: 10) {
                         

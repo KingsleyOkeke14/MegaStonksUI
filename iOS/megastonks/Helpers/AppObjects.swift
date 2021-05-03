@@ -13,6 +13,7 @@ class AppObjects: ObservableObject {
     @Published var bannerData:BannerData = BannerData(title: "", detail: "", type: .Info)
     @Published var stockSearchResult:[StockSearchResult]
     @Published var userWallet:UserWallet
+    @Published var holdings:StockHoldings
     
     
     init() {
@@ -20,6 +21,7 @@ class AppObjects: ObservableObject {
         self.watchList = [StockSymbol]()
         self.stockSearchResult = [StockSearchResult]()
         self.userWallet = UserWallet(WalletResponse(firstName: "", lastName: "", cash: 0.0, initialDeposit: 0.0, investments: 0.0, total: 0.0, percentReturnToday: 0.0, moneyReturnToday: 0.0, percentReturnTotal: 0.0, moneyReturnTotal: 0.0))
+        self.holdings = StockHoldings(holdingsArray: [HoldingsResponseElement]())
     }
     
     func updateWatchList(completion: @escaping (RequestResponse) -> ()) {
@@ -32,7 +34,7 @@ class AppObjects: ObservableObject {
                     response.watchListResponse = StockSymbols(stockElementArray: jsonResponse).stocks
                     if(response.watchListResponse.count != self.watchList.count){
                         DispatchQueue.main.async {
-                            self.watchList = response.watchListResponse
+                            self.watchList = response.watchListResponse.reversed()
                         }
                     }
                 }
@@ -66,7 +68,7 @@ class AppObjects: ObservableObject {
                     response.watchListResponse = StockSymbols(stockElementArray: jsonResponse).stocks
                     if(response.watchListResponse.count != self.watchList.count){
                         DispatchQueue.main.async {
-                            self.watchList = response.watchListResponse
+                            self.watchList = response.watchListResponse.reversed()
                         }
                     }
 
@@ -234,22 +236,7 @@ class AppObjects: ObservableObject {
                  if let jsonResponse = try? decoder.decode(StockElementResponse.self, from: result.data!) {
                     response.stockInfoSearchStocksPage = StockSymbol(jsonResponse)
                 }
-//                 else{
-//                    DispatchQueue.main.async {
-//                        self.bannerData.detail = "This Stock is not Available at this time"
-//                        self.bannerData.type = .Warning
-//                        self.showBanner = true
-//                    }
-//                 }
             }
-            
-//            else{
-//                DispatchQueue.main.async {
-//                    self.bannerData.detail = "This Stock is not Available at this time"
-//                    self.bannerData.type = .Warning
-//                    self.showBanner = true
-//                }
-//            }
             completion(response)
         }
     }
@@ -262,6 +249,37 @@ class AppObjects: ObservableObject {
                 let decoder = JSONDecoder()
                  if let jsonResponse = try? decoder.decode(HoldingResponseInfoPage.self, from: result.data!) {
                     response.stockHoldingInfoPageResponse = StockHoldingInfoPage(jsonResponse)
+                }
+            }
+            completion(response)
+        }
+    }
+    
+    func getStockHoldingsAsync() {
+        var response = RequestResponse()
+        API().GetStockHoldings(){ result in
+            response = result
+            if(result.isSuccessful){
+                let decoder = JSONDecoder()
+                 if let jsonResponse = try? decoder.decode(HoldingsResponse.self, from: result.data!) {
+                    response.stockHoldingsResponse = StockHoldings(holdingsArray: jsonResponse)
+                    
+                    DispatchQueue.main.async {
+                        self.holdings = response.stockHoldingsResponse!
+                    }
+                }
+            }
+        }
+    }
+    
+    func getStockHoldings(completion: @escaping (RequestResponse) -> ()) {
+        var response = RequestResponse()
+        API().GetStockHoldings(){ result in
+            response = result
+            if(result.isSuccessful){
+                let decoder = JSONDecoder()
+                 if let jsonResponse = try? decoder.decode(HoldingsResponse.self, from: result.data!) {
+                    response.stockHoldingsResponse = StockHoldings(holdingsArray: jsonResponse)
                 }
             }
             completion(response)
@@ -283,7 +301,7 @@ class AppObjects: ObservableObject {
         }
     }
     
-    func getWallet() {
+    func getWalletAsync() {
         API().GetWallet(){ result in
             if(result.isSuccessful){
                 let decoder = JSONDecoder()

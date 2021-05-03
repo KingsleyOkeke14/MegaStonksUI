@@ -109,7 +109,7 @@ struct ProfilePageView: View {
         
         
         }.onAppear(perform: {
-            myAppObjects.getWallet()
+            myAppObjects.getWalletAsync()
         })
         .navigationViewStyle(StackNavigationViewStyle())
     }

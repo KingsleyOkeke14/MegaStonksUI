@@ -91,7 +91,7 @@ struct BannerViewModifier: ViewModifier {
                         
                             
                         }.onAppear(perform: {
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 6) {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
                                 withAnimation {
                                     self.show = false
                                 }

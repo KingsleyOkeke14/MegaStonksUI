@@ -8,11 +8,15 @@
 import SwiftUI
 
 struct PortfolioPageView: View {
-    var stocks:StockSymbolModel = StockSymbolModel()
+    
     let myColors = MyColors()
     
     @EnvironmentObject var myAppObjects:AppObjects
     @EnvironmentObject var userAuth: UserAuth
+    
+    @State private var selectedItem: String?
+    
+    @State var isAllTimeGains:Bool = true
     
     init() {
         let coloredAppearance = UINavigationBarAppearance()
@@ -35,7 +39,7 @@ struct PortfolioPageView: View {
                 .ignoresSafeArea() // Ignore just for the color
                 .overlay(
                 VStack(spacing: 20){
-                    PortfolioSummaryView()
+                    PortfolioSummaryView(isAllTimeGains: $isAllTimeGains)
                         .environmentObject(myAppObjects)
                         .environmentObject(userAuth)
                     HStack {
@@ -46,13 +50,28 @@ struct PortfolioPageView: View {
                         Spacer()
                     }.padding(.horizontal)
  
-                    ScrollView(.vertical) {
-                        VStack{
-                            ForEach(0..<stocks.symbols.count){
-                                StockSymbolView(stock: stocks.symbols[$0])
-                            }
+                    if(!myAppObjects.holdings.holdings.isEmpty){
+                        ScrollView{
+                            LazyVStack {
+                                ForEach(myAppObjects.holdings.holdings, id: \.self){ holding in
+                                    NavigationLink(
+                                        destination: StocksInfoPageView2(stockToGet: StockSearchResult(StockSearchElementResponse(id: holding.stockId, symbol: "", companyName: "", marketCap: 0, sector: "", industry: "", beta: 2.0, price: 0.0, lastAnnualDividend: 0.0, volume: 0, exchange: "", exchangeShortName: "", country: "", isEtf: false, isActivelyTrading: false, lastUpdated: "")))
+                                            .onDisappear(perform: {
+                                                myAppObjects.getWalletAsync()
+                                                myAppObjects.getStockHoldingsAsync()
+                                            })
+                                            .environmentObject(myAppObjects)
+                                            .environmentObject(userAuth)
+                                        ,
+                                        tag: holding.id.uuidString,
+                                        selection: $selectedItem,
+                                        label: {PortfolioStockSymbolView(holding: holding, isAllTimeGains: $isAllTimeGains)})
+                                }
+                            }.padding(.horizontal)
                         }
-                    }.padding()
+                       
+                    }
+                    Spacer()
                 }
                 
             )
@@ -62,8 +81,14 @@ struct PortfolioPageView: View {
         
         
         }.onAppear(perform: {
-            myAppObjects.getWallet()
+            myAppObjects.getWalletAsync()
+            myAppObjects.getStockHoldingsAsync()
         })
+        .onDisappear(perform: {
+            myAppObjects.updateWatchListAsync()
+            myAppObjects.getStockHoldingsAsync()
+        })
+        .banner(data: $myAppObjects.bannerData, show: $myAppObjects.showBanner)
         .navigationViewStyle(StackNavigationViewStyle())
         
     }
