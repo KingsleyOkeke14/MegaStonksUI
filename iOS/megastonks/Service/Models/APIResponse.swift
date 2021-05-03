@@ -76,6 +76,19 @@ struct HoldingsResponseElement: Codable {
 }
 
 
+struct OrderHistoryResponseElement: Codable {
+    let id: Int?
+    let symbol: String?
+    let name: String?
+    let orderType: String?
+    let orderStatus: String?
+    let orderAction: String?
+    let quantitySubmitted, quantityFilled, commission: Double?
+    let pricePerShare, totalPriceFilled, totalCost: Double?
+    let dateSubmitted, dateFilled: String?
+}
+
+typealias OrderHistoryResponse = [OrderHistoryResponseElement]
 
 
 typealias HoldingsResponse = [HoldingsResponseElement]

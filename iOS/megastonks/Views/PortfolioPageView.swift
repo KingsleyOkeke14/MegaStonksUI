@@ -18,6 +18,10 @@ struct PortfolioPageView: View {
     
     @State var isAllTimeGains:Bool = true
     
+    @State var isLoadingHoldings:Bool = true
+    
+    
+    
     init() {
         let coloredAppearance = UINavigationBarAppearance()
         
@@ -55,10 +59,9 @@ struct PortfolioPageView: View {
                             LazyVStack {
                                 ForEach(myAppObjects.holdings.holdings, id: \.self){ holding in
                                     NavigationLink(
-                                        destination: StocksInfoPageView2(stockToGet: StockSearchResult(StockSearchElementResponse(id: holding.stockId, symbol: "", companyName: "", marketCap: 0, sector: "", industry: "", beta: 2.0, price: 0.0, lastAnnualDividend: 0.0, volume: 0, exchange: "", exchangeShortName: "", country: "", isEtf: false, isActivelyTrading: false, lastUpdated: "")))
+                                        destination: StocksInfoPageView2(stockToGet: StockSearchResult(StockSearchElementResponse(id: holding.stockId, symbol: "", companyName: "", marketCap: 0, sector: "", industry: "", beta: 2.0, price: 0.0, lastAnnualDividend: 0.0, volume: 0, exchange: "", exchangeShortName: "", country: "", isEtf: false, isActivelyTrading: false, lastUpdated: "")), showOrderButtons: false, showWatchListButton: true )
                                             .onDisappear(perform: {
-                                                myAppObjects.getWalletAsync()
-                                                myAppObjects.getStockHoldingsAsync()
+                                                myAppObjects.updateWatchListAsync()
                                             })
                                             .environmentObject(myAppObjects)
                                             .environmentObject(userAuth)
@@ -68,7 +71,20 @@ struct PortfolioPageView: View {
                                         label: {PortfolioStockSymbolView(holding: holding, isAllTimeGains: $isAllTimeGains)})
                                 }
                             }.padding(.horizontal)
-                        }
+                        }.overlay(
+                            VStack{
+                                if(isLoadingHoldings){
+                                    Color.black
+                                        .overlay(
+                                            ProgressView()
+                                                .accentColor(.green)
+                                                .scaleEffect(x: 1.4, y: 1.4)
+                                                .progressViewStyle(CircularProgressViewStyle(tint: myColors.greenColor))
+                                        )
+
+                                }
+                            }
+                    )
                        
                     }
                     Spacer()
@@ -81,12 +97,17 @@ struct PortfolioPageView: View {
         
         
         }.onAppear(perform: {
+            isLoadingHoldings = true
             myAppObjects.getWalletAsync()
-            myAppObjects.getStockHoldingsAsync()
-        })
-        .onDisappear(perform: {
-            myAppObjects.updateWatchListAsync()
-            myAppObjects.getStockHoldingsAsync()
+            myAppObjects.getStockHoldings(){
+                result in
+                if(result.isSuccessful){
+                    DispatchQueue.main.async {
+                        myAppObjects.holdings = result.stockHoldingsResponse!
+                    }
+                    isLoadingHoldings = false
+                }
+            }
         })
         .banner(data: $myAppObjects.bannerData, show: $myAppObjects.showBanner)
         .navigationViewStyle(StackNavigationViewStyle())

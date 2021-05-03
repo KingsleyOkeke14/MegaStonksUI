@@ -10,10 +10,6 @@ import SwiftUI
 struct OrderView: View {
     let myColors = MyColors()
     var body: some View {
-//       VStack {
-//            Color.black
-//                .ignoresSafeArea()
-//                .overlay(
                 VStack(spacing: 2){
                     HStack{
                         Text("ARKF")
@@ -59,14 +55,12 @@ struct OrderView: View {
                         .edgesIgnoringSafeArea(.horizontal)
                 }.padding(.horizontal)
             
-//        )
-//        }
     }
     
 }
 
 struct OrderView_Previews: PreviewProvider {
     static var previews: some View {
-        OrderView()
+        OrderView().preferredColorScheme(/*@START_MENU_TOKEN@*/.dark/*@END_MENU_TOKEN@*/)
     }
 }

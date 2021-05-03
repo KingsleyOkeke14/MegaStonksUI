@@ -21,7 +21,9 @@ struct StocksInfoPageView2: View {
     @State var buttonList: [(buttonName: String, buttonState: Bool)] = [("1D", true), ("5D", false), ("1M", false), ("3M", false), ("1Y", false), ("5Y", false)]
     
     @State var chartData = [(String, Double)]()
-
+    
+    var showOrderButtons:Bool
+    var showWatcListButton:Bool
     
     @State var chartDiscrepancy = ""
     
@@ -38,11 +40,13 @@ struct StocksInfoPageView2: View {
     
     @State var orderAction:String = ""
     
-    init(stockToGet: StockSearchResult) {
+    init(stockToGet: StockSearchResult, showOrderButtons: Bool, showWatchListButton: Bool) {
         //_themeColor = State(initialValue: (stock.change >= 0) ? Color.green : Color.red )
         stockToSearch = stockToGet
         _stockSymbol = State.init(initialValue: StockSymbol(StockElementResponse(stockId: 0, symbol: "", name: "", description: "", price: nil, currency: "", changesPercentage: nil, change: nil, dayLow: nil, dayHigh: nil, yearHigh: nil, yearLow: nil, marketCap: nil, priceAvg50: nil, priceAvg200: nil, volume: nil, avgVolume: nil, exchange: nil, open: nil, previousClose: nil, isInWatchList: false, isInPortfolio: false)))
         _stockHolding = State.init( initialValue: StockHoldingInfoPage(HoldingResponseInfoPage(id: 0, averageCost: 0, quantity: 0, marketValue: 0, percentReturnToday: 0, moneyReturnToday: 0, percentReturnTotal: 0, moneyReturnTotal: 0, percentOfPortfolio: 0, lastUpdated: "")))
+        self.showOrderButtons = showOrderButtons
+        self.showWatcListButton = showWatchListButton
     }
     
     func changeActiveButton(activeButton: Int){
@@ -60,6 +64,8 @@ struct StocksInfoPageView2: View {
                 VStack{
                     if(!isLoading && !stockSymbol.name.isEmpty){
                         VStack(spacing: 2){
+                            
+                            if(showWatcListButton){
                             HStack {
                                 Spacer()
                                 Button(action: {
@@ -90,7 +96,7 @@ struct StocksInfoPageView2: View {
                                     }
                                 })
                             }
-                            
+                            }
                             StockInfoView(stockSymbol: $stockSymbol, highlightColor: $themeColor)
                             ScrollView{
                                 VStack(spacing: 12){
@@ -234,40 +240,42 @@ struct StocksInfoPageView2: View {
                                         
                                         
                                     }.padding(.horizontal)
-                                    
-                                    HStack{
-                                        Spacer()
-                                        Button(action: {
-                                            orderAction = "Buy"
-                                            showingOrderPage.toggle()
-                                            
-                                        }, label: {
-                                            ButtonView(cornerRadius: 12,  text: "Buy", textColor: myColors.grayColor, textSize: 20, frameWidth: 80, frameHeight: 34, backGroundColor: themeColor, strokeBorders: false, fillColor: themeColor)
-                                        }).sheet(isPresented: $showingOrderPage) {
-                                            PlaceOrderPageView(stockSymbol: $stockSymbol, orderAction: $orderAction)
-                                                .environmentObject(myAppObjects)
-                                                .environmentObject(userAuth)
-                                        }
-                                        
-                                        
-                                        if(stockSymbol.isInPortfolio){
+                                    if(showOrderButtons){
+                                        HStack{
                                             Spacer()
                                             Button(action: {
-                                                orderAction = "Sell"
+                                                orderAction = "Buy"
                                                 showingOrderPage.toggle()
                                                 
                                             }, label: {
-                                                ButtonView(cornerRadius: 12,  text: "Sell", textColor: themeColor, textSize: 20, frameWidth: 80, frameHeight: 34, strokeBorders: false, fillColor: myColors.grayColor)
+                                                ButtonView(cornerRadius: 12,  text: "Buy", textColor: myColors.grayColor, textSize: 20, frameWidth: 80, frameHeight: 34, backGroundColor: themeColor, strokeBorders: false, fillColor: themeColor)
                                             }).sheet(isPresented: $showingOrderPage) {
                                                 PlaceOrderPageView(stockSymbol: $stockSymbol, orderAction: $orderAction)
                                                     .environmentObject(myAppObjects)
                                                     .environmentObject(userAuth)
                                             }
+                                            
+                                            
+                                            if(stockSymbol.isInPortfolio){
+                                                Spacer()
+                                                Button(action: {
+                                                    orderAction = "Sell"
+                                                    showingOrderPage.toggle()
+                                                    
+                                                }, label: {
+                                                    ButtonView(cornerRadius: 12,  text: "Sell", textColor: themeColor, textSize: 20, frameWidth: 80, frameHeight: 34, strokeBorders: false, fillColor: myColors.grayColor)
+                                                }).sheet(isPresented: $showingOrderPage) {
+                                                    PlaceOrderPageView(stockSymbol: $stockSymbol, orderAction: $orderAction)
+                                                        .environmentObject(myAppObjects)
+                                                        .environmentObject(userAuth)
+                                                }
+                                            }
+                                            
+                                            
+                                            Spacer()
                                         }
-                                        
-                                        
-                                        Spacer()
                                     }
+                                    
                                     if(stockSymbol.isInPortfolio){
                                         MyHoldingsView(themeColor: $themeColor, holding: $stockHolding)
                                     }
@@ -346,6 +354,6 @@ struct StocksInfoPageView2: View {
 
 struct StockInfoPage2_Previews: PreviewProvider {
     static var previews: some View {
-        StocksInfoPageView2(stockToGet: StockSearchResult(StockSearchElementResponse(id: 0, symbol: "", companyName: "", marketCap: 0, sector: "", industry: "", beta: 0.0, price: 0.0, lastAnnualDividend: 0.0, volume: 0, exchange: "", exchangeShortName: "", country: "", isEtf: false, isActivelyTrading: false, lastUpdated: ""))).environmentObject(AppObjects())
+        StocksInfoPageView2(stockToGet: StockSearchResult(StockSearchElementResponse(id: 0, symbol: "", companyName: "", marketCap: 0, sector: "", industry: "", beta: 0.0, price: 0.0, lastAnnualDividend: 0.0, volume: 0, exchange: "", exchangeShortName: "", country: "", isEtf: false, isActivelyTrading: false, lastUpdated: "")), showOrderButtons: true, showWatchListButton: true).environmentObject(AppObjects())
     }
 }

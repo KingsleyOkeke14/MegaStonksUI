@@ -32,11 +32,10 @@ class AppObjects: ObservableObject {
                 let decoder = JSONDecoder()
                  if let jsonResponse = try? decoder.decode(StockListResponse.self, from: result.data!) {
                     response.watchListResponse = StockSymbols(stockElementArray: jsonResponse).stocks
-                    if(response.watchListResponse.count != self.watchList.count){
                         DispatchQueue.main.async {
                             self.watchList = response.watchListResponse.reversed()
                         }
-                    }
+                    
                 }
                  else{
                     DispatchQueue.main.async {

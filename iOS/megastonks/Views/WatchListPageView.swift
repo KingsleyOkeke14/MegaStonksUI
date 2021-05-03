@@ -162,7 +162,7 @@ struct WatchListPageView: View {
                                     LazyVStack{
                                     ForEach(myAppObjects.stockSearchResult, id: \.self){ stock in
                                         NavigationLink(
-                                            destination: StocksInfoPageView2(stockToGet: stock)
+                                            destination: StocksInfoPageView2(stockToGet: stock, showOrderButtons: true, showWatchListButton: true)
                                                 .onDisappear(perform: {
                                                 myAppObjects.updateWatchListAsync()
                                                 myAppObjects.getStockHoldingsAsync()
@@ -215,7 +215,7 @@ struct WatchListPageView: View {
                                 ForEach(myAppObjects.watchList, id: \.self){ stock in
                                     NavigationLink(
                                         destination: StocksInfoPageView(stock: stock).environmentObject(myAppObjects).onDisappear(perform: {
-                                            myAppObjects.updateWatchListAsync()
+                                            //myAppObjects.updateWatchListAsync()
                                             myAppObjects.getStockHoldingsAsync()
                                         }),
                                         tag: stock.id.uuidString,
@@ -276,7 +276,7 @@ struct WatchListPageView: View {
                     isLoadingWatchlist = false
                 }
                 else{
-                    //Would need to show error message here or something 
+                    //Would need to show error message here or something
                     isLoadingWatchlist = false
                 }
             }

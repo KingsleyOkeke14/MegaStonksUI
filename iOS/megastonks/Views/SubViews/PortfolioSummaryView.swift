@@ -85,13 +85,13 @@ struct PortfolioSummaryView: View {
                                 HStack {
                                     Spacer()
                                     if(isAllTimeGains){
-                                        Text("\(myAppObjects.userWallet.percentReturnTotal.signToString())(\(myAppObjects.userWallet.percentReturnTotal.formatPrice())%)")
+                                        Text("(\(myAppObjects.userWallet.percentReturnTotal.formatPercentChange())%)")
                                             .foregroundColor(myAppObjects.userWallet.percentReturnTotal >= 0 ? .green : .red)
                                             .font(.custom("Verdana", fixedSize: 16))
                                             .frame(width: geometry.size.width * 0.3, alignment: .trailing)
                                     }
                                     else{
-                                        Text("\(myAppObjects.userWallet.percentReturnToday.signToString())(\(myAppObjects.userWallet.percentReturnToday.formatPrice())%)")
+                                        Text("(\(myAppObjects.userWallet.percentReturnToday.formatPercentChange())%)")
                                             .foregroundColor(myAppObjects.userWallet.percentReturnToday >= 0 ? .green : .red)
                                             .font(.custom("Verdana", fixedSize: 16))
                                             .frame(width: geometry.size.width * 0.3, alignment: .trailing)
@@ -118,13 +118,13 @@ struct PortfolioSummaryView: View {
                                     
                                     Spacer()
                                     if(isAllTimeGains){
-                                        Text("\(myAppObjects.userWallet.moneyReturnTotal.signToString())\(myAppObjects.userWallet.moneyReturnTotal.formatPrice())")
+                                        Text("\(myAppObjects.userWallet.moneyReturnTotal.formatPercentChange())")
                                             .foregroundColor(myAppObjects.userWallet.percentReturnTotal >= 0 ? .green : .red)
                                             .font(.custom("Verdana", fixedSize: 16))
                                             .frame(width: geometry.size.width * 0.3, alignment: .leading)
                                     }
                                     else{
-                                        Text("\(myAppObjects.userWallet.moneyReturnToday.signToString())\(myAppObjects.userWallet.moneyReturnToday.formatPrice())")
+                                        Text("\(myAppObjects.userWallet.moneyReturnToday.formatPercentChange())")
                                             .foregroundColor(myAppObjects.userWallet.percentReturnToday >= 0 ? .green : .red)
                                             .font(.custom("Verdana", fixedSize: 16))
                                             .frame(width: geometry.size.width * 0.3, alignment: .leading)

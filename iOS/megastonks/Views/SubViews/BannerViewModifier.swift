@@ -41,7 +41,6 @@ struct BannerViewModifier: ViewModifier {
     @Binding var show:Bool
     
     
-    
     func body(content: Content) -> some View {
         ZStack {
             content
@@ -91,7 +90,7 @@ struct BannerViewModifier: ViewModifier {
                         
                             
                         }.onAppear(perform: {
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                                 withAnimation {
                                     self.show = false
                                 }

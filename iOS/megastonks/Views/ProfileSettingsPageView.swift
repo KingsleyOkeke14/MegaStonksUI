@@ -72,7 +72,7 @@ struct ProfileSettingsPageView: View {
                                     .font(.custom("Apple SD Gothic Neo", fixedSize: 12))
                                     .multilineTextAlignment(.center)
                                     .padding()
-                                Text("strikingfinancial.com")
+                                Text("strikingfinancial.ca")
                                     .foregroundColor(.white)
                                     .bold()
                                     .font(.custom("Apple SD Gothic Neo", fixedSize: 12))
