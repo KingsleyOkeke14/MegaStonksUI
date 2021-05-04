@@ -15,6 +15,9 @@ struct ProfilePageView: View {
     @EnvironmentObject var userAuth: UserAuth
     @EnvironmentObject var myAppObjects:AppObjects
     
+    @State var userWallet:UserWallet = UserWallet(WalletResponse(firstName: "", lastName: "", cash: 0.0, initialDeposit: 0.0, investments: 0.0, total: 0.0, percentReturnToday: 0.0, moneyReturnToday: 0.0, percentReturnTotal: 0.0, moneyReturnTotal: 0.0))
+    @State var isLoading:Bool = true
+    
     init() {
         let coloredAppearance = UINavigationBarAppearance()
         
@@ -58,7 +61,7 @@ struct ProfilePageView: View {
                         
                         
                         HStack{
-                            Text("$ \(myAppObjects.userWallet.total.formatPrice())")
+                            Text("$ \(userWallet.total.formatPrice())")
                                 .foregroundColor(myColors.greenColor)
                                 .font(.custom("Verdana", fixedSize: 24))
                                 .bold()
@@ -71,36 +74,63 @@ struct ProfilePageView: View {
                             
                         }.lineLimit(1).minimumScaleFactor(0.5)
                         
-                        UserProfileWalletSummary(firsName: $userAuth.user.firstName, lastName: $userAuth.user.lastName, cash: $myAppObjects.userWallet.cash, investments: $myAppObjects.userWallet.investments, initialDeposit: $myAppObjects.userWallet.initialDeposit, cashPercentage: $myAppObjects.userWallet.cashPercentage)
+                        UserProfileWalletSummary(firsName: $userWallet.firstName, lastName: $userWallet.lastName, cash: $userWallet.cash, investments: $userWallet.investments, initialDeposit: $userWallet.initialDeposit, cashPercentage: $userWallet.cashPercentage)
                         
                         
                         
-                        Button(action: {}, label: {
-                            VStack(spacing: 0) {
-                                
-                                HStack {
-                                    Text("Orders")
-                                        .font(.custom("Apple SD Gothic Neo", fixedSize: 22))
-                                        .bold()
-                                        .foregroundColor(myColors.greenColor)
+                        NavigationLink(
+                            destination: OrdersPageView().environmentObject(myAppObjects),
+                            label: {
+                                VStack(spacing: 0) {
                                     
-                                    Spacer()
-                                    Image(systemName: "chevron.forward.circle")
-                                        .foregroundColor(myColors.greenColor)
+                                    HStack {
+                                        Text("Orders")
+                                            .font(.custom("Apple SD Gothic Neo", fixedSize: 22))
+                                            .bold()
+                                            .foregroundColor(myColors.greenColor)
+                                        
+                                        Spacer()
+                                        Image(systemName: "chevron.forward.circle")
+                                            .foregroundColor(myColors.greenColor)
+                                        
+                                    }
+                                    Rectangle()
+                                        .fill(myColors.greenColor)
+                                        .frame(height: 2)
+                                        .edgesIgnoringSafeArea(.horizontal)
                                     
-                                }
-                                Rectangle()
-                                    .fill(myColors.greenColor)
-                                    .frame(height: 2)
-                                    .edgesIgnoringSafeArea(.horizontal)
-                                
-                            }.padding(.horizontal)
-                        })
+                                }.padding(.horizontal)
+                            })
+                            
                         
-                        OrderView().padding(.top, 10)
+                        
+                        if(!myAppObjects.orderHistory.history.isEmpty){
+                            OrderView(orderHistoryElement: myAppObjects.orderHistory.history[0]).padding(.top, 10)
+                        }
+                      
                         Spacer()
-                        
-                    }
+                        VStack{
+                            Image(<#T##name: String##String#>)
+                        }
+                    }.onAppear(perform: {
+                        isLoading = true
+                        myAppObjects.getOrderHistoryAsync()
+                        myAppObjects.getWallet(){
+                            result in
+                            if(result.isSuccessful){
+                                //I should change the environment object here. However, this prevents the vieew from refreshing so I am only going to update the view state
+                                DispatchQueue.main.async {
+                                     
+                                    myAppObjects.userWallet = result.walletResponse!
+                                    userWallet = myAppObjects.userWallet
+                                    isLoading = false
+                                    print("Wallet Refreshed")
+                                }
+                               
+                            }
+                        }
+                        isLoading = false
+                    })
                     
                 )
                 .navigationBarTitleDisplayMode(.inline)
@@ -108,9 +138,22 @@ struct ProfilePageView: View {
                 .navigationBarHidden(true)
         
         
-        }.onAppear(perform: {
-            myAppObjects.getWalletAsync()
-        })
+        }
+        .overlay(
+            VStack{
+                if(isLoading){
+                    Color.black
+                        .overlay(
+                            ProgressView()
+                                .accentColor(.green)
+                                .scaleEffect(x: 1.4, y: 1.4)
+                                .progressViewStyle(CircularProgressViewStyle(tint: myColors.greenColor))
+                        )
+
+                }
+            }
+        )
+
         .navigationViewStyle(StackNavigationViewStyle())
     }
 }

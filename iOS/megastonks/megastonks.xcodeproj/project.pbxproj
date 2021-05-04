@@ -15,6 +15,8 @@
 		D004686A25D64E87006C60E9 /* LoadingIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D004686925D64E87006C60E9 /* LoadingIndicatorView.swift */; };
 		D004686F25D8B96E006C60E9 /* OrderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D004686E25D8B96E006C60E9 /* OrderView.swift */; };
 		D004687325D8D19F006C60E9 /* OrderDetailPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D004687225D8D19F006C60E9 /* OrderDetailPageView.swift */; };
+		D009875F2640CD8000F76AEA /* OrdersPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D009875E2640CD8000F76AEA /* OrdersPageView.swift */; };
+		D00987632640E3D600F76AEA /* OrderSucessPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00987622640E3D600F76AEA /* OrderSucessPageView.swift */; };
 		D00A6687263486AD0085EB1C /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00A6686263486AD0085EB1C /* User.swift */; };
 		D00CA77B25CA40C400232915 /* SearchBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00CA77A25CA40C400232915 /* SearchBarView.swift */; };
 		D00CA78125CB3BF600232915 /* StockSymbolView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00CA78025CB3BF600232915 /* StockSymbolView.swift */; };
@@ -47,6 +49,8 @@
 		D06B311525C7AFF400A37C08 /* LoginPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06B311425C7AFF400A37C08 /* LoginPageView.swift */; };
 		D06B311825C7BA5200A37C08 /* SecretFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06B311725C7BA5200A37C08 /* SecretFormView.swift */; };
 		D06C297A263F587100F1B31A /* PortfolioStockSymbolView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06C2979263F587100F1B31A /* PortfolioStockSymbolView.swift */; };
+		D06C2983264098EC00F1B31A /* OrderResultInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06C2982264098EC00F1B31A /* OrderResultInfo.swift */; };
+		D06C298626409D6700F1B31A /* OrderHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06C298526409D6700F1B31A /* OrderHistory.swift */; };
 		D06E429425D3545E009701A2 /* StatisticsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06E429325D3545E009701A2 /* StatisticsView.swift */; };
 		D09EF9DD2624989B00D9EF05 /* RootPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D09EF9DC2624989B00D9EF05 /* RootPageView.swift */; };
 		D09EF9E02624994C00D9EF05 /* UserAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = D09EF9DF2624994C00D9EF05 /* UserAuth.swift */; };
@@ -76,6 +80,8 @@
 		D004686925D64E87006C60E9 /* LoadingIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingIndicatorView.swift; sourceTree = "<group>"; };
 		D004686E25D8B96E006C60E9 /* OrderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderView.swift; sourceTree = "<group>"; };
 		D004687225D8D19F006C60E9 /* OrderDetailPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderDetailPageView.swift; sourceTree = "<group>"; };
+		D009875E2640CD8000F76AEA /* OrdersPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrdersPageView.swift; sourceTree = "<group>"; };
+		D00987622640E3D600F76AEA /* OrderSucessPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderSucessPageView.swift; sourceTree = "<group>"; };
 		D00A6686263486AD0085EB1C /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		D00CA77A25CA40C400232915 /* SearchBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarView.swift; sourceTree = "<group>"; };
 		D00CA78025CB3BF600232915 /* StockSymbolView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockSymbolView.swift; sourceTree = "<group>"; };
@@ -109,6 +115,8 @@
 		D06B311425C7AFF400A37C08 /* LoginPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginPageView.swift; sourceTree = "<group>"; };
 		D06B311725C7BA5200A37C08 /* SecretFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecretFormView.swift; sourceTree = "<group>"; };
 		D06C2979263F587100F1B31A /* PortfolioStockSymbolView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioStockSymbolView.swift; sourceTree = "<group>"; };
+		D06C2982264098EC00F1B31A /* OrderResultInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderResultInfo.swift; sourceTree = "<group>"; };
+		D06C298526409D6700F1B31A /* OrderHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderHistory.swift; sourceTree = "<group>"; };
 		D06E429325D3545E009701A2 /* StatisticsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsView.swift; sourceTree = "<group>"; };
 		D09EF9DC2624989B00D9EF05 /* RootPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootPageView.swift; sourceTree = "<group>"; };
 		D09EF9DF2624994C00D9EF05 /* UserAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAuth.swift; sourceTree = "<group>"; };
@@ -269,6 +277,8 @@
 				D0A94F892626CF6B005477B6 /* ResetPasswordPageView.swift */,
 				D0A94F8C2626D1F3005477B6 /* ForgotPasswordPageView.swift */,
 				D02CBD5E263331D1003BB203 /* LaunchScreen.storyboard */,
+				D009875E2640CD8000F76AEA /* OrdersPageView.swift */,
+				D00987622640E3D600F76AEA /* OrderSucessPageView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -282,6 +292,8 @@
 				D05F0A30263A0A6300CCC115 /* StockHolding.swift */,
 				D05F0A35263A3E6800CCC115 /* ChartData.swift */,
 				D0E282EE263DC0E90027EFDB /* UserWallet.swift */,
+				D06C2982264098EC00F1B31A /* OrderResultInfo.swift */,
+				D06C298526409D6700F1B31A /* OrderHistory.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -377,11 +389,13 @@
 				D06B311825C7BA5200A37C08 /* SecretFormView.swift in Sources */,
 				D004685D25D4BD2B006C60E9 /* PortfolioPageView.swift in Sources */,
 				D0E282EF263DC0E90027EFDB /* UserWallet.swift in Sources */,
+				D009875F2640CD8000F76AEA /* OrdersPageView.swift in Sources */,
 				D06E429425D3545E009701A2 /* StatisticsView.swift in Sources */,
 				D034870D25C7FE3D00CFCAB2 /* RegisterPageView.swift in Sources */,
 				D0A3125C2633A031008993C2 /* EULA.swift in Sources */,
 				D00CA78725CB55CD00232915 /* StockSymbolModel.swift in Sources */,
 				D04F7EA725D323AE00E52997 /* RadialChartView.swift in Sources */,
+				D00987632640E3D600F76AEA /* OrderSucessPageView.swift in Sources */,
 				D0E282FC263E5A2C0027EFDB /* NumberPadView.swift in Sources */,
 				D0A94F8A2626CF6B005477B6 /* ResetPasswordPageView.swift in Sources */,
 				D05F0A36263A3E6800CCC115 /* ChartData.swift in Sources */,
@@ -412,6 +426,7 @@
 				D0336E1F2635DD09004DB6A3 /* Extensions.swift in Sources */,
 				D00CA77B25CA40C400232915 /* SearchBarView.swift in Sources */,
 				D0E282F3263E56610027EFDB /* PlaceOrderPageView.swift in Sources */,
+				D06C2983264098EC00F1B31A /* OrderResultInfo.swift in Sources */,
 				D057842325C894530039E6CD /* OnBoardPageView.swift in Sources */,
 				D004686025D4D2CD006C60E9 /* ProfilePageView.swift in Sources */,
 				D0585E6D26385451000C8546 /* StockSearchView.swift in Sources */,
@@ -420,6 +435,7 @@
 				D00CA78A25CB93DD00232915 /* WatchListPageView.swift in Sources */,
 				D0FC100325D2F96D00366B26 /* MyColors.swift in Sources */,
 				D06B311525C7AFF400A37C08 /* LoginPageView.swift in Sources */,
+				D06C298626409D6700F1B31A /* OrderHistory.swift in Sources */,
 				D031EB3F26118C7F001504B5 /* API.swift in Sources */,
 				D004686F25D8B96E006C60E9 /* OrderView.swift in Sources */,
 				D0F948802635B20C0069D2B7 /* BannerViewModifier.swift in Sources */,

@@ -41,6 +41,16 @@ extension Double {
         
     }
     
+    func formatForex() -> String {
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = .decimal
+        numberFormatter.minimumFractionDigits = 6
+        numberFormatter.maximumFractionDigits = 6
+        
+        return  numberFormatter.string(from: NSNumber(value: self))!
+        
+    }
+    
     func formatPercentChange() -> String {
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .decimal

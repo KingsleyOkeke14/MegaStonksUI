@@ -32,6 +32,7 @@ struct StocksInfoPageView: View {
     @State var orderAction:String = ""
     
     
+    
     @EnvironmentObject var myAppObjects:AppObjects
     @EnvironmentObject var userAuth: UserAuth
     
@@ -265,7 +266,15 @@ struct StocksInfoPageView: View {
                                         Spacer()
                                     }
                                     if(stockSymbol.isInPortfolio){
-                                        MyHoldingsView(themeColor: $themeColor, holding: $stockHolding)
+                                        MyHoldingsView(themeColor: $themeColor, holding: $stockHolding).onChange(of: showingOrderPage, perform: { value in
+                                            myAppObjects.getStockHolding(stockId: stockSymbol.stockId){
+                                                result in
+                                                
+                                                if(result.isSuccessful){
+                                                    stockHolding = result.stockHoldingInfoPageResponse!
+                                                }
+                                            }
+                                        })
                                     }
                                     StatisticsView(stockSymbol: $stockSymbol, themeColor: $themeColor)
                                     CompanyInfoView(stockSymbol: $stockSymbol, themeColor: $themeColor)

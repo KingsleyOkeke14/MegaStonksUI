@@ -79,4 +79,17 @@ class ForgotPasswordRequest: Codable {
     }
 }
 
+class OrderStockRequest: Codable {
 
+    let stockId: Int
+    let orderType: String
+    let orderAction: String
+    let quantitySubmitted: Int
+
+    init(stockId: Int, orderType: String, orderAction: String, quantitySubmitted: Int) {
+        self.stockId = stockId
+        self.orderType = orderType
+        self.orderAction = orderAction
+        self.quantitySubmitted = quantitySubmitted
+    }
+}

@@ -8,58 +8,73 @@
 import SwiftUI
 
 struct OrderDetailView: View {
+    
+    var orderHistoryElement: OrderHistoryElement
+    var shareText = "Shares"
+    
+    init(orderHistoryElement: OrderHistoryElement){
+        self.orderHistoryElement = orderHistoryElement
+        self.shareText = orderHistoryElement.quantityFilled <= 1.0 ? "Share" : "Shares"
+    }
+    
     let myColors = MyColors()
     var body: some View {
         Color.black
             .ignoresSafeArea()
             .overlay(
-                VStack(spacing: 20){
-                    HStack{
-                        Text("Executed")
-                            .foregroundColor(myColors.greenColor)
-                            .font(.custom("Verdana", fixedSize: 24))
-                            .bold()
-
-                    }
-
-                    HStack{
-                        ZStack{
-                            Circle()
-                                .stroke(myColors.greenColor, lineWidth: 4)
-                                .frame(width: 110, height: 110)
-                                .shadow(color: myColors.greenColor, radius: 6, x: 4, y: 4)
-                            Circle()
-                                .fill(myColors.grayColor)
-                                .frame(width: 110, height: 110)
-                            Text("DOC")
-                                .font(.title)
+                ScrollView{
+                    Spacer(minLength: 20)
+                    VStack(spacing: 20){
+                        
+                        
+                        
+                        HStack{
+                            Text(orderHistoryElement.orderStatus)
+                                .foregroundColor(myColors.greenColor)
+                                .font(.custom("Verdana", fixedSize: 20))
                                 .bold()
-                                .foregroundColor(.white)
-                                .lineLimit(2)
-                                .minimumScaleFactor(0.5)
-                                .frame(width: 80, height: 80, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-                                .padding()
                         }
-
-                    }
-
-                    
-                    Text("CloudMD Software & Services Inc")
-                        .font(.custom("Helvetica", fixedSize: 20))
-                        .foregroundColor(.white)
-                        .bold()
-                        .multilineTextAlignment(.center)
-                        .padding(.horizontal)
-                    
-                    TripleRowView(label1: "Order Type", value1: "Market", label2: "Status", value2: "Executed", label3: "Action", value3: "Buy")
-                    DoubleRowView(label1: "Date Submitted", value1: "Feb 8, 2020 11:40AM", label2: "Date Filled", value2: "Feb 8, 2020 11:40AM")
-                    DoubleRowView(label1: "Qty Submitted", value1: "32 Shares", label2: "Qty Filled", value2: "32 Shares")
-                    SingleRowView(label: "Commission", value: "$4.00")
-                    TripleRowView(label1: "", value1: "20 Shares x $10.20", label2: "Price Filled", value2: "$240", label3: "Comission", value3: "$4")
-                    SingleRowView(label: "Total", value: "$244.00")
+                        HStack{
+                            ZStack{
+                                Circle()
+                                    .stroke(myColors.greenColor, lineWidth: 4)
+                                    .frame(width: 80, height: 80)
+                                    .shadow(color: myColors.greenColor, radius: 6, x: 4, y: 4)
+                                Circle()
+                                    .fill(myColors.grayColor)
+                                    .frame(width: 80, height: 80)
+                                Text(orderHistoryElement.symbol)
+                                    .font(.custom("Verdana", fixedSize: 20))
+                                    .bold()
+                                    .foregroundColor(.white)
+                                    .frame(width: 80, height: 80, alignment: .center)
+                                    .padding()
+                            }
+                            
+                        }
+                        
+                        
+                        Text(orderHistoryElement.name)
+                            .font(.custom("Helvetica", fixedSize: 16))
+                            .foregroundColor(.white)
+                            .bold()
+                            .multilineTextAlignment(.center)
+                            .padding(.horizontal)
+                        
+                        TripleRowView(label1: "Order Type", value1: orderHistoryElement.orderType, label2: "Status", value2: orderHistoryElement.orderStatus, label3: "Action", value3: orderHistoryElement.orderAction)
+                        DoubleRowView(label1: "Date Submitted", value1: orderHistoryElement.dateSubmitted, label2: "Date Filled", value2: orderHistoryElement.dateFilled)
+                        DoubleRowView(label1: "Qty Submitted", value1: "\(orderHistoryElement.quantitySubmitted.formatNoDecimal()) \(shareText)", label2: "Qty Filled", value2: "\(orderHistoryElement.quantityFilled.formatNoDecimal()) \(shareText)")
+                        SingleRowView(label: "Commission", value: "$\(orderHistoryElement.commission)")
+                        DoubleRowView(label1: "", value1: "\(orderHistoryElement.quantityFilled.formatNoDecimal()) \(shareText) x $\(orderHistoryElement.pricePerShare)", label2: "Price Filled", value2: "$\(orderHistoryElement.totalPriceFilled)")
+                        if(orderHistoryElement.orderAction.uppercased() == "BUY"){
+                            SingleRowView(label: "Total Cost", value: "$\(orderHistoryElement.totalCost)")
+                        }
+                        else if(orderHistoryElement.orderAction.uppercased() == "SELL"){
+                            SingleRowView(label: "Total Value", value: "$\((orderHistoryElement.totalCost - orderHistoryElement.commission).formatPrice())")
+                        }
+                        
+                    }.lineLimit(1).minimumScaleFactor(0.5)
                 }
-            
-            
             )
     }
 }
@@ -75,15 +90,15 @@ struct SingleRowView: View {
             HStack {
                 Text(label)
                     .foregroundColor(myColors.lightGrayColor)
-                  
-                    .font(.custom("Verdana", fixedSize: 18))
+                    
+                    .font(.custom("Verdana", fixedSize: 16))
                 Spacer()
                 Text(value)
                     .foregroundColor(.white)
                     .bold()
-                    .font(.custom("Verdana", fixedSize: 18))
+                    .font(.custom("Verdana", fixedSize: 16))
             }
-
+            
             Rectangle()
                 .fill(myColors.lightGrayColor)
                 .frame(height: 2)
@@ -104,24 +119,24 @@ struct DoubleRowView: View {
             HStack {
                 Text(label1)
                     .foregroundColor(myColors.lightGrayColor)
-                    .font(.custom("Verdana", fixedSize: 18))
+                    .font(.custom("Verdana", fixedSize: 16))
                 Spacer()
                 Text(value1)
                     .foregroundColor(.white)
                     .bold()
-                    .font(.custom("Verdana", fixedSize: 18))
+                    .font(.custom("Verdana", fixedSize: 16))
             }
             HStack {
                 Text(label2)
                     .foregroundColor(myColors.lightGrayColor)
-                    .font(.custom("Verdana", fixedSize: 18))
+                    .font(.custom("Verdana", fixedSize: 16))
                 Spacer()
                 Text(value2)
                     .foregroundColor(.white)
                     .bold()
-                    .font(.custom("Verdana", fixedSize: 18))
+                    .font(.custom("Verdana", fixedSize: 16))
             }
-
+            
             Rectangle()
                 .fill(myColors.lightGrayColor)
                 .frame(height: 2)
@@ -144,34 +159,34 @@ struct TripleRowView: View {
             HStack {
                 Text(label1)
                     .foregroundColor(myColors.lightGrayColor)
-                    .font(.custom("Verdana", fixedSize: 18))
+                    .font(.custom("Verdana", fixedSize: 16))
                 Spacer()
                 Text(value1)
                     .foregroundColor(.white)
                     .bold()
-                    .font(.custom("Verdana", fixedSize: 18))
+                    .font(.custom("Verdana", fixedSize: 16))
             }
             HStack {
                 Text(label2)
                     .foregroundColor(myColors.lightGrayColor)
-                    .font(.custom("Verdana", fixedSize: 18))
+                    .font(.custom("Verdana", fixedSize: 16))
                 Spacer()
                 Text(value2)
                     .foregroundColor(.white)
                     .bold()
-                    .font(.custom("Verdana", fixedSize: 18))
+                    .font(.custom("Verdana", fixedSize: 16))
             }
             HStack {
                 Text(label3)
                     .foregroundColor(myColors.lightGrayColor)
-                    .font(.custom("Verdana", fixedSize: 18))
+                    .font(.custom("Verdana", fixedSize: 16))
                 Spacer()
                 Text(value3)
                     .foregroundColor(.white)
                     .bold()
-                    .font(.custom("Verdana", fixedSize: 18))
+                    .font(.custom("Verdana", fixedSize: 16))
             }
-
+            
             Rectangle()
                 .fill(myColors.lightGrayColor)
                 .frame(height: 2)
@@ -182,6 +197,6 @@ struct TripleRowView: View {
 
 struct OrderDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        OrderDetailView()
+        OrderDetailView(orderHistoryElement: StockSymbolModel().orderHistoryElement)
     }
 }

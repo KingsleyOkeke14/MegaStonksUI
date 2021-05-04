@@ -29,6 +29,8 @@ struct APIRoutes {
     private let priceHistoryRoute = "stocks/pricehistory"
     private let isMarketOpenRoute = "fmpApi/ismarketopen"
     private let walletRoute = "wallet"
+    private let orderHistoryRoute = "order/getorders"
+    private let orderStockRoute = "order/orderStock"
     
     
     var auth = URL(string: "")
@@ -49,6 +51,8 @@ struct APIRoutes {
     var priceHistory = URL(string: "")
     var isMarketOpen = URL(string: "")
     var wallet = URL(string: "")
+    var orderHistory = URL(string: "")
+    var orderStock = URL(string: "")
     
     init() {
         server = "https://\(domain)/"
@@ -70,6 +74,8 @@ struct APIRoutes {
         priceHistory = URL(string: server + priceHistoryRoute)!
         isMarketOpen = URL(string: server + isMarketOpenRoute)!
         wallet = URL(string: server + walletRoute)!
+        orderHistory = URL(string: server + orderHistoryRoute)!
+        orderStock = URL(string: server + orderStockRoute)!
     }
 }
 
@@ -175,79 +181,79 @@ struct API{
         
         var result = RequestResponse()
         
-            
-            if let cookie = HTTPCookie(properties: [
-                .domain: APIRoutes().domain,
-                .path: "/",
-                .name: "refreshToken",
-                .value: token,
-                .secure: "FALSE",
-                .discard: "TRUE"
-            ]) {
-                HTTPCookieStorage.shared.setCookie(cookie)
-            }
-            
-            
-            let jsonData = try! JSONEncoder().encode("")
-            
-            let task = session.uploadTask(with: request, from: jsonData) { (data, response, error) in
-                
-                
-                result.data = data
-                
-                if error != nil || data == nil {
-                    print("Client error!")
-                    print("Error is \(error!)")
-                    result.isSuccessful = false
-                    result.errorMessage = "Error contacting the server. Please Check your internet connection"
-                    completion(result)
-                    return
-                }
-                
-                
-                
-                
-                if let httpResponse = response as? HTTPURLResponse{
-                    
-                    if httpResponse.statusCode != 200{
-                        result.isSuccessful = false
-                        
-                        if let jsonResponse = try? decoder.decode(CommonAPIResponse.self, from: result.data!){
-                            result.errorMessage = jsonResponse.message
-                        }
-                        else{
-                            result.errorMessage = "Error Refreshing Token"
-                        }
-                        print(result.errorMessage)
-                    }
-                    else {
-                        result.isSuccessful = true
-                        let fields = httpResponse.allHeaderFields as? [String :String]
-                        
-                        let cookies = HTTPCookie.cookies(withResponseHeaderFields: fields!, for: response!.url!)
-                        for cookie in cookies {
-                            if(cookie.name == "refreshToken"){
-                                let saveSuccessful: Bool = KeychainWrapper.standard.set(cookie.value, forKey: cookie.name)
-                                print("KeyChain Store Result is \(saveSuccessful)")
-                            }
-                            
-                        }
-                        
-                        if result.data != nil {
-                            if let jsonResponse = try? decoder.decode(AuthenticateResponse.self, from: result.data!) {
-                                KeychainWrapper.standard.set(jsonResponse.jwtToken, forKey: "jwtToken")
-                            }
-                            
-                        }
-                        
-                    }
-                }
-                
-                completion(result)
-            }
-            task.resume()
         
-         
+        if let cookie = HTTPCookie(properties: [
+            .domain: APIRoutes().domain,
+            .path: "/",
+            .name: "refreshToken",
+            .value: token,
+            .secure: "FALSE",
+            .discard: "TRUE"
+        ]) {
+            HTTPCookieStorage.shared.setCookie(cookie)
+        }
+        
+        
+        let jsonData = try! JSONEncoder().encode("")
+        
+        let task = session.uploadTask(with: request, from: jsonData) { (data, response, error) in
+            
+            
+            result.data = data
+            
+            if error != nil || data == nil {
+                print("Client error!")
+                print("Error is \(error!)")
+                result.isSuccessful = false
+                result.errorMessage = "Error contacting the server. Please Check your internet connection"
+                completion(result)
+                return
+            }
+            
+            
+            
+            
+            if let httpResponse = response as? HTTPURLResponse{
+                
+                if httpResponse.statusCode != 200{
+                    result.isSuccessful = false
+                    
+                    if let jsonResponse = try? decoder.decode(CommonAPIResponse.self, from: result.data!){
+                        result.errorMessage = jsonResponse.message
+                    }
+                    else{
+                        result.errorMessage = "Error Refreshing Token"
+                    }
+                    print(result.errorMessage)
+                }
+                else {
+                    result.isSuccessful = true
+                    let fields = httpResponse.allHeaderFields as? [String :String]
+                    
+                    let cookies = HTTPCookie.cookies(withResponseHeaderFields: fields!, for: response!.url!)
+                    for cookie in cookies {
+                        if(cookie.name == "refreshToken"){
+                            let saveSuccessful: Bool = KeychainWrapper.standard.set(cookie.value, forKey: cookie.name)
+                            print("KeyChain Store Result is \(saveSuccessful)")
+                        }
+                        
+                    }
+                    
+                    if result.data != nil {
+                        if let jsonResponse = try? decoder.decode(AuthenticateResponse.self, from: result.data!) {
+                            KeychainWrapper.standard.set(jsonResponse.jwtToken, forKey: "jwtToken")
+                        }
+                        
+                    }
+                    
+                }
+            }
+            
+            completion(result)
+        }
+        task.resume()
+        
+        
     }
     
     func RevokeToken(completion: @escaping (RequestResponse) -> ()) {
@@ -900,7 +906,7 @@ struct API{
                             result.errorMessage = jsonResponse.message
                         }
                         else{
-                            result.errorMessage = "Could Not Retrieve Stock Information"
+                            result.errorMessage = "Could Not Retrieve Stock Holdings"
                         }
                         
                     }
@@ -1101,5 +1107,118 @@ struct API{
         }
         
         
+    }
+    
+    func GetOrderHistory(completion: @escaping (RequestResponse) -> ()) {
+        
+        let url = apiRoutes.orderHistory!
+        
+        var request = AppUrlRequest(url: url, httpMethod: "GET").request
+        if let jwtToken: String = KeychainWrapper.standard.string(forKey: "jwtToken"){
+            request.setValue( "Bearer \(jwtToken)", forHTTPHeaderField: "Authorization")
+            
+            var result = RequestResponse()
+            
+            let task = session.dataTask(with: request) { (data, response, error) in
+                result.data = data
+                
+                if error != nil  {
+                    print("Client error!")
+                    print("Error is \(error!)")
+                    result.isSuccessful = false
+                    result.errorMessage = "Error contacting the server. Please Check your internet connection"
+                    completion(result)
+                    return
+                }
+                
+                if let httpResponse = response as? HTTPURLResponse{
+                    
+                    if (httpResponse.statusCode == 200 || httpResponse.statusCode == 200){
+                        
+                        result.isSuccessful = true
+                    }
+                    else if(httpResponse.statusCode == 401){
+                        DispatchQueue.main.async {
+                            NotificationCenter.default.post(name: .didAuthTokenExpire, object: nil)
+                            print("401 Unauthorized")
+                        }
+                        
+                    }
+                    else{
+                        result.isSuccessful = false
+                        
+                        if let jsonResponse = try? decoder.decode(CommonAPIResponse.self, from: result.data!){
+                            result.errorMessage = jsonResponse.message
+                        }
+                        else{
+                            result.errorMessage = "Could Not Retrieve Stock Information"
+                        }
+                        
+                    }
+                }
+                completion(result)
+            }
+            task.resume()
+            
+            
+        }
+        
+        
+    }
+    
+    func OrderStock(stockId:Int, orderType:String, orderAction:String, quantitySubmitted: Int, completion: @escaping (RequestResponse) -> ()) {
+        
+        var result = RequestResponse()
+        let orderStockRequest = OrderStockRequest(stockId: stockId, orderType: orderType, orderAction: orderAction, quantitySubmitted: quantitySubmitted)
+        var request = AppUrlRequest(url: apiRoutes.orderStock!, httpMethod: "POST").request
+        
+        if let jwtToken: String = KeychainWrapper.standard.string(forKey: "jwtToken"){
+            request.setValue( "Bearer \(jwtToken)", forHTTPHeaderField: "Authorization")
+            
+            
+            let jsonData = try! JSONEncoder().encode(orderStockRequest)
+            
+            
+            let task = session.uploadTask(with: request, from: jsonData) { (data, response, error) in
+                
+                
+                result.data = data
+                
+                if error != nil || data == nil {
+                    print("Client error!")
+                    print("Error is \(error!)")
+                    result.isSuccessful = false
+                    result.errorMessage = "Error contacting the server. Please Check your internet connection"
+                    completion(result)
+                    return
+                }
+                
+                if let httpResponse = response as? HTTPURLResponse{
+                    
+                    if httpResponse.statusCode == 200{
+                        result.isSuccessful = true
+                    }
+                    else if(httpResponse.statusCode == 401){
+                        DispatchQueue.main.async {
+                            NotificationCenter.default.post(name: .didAuthTokenExpire, object: nil)
+                            print("401 Unauthorized")
+                        }
+                    }
+                    else{
+                        result.isSuccessful = false
+                        
+                        if let jsonResponse = try? decoder.decode(CommonAPIResponse.self, from: result.data!){
+                            result.errorMessage = jsonResponse.message
+                        }
+                        else{
+                            result.errorMessage = "Error: Placing Order. Please try again or contact us if the porblem persists"
+                        }
+                    }
+                }
+                completion(result)
+                
+            }
+            task.resume()
+        }
     }
 }

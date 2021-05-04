@@ -18,6 +18,9 @@ struct RequestResponse{
     var stockHoldingsResponse:StockHoldings?
     var stockHoldingInfoPageResponse:StockHoldingInfoPage?
     var chartDataResponse: ChartData?
+    var orderHistoryResponse: [OrderHistoryElement] = OrderHistory(orderArray: [OrderHistoryResponseElement]()).history
+    var orderStockResponse: OrderResultInfo?
+    var walletResponse: UserWallet?
 }
 
 struct AuthenticateResponse: Codable {
@@ -94,7 +97,6 @@ typealias OrderHistoryResponse = [OrderHistoryResponseElement]
 typealias HoldingsResponse = [HoldingsResponseElement]
 
 
-
 struct HoldingResponseInfoPage: Codable {
     let id: Int?
     let averageCost: Double?
@@ -105,6 +107,14 @@ struct HoldingResponseInfoPage: Codable {
     let lastUpdated: String?
 }
 
+struct OrderStockResponse: Codable {
+    let name, stockSymbol, currency, orderType: String?
+    let orderStatus, orderAction: String?
+    let quantitySubmitted, quantityFilled, commission: Double?
+    let pricePerShare, totalPriceFilled, totalCost, forexExchangeRate: Double?
+    let exchangeResult: Double?
+    let dateSubmitted, dateFilled: String?
+}
 
 struct ChartDataResponseElement: Codable {
     let date: String?

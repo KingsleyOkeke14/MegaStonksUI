@@ -13,6 +13,8 @@ struct MyHoldingsView: View {
     
     @Binding var holding:StockHoldingInfoPage
     
+    @State var showTip:Bool = false
+    
     let myColors = MyColors()
     var body: some View {
         if(holding.quantity! > 0){
@@ -32,11 +34,48 @@ struct MyHoldingsView: View {
                 }
                 DoubleColumnedView(themeColor: $themeColor, column1Field: "My Shares", column1Text: "\(holding.quantity!.formatNoDecimal())", column2Field: "Market Value", column2Text: "$\(holding.marketValue!.formatPrice())", isPortfolio: false, percentofPortfolio: 0)
                 DoubleColumnedView(themeColor: $themeColor, column1Field: "Average Cost", column1Text: "$\(holding.averageCost!.formatPrice())", column2Field: "% of My Portfolio", column2Text: "\(holding.percentOfPortfolio!.toString())%", isPortfolio: true, percentofPortfolio: CGFloat(holding.percentOfPortfolio!/100))
-                SingleColumnView(columnField: "Today's Return", textField: "\(holding.moneyReturnToday!.signToString())$\(fabs(holding.moneyReturnToday!).formatPrice()) (\(holding.percentReturnToday!.formatPercentChange())%)")
+                
+                VStack{
+                    HStack{
+                        if(!showTip){
+                            Text("Today's Return")
+                                .font(.custom("Verdana", fixedSize: 14))
+                                .bold()
+                                .foregroundColor(myColors.lightGrayColor)
+                        }
+                        Button(action: {
+                            showTip.toggle()
+                        }, label: {
+                            Image(systemName: "questionmark.circle")
+                                .foregroundColor(.white)
+                                .font(.custom("Apple SD Gothic Neo", fixedSize: 12))
+                        })
+                        
+                        if(showTip){
+                            Text("Calculation assumes an overnight holding of the asset")
+                                .font(.custom("Apple SD Gothic Neo", fixedSize: 12))
+                                .foregroundColor(.white)
+                                .lineLimit(4)
+                                .multilineTextAlignment(.center)
+                        }
+                    }
+                    Text("\(holding.moneyReturnToday!.signToString())$\(fabs(holding.moneyReturnToday!).formatPrice()) (\(holding.percentReturnToday!.formatPercentChange())%)")
+                        .foregroundColor(.white)
+                        .font(.custom("Verdana", fixedSize: 20))
+                    Rectangle()
+                        .fill(myColors.lightGrayColor)
+                        .frame(height: 2)
+                        .edgesIgnoringSafeArea(.horizontal)
+                }
+                
+                
+                
+                
+                
                 SingleColumnView(columnField: "Total Return", textField: "\(holding.moneyReturnTotal!.signToString())$\(fabs(holding.moneyReturnTotal!).formatPrice()) (\(holding.percentReturnTotal!.formatPercentChange())%)")
             }.padding(.horizontal)
         }
-
+        
     }
 }
 
@@ -53,7 +92,7 @@ struct DoubleColumnedView: View {
     var percentofPortfolio:CGFloat
     var body: some View {
         VStack{
-
+            
             HStack{
                 VStack(alignment: .center){
                     Text(column1Field)
@@ -68,7 +107,7 @@ struct DoubleColumnedView: View {
                 }
                 Spacer()
                 VStack(alignment: .center){
- 
+                    
                     if(isPortfolio){
                         VStack(spacing:2){
                             Text(column2Field)
@@ -107,7 +146,7 @@ struct DoubleColumnedView: View {
                             .foregroundColor(.white)
                             .font(.custom("Verdana", fixedSize: 20))
                     }
-
+                    
                     
                 }
                 

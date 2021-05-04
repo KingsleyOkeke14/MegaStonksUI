@@ -109,6 +109,9 @@ struct PortfolioPageView: View {
                 }
             }
         })
+        .onDisappear(perform: {
+            myAppObjects.getWalletAsync()
+        })
         .banner(data: $myAppObjects.bannerData, show: $myAppObjects.showBanner)
         .navigationViewStyle(StackNavigationViewStyle())
         

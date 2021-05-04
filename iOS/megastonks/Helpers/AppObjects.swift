@@ -14,6 +14,7 @@ class AppObjects: ObservableObject {
     @Published var stockSearchResult:[StockSearchResult]
     @Published var userWallet:UserWallet
     @Published var holdings:StockHoldings
+    @Published var orderHistory: OrderHistory
     
     
     init() {
@@ -22,6 +23,7 @@ class AppObjects: ObservableObject {
         self.stockSearchResult = [StockSearchResult]()
         self.userWallet = UserWallet(WalletResponse(firstName: "", lastName: "", cash: 0.0, initialDeposit: 0.0, investments: 0.0, total: 0.0, percentReturnToday: 0.0, moneyReturnToday: 0.0, percentReturnTotal: 0.0, moneyReturnTotal: 0.0))
         self.holdings = StockHoldings(holdingsArray: [HoldingsResponseElement]())
+        self.orderHistory = OrderHistory(orderArray: [OrderHistoryResponseElement]())
     }
     
     func updateWatchList(completion: @escaping (RequestResponse) -> ()) {
@@ -310,6 +312,51 @@ class AppObjects: ObservableObject {
                     }
                 }
             }
+        }
+    }
+    
+    func getWallet(completion: @escaping (RequestResponse) -> ()) {
+        var response = RequestResponse()
+        API().GetWallet(){ result in
+            response = result
+            if(result.isSuccessful){
+                let decoder = JSONDecoder()
+                 if let jsonResponse = try? decoder.decode(WalletResponse.self, from: result.data!) {
+                    response.walletResponse  = UserWallet(jsonResponse)
+                }
+            }
+            completion(response)
+        }
+    }
+    
+    
+    func getOrderHistoryAsync() {
+        API().GetOrderHistory(){ result in
+            if(result.isSuccessful){
+                let decoder = JSONDecoder()
+                 if let jsonResponse = try? decoder.decode(OrderHistoryResponse.self, from: result.data!) {
+                    if(jsonResponse.count != self.orderHistory.history.count){
+                        DispatchQueue.main.async {
+                            self.orderHistory  = OrderHistory(orderArray: jsonResponse)
+                        }
+                    }
+
+                }
+            }
+        }
+    }
+    
+    func orderStock(stockId:Int, orderType:String, orderAction:String, quantitySubmitted: Int, completion: @escaping (RequestResponse) -> ()){
+        var response = RequestResponse()
+        API().OrderStock(stockId: stockId, orderType: orderType, orderAction: orderAction, quantitySubmitted: quantitySubmitted){ result in
+            response = result
+            if(result.isSuccessful){
+                let decoder = JSONDecoder()
+                if let jsonResponse = try? decoder.decode(OrderStockResponse.self, from: result.data!) {
+                    response.orderStockResponse = OrderResultInfo(orderResponse: jsonResponse)
+               }
+            }
+            completion(response)
         }
     }
 }

@@ -215,7 +215,7 @@ struct WatchListPageView: View {
                                 ForEach(myAppObjects.watchList, id: \.self){ stock in
                                     NavigationLink(
                                         destination: StocksInfoPageView(stock: stock).environmentObject(myAppObjects).onDisappear(perform: {
-                                            //myAppObjects.updateWatchListAsync()
+                                            myAppObjects.updateWatchListAsync()
                                             myAppObjects.getStockHoldingsAsync()
                                         }),
                                         tag: stock.id.uuidString,
