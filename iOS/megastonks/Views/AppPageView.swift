@@ -44,7 +44,10 @@ struct AppPageView: View {
                             Label("Account", systemImage: "person")
                         }.tag(2)
                         .preferredColorScheme(.dark)
-                }.accentColor(.white)
+                }
+                .animation(.easeInOut)
+                .transition(.scale)
+                .accentColor(.white)
                 .onAppear() {
                     UITabBar.appearance().barTintColor = .black
                 }

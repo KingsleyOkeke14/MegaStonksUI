@@ -231,6 +231,10 @@ struct PlaceOrderPageView: View {
                                         myAppObjects.updateWatchList(){
                                             result in
                                             if(result.isSuccessful){
+                                                DispatchQueue.main.async {
+                                                    NotificationCenter.default.post(name: .didWalletChange, object: nil)
+                                                    print("Profile Page Should be Updated")
+                                                }
                                                 print("Refreshed WatchList After Placing Order")
                                             }
                                         }

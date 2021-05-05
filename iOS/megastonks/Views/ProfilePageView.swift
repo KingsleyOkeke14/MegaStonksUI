@@ -18,6 +18,9 @@ struct ProfilePageView: View {
     @State var userWallet:UserWallet = UserWallet(WalletResponse(firstName: "", lastName: "", cash: 0.0, initialDeposit: 0.0, investments: 0.0, total: 0.0, percentReturnToday: 0.0, moneyReturnToday: 0.0, percentReturnTotal: 0.0, moneyReturnTotal: 0.0))
     @State var isLoading:Bool = true
     
+    
+    let pub = NotificationCenter.default.publisher(for: .didWalletChange)
+    
     init() {
         let coloredAppearance = UINavigationBarAppearance()
         
@@ -109,9 +112,12 @@ struct ProfilePageView: View {
                         }
                       
                         Spacer()
-                        VStack{
-                            Image(<#T##name: String##String#>)
-                        }
+                        AdsView()
+                        HStack{
+                            
+                        }.frame(height: 2, alignment: .center)
+                        
+                    
                     }.onAppear(perform: {
                         isLoading = true
                         myAppObjects.getOrderHistoryAsync()
@@ -139,6 +145,21 @@ struct ProfilePageView: View {
         
         
         }
+        .onReceive(pub, perform: { _ in
+            myAppObjects.getOrderHistoryAsync()
+            myAppObjects.getWallet(){
+                result in
+                if(result.isSuccessful){
+                    //I should change the environment object here. However, this prevents the vieew from refreshing so I am only going to update the view state
+                    DispatchQueue.main.async {
+                        myAppObjects.userWallet = result.walletResponse!
+                        userWallet = myAppObjects.userWallet
+                        isLoading = false
+                        print("Wallet Refreshed")
+                    }
+                }
+            }
+        })
         .overlay(
             VStack{
                 if(isLoading){
