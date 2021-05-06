@@ -70,7 +70,7 @@ struct OrderDetailView: View {
                             SingleRowView(label: "Total Cost", value: "$\(orderHistoryElement.totalCost)")
                         }
                         else if(orderHistoryElement.orderAction.uppercased() == "SELL"){
-                            SingleRowView(label: "Total Value", value: "$\((orderHistoryElement.totalCost - orderHistoryElement.commission).formatPrice())")
+                            SingleRowView(label: "Total Value", value: "$\((orderHistoryElement.totalPriceFilled - orderHistoryElement.commission).formatPrice())")
                         }
                         
                     }.lineLimit(1).minimumScaleFactor(0.5)

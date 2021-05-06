@@ -15,6 +15,7 @@ class AppObjects: ObservableObject {
     @Published var userWallet:UserWallet
     @Published var holdings:StockHoldings
     @Published var orderHistory: OrderHistory
+    @Published var ads: [AdDataElement]
     
     
     init() {
@@ -24,6 +25,18 @@ class AppObjects: ObservableObject {
         self.userWallet = UserWallet(WalletResponse(firstName: "", lastName: "", cash: 0.0, initialDeposit: 0.0, investments: 0.0, total: 0.0, percentReturnToday: 0.0, moneyReturnToday: 0.0, percentReturnTotal: 0.0, moneyReturnTotal: 0.0))
         self.holdings = StockHoldings(holdingsArray: [HoldingsResponseElement]())
         self.orderHistory = OrderHistory(orderArray: [OrderHistoryResponseElement]())
+        self.ads = [AdDataElement]()
+        API().GetAds(){
+            result in
+            if(result.isSuccessful){
+                let decoder = JSONDecoder()
+                 if let jsonResponse = try? decoder.decode(AdsResponse.self, from: result.data!) {
+                    DispatchQueue.main.async {
+                        self.ads  = AdData(jsonResponse).ads
+                    }
+                }
+            }
+        }
     }
     
     func updateWatchList(completion: @escaping (RequestResponse) -> ()) {
@@ -357,6 +370,20 @@ class AppObjects: ObservableObject {
                }
             }
             completion(response)
+        }
+    }
+    
+    
+    func getAdsAsync() {
+        API().GetAds(){ result in
+            if(result.isSuccessful){
+                let decoder = JSONDecoder()
+                 if let jsonResponse = try? decoder.decode(AdsResponse.self, from: result.data!) {
+                    DispatchQueue.main.async {
+                        self.ads  = AdData(jsonResponse).ads
+                    }
+                }
+            }
         }
     }
 }

@@ -9,9 +9,9 @@ import Foundation
 struct OnBoardCardModel{
     
     var cards:[OnBoardCard] = [
-        OnBoardCard(image: "figure.wave", title: "Welcome to MegaStonks", description: "The name is of the boy but he is not ready to be a boy Just Yet. Due to the fact that he is a Clown. However, to keep going, we are going to take him to the circus where hopefully, he would have a good time"),
-        OnBoardCard(image: "chart.bar.xaxis", title: "Stonks", description: "The name is of the boy but he is not ready to be a boy Just Yet. Due to the fact that he is a Clown"),
-        OnBoardCard(image: "banknote.fill", title: "Portfolio", description: "The name is of the boy but he is not ready to be a boy Just Yet. Due to the fact that he is a Clown")
+        OnBoardCard(image: "figure.wave", title: "Welcome to MegaStonks", description: "The app is designed to give you access and exposure to financial information on stocks and etfs which will allow you practice and refine your investment and trading strategies"),
+        OnBoardCard(image: "chart.bar.xaxis", title: "Stonks", description: "Please note that at this time, we do not track dividend payments and stock splits. however, these features are currently in development"),
+        OnBoardCard(image: "banknote.fill", title: "Portfolio", description: "Buy and sell securities at real time market prices, track your portfolio gains in real time and monitor your asset allocation")
         
     ]
 }

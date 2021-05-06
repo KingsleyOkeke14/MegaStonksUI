@@ -21,6 +21,7 @@ struct RequestResponse{
     var orderHistoryResponse: [OrderHistoryElement] = OrderHistory(orderArray: [OrderHistoryResponseElement]()).history
     var orderStockResponse: OrderResultInfo?
     var walletResponse: UserWallet?
+    var adResponse: AdData?
 }
 
 struct AuthenticateResponse: Codable {
@@ -129,6 +130,23 @@ struct WalletResponse: Codable {
     let cash, initialDeposit, investments, total: Double?
     let percentReturnToday, moneyReturnToday, percentReturnTotal, moneyReturnTotal: Double?
 }
+
+struct AdsResponseElement: Codable {
+    let id: Int?
+    let company, title, adsResponseDescription: String?
+    let imageURL: String?
+    let urlToLoad: String?
+    let dateAdded, expiryDate, lastUpdated: String?
+
+    enum CodingKeys: String, CodingKey {
+        case id, company, title
+        case adsResponseDescription = "description"
+        case imageURL = "imageUrl"
+        case urlToLoad, dateAdded, expiryDate, lastUpdated
+    }
+}
+
+typealias AdsResponse = [AdsResponseElement]
 
 
 struct CommonAPIResponse: Codable {

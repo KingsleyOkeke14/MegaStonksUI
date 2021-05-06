@@ -31,6 +31,7 @@ struct APIRoutes {
     private let walletRoute = "wallet"
     private let orderHistoryRoute = "order/getorders"
     private let orderStockRoute = "order/orderStock"
+    private let getAdsRoute = "ads/getallads"
     
     
     var auth = URL(string: "")
@@ -53,6 +54,7 @@ struct APIRoutes {
     var wallet = URL(string: "")
     var orderHistory = URL(string: "")
     var orderStock = URL(string: "")
+    var getAds = URL(string: "")
     
     init() {
         server = "https://\(domain)/"
@@ -76,6 +78,7 @@ struct APIRoutes {
         wallet = URL(string: server + walletRoute)!
         orderHistory = URL(string: server + orderHistoryRoute)!
         orderStock = URL(string: server + orderStockRoute)!
+        getAds = URL(string: server + getAdsRoute)!
     }
 }
 
@@ -1133,7 +1136,7 @@ struct API{
                 
                 if let httpResponse = response as? HTTPURLResponse{
                     
-                    if (httpResponse.statusCode == 200 || httpResponse.statusCode == 200){
+                    if (httpResponse.statusCode == 200 || httpResponse.statusCode == 201){
                         
                         result.isSuccessful = true
                     }
@@ -1220,5 +1223,62 @@ struct API{
             }
             task.resume()
         }
+    }
+    
+    func GetAds(completion: @escaping (RequestResponse) -> ()) {
+        
+        let url = apiRoutes.getAds!
+        
+        var request = AppUrlRequest(url: url, httpMethod: "GET").request
+        if let jwtToken: String = KeychainWrapper.standard.string(forKey: "jwtToken"){
+            request.setValue( "Bearer \(jwtToken)", forHTTPHeaderField: "Authorization")
+            
+            var result = RequestResponse()
+            
+            let task = session.dataTask(with: request) { (data, response, error) in
+                result.data = data
+                
+                if error != nil  {
+                    print("Client error!")
+                    print("Error is \(error!)")
+                    result.isSuccessful = false
+                    result.errorMessage = "Error contacting the server. Please Check your internet connection"
+                    completion(result)
+                    return
+                }
+                
+                if let httpResponse = response as? HTTPURLResponse{
+                    
+                    if (httpResponse.statusCode == 200 || httpResponse.statusCode == 201){
+                        
+                        result.isSuccessful = true
+                    }
+                    else if(httpResponse.statusCode == 401){
+                        DispatchQueue.main.async {
+                            NotificationCenter.default.post(name: .didAuthTokenExpire, object: nil)
+                            print("401 Unauthorized")
+                        }
+                        
+                    }
+                    else{
+                        result.isSuccessful = false
+                        
+                        if let jsonResponse = try? decoder.decode(CommonAPIResponse.self, from: result.data!){
+                            result.errorMessage = jsonResponse.message
+                        }
+                        else{
+                            result.errorMessage = "Could Not Ads"
+                        }
+                        
+                    }
+                }
+                completion(result)
+            }
+            task.resume()
+            
+            
+        }
+        
+        
     }
 }

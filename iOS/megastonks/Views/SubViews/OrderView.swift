@@ -50,7 +50,7 @@ struct OrderView: View {
                 if(orderHistoryElement.orderAction.uppercased() == "BUY"){
                     HStack{
                         Spacer()
-                        Text("$\(orderHistoryElement.totalCost.formatPrice())")
+                        Text("-$\(orderHistoryElement.totalCost.formatPrice())")
                             .foregroundColor(.white)
                             .font(.custom("Verdana", fixedSize: 16))
                     }
@@ -58,7 +58,7 @@ struct OrderView: View {
                 else if(orderHistoryElement.orderAction.uppercased() == "SELL"){
                     HStack{
                         Spacer()
-                        Text("$\((orderHistoryElement.totalCost - orderHistoryElement.commission).formatPrice())")
+                        Text("+$\((orderHistoryElement.totalPriceFilled - orderHistoryElement.commission).formatPrice())")
                             .foregroundColor(.white)
                             .font(.custom("Verdana", fixedSize: 16))
                     }
