@@ -149,7 +149,7 @@ struct RegisterPageView: View {
                                             if(result.isSuccessful){
                                                 //I use the forgotpassword response here because it has the same format as the register response
                                                 let jsonResponse = try! decoder.decode(CommonAPIResponse.self, from: result.data!)
-                                                promptText = jsonResponse.message
+                                                promptText = jsonResponse.message + " Please check the spam folder if you dont find the email in your inbox"
                                             }
                                             else{
                                                 promptText = result.errorMessage
