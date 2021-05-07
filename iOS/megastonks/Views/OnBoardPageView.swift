@@ -30,7 +30,6 @@ struct OnBoardPageView: View {
         UINavigationBar.appearance().tintColor = .systemGray4
     }
     
-    
     var body: some View {
         Color.black
             .ignoresSafeArea() // Ignore just for the color
