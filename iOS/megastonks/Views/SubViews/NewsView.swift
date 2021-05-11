@@ -46,6 +46,16 @@ struct NewsView: View {
                     .lineLimit(1)
                 Spacer()
             }.padding(.horizontal)
+            
+            HStack{
+                Text(newsElement.title)
+                    .font(.custom("Apple SD Gothic Neo", fixedSize: 14))
+                    .bold()
+                    .foregroundColor(.gray)
+                    .lineLimit(3)
+            Spacer()
+            }.padding(.horizontal)
+            
             ScrollView{
                 Text(newsElement.text)
                     .font(.custom("Helvetica", fixedSize: 16))
@@ -66,7 +76,7 @@ struct NewsView: View {
             AdsView(showRandomAd: true).environmentObject(myAppObjects)
         }
         .sheet(isPresented: $showSafari) {
-            SafariView(url:URL(string: self.newsElement.url)!)
+            SafariView(url:URL(string: self.newsElement.url)!).preferredColorScheme(.dark)
         }
        
     }
