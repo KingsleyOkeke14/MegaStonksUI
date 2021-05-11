@@ -41,7 +41,7 @@ struct StockSymbolModel{
     
     var adData:AdData = AdData([AdsResponseElement(id: 1, company: "", title: "Birken", adsResponseDescription: "This is the newest Birken Sandal. Get one for $100 now by clicking on this banner", imageURL: "https://megastonksadimages.blob.core.windows.net/adimages/birken.jpg", urlToLoad: "https://www.megastonks.com", dateAdded: "435345", expiryDate: "wefwfwf", lastUpdated: "fwewefwf")])
     
-    
+    var newsModel = NewsElement(NewsResponseElement(symbol: "TSLA", publishedDate: "", title: "FireEye Pops, Facebook Drops as Dow Eyes Record High", image: "https://cdn.snapi.dev/images/v1/v/z/aosk12wedf-1-811106.jpg", site: "Benzinga", text: "Amazon drivers are being told to turn off a mandatory safety app in order to hit their quotas, according to a new report from Vice. Vice obtained texts sent to drivers by Delivery Service Partners (DSPs) — companies which are contracted by Amazon to carry out its delivery operations. The texts told drivers to switch off the app Amazon uses to monitor safety, called \"Mentor.\"", url: "https://www.megastonks.ca"))
 //        , AdsResponseElement(id: 1, company: "", title: "Birken", adsResponseDescription: "This is the newest Birken Sandal. Get one for $100 now by clicking on this banner", imageURL: "https://megastonksadimages.blob.core.windows.net/adimages/birken.jpg", urlToLoad: "https://www.megastonks.com", dateAdded: "435345", expiryDate: "wefwfwf", lastUpdated: "Kjkjnk")
     
     

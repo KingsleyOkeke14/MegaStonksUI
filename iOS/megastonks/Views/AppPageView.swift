@@ -29,12 +29,19 @@ struct AppPageView: View {
                         .preferredColorScheme(.dark)
                         .environmentObject(appObject)
                     
+                    NewsPageView()
+                        .environmentObject(appObject)
+                        .tabItem {
+                            Label("News Feed", systemImage: "newspaper")
+                        }.tag(1)
+                        .preferredColorScheme(.dark)
+                    
                     PortfolioPageView()
                         .environmentObject(userAuth)
                         .environmentObject(appObject)
                         .tabItem {
                             Label("Portfolio", systemImage: "banknote")
-                        }.tag(1)
+                        }.tag(2)
                         .preferredColorScheme(.dark)
                     
                     ProfilePageView()
@@ -42,7 +49,7 @@ struct AppPageView: View {
                         .environmentObject(appObject)
                         .tabItem {
                             Label("Account", systemImage: "person")
-                        }.tag(2)
+                        }.tag(3)
                         .preferredColorScheme(.dark)
                 }
                 .animation(.easeInOut)

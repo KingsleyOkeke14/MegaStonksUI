@@ -112,7 +112,7 @@ struct ProfilePageView: View {
                         }
                       
                         Spacer()
-                        AdsView().environmentObject(myAppObjects)
+                        AdsView(showRandomAd: false).environmentObject(myAppObjects)
                         HStack{
                             
                         }.frame(height: 2, alignment: .center)

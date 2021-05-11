@@ -16,6 +16,8 @@ class AppObjects: ObservableObject {
     @Published var holdings:StockHoldings
     @Published var orderHistory: OrderHistory
     @Published var ads: [AdDataElement]
+    @Published var randomAdIndex: Int
+    @Published var news: [NewsElement]
     
     
     init() {
@@ -26,6 +28,8 @@ class AppObjects: ObservableObject {
         self.holdings = StockHoldings(holdingsArray: [HoldingsResponseElement]())
         self.orderHistory = OrderHistory(orderArray: [OrderHistoryResponseElement]())
         self.ads = [AdDataElement]()
+        self.news = [NewsElement]()
+        self.randomAdIndex = 0
         API().GetAds(){
             result in
             if(result.isSuccessful){
@@ -33,6 +37,16 @@ class AppObjects: ObservableObject {
                  if let jsonResponse = try? decoder.decode(AdsResponse.self, from: result.data!) {
                     DispatchQueue.main.async {
                         self.ads  = AdData(jsonResponse).ads
+                    }
+                }
+            }
+        }
+        API().GetNews(){ result in
+            if(result.isSuccessful){
+                let decoder = JSONDecoder()
+                 if let jsonResponse = try? decoder.decode(NewsResponse.self, from: result.data!) {
+                    DispatchQueue.main.async {
+                        self.news  = News(jsonResponse).news
                     }
                 }
             }
@@ -383,6 +397,32 @@ class AppObjects: ObservableObject {
                         self.ads  = AdData(jsonResponse).ads
                     }
                 }
+            }
+        }
+    }
+    
+    func getNews(completion: @escaping (RequestResponse) -> ()) {
+        var response = RequestResponse()
+        API().GetNews(){ result in
+            response = result
+            if(result.isSuccessful){
+                let decoder = JSONDecoder()
+                 if let jsonResponse = try? decoder.decode(NewsResponse.self, from: result.data!) {
+                    response.newsResponse = News(jsonResponse).news
+                    if(response.newsResponse!.count <= 0){
+                        response.isSuccessful = false
+                    }
+                }
+            }
+            completion(response)
+        }
+    }
+    
+    func updateRandomAdIndex(){
+        if(self.ads.count > 1){
+            let randomIndex = Int.random(in: 0..<self.ads.count)
+            DispatchQueue.main.async {
+                self.randomAdIndex = randomIndex
             }
         }
     }

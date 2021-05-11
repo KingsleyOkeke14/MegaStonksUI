@@ -22,6 +22,7 @@ struct RequestResponse{
     var orderStockResponse: OrderResultInfo?
     var walletResponse: UserWallet?
     var adResponse: AdData?
+    var newsResponse: [NewsElement]?
 }
 
 struct AuthenticateResponse: Codable {
@@ -147,6 +148,18 @@ struct AdsResponseElement: Codable {
 }
 
 typealias AdsResponse = [AdsResponseElement]
+
+
+struct NewsResponseElement: Codable {
+    let symbol: String?
+    let publishedDate, title: String?
+    let image: String?
+    let site, text: String?
+    let url: String?
+}
+
+
+typealias NewsResponse = [NewsResponseElement]
 
 
 struct CommonAPIResponse: Codable {
