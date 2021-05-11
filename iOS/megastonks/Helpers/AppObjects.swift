@@ -41,16 +41,7 @@ class AppObjects: ObservableObject {
                 }
             }
         }
-        API().GetNews(){ result in
-            if(result.isSuccessful){
-                let decoder = JSONDecoder()
-                 if let jsonResponse = try? decoder.decode(NewsResponse.self, from: result.data!) {
-                    DispatchQueue.main.async {
-                        self.news  = News(jsonResponse).news
-                    }
-                }
-            }
-        }
+       getNewsAsync()
     }
     
     func updateWatchList(completion: @escaping (RequestResponse) -> ()) {
@@ -415,6 +406,27 @@ class AppObjects: ObservableObject {
                 }
             }
             completion(response)
+        }
+    }
+    
+    func getNewsAsync() {
+        var response = RequestResponse()
+        API().GetNews(){ result in
+            response = result
+            if(result.isSuccessful){
+                let decoder = JSONDecoder()
+                 if let jsonResponse = try? decoder.decode(NewsResponse.self, from: result.data!) {
+                    response.newsResponse = News(jsonResponse).news
+                    if(response.newsResponse!.count <= 0){
+                        response.isSuccessful = false
+                    }
+                    else{
+                        DispatchQueue.main.async {
+                            self.news  = News(jsonResponse).news
+                        }
+                    }
+                }
+            }
         }
     }
     
