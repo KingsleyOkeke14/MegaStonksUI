@@ -102,11 +102,16 @@ struct ProfileSettingsPageView: View {
                                     })
                                   
                                 }
-                                Text("megastonks.com")
-                                    .foregroundColor(.white)
-                                    .bold()
-                                    .font(.custom("Apple SD Gothic Neo", fixedSize: 12))
-                                    .padding(.top)
+                                Button(action: {
+                                    openURL(URL(string: "https://www.megastonks.com")!)
+                                }, label: {
+                                    Text("megastonks.com")
+                                        .foregroundColor(.white)
+                                        .bold()
+                                        .font(.custom("Apple SD Gothic Neo", fixedSize: 12))
+                                        .padding(.top)
+                                })
+                               
                                 Text("Version 5.4.2.0")
                                     .foregroundColor(myColors.greenColor)
                                     .bold()
