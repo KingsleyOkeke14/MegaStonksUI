@@ -17,6 +17,7 @@ struct ProfileSettingsPageView: View {
     @State var errorMessage: String = ""
     
     @Environment(\.presentationMode) var presentation
+    @Environment(\.openURL) var openURL
     
     init() {
         let coloredAppearance = UINavigationBarAppearance()
@@ -43,7 +44,7 @@ struct ProfileSettingsPageView: View {
                 .ignoresSafeArea()
                 .overlay(
                     ScrollView{
-                        VStack{
+                        VStack(spacing: 2){
                             Image("megastonkslogo")
                                 .scaleEffect(0.6)
                                 .aspectRatio(contentMode: .fit)
@@ -55,7 +56,7 @@ struct ProfileSettingsPageView: View {
                                     .foregroundColor(.white)
                                     .font(.custom("Apple SD Gothic Neo", fixedSize: 22))
                                 Spacer()
-                            }.padding()
+                            }
                             ProfileInformationView(infoHeader: "Email Address", info: userAuth.user.emailAddress, isEditable: false)
                             ProfileInformationView(infoHeader: "Currency", info: userAuth.user.currency, isEditable: false)
                             ProfileInformationView(infoHeader: "Password", info: "***********", isEditable: true)
@@ -72,10 +73,40 @@ struct ProfileSettingsPageView: View {
                                     .font(.custom("Apple SD Gothic Neo", fixedSize: 12))
                                     .multilineTextAlignment(.center)
                                     .padding()
+                                Text("Follow our social accounts below")
+                                    .foregroundColor(.white)
+                                    .bold()
+                                    .font(.custom("Apple SD Gothic Neo", fixedSize: 14))
+                                
+                                HStack{
+                                    Button(action: {
+                                        openURL(URL(string: "https://twitter.com/MegaStonksApp")!)
+                                    }, label: {
+                                        Image("twitterLogo")
+                                            .resizable()
+                                            .frame(width: 40, height: 36)
+                                            .padding(.horizontal)
+                                      
+                                    })
+                                    
+                                
+                                    Button(action: {
+                                        openURL(URL(string: "https://www.instagram.com/megastonksapp")!)
+                                        
+                                    }, label: {
+                                        Image("instagramLogo")
+                                            .resizable()
+                                            .frame(width: 40, height: 40)
+                                            .padding(.horizontal)
+                                           
+                                    })
+                                  
+                                }
                                 Text("megastonks.com")
                                     .foregroundColor(.white)
                                     .bold()
                                     .font(.custom("Apple SD Gothic Neo", fixedSize: 12))
+                                    .padding(.top)
                                 Text("Version 5.4.2.0")
                                     .foregroundColor(myColors.greenColor)
                                     .bold()
@@ -183,7 +214,7 @@ struct ProfileInformationView: View {
                 .frame(height: 2)
                 .edgesIgnoringSafeArea(.horizontal)
             
-        }.padding()
+        }.padding(.vertical)
     }
 }
 
