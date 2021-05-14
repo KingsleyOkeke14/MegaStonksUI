@@ -60,7 +60,7 @@ struct ProfileSettingsPageView: View {
                             ProfileInformationView(infoHeader: "Email Address", info: userAuth.user.emailAddress, isEditable: false)
                             ProfileInformationView(infoHeader: "Currency", info: userAuth.user.currency, isEditable: false)
                             ProfileInformationView(infoHeader: "Password", info: "***********", isEditable: true)
-                            Spacer()
+                            
                             VStack(spacing:1){
                                 Text("About Us")
                                     .foregroundColor(myColors.greenColor)

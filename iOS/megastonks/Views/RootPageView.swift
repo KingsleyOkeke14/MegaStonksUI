@@ -19,14 +19,14 @@ struct RootPageView: View {
     var body: some View {
         if (userAuth.isLoggedin == nil) {
             VStack{
-                LoginPageView().redacted(reason: .placeholder).preferredColorScheme(/*@START_MENU_TOKEN@*/.dark/*@END_MENU_TOKEN@*/)
+                LoginPageView().redacted(reason: .placeholder).preferredColorScheme(.dark)
                 Text("Confirming Authentication....")
                     .bold()
                     .font(.custom("Apple SD Gothic Neo", fixedSize: 18))
             }.disabled(true)
         }
         else if(!userAuth.isLoggedin!){
-            LoginPageView().preferredColorScheme(/*@START_MENU_TOKEN@*/.dark/*@END_MENU_TOKEN@*/)
+            LoginPageView().preferredColorScheme(.dark)
         }
         else {
             AppPageView()
