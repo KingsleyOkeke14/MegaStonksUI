@@ -40,6 +40,8 @@
 		D0369D2125C76B1900718A52 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D0369D2025C76B1900718A52 /* Preview Assets.xcassets */; };
 		D045DB1B262BCEBE0040C067 /* SwiftKeychainWrapper in Frameworks */ = {isa = PBXBuildFile; productRef = D045DB1A262BCEBE0040C067 /* SwiftKeychainWrapper */; };
 		D045DB1E262BE5530040C067 /* APIRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D045DB1D262BE5530040C067 /* APIRequest.swift */; };
+		D04E9B252651B8BE000A1B7C /* megastonksUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D04E9B242651B8BE000A1B7C /* megastonksUITests.swift */; };
+		D04E9B2F2651B9D3000A1B7C /* SnapshotHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D04E9B2E2651B9D3000A1B7C /* SnapshotHelper.swift */; };
 		D04F7EA725D323AE00E52997 /* RadialChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D04F7EA625D323AE00E52997 /* RadialChartView.swift */; };
 		D057841B25C88C5E0039E6CD /* OnBoardCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = D057841A25C88C5E0039E6CD /* OnBoardCard.swift */; };
 		D057841E25C88D400039E6CD /* OnBoardCardModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D057841D25C88D400039E6CD /* OnBoardCardModel.swift */; };
@@ -78,6 +80,16 @@
 		D0FC100325D2F96D00366B26 /* MyColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0FC100225D2F96D00366B26 /* MyColors.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		D04E9B272651B8BE000A1B7C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D0369D0E25C76B1900718A52 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D0369D1525C76B1900718A52;
+			remoteInfo = megastonks;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		D004685625D43795006C60E9 /* CompanyInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompanyInfoView.swift; sourceTree = "<group>"; };
 		D004685925D44037006C60E9 /* PortfolioSummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioSummaryView.swift; sourceTree = "<group>"; };
@@ -113,6 +125,10 @@
 		D0369D2025C76B1900718A52 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		D0369D2225C76B1900718A52 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D045DB1D262BE5530040C067 /* APIRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIRequest.swift; sourceTree = "<group>"; };
+		D04E9B222651B8BE000A1B7C /* megastonksUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = megastonksUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D04E9B242651B8BE000A1B7C /* megastonksUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = megastonksUITests.swift; sourceTree = "<group>"; };
+		D04E9B262651B8BE000A1B7C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D04E9B2E2651B9D3000A1B7C /* SnapshotHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SnapshotHelper.swift; sourceTree = "<group>"; };
 		D04F7EA625D323AE00E52997 /* RadialChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadialChartView.swift; sourceTree = "<group>"; };
 		D057841A25C88C5E0039E6CD /* OnBoardCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardCard.swift; sourceTree = "<group>"; };
 		D057841D25C88D400039E6CD /* OnBoardCardModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardCardModel.swift; sourceTree = "<group>"; };
@@ -157,6 +173,13 @@
 			files = (
 				D045DB1B262BCEBE0040C067 /* SwiftKeychainWrapper in Frameworks */,
 				D0DEFFB425DB050C008D8C9C /* SwiftUICharts in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D04E9B1F2651B8BE000A1B7C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -234,6 +257,7 @@
 				D0369D2925C76FB300718A52 /* Models */,
 				D0369D1825C76B1900718A52 /* megastonks */,
 				D031EB3D26118BAA001504B5 /* Service */,
+				D04E9B232651B8BE000A1B7C /* megastonksUITests */,
 				D0369D1725C76B1900718A52 /* Products */,
 				D0FC0FF225D2280C00366B26 /* Frameworks */,
 			);
@@ -243,6 +267,7 @@
 			isa = PBXGroup;
 			children = (
 				D0369D1625C76B1900718A52 /* megastonks.app */,
+				D04E9B222651B8BE000A1B7C /* megastonksUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -319,6 +344,16 @@
 			path = ViewModels;
 			sourceTree = "<group>";
 		};
+		D04E9B232651B8BE000A1B7C /* megastonksUITests */ = {
+			isa = PBXGroup;
+			children = (
+				D04E9B2E2651B9D3000A1B7C /* SnapshotHelper.swift */,
+				D04E9B242651B8BE000A1B7C /* megastonksUITests.swift */,
+				D04E9B262651B8BE000A1B7C /* Info.plist */,
+			);
+			path = megastonksUITests;
+			sourceTree = "<group>";
+		};
 		D0FC0FF225D2280C00366B26 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -350,6 +385,24 @@
 			productReference = D0369D1625C76B1900718A52 /* megastonks.app */;
 			productType = "com.apple.product-type.application";
 		};
+		D04E9B212651B8BE000A1B7C /* megastonksUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D04E9B292651B8BE000A1B7C /* Build configuration list for PBXNativeTarget "megastonksUITests" */;
+			buildPhases = (
+				D04E9B1E2651B8BE000A1B7C /* Sources */,
+				D04E9B1F2651B8BE000A1B7C /* Frameworks */,
+				D04E9B202651B8BE000A1B7C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D04E9B282651B8BE000A1B7C /* PBXTargetDependency */,
+			);
+			name = megastonksUITests;
+			productName = megastonksUITests;
+			productReference = D04E9B222651B8BE000A1B7C /* megastonksUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -361,6 +414,10 @@
 				TargetAttributes = {
 					D0369D1525C76B1900718A52 = {
 						CreatedOnToolsVersion = 12.4;
+					};
+					D04E9B212651B8BE000A1B7C = {
+						CreatedOnToolsVersion = 12.4;
+						TestTargetID = D0369D1525C76B1900718A52;
 					};
 				};
 			};
@@ -382,6 +439,7 @@
 			projectRoot = "";
 			targets = (
 				D0369D1525C76B1900718A52 /* megastonks */,
+				D04E9B212651B8BE000A1B7C /* megastonksUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -394,6 +452,13 @@
 				D0369D2125C76B1900718A52 /* Preview Assets.xcassets in Resources */,
 				D02CBD5F263331D1003BB203 /* LaunchScreen.storyboard in Resources */,
 				D0369D1E25C76B1900718A52 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D04E9B202651B8BE000A1B7C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -471,7 +536,24 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		D04E9B1E2651B8BE000A1B7C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D04E9B252651B8BE000A1B7C /* megastonksUITests.swift in Sources */,
+				D04E9B2F2651B9D3000A1B7C /* SnapshotHelper.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		D04E9B282651B8BE000A1B7C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D0369D1525C76B1900718A52 /* megastonks */;
+			targetProxy = D04E9B272651B8BE000A1B7C /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		D0369D2325C76B1900718A52 /* Debug */ = {
@@ -642,6 +724,44 @@
 			};
 			name = Release;
 		};
+		D04E9B2A2651B8BE000A1B7C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = megastonksUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = uiplayGround.megastonksUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = megastonks;
+			};
+			name = Debug;
+		};
+		D04E9B2B2651B8BE000A1B7C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = megastonksUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = uiplayGround.megastonksUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = megastonks;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -659,6 +779,15 @@
 			buildConfigurations = (
 				D0369D2625C76B1900718A52 /* Debug */,
 				D0369D2725C76B1900718A52 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D04E9B292651B8BE000A1B7C /* Build configuration list for PBXNativeTarget "megastonksUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D04E9B2A2651B8BE000A1B7C /* Debug */,
+				D04E9B2B2651B8BE000A1B7C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
