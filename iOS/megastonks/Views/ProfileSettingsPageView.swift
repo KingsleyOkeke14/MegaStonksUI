@@ -112,7 +112,7 @@ struct ProfileSettingsPageView: View {
                                         .padding(.top)
                                 })
                                
-                                Text("Version 5.4.2.0")
+                                Text("Version 1.2.0")
                                     .foregroundColor(myColors.greenColor)
                                     .bold()
                                     .font(.custom("Apple SD Gothic Neo", fixedSize: 16))

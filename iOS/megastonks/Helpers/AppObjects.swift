@@ -282,9 +282,10 @@ class AppObjects: ObservableObject {
                 let decoder = JSONDecoder()
                  if let jsonResponse = try? decoder.decode(HoldingsResponse.self, from: result.data!) {
                     response.stockHoldingsResponse = StockHoldings(holdingsArray: jsonResponse)
-                    
-                    DispatchQueue.main.async {
-                        self.holdings = response.stockHoldingsResponse!
+                    if(self.shouldStockholdingsUpdate(response.stockHoldingsResponse!, self.holdings)){
+                        DispatchQueue.main.async {
+                            self.holdings = response.stockHoldingsResponse!
+                        }
                     }
                 }
             }
@@ -438,4 +439,14 @@ class AppObjects: ObservableObject {
             }
         }
     }
+    
+    func shouldStockholdingsUpdate(_ incomingStockHoldings: StockHoldings, _ stockHoldings: StockHoldings) -> Bool{
+        
+        if(incomingStockHoldings.holdings.count != stockHoldings.holdings.count){
+            return true
+        }
+        return false
+    }
+    
+    
 }

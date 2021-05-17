@@ -56,7 +56,7 @@ struct RegisterPageView: View {
             return false
         }
         else if(passwordText != confirmpasswordText){
-            promptText = "Paswword Field and Confirm Password Field do not match"
+            promptText = "Password Field and Confirm Password Field do not match"
             return false
         }
         else{

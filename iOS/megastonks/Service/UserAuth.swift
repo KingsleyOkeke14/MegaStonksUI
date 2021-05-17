@@ -77,6 +77,8 @@ class UserAuth: ObservableObject {
                     
                     if(isFirstLogin){
                         DispatchQueue.main.async {
+                            _  = KeychainWrapper.standard.removeObject(forKey: "jwtToken")
+                            _  = KeychainWrapper.standard.removeObject(forKey: "refreshToken")
                             self.user = User(firstName: "", lastName: "", emailAddress: "", currency: "", isOnBoarded: true)
                             self.isLoggedin = false
 
@@ -88,6 +90,8 @@ class UserAuth: ObservableObject {
                         }
         
                         DispatchQueue.main.asyncAfter(deadline: .now() + 6) {
+                            _  = KeychainWrapper.standard.removeObject(forKey: "jwtToken")
+                            _  = KeychainWrapper.standard.removeObject(forKey: "refreshToken")
                             self.user = User(firstName: "", lastName: "", emailAddress: "", currency: "", isOnBoarded: true)
                             self.isLoggedin = false
                             self.showAuthError = false
@@ -99,6 +103,8 @@ class UserAuth: ObservableObject {
             }
         }
         else{
+            _  = KeychainWrapper.standard.removeObject(forKey: "jwtToken")
+            _  = KeychainWrapper.standard.removeObject(forKey: "refreshToken")
             self.isLoggedin = false
             print("Login Failed #2")
         }
