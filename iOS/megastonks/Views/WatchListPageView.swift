@@ -131,6 +131,7 @@ struct WatchListPageView: View {
                             isLoadingStock = false
                             hideKeyboard()
                             presentationMode.wrappedValue.dismiss()
+                            myAppObjects.stockSearchResult.removeAll()
                             
                         }) {
                             Text("Cancel")
