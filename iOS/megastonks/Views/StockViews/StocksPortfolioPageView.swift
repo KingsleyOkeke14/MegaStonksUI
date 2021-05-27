@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct PortfolioPageView: View {
+struct StocksPortfolioPageView: View {
     
     let myColors = MyColors()
     
@@ -120,7 +120,7 @@ struct PortfolioPageView: View {
 
 struct PortfolioPageView_Previews: PreviewProvider {
     static var previews: some View {
-        PortfolioPageView()
+        StocksPortfolioPageView()
             .environmentObject(AppObjects())
             .environmentObject(UserAuth())
             

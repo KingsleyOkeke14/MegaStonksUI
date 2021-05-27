@@ -10,7 +10,7 @@ import SwiftKeychainWrapper
 
 struct APIRoutes {
     private let server:String
-    let domain = "megastonksprod.azurewebsites.net"
+    let domain = "megastonksdev.azurewebsites.net"
     private let authRoute = "accounts/authenticate"
     private let registerRoute = "accounts/register"
     private let watchlistRoute = "watchlist/getwatchlist"
