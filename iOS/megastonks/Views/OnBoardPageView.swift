@@ -32,7 +32,7 @@ struct OnBoardPageView: View {
     
     var body: some View {
         Color.black
-            .ignoresSafeArea() // Ignore just for the color
+            .ignoresSafeArea()
             .overlay(
                 VStack{
                     TabView(selection: $selectedPage){
@@ -58,7 +58,7 @@ struct OnBoardPageView: View {
                                         .foregroundColor(.white)
                                         .padding()
                                     Spacer()
-                                }.tag(index)
+                                }//.tag(index)
                             }
                             else{
                                 VStack{
@@ -79,7 +79,6 @@ struct OnBoardPageView: View {
                                         .foregroundColor(.white)
                                         .padding()
                                     Spacer()
-                                    //Button(action: /*@START_MENU_TOKEN@*/{}/*@END_MENU_TOKEN@*/, label: {
                                     HStack{
                                         Spacer()
                                         Button(action: {
@@ -96,9 +95,8 @@ struct OnBoardPageView: View {
                                                 .shadow(color: Color.green, radius: 6, x: 2, y: 2)
                                         })
                                     }.padding(.trailing, 20)
-                                    //})
                                     Spacer()
-                                }.tag(index)
+                                }//.tag(index)
                                 
                             }
                             
@@ -109,7 +107,9 @@ struct OnBoardPageView: View {
                     .indexViewStyle(PageIndexViewStyle(backgroundDisplayMode: .interactive))
                     
                 }
+                
             )
+        
     }
 }
 
