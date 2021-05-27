@@ -31,7 +31,7 @@ Read the full Disclaimer below
 
     Changes to This Terms and Conditions
 
-    We may update our Terms and Conditions from time to time. Thus, you are advised to review this page periodically for any changes. I will notify you of any changes by posting the new Terms and Conditions on this page.
+    We may update our Terms and Conditions from time to time. Thus, you are advised to review this page periodically for any changes. We will notify you of any changes by posting the new Terms and Conditions on this page.
 
     The app does use third party services that declare their own Terms and Conditions.
     All Market Data is provided by Financial Modelling Prep API
