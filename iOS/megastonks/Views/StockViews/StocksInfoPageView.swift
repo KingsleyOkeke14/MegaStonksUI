@@ -102,7 +102,7 @@ struct StocksInfoPageView: View {
                                             myAppObjects.getPriceChart(stockId: stockSymbol.stockId, isPriceHistory: false){
                                                 result in
                                                 if(result.isSuccessful){
-                                                    chartData = result.chartDataResponse!.dataSet
+                                                    chartData = result.stockChartDataResponse!.dataSet
                                                     chartDiscrepancy = String(stockSymbol.change.formatPrice() + "  (" + stockSymbol.changesPercentage.formatPercentChange() + "%)")
                                                     chartPeriod = "Today"
                                                     themeColor = (stockSymbol.change >= 0) ? Color.green : Color.red
@@ -121,8 +121,8 @@ struct StocksInfoPageView: View {
                                             myAppObjects.getPriceChart(stockId: stockSymbol.stockId, interval: buttonList[1].buttonName){
                                                 result in
                                                 if(result.isSuccessful){
-                                                    chartData = result.chartDataResponse!.dataSet
-                                                    let dataSet = result.chartDataResponse!.dataSet.map({$0.1})
+                                                    chartData = result.stockChartDataResponse!.dataSet
+                                                    let dataSet = result.stockChartDataResponse!.dataSet.map({$0.1})
                                                     let discrepancy:Double = (dataSet.last! - dataSet[0])
                                                     let percentChange = (discrepancy / dataSet.last! * 100)
                                                     chartDiscrepancy = String(discrepancy.formatPrice() + "  (" + percentChange.formatPercentChange() + "%)")
@@ -143,8 +143,8 @@ struct StocksInfoPageView: View {
                                             myAppObjects.getPriceChart(stockId: stockSymbol.stockId, interval: buttonList[2].buttonName){
                                                 result in
                                                 if(result.isSuccessful){
-                                                    chartData = result.chartDataResponse!.dataSet
-                                                    let dataSet = result.chartDataResponse!.dataSet.map({$0.1})
+                                                    chartData = result.stockChartDataResponse!.dataSet
+                                                    let dataSet = result.stockChartDataResponse!.dataSet.map({$0.1})
                                                     let discrepancy:Double = (dataSet.last! - dataSet[0])
                                                     let percentChange = (discrepancy / dataSet.last! * 100)
                                                     chartDiscrepancy = String(discrepancy.formatPrice() + "  (" + percentChange.formatPercentChange() + "%)")
@@ -166,8 +166,8 @@ struct StocksInfoPageView: View {
                                             myAppObjects.getPriceChart(stockId: stockSymbol.stockId, interval: buttonList[3].buttonName){
                                                 result in
                                                 if(result.isSuccessful){
-                                                    chartData = result.chartDataResponse!.dataSet
-                                                    let dataSet = result.chartDataResponse!.dataSet.map({$0.1})
+                                                    chartData = result.stockChartDataResponse!.dataSet
+                                                    let dataSet = result.stockChartDataResponse!.dataSet.map({$0.1})
                                                     let discrepancy:Double = (dataSet.last! - dataSet[0])
                                                     let percentChange = (discrepancy / dataSet.last! * 100)
                                                     chartDiscrepancy = String(discrepancy.formatPrice() + "  (" + percentChange.formatPercentChange() + "%)")
@@ -189,8 +189,8 @@ struct StocksInfoPageView: View {
                                             myAppObjects.getPriceChart(stockId: stockSymbol.stockId, interval: buttonList[4].buttonName){
                                                 result in
                                                 if(result.isSuccessful){
-                                                    chartData = result.chartDataResponse!.dataSet
-                                                    let dataSet = result.chartDataResponse!.dataSet.map({$0.1})
+                                                    chartData = result.stockChartDataResponse!.dataSet
+                                                    let dataSet = result.stockChartDataResponse!.dataSet.map({$0.1})
                                                     let discrepancy:Double = (dataSet.last! - dataSet[0])
                                                     let percentChange = (discrepancy / dataSet.last! * 100)
                                                     chartDiscrepancy = String(discrepancy.formatPrice() + "  (" + percentChange.formatPercentChange() + "%)")
@@ -213,8 +213,8 @@ struct StocksInfoPageView: View {
                                             myAppObjects.getPriceChart(stockId: stockSymbol.stockId, interval: buttonList[5].buttonName){
                                                 result in
                                                 if(result.isSuccessful){
-                                                    chartData = result.chartDataResponse!.dataSet
-                                                    let dataSet = result.chartDataResponse!.dataSet.map({$0.1})
+                                                    chartData = result.stockChartDataResponse!.dataSet
+                                                    let dataSet = result.stockChartDataResponse!.dataSet.map({$0.1})
                                                     let discrepancy:Double = (dataSet.last! - dataSet[0])
                                                     let percentChange = (discrepancy / dataSet.last! * 100)
                                                     chartDiscrepancy = String(discrepancy.formatPrice() + "  (" + percentChange.formatPercentChange() + "%)")
@@ -315,7 +315,7 @@ struct StocksInfoPageView: View {
                 myAppObjects.getPriceChart(stockId: stockSymbol.stockId, isPriceHistory: false){
                     result in
                     if(result.isSuccessful){
-                        chartData = result.chartDataResponse!.dataSet
+                        chartData = result.stockChartDataResponse!.dataSet
                         chartDiscrepancy = String(stockSymbol.change.formatPrice() + "  (" + stockSymbol.changesPercentage.formatPercentChange() + "%)")
                         chartPeriod = "Today"
                         isStockGaining = (stockSymbol.changesPercentage >= 0) ? true : false

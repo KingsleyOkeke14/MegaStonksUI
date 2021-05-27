@@ -16,7 +16,7 @@ struct StockHolding: Identifiable, Hashable{
     var marketValue, percentReturnToday, moneyReturnToday, percentReturnTotal: Double
     var moneyReturnTotal, percentOfPortfolio: Double
     
-    init(_ stockElement:HoldingsResponseElement){
+    init(_ stockElement:StockHoldingsResponseElement){
         stockId = stockElement.stockId
         symbol = stockElement.symbol ?? ""
         exchange = stockElement.exchange ?? ""
@@ -58,7 +58,7 @@ struct StockHoldings{
     
     var holdings: [StockHolding] = [StockHolding]()
     
-    init(holdingsArray:[HoldingsResponseElement]){
+    init(holdingsArray:[StockHoldingsResponseElement]){
         
         for holding in holdingsArray{
             

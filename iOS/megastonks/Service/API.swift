@@ -13,7 +13,7 @@ struct APIRoutes {
     let domain = "megastonksdev.azurewebsites.net"
     private let authRoute = "accounts/authenticate"
     private let registerRoute = "accounts/register"
-    private let watchlistRoute = "watchlist/getwatchlist"
+    private let stockWatchlistRoute = "watchlist/getwatchlist"
     private let revokeTokenRoute = "accounts/revoke-token"
     private let refreshTokenRoute = "accounts/refresh-token"
     private let forgotPasswordRoute = "accounts/forgot-password"
@@ -37,7 +37,7 @@ struct APIRoutes {
     
     var auth = URL(string: "")
     var register = URL(string: "")
-    var watchList = URL(string: "")
+    var stockWatchList = URL(string: "")
     var revokeToken = URL(string: "")
     var refreshToken = URL(string: "")
     var forgotPassword = URL(string: "")
@@ -62,7 +62,7 @@ struct APIRoutes {
         server = "https://\(domain)/"
         auth = URL(string: server + authRoute)!
         register = URL(string: server + registerRoute)!
-        watchList = URL(string: server + watchlistRoute)!
+        stockWatchList = URL(string: server + stockWatchlistRoute)!
         revokeToken = URL(string: server + revokeTokenRoute)!
         refreshToken = URL(string: server + refreshTokenRoute)!
         forgotPassword = URL(string: server + forgotPasswordRoute)!
@@ -446,9 +446,7 @@ struct API{
                     }
                     else{
                         result.errorMessage = "Error: Invalid Token or Password. Password Length must be greater than 5 characters and both Passwords should match"
-                    }
-                    
-                    
+                    }  
                 }
             }
             completion(result)
@@ -500,20 +498,14 @@ struct API{
                         
                     }
                 }
-                
-                
             }
             task.resume()
-            
-            
         }
-        
-        
     }
     
-    func GetWatchList(completion: @escaping (RequestResponse) -> ()) {
+    func GetStockWatchList(completion: @escaping (RequestResponse) -> ()) {
         
-        var request = AppUrlRequest(url: apiRoutes.watchList!, httpMethod: "GET").request
+        var request = AppUrlRequest(url: apiRoutes.stockWatchList!, httpMethod: "GET").request
         if let jwtToken: String = KeychainWrapper.standard.string(forKey: "jwtToken"){
             request.setValue( "Bearer \(jwtToken)", forHTTPHeaderField: "Authorization")
             

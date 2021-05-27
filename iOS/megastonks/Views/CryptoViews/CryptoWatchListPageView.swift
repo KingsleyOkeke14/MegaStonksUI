@@ -18,12 +18,14 @@ struct CryptoWatchListPageView: View {
     
     @State var isLoadingStock: Bool = false
     @State var isLoadingWatchlist: Bool = false
-    @State var isFirstLoad: Bool = true
+    @State var shouldRefreshWatchList: Bool = true
     
     @Environment(\.presentationMode) var presentationMode
     
     @EnvironmentObject var userAuth:UserAuth
     @EnvironmentObject var myAppObjects:AppObjects
+    
+    let timer = Timer.publish(every: 60, on: .main, in: .common).autoconnect()
     
     init() {
         let coloredAppearance = UINavigationBarAppearance()
@@ -174,10 +176,10 @@ struct CryptoWatchListPageView: View {
             }
             .padding(.horizontal)
             VStack{
-                if(!myAppObjects.watchList.isEmpty){
+                if(!myAppObjects.stockWatchList.isEmpty){
                     ScrollView{
                         LazyVStack {
-                            ForEach(myAppObjects.watchList, id: \.self){ stock in
+                            ForEach(myAppObjects.stockWatchList, id: \.self){ stock in
                                 NavigationLink(
                                     destination: StocksInfoPageView(stock: stock).environmentObject(myAppObjects).onDisappear(perform: {
                                         myAppObjects.updateWatchListAsync()
@@ -192,7 +194,7 @@ struct CryptoWatchListPageView: View {
                     }
                     
                 }
-                else if(myAppObjects.watchList.isEmpty && !isLoadingWatchlist){
+                else if(myAppObjects.stockWatchList.isEmpty && !isLoadingWatchlist){
                     Spacer()
                     VStack(spacing: 16){
                         Text("Wow! Such Empty!")
@@ -229,7 +231,7 @@ struct CryptoWatchListPageView: View {
             )
         }.onAppear(perform: {
             myAppObjects.getStockHoldingsAsync()
-            if(isFirstLoad){
+            if(shouldRefreshWatchList){
                 isLoadingWatchlist = true
                 myAppObjects.updateWatchList(){
                     result in
@@ -240,9 +242,12 @@ struct CryptoWatchListPageView: View {
                         //Would need to show error message here or something
                         isLoadingWatchlist = false
                     }
-                    isFirstLoad = false
+                    shouldRefreshWatchList = false
                 }
             }
+        })
+        .onReceive(self.timer, perform: { _ in
+            shouldRefreshWatchList = true
         })
         .banner(data: $myAppObjects.bannerData, show: $myAppObjects.showBanner)
         

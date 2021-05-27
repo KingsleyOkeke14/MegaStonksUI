@@ -14,6 +14,7 @@ struct WatchListPageView: View {
     @EnvironmentObject var userAuth:UserAuth
     @EnvironmentObject var myAppObjects:AppObjects
     
+    let impactMed = UIImpactFeedbackGenerator(style: .heavy)
     
     init() {
         let coloredAppearance = UINavigationBarAppearance()
@@ -46,17 +47,28 @@ struct WatchListPageView: View {
                     .bold()
                     .foregroundColor(myColors.greenColor)
                     .opacity(selection == 1 ? 0.6 : 1.0)
+                    .onTapGesture(perform: {
+                        
+                        impactMed.impactOccurred()
+                        selection = 0
+                    })
                 Text("Crypto")
                     .font(.custom("Apple SD Gothic Neo", fixedSize: 16))
                     .fontWeight(.heavy)
                     .bold()
                     .foregroundColor(myColors.greenColor)
                     .opacity(selection == 0 ? 0.6 : 1.0)
+                    .onTapGesture(perform: {
+                        impactMed.impactOccurred()
+                        selection = 1
+                    })
             }.padding(.horizontal)
                 TabView(selection: $selection) {
                     StocksWatchListPageView().tag(0)
                     CryptoWatchListPageView().tag(1)
                 }
+                .animation(.easeInOut) // 2
+                .transition(.slide) // 3
                 .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
                 .indexViewStyle(PageIndexViewStyle(backgroundDisplayMode: .interactive))
                 
@@ -65,6 +77,7 @@ struct WatchListPageView: View {
             .navigationBarHidden(true)
         }
         .navigationViewStyle(StackNavigationViewStyle())
+        
     }
 }
 

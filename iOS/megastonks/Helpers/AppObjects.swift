@@ -8,7 +8,7 @@
 import Foundation
 
 class AppObjects: ObservableObject {
-    @Published var watchList: [StockSymbol]
+    @Published var stockWatchList: [StockSymbol]
     @Published var showBanner:Bool = false
     @Published var bannerData:BannerData = BannerData(title: "", detail: "", type: .Info)
     @Published var stockSearchResult:[StockSearchResult]
@@ -22,10 +22,10 @@ class AppObjects: ObservableObject {
     
     init() {
         
-        self.watchList = [StockSymbol]()
+        self.stockWatchList = [StockSymbol]()
         self.stockSearchResult = [StockSearchResult]()
         self.userWallet = UserWallet(WalletResponse(firstName: "", lastName: "", cash: 0.0, initialDeposit: 0.0, investments: 0.0, total: 0.0, percentReturnToday: 0.0, moneyReturnToday: 0.0, percentReturnTotal: 0.0, moneyReturnTotal: 0.0))
-        self.holdings = StockHoldings(holdingsArray: [HoldingsResponseElement]())
+        self.holdings = StockHoldings(holdingsArray: [StockHoldingsResponseElement]())
         self.orderHistory = OrderHistory(orderArray: [OrderHistoryResponseElement]())
         self.ads = [AdDataElement]()
         self.news = [NewsElement]()
@@ -46,14 +46,14 @@ class AppObjects: ObservableObject {
     
     func updateWatchList(completion: @escaping (RequestResponse) -> ()) {
         var response = RequestResponse()
-        API().GetWatchList(){ result in
+        API().GetStockWatchList(){ result in
             response = result
             if(result.isSuccessful){
                 let decoder = JSONDecoder()
                  if let jsonResponse = try? decoder.decode(StockListResponse.self, from: result.data!) {
-                    response.watchListResponse = StockSymbols(stockElementArray: jsonResponse).stocks
+                    response.stockWatchListResponse = StockSymbols(stockElementArray: jsonResponse).stocks
                         DispatchQueue.main.async {
-                            self.watchList = response.watchListResponse.reversed()
+                            self.stockWatchList = response.stockWatchListResponse.reversed()
                         }
                     
                 }
@@ -79,15 +79,15 @@ class AppObjects: ObservableObject {
     
     func updateWatchListAsync() {
         var response = RequestResponse()
-        API().GetWatchList(){ result in
+        API().GetStockWatchList(){ result in
             response = result
             if(result.isSuccessful){
                 let decoder = JSONDecoder()
                  if let jsonResponse = try? decoder.decode(StockListResponse.self, from: result.data!) {
-                    response.watchListResponse = StockSymbols(stockElementArray: jsonResponse).stocks
-                    if(response.watchListResponse.count != self.watchList.count){
+                    response.stockWatchListResponse = StockSymbols(stockElementArray: jsonResponse).stocks
+                    if(response.stockWatchListResponse.count != self.stockWatchList.count){
                         DispatchQueue.main.async {
-                            self.watchList = response.watchListResponse.reversed()
+                            self.stockWatchList = response.stockWatchListResponse.reversed()
                         }
                     }
 
@@ -314,7 +314,7 @@ class AppObjects: ObservableObject {
             if(result.isSuccessful){
                 let decoder = JSONDecoder()
                  if let jsonResponse = try? decoder.decode(ChartDataResponse.self, from: result.data!) {
-                    response.chartDataResponse = ChartData(jsonResponse)
+                    response.stockChartDataResponse = ChartData(jsonResponse)
                 }
             }
             completion(response)

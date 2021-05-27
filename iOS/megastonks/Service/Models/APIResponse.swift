@@ -11,13 +11,13 @@ struct RequestResponse{
     var isSuccessful:Bool = false
     var data:Data? = nil
     var errorMessage:String = ""
-    var watchListResponse:[StockSymbol] = [StockSymbol]()
+    var stockWatchListResponse:[StockSymbol] = [StockSymbol]()
     var stockSearchResponse:[StockSearchResult] = [StockSearchResult]()
     var stockInfoSearchStocksPage:StockSymbol?
     var stockHoldingResponse:StockHolding?
     var stockHoldingsResponse:StockHoldings?
     var stockHoldingInfoPageResponse:StockHoldingInfoPage?
-    var chartDataResponse: ChartData?
+    var stockChartDataResponse: ChartData?
     var orderHistoryResponse: [OrderHistoryElement] = OrderHistory(orderArray: [OrderHistoryResponseElement]()).history
     var orderStockResponse: OrderResultInfo?
     var walletResponse: UserWallet?
@@ -71,7 +71,7 @@ typealias StockSearchResponse = [StockSearchElementResponse]
 
 
 
-struct HoldingsResponseElement: Codable {
+struct StockHoldingsResponseElement: Codable {
     let id, stockId: Int
     let symbol, exchange: String?
     let changesPercentage, averageCost: Double?
@@ -96,7 +96,7 @@ struct OrderHistoryResponseElement: Codable {
 typealias OrderHistoryResponse = [OrderHistoryResponseElement]
 
 
-typealias HoldingsResponse = [HoldingsResponseElement]
+typealias HoldingsResponse = [StockHoldingsResponseElement]
 
 
 struct HoldingResponseInfoPage: Codable {
