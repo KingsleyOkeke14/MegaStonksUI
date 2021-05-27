@@ -305,6 +305,7 @@
 		D0369D2A25C76FC700718A52 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				D0EAEFB4265F36A500540933 /* CryptoViews */,
 				D034871425C80DAE00CFCAB2 /* SubViews */,
 				D06B311425C7AFF400A37C08 /* LoginPageView.swift */,
 				D0E282F2263E56600027EFDB /* PlaceOrderPageView.swift */,
@@ -325,7 +326,6 @@
 				D009875E2640CD8000F76AEA /* OrdersPageView.swift */,
 				D00987622640E3D600F76AEA /* OrderSucessPageView.swift */,
 				D0C20852264A0690001B91D3 /* NewsPageView.swift */,
-				D0415B0E2653A2D3005124CA /* CryptoInfoView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -355,6 +355,14 @@
 				D04E9B262651B8BE000A1B7C /* Info.plist */,
 			);
 			path = megastonksUITests;
+			sourceTree = "<group>";
+		};
+		D0EAEFB4265F36A500540933 /* CryptoViews */ = {
+			isa = PBXGroup;
+			children = (
+				D0415B0E2653A2D3005124CA /* CryptoInfoView.swift */,
+			);
+			path = CryptoViews;
 			sourceTree = "<group>";
 		};
 		D0FC0FF225D2280C00366B26 /* Frameworks */ = {

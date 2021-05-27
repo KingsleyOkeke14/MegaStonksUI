@@ -66,7 +66,7 @@ struct WatchListPageView: View {
                             .frame(width: 10, height: 10)
                             .foregroundColor(Color.green)
                             .shadow(color: Color.green, radius: 6, x: -0.8, y: 1)
-                        Text("Market is Open")
+                        Text("US Stock Market is Open")
                             .font(.custom("Apple SD Gothic Neo", fixedSize: 14))
                             .offset(x: 0, y: 2)
                     }
@@ -75,7 +75,7 @@ struct WatchListPageView: View {
                             .frame(width: 10, height: 10)
                             .foregroundColor(Color.red)
                             .shadow(color: Color.red, radius: 6, x: -0.8, y: 1)
-                        Text("Market is Closed")
+                        Text("US Stock Market is Closed")
                             .font(.custom("Apple SD Gothic Neo", fixedSize: 14))
                             .offset(x: 0, y: 2)
                     }
