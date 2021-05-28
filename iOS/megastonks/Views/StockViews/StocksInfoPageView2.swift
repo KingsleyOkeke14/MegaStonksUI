@@ -355,7 +355,7 @@ struct StocksInfoPageView2: View {
                 }
             )
             .navigationBarTitleDisplayMode(.inline)
-        
+            .banner(data: $myAppObjects.bannerData, show: $myAppObjects.showBanner)
     }
     
 }

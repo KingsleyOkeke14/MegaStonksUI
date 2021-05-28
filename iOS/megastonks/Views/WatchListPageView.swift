@@ -10,11 +10,13 @@ import SwiftUI
 struct WatchListPageView: View {
     
     let myColors = MyColors()
-    @State private var selection = 0
     @EnvironmentObject var userAuth:UserAuth
     @EnvironmentObject var myAppObjects:AppObjects
     
+    @State var currentPage: Int = 0
+    
     let impactMed = UIImpactFeedbackGenerator(style: .heavy)
+    let timer = Timer.publish(every: 60, on: .main, in: .common).autoconnect()
     
     init() {
         let coloredAppearance = UINavigationBarAppearance()
@@ -28,10 +30,6 @@ struct WatchListPageView: View {
         UINavigationBar.appearance().scrollEdgeAppearance = coloredAppearance
         
         UINavigationBar.appearance().tintColor = .systemGray4
-        
-        let color = UIView()
-        color.backgroundColor = .systemGray6
-        UITableViewCell.appearance().selectedBackgroundView = color
     }
     
     var body: some View {
@@ -40,44 +38,33 @@ struct WatchListPageView: View {
                 Image("megastonkslogo")
                     .scaleEffect(0.6)
                     .aspectRatio(contentMode: .fit)
-            HStack(spacing: 20){
-                Text("Stocks")
-                    .font(.custom("Apple SD Gothic Neo", fixedSize: 16))
-                    .fontWeight(.heavy)
-                    .bold()
-                    .foregroundColor(myColors.greenColor)
-                    .opacity(selection == 1 ? 0.6 : 1.0)
-                    .onTapGesture(perform: {
-                        
-                        impactMed.impactOccurred()
-                        selection = 0
-                    })
-                Text("Crypto")
-                    .font(.custom("Apple SD Gothic Neo", fixedSize: 16))
-                    .fontWeight(.heavy)
-                    .bold()
-                    .foregroundColor(myColors.greenColor)
-                    .opacity(selection == 0 ? 0.6 : 1.0)
-                    .onTapGesture(perform: {
-                        impactMed.impactOccurred()
-                        selection = 1
-                    })
-            }.padding(.horizontal)
-                TabView(selection: $selection) {
-                    StocksWatchListPageView().tag(0)
-                    CryptoWatchListPageView().tag(1)
+                HStack(spacing: 20){
+                    Text("Stocks")
+                        .font(.custom("Apple SD Gothic Neo", fixedSize: 16))
+                        .fontWeight(.heavy)
+                        .bold()
+                        .foregroundColor(myColors.greenColor)
+                        .opacity(currentPage == 0 ? 1 : 0.6)
+                        .onTapGesture(perform: {
+                            impactMed.impactOccurred()
+                        })
+                    Text("Crypto")
+                        .font(.custom("Apple SD Gothic Neo", fixedSize: 16))
+                        .fontWeight(.heavy)
+                        .bold()
+                        .foregroundColor(myColors.greenColor)
+                        .opacity(currentPage == 1 ? 1 : 0.6)
+                        .onTapGesture(perform: {
+                            impactMed.impactOccurred()
+                            
+                        })
                 }
-                .animation(.easeInOut) // 2
-                .transition(.slide) // 3
-                .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
-                .indexViewStyle(PageIndexViewStyle(backgroundDisplayMode: .interactive))
-                
-            }.navigationBarTitleDisplayMode(.inline)
+                PageView(pages: [AssetWatchListPage(isCrypto: false), AssetWatchListPage(isCrypto: true)], currentPage: $currentPage)
+            }
+            .navigationBarTitleDisplayMode(.inline)
             .navigationBarTitle("")
             .navigationBarHidden(true)
-        }
-        .navigationViewStyle(StackNavigationViewStyle())
-        
+        }.navigationViewStyle(StackNavigationViewStyle())
     }
 }
 

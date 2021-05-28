@@ -22,13 +22,13 @@ struct AppPageView: View {
             
             if(userAuth.user.isOnBoarded){
                 TabView(selection: $selection) {
+                    
                     WatchListPageView()
                         .tabItem {
                             Label("WatchList", systemImage: "eyeglasses")
                         }.tag(0)
                         .preferredColorScheme(.dark)
                         .environmentObject(appObject)
-                    
                     NewsPageView()
                         .environmentObject(appObject)
                         .tabItem {
@@ -36,7 +36,7 @@ struct AppPageView: View {
                         }.tag(1)
                         .preferredColorScheme(.dark)
                     
-                    StocksPortfolioPageView()
+                    AssetPorfolioPage()
                         .environmentObject(userAuth)
                         .environmentObject(appObject)
                         .tabItem {

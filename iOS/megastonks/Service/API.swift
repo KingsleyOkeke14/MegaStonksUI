@@ -549,7 +549,6 @@ struct API{
                         else{
                             result.errorMessage = "Could Not Retrieve WatchList"
                         }
-                        
                     }
                 }
                 completion(result)
