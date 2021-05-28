@@ -162,6 +162,56 @@ struct NewsResponseElement: Codable {
 typealias NewsResponse = [NewsResponseElement]
 
 
+struct CryptoResponse: Codable {
+    let crypto: Crypto?
+    let info: CryptoInfo?
+    let usdQuote, cadQuote: CrptoQuote?
+    let isInWatchlist, isInPortfolio: Bool?
+}
+
+// MARK: - Quote
+struct CrptoQuote: Codable {
+    let price, volume24H, percentChange1H, percentChange24H: Double?
+    let percentChange7D, percentChange30D, percentChange60D, percentChange90D: Double?
+    let marketCap: Double?
+
+    enum CodingKeys: String, CodingKey {
+        case price
+        case volume24H = "volume24h"
+        case percentChange1H = "percentChange1h"
+        case percentChange24H = "percentChange24h"
+        case percentChange7D = "percentChange7d"
+        case percentChange30D = "percentChange30d"
+        case percentChange60D = "percentChange60d"
+        case percentChange90D = "percentChange90d"
+        case marketCap
+    }
+}
+
+// MARK: - Crypto
+struct Crypto: Codable {
+    let id: Int?
+    let name, symbol, slug, dateAdded: String?
+    let maxSupply: Int?
+    let circulatingSupply: Double?
+    let totalSupply, cmcRank: Int?
+    let lastUpdated: String?
+}
+
+// MARK: - CryptoInfo
+struct CryptoInfo: Codable {
+    let category, infoDescription: String?
+    let logo: String?
+    let website, twitter, reddit: String?
+
+    enum CodingKeys: String, CodingKey {
+        case category
+        case infoDescription = "description"
+        case logo, website, twitter, reddit
+    }
+}
+
+
 struct CommonAPIResponse: Codable {
     let message: String
 }

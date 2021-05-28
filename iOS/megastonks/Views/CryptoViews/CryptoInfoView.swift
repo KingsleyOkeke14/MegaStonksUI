@@ -24,9 +24,6 @@ struct CryptoInfoView: View {
                         .clipShape(Circle())
                         .aspectRatio(contentMode: .fill)
                         .shadow(radius: 8)
-//                    Circle()
-//                        .fill(myColors.grayColor)
-//                        .frame(width: 80, height: 80)
                 }
                    
                 
@@ -41,7 +38,7 @@ struct CryptoInfoView: View {
                 
                 
                 HStack {
-                    Text("54000")
+                    Text("54000.80")
                         .foregroundColor(.white)
                         .font(.custom("Verdana", fixedSize: 24))
                         .bold()

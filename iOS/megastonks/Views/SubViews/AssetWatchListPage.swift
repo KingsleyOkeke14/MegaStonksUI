@@ -87,7 +87,6 @@ struct AssetWatchListPage: View {
                                 }
                                 isLoadingStock = false
                             }
-                            
                         })
                         .padding()
                         .padding(.horizontal, 24)
@@ -102,12 +101,10 @@ struct AssetWatchListPage: View {
                                     .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
                                     .padding(.leading, 12)
                             }
-                            
                         )
                         .onTapGesture {
                             self.isEditing = true
                         }
-                        
                         if isEditing {
                             Button(action: {
                                 self.isEditing = false
@@ -126,7 +123,8 @@ struct AssetWatchListPage: View {
                             .transition(.move(edge: .trailing))
                             .animation(.default)
                         }
-                    }.padding(.horizontal).padding(.vertical, 2)
+                    }
+                    .padding(.horizontal).padding(.vertical, 2)
                     
                     if(isEditing){
                         VStack{
@@ -178,8 +176,9 @@ struct AssetWatchListPage: View {
                             }
                             
                             Spacer()
-                        }.frame(height: 300)
+                        }
                     }
+                    if(!isEditing){
                     HStack{
                         Text("Stock Watchlist")
                             .font(.custom("Apple SD Gothic Neo", fixedSize: 22))
@@ -193,61 +192,64 @@ struct AssetWatchListPage: View {
                         
                     }
                     .padding(.horizontal)
-                    VStack{
-                        if(!myAppObjects.stockWatchList.isEmpty){
-                            ScrollView{
-                                LazyVStack {
-                                    ForEach(myAppObjects.stockWatchList, id: \.self){ stock in
-                                        NavigationLink(
-                                            destination: StocksInfoPageView(stock: stock).environmentObject(myAppObjects).onDisappear(perform: {
-                                                myAppObjects.updateWatchListAsync()
-                                                myAppObjects.getStockHoldingsAsync()
-                                            }),
-                                            tag: stock.id.uuidString,
-                                            selection: $selectedItem,
-                                            label: {StockSymbolView(stock: stock)})
-                                        
-                                    }
-                                }.padding(.horizontal)
-                            }
-                            
-                        }
-                        else if(myAppObjects.stockWatchList.isEmpty && !isLoadingWatchlist){
-                            Spacer()
-                            VStack(spacing: 16){
-                                Text("Wow! Such Empty!")
-                                    .font(.custom("Apple SD Gothic Neo", fixedSize: 20))
-                                    .bold()
-                                    .foregroundColor(.gray)
-                                    .padding(.horizontal)
-                                Text("😒")
-                                    .font(.custom("Apple SD Gothic Neo", fixedSize: 16))
-                                    .foregroundColor(.gray)
-                                    .padding(.horizontal)
-                                Text("Surely, there are some assets you would like to track in your watchlist")
-                                    .font(.custom("Apple SD Gothic Neo", fixedSize: 16))
-                                    .bold()
-                                    .foregroundColor(.gray)
-                                    .padding(.horizontal)
-                                    .multilineTextAlignment(.center)
-                            }
-                        }
-                        Spacer()
-                    }.overlay(
+                    
+                    
                         VStack{
-                            if(isLoadingWatchlist){
-                                Color.black
-                                    .overlay(
-                                        ProgressView()
-                                            .accentColor(.green)
-                                            .scaleEffect(x: 1.4, y: 1.4)
-                                            .progressViewStyle(CircularProgressViewStyle(tint: myColors.greenColor))
-                                    )
+                            if(!myAppObjects.stockWatchList.isEmpty){
+                                ScrollView{
+                                    LazyVStack {
+                                        ForEach(myAppObjects.stockWatchList, id: \.self){ stock in
+                                            NavigationLink(
+                                                destination: StocksInfoPageView(stock: stock).environmentObject(myAppObjects).onDisappear(perform: {
+                                                    myAppObjects.updateWatchListAsync()
+                                                    myAppObjects.getStockHoldingsAsync()
+                                                }),
+                                                tag: stock.id.uuidString,
+                                                selection: $selectedItem,
+                                                label: {StockSymbolView(stock: stock)})
+                                            
+                                        }
+                                    }.padding(.horizontal)
+                                }
                                 
                             }
-                        }
-                    )
-                }
+                            else if(myAppObjects.stockWatchList.isEmpty && !isLoadingWatchlist){
+                                Spacer()
+                                VStack(spacing: 16){
+                                    Text("Wow! Such Empty!")
+                                        .font(.custom("Apple SD Gothic Neo", fixedSize: 20))
+                                        .bold()
+                                        .foregroundColor(.gray)
+                                        .padding(.horizontal)
+                                    Text("😒")
+                                        .font(.custom("Apple SD Gothic Neo", fixedSize: 16))
+                                        .foregroundColor(.gray)
+                                        .padding(.horizontal)
+                                    Text("Surely, there are some assets you would like to track in your watchlist")
+                                        .font(.custom("Apple SD Gothic Neo", fixedSize: 16))
+                                        .bold()
+                                        .foregroundColor(.gray)
+                                        .padding(.horizontal)
+                                        .multilineTextAlignment(.center)
+                                }
+                            }
+                            Spacer()
+                        }.overlay(
+                            VStack{
+                                if(isLoadingWatchlist){
+                                    Color.black
+                                        .overlay(
+                                            ProgressView()
+                                                .accentColor(.green)
+                                                .scaleEffect(x: 1.4, y: 1.4)
+                                                .progressViewStyle(CircularProgressViewStyle(tint: myColors.greenColor))
+                                        )
+                                    
+                                }
+                            }
+                        )
+                    }
+                    }
                 .onAppear(perform: {
                     onLoad()
                 })
@@ -320,7 +322,9 @@ struct AssetWatchListPage: View {
                             .transition(.move(edge: .trailing))
                             .animation(.default)
                         }
-                    }.padding(.horizontal).padding(.vertical, 2)
+                    }
+                    
+                    .padding(.horizontal).padding(.vertical, 2)
                     
                     if(isEditing){
                         VStack{
@@ -372,75 +376,77 @@ struct AssetWatchListPage: View {
                             }
                             
                             Spacer()
-                        }.frame(height: 300)
+                        }
                     }
-                    HStack{
-                        Text("Crypto Watchlist")
-                            .font(.custom("Apple SD Gothic Neo", fixedSize: 22))
-                            .fontWeight(.heavy)
-                            .bold()
-                            .foregroundColor(myColors.greenColor)
-                        Image(systemName: "eye")
-                            .foregroundColor(myColors.greenColor)
-                            .font(.custom("", fixedSize: 18))
-                        Spacer()
-                        
-                    }
-                    .padding(.horizontal)
-                    VStack{
-                        if(!myAppObjects.stockWatchList.isEmpty){
-                            ScrollView{
-                                LazyVStack {
-                                    ForEach(myAppObjects.stockWatchList, id: \.self){ stock in
-                                        NavigationLink(
-                                            destination: StocksInfoPageView(stock: stock).environmentObject(myAppObjects).onDisappear(perform: {
-                                                myAppObjects.updateWatchListAsync()
-                                                myAppObjects.getStockHoldingsAsync()
-                                            }),
-                                            tag: stock.id.uuidString,
-                                            selection: $selectedItem,
-                                            label: {StockSymbolView(stock: stock)})
-                                        
-                                    }
-                                }.padding(.horizontal)
-                            }
+                    if(!isEditing){
+                        HStack{
+                            Text("Crypto Watchlist")
+                                .font(.custom("Apple SD Gothic Neo", fixedSize: 22))
+                                .fontWeight(.heavy)
+                                .bold()
+                                .foregroundColor(myColors.greenColor)
+                            Image(systemName: "eye")
+                                .foregroundColor(myColors.greenColor)
+                                .font(.custom("", fixedSize: 18))
+                            Spacer()
                             
                         }
-                        else if(myAppObjects.stockWatchList.isEmpty && !isLoadingWatchlist){
-                            Spacer()
-                            VStack(spacing: 16){
-                                Text("Wow! Such Empty!")
-                                    .font(.custom("Apple SD Gothic Neo", fixedSize: 20))
-                                    .bold()
-                                    .foregroundColor(.gray)
-                                    .padding(.horizontal)
-                                Text("😒")
-                                    .font(.custom("Apple SD Gothic Neo", fixedSize: 16))
-                                    .foregroundColor(.gray)
-                                    .padding(.horizontal)
-                                Text("Surely, there are some assets you would like to track in your watchlist")
-                                    .font(.custom("Apple SD Gothic Neo", fixedSize: 16))
-                                    .bold()
-                                    .foregroundColor(.gray)
-                                    .padding(.horizontal)
-                                    .multilineTextAlignment(.center)
-                            }
-                        }
-                        Spacer()
-                    }.overlay(
+                        .padding(.horizontal)
                         VStack{
-                            if(isLoadingWatchlist){
-                                Color.black
-                                    .overlay(
-                                        ProgressView()
-                                            .accentColor(.green)
-                                            .scaleEffect(x: 1.4, y: 1.4)
-                                            .progressViewStyle(CircularProgressViewStyle(tint: myColors.greenColor))
-                                    )
+                            if(!myAppObjects.stockWatchList.isEmpty){
+                                ScrollView{
+                                    LazyVStack {
+                                        ForEach(myAppObjects.stockWatchList, id: \.self){ stock in
+                                            NavigationLink(
+                                                destination: StocksInfoPageView(stock: stock).environmentObject(myAppObjects).onDisappear(perform: {
+                                                    myAppObjects.updateWatchListAsync()
+                                                    myAppObjects.getStockHoldingsAsync()
+                                                }),
+                                                tag: stock.id.uuidString,
+                                                selection: $selectedItem,
+                                                label: {StockSymbolView(stock: stock)})
+                                            
+                                        }
+                                    }.padding(.horizontal)
+                                }
                                 
                             }
-                        }
-                    )
+                            else if(myAppObjects.stockWatchList.isEmpty && !isLoadingWatchlist){
+                                Spacer()
+                                VStack(spacing: 16){
+                                    Text("Wow! Such Empty!")
+                                        .font(.custom("Apple SD Gothic Neo", fixedSize: 20))
+                                        .bold()
+                                        .foregroundColor(.gray)
+                                        .padding(.horizontal)
+                                    Text("😒")
+                                        .font(.custom("Apple SD Gothic Neo", fixedSize: 16))
+                                        .foregroundColor(.gray)
+                                        .padding(.horizontal)
+                                    Text("Surely, there are some assets you would like to track in your watchlist")
+                                        .font(.custom("Apple SD Gothic Neo", fixedSize: 16))
+                                        .bold()
+                                        .foregroundColor(.gray)
+                                        .padding(.horizontal)
+                                        .multilineTextAlignment(.center)
+                                }
+                            }
+                            Spacer()
+                        }.overlay(
+                            VStack{
+                                if(isLoadingWatchlist){
+                                    Color.black
+                                        .overlay(
+                                            ProgressView()
+                                                .accentColor(.green)
+                                                .scaleEffect(x: 1.4, y: 1.4)
+                                                .progressViewStyle(CircularProgressViewStyle(tint: myColors.greenColor))
+                                        )
+                                    
+                                }
+                            }
+                        )
+                    }
                 }.onAppear(perform: {
                     myAppObjects.getStockHoldingsAsync()
                     if(shouldRefreshWatchlist){
@@ -464,6 +470,7 @@ struct AssetWatchListPage: View {
                 .banner(data: $myAppObjects.bannerData, show: $myAppObjects.showBanner)
                 
             }
+            
             .banner(data: $myAppObjects.bannerData, show: $myAppObjects.showBanner)
         }
         

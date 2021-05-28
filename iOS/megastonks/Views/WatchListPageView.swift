@@ -17,7 +17,7 @@ struct WatchListPageView: View {
     
     let impactMed = UIImpactFeedbackGenerator(style: .heavy)
     let timer = Timer.publish(every: 60, on: .main, in: .common).autoconnect()
-
+    
     @State var showBanner:Bool = false
     
     var stockBannerInfo:BannerData = BannerData(title: "", detail: "Swipe right on page to view stocks watchlist", type: .Info)
@@ -46,14 +46,17 @@ struct WatchListPageView: View {
                 Image("megastonkslogo")
                     .scaleEffect(0.6)
                     .aspectRatio(contentMode: .fit)
-                    HStack(spacing: 20){
-                        VStack{
+                HStack(spacing: 20){
+                    VStack{
+                        if(currentPage == 0){
                             Text("Stocks")
                                 .font(.custom("Apple SD Gothic Neo", fixedSize: 16))
                                 .fontWeight(.heavy)
                                 .bold()
-                                .foregroundColor(myColors.greenColor)
-                                .opacity(currentPage == 0 ? 1 : 0.4)
+                                .foregroundColor(.black)
+                                .padding(.horizontal, 6)
+                                .background(myColors.greenColor)
+                                .cornerRadius(6)
                                 .onTapGesture(perform: {
                                     impactMed.impactOccurred()
                                     if(currentPage != 0){
@@ -65,21 +68,41 @@ struct WatchListPageView: View {
                                             }
                                         }
                                     }
-                            })
-                            Image(systemName: "circle.fill")
-                                .font(.custom("Apple SD Gothic Neo", fixedSize: 6))
-                                .foregroundColor(currentPage == 0 ? myColors.greenColor : Color.black)
-                                .padding(.top, -10)
-                                
-                        }.animation(.easeIn)
-                            
-                        VStack{
-                            Text("Crypto")
+                                })
+                        }
+                        else {
+                            Text("Stocks")
                                 .font(.custom("Apple SD Gothic Neo", fixedSize: 16))
                                 .fontWeight(.heavy)
                                 .bold()
                                 .foregroundColor(myColors.greenColor)
-                                .opacity(currentPage == 1 ? 1 : 0.4)
+                                .onTapGesture(perform: {
+                                    impactMed.impactOccurred()
+                                    if(currentPage != 0){
+                                        showBanner = true
+                                        bannerData = stockBannerInfo
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
+                                            withAnimation {
+                                                self.showBanner = false
+                                            }
+                                        }
+                                    }
+                                })
+                        }
+                        
+                        
+                    }.animation(.easeIn)
+                    
+                    VStack{
+                        if(currentPage == 1){
+                            Text("Crypto")
+                                .font(.custom("Apple SD Gothic Neo", fixedSize: 16))
+                                .fontWeight(.heavy)
+                                .bold()
+                                .foregroundColor(.black)
+                                .padding(.horizontal, 6)
+                                .background(myColors.greenColor)
+                                .cornerRadius(6)
                                 .onTapGesture(perform: {
                                     impactMed.impactOccurred()
                                     if(currentPage != 1){
@@ -91,16 +114,33 @@ struct WatchListPageView: View {
                                             }
                                         }
                                     }
-                            })
-                            Image(systemName: "circle.fill")
-                                .font(.custom("Apple SD Gothic Neo", fixedSize: 6))
-                                .foregroundColor(currentPage == 1 ? myColors.greenColor : Color.black)
-                                .padding(.top, -10)
-                                
-                        }.animation(.easeIn)
+                                })
+                        }
+                        else{
+                            Text("Crypto")
+                                .font(.custom("Apple SD Gothic Neo", fixedSize: 16))
+                                .fontWeight(.heavy)
+                                .bold()
+                                .foregroundColor(myColors.greenColor)
+                                .padding(.horizontal, 6)
+                                .onTapGesture(perform: {
+                                    impactMed.impactOccurred()
+                                    if(currentPage != 1){
+                                        showBanner = true
+                                        bannerData = cryptoBannerInfo
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
+                                            withAnimation {
+                                                self.showBanner = false
+                                            }
+                                        }
+                                    }
+                                })
+                            
+                        }
                         
-                    }.padding(.bottom, -10)
-                    
+                    }.animation(.easeIn)
+                }
+                
                 PageView(pages: [AssetWatchListPage(isCrypto: false), AssetWatchListPage(isCrypto: true)], currentPage: $currentPage)
             }
             .navigationBarTitleDisplayMode(.inline)
