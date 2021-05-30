@@ -8,10 +8,11 @@
 import SwiftUI
 
 struct StatisticsView: View {
+    let myColors = MyColors()
+    
     @Binding var stockSymbol: StockSymbol
     @Binding var themeColor: Color
     
-    let myColors = MyColors()
     var body: some View {
         
         VStack {
@@ -38,6 +39,40 @@ struct StatisticsView: View {
                 SingleStatView(label: "Volume", value: stockSymbol.volume != 0 ? "\(stockSymbol.volume.abbreviated)" : "-")
                 
                 SingleStatView(label: "Exchange", value: stockSymbol.exchange != "" ? "\(stockSymbol.exchange)" : "-")
+            }
+        }.padding(.horizontal)
+    }
+}
+
+struct CryptoStatisticsView: View {
+    let myColors = MyColors()
+    
+    @Binding var cryptoSymbol: CryptoSymbol
+    var cryptoQuote: CryptoQuote
+    @Binding var themeColor: Color
+    
+    var body: some View {
+        VStack {
+            VStack(alignment: .leading, spacing: 2){
+                Text("Statistics")
+                    .font(.custom("Apple SD Gothic Neo", fixedSize: 22))
+                    .bold()
+                    .foregroundColor(themeColor)
+                    .padding(.top)
+                
+                Rectangle()
+                    .fill(myColors.lightGrayColor)
+                    .frame(height: 2)
+                    .edgesIgnoringSafeArea(.horizontal)
+                
+            }      
+            VStack{
+                SingleStatView(label: "Rank", value: cryptoSymbol.crypto.cmcRank != 0 ? "\(cryptoSymbol.crypto.cmcRank)" : "-")
+                SingleStatView(label: "Inception Date", value: !cryptoSymbol.crypto.dateAdded.isEmpty ? "\(cryptoSymbol.crypto.dateAdded)" : "-")
+                SingleStatView(label: "Max Supply", value: cryptoSymbol.crypto.maxSupply != 0 ? "\(cryptoSymbol.crypto.maxSupply.abbreviated)" : "-")
+                SingleStatView(label: "Circulating Supply", value: cryptoSymbol.crypto.circulatingSupply != 0 ? "\(cryptoSymbol.crypto.circulatingSupply.abbreviated())" : "-")
+                SingleStatView(label: "Market Cap", value: cryptoQuote.marketCap != 0 ? "\(cryptoQuote.marketCap.abbreviated())" : "-")
+                SingleStatView(label: "24Hr Volume", value: cryptoQuote.volume24H != 0 ? "\(cryptoQuote.volume24H.abbreviated())" : "-")
             }
         }.padding(.horizontal)
     }
@@ -104,7 +139,7 @@ struct PriceActionView: View {
                     .edgesIgnoringSafeArea(.horizontal)
             }
         }
-        .frame(height: 58, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+        .frame(height: 58, alignment: .center)
     }
 }
 
@@ -131,10 +166,11 @@ struct SingleStatView: View {
 
 struct StatisticsView_Previews: PreviewProvider {
     static var previews: some View {
-        StatisticsView(stockSymbol: Binding.constant(StockSymbolModel().symbols[0]), themeColor: Binding.constant(Color.red))
+        
+        CryptoStatisticsView(cryptoSymbol: Binding.constant(StockSymbolModel().cryptoSymbol), cryptoQuote: CryptoQuote(StockSymbolModel().cryptoSymbol.cadQuote), themeColor: Binding.constant(Color.red))
             .preferredColorScheme(.dark)
+        
+                StatisticsView(stockSymbol: Binding.constant(StockSymbolModel().symbols[0]), themeColor: Binding.constant(Color.red))
+                    .preferredColorScheme(.dark)
     }
 }
-
-
-
