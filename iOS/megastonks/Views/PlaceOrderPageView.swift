@@ -228,7 +228,7 @@ struct PlaceOrderPageView: View {
                                 }
                                 else if(!isLoading && showOrderSuccessPage){
                                     OrderSucessPageView(orderResult: orderResult!)                .onDisappear(perform: {
-                                        myAppObjects.updateWatchList(){
+                                        myAppObjects.updateStockWatchList(){
                                             result in
                                             if(result.isSuccessful){
                                                 DispatchQueue.main.async {

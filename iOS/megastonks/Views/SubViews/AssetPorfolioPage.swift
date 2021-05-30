@@ -61,7 +61,7 @@ struct AssetPorfolioPage: View {
                                     NavigationLink(
                                         destination: StocksInfoPageView2(stockToGet: StockSearchResult(StockSearchElementResponse(id: holding.stockId, symbol: "", companyName: "", marketCap: 0, sector: "", industry: "", beta: 2.0, price: 0.0, lastAnnualDividend: 0.0, volume: 0, exchange: "", exchangeShortName: "", country: "", isEtf: false, isActivelyTrading: false, lastUpdated: "")), showOrderButtons: false, showWatchListButton: true )
                                             .onDisappear(perform: {
-                                                myAppObjects.updateWatchListAsync()
+                                                myAppObjects.updateStockWatchListAsync()
                                             })
                                             .environmentObject(myAppObjects)
                                             .environmentObject(userAuth)

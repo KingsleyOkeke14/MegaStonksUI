@@ -100,7 +100,7 @@ struct StocksInfoPageView2: View {
                             StockInfoView(stockSymbol: $stockSymbol, highlightColor: $themeColor)
                             ScrollView{
                                 VStack(spacing: 12){
-                                    ChartView(isStockGaining: $isStockGaining, themeColor: $themeColor, data: $chartData, chartDiscrepancy: $chartDiscrepancy, chartLabel: $chartPeriod, stock: stockSymbol)
+                                    ChartView(isStockGaining: $isStockGaining, themeColor: $themeColor, data: $chartData, chartDiscrepancy: $chartDiscrepancy, chartLabel: $chartPeriod)
                                     
                                     HStack(spacing: 12){
                                         

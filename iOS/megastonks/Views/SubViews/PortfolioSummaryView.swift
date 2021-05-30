@@ -41,8 +41,6 @@ struct PortfolioSummaryView: View {
                         .padding(.vertical, 6)
                         .background(myColors.lightGrayColor)
                         .foregroundColor(.white)
-                        
-                        
                         .cornerRadius(20)
                 }).padding(.horizontal)
             }

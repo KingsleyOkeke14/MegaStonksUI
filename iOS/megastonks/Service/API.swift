@@ -14,6 +14,7 @@ struct APIRoutes {
     private let authRoute = "accounts/authenticate"
     private let registerRoute = "accounts/register"
     private let stockWatchlistRoute = "watchlist/getwatchlist"
+    private let cryptoWatchlistRoute = "watchlist/getCryptoWatchList"
     private let revokeTokenRoute = "accounts/revoke-token"
     private let refreshTokenRoute = "accounts/refresh-token"
     private let forgotPasswordRoute = "accounts/forgot-password"
@@ -22,6 +23,8 @@ struct APIRoutes {
     private let searchStockRoute = "stocks/searchstock"
     private let addStockRoute = "watchlist/addstock"
     private let removeStockRoute = "watchlist/removestock"
+    private let addCryptoRoute = "watchlist/addCrypto"
+    private let removeCryptoRoute = "watchlist/removeCrypto"
     private let stockInfoRoute = "stocks/stockinfo"
     private let stockHoldingRoute = "stocks/stockholding"
     private let stockHoldingsRoute = "stocks/stockholdings"
@@ -38,6 +41,7 @@ struct APIRoutes {
     var auth = URL(string: "")
     var register = URL(string: "")
     var stockWatchList = URL(string: "")
+    var cryptoWatchList = URL(string: "")
     var revokeToken = URL(string: "")
     var refreshToken = URL(string: "")
     var forgotPassword = URL(string: "")
@@ -46,6 +50,8 @@ struct APIRoutes {
     var searchStock = URL(string: "")
     var addStock = URL(string: "")
     var removeStock = URL(string: "")
+    var addCrypto = URL(string: "")
+    var removeCrypto = URL(string: "")
     var stockInfo = URL(string: "")
     var stockHolding = URL(string: "")
     var stockHoldings = URL(string: "")
@@ -63,6 +69,7 @@ struct APIRoutes {
         auth = URL(string: server + authRoute)!
         register = URL(string: server + registerRoute)!
         stockWatchList = URL(string: server + stockWatchlistRoute)!
+        cryptoWatchList = URL(string: server + cryptoWatchlistRoute)!
         revokeToken = URL(string: server + revokeTokenRoute)!
         refreshToken = URL(string: server + refreshTokenRoute)!
         forgotPassword = URL(string: server + forgotPasswordRoute)!
@@ -71,6 +78,8 @@ struct APIRoutes {
         searchStock = URL(string: server + searchStockRoute)!
         addStock = URL(string: server + addStockRoute)!
         removeStock = URL(string: server + removeStockRoute)!
+        addCrypto = URL(string: server + addCryptoRoute)!
+        removeCrypto = URL(string: server + removeCryptoRoute)!
         stockInfo = URL(string: server + stockInfoRoute)!
         stockHolding = URL(string: server + stockHoldingRoute)!
         stockHoldings = URL(string: server + stockHoldingsRoute)!
@@ -503,9 +512,14 @@ struct API{
         }
     }
     
-    func GetStockWatchList(completion: @escaping (RequestResponse) -> ()) {
+    func GetAssetWatchList(isCrypto: Bool, completion: @escaping (RequestResponse) -> ()) {
         
         var request = AppUrlRequest(url: apiRoutes.stockWatchList!, httpMethod: "GET").request
+        
+        if(isCrypto){
+            request = AppUrlRequest(url: apiRoutes.cryptoWatchList!, httpMethod: "GET").request
+        }
+        
         if let jwtToken: String = KeychainWrapper.standard.string(forKey: "jwtToken"){
             request.setValue( "Bearer \(jwtToken)", forHTTPHeaderField: "Authorization")
             
@@ -624,11 +638,17 @@ struct API{
         
     }
     
-    func AddStockToWatchList(stockId: Int, completion: @escaping (RequestResponse) -> ()) {
+    func AddAssetToWatchList(assetId: Int, isCrypto: Bool, completion: @escaping (RequestResponse) -> ()) {
         
-        let url = apiRoutes.addStock!
-        let queryItems = [URLQueryItem(name: "stockId", value: "\(stockId)")]
-        let newUrl = url.appending(queryItems)!
+        var url = apiRoutes.addStock!
+        var queryItems = [URLQueryItem(name: "stockId", value: "\(assetId)")]
+        var newUrl = url.appending(queryItems)!
+        
+        if(isCrypto){
+            url = apiRoutes.addCrypto!
+            queryItems = [URLQueryItem(name: "cryptoId", value: "\(assetId)")]
+            newUrl = url.appending(queryItems)!
+        }
         
         var request = AppUrlRequest(url: newUrl, httpMethod: "PUT").request
         if let jwtToken: String = KeychainWrapper.standard.string(forKey: "jwtToken"){
@@ -667,7 +687,7 @@ struct API{
                             result.errorMessage = jsonResponse.message
                         }
                         else{
-                            result.errorMessage = "Could Not Add Stock To Watchliist"
+                            result.errorMessage = "Could Not Add Asset To Watchliist"
                         }
                         
                     }
@@ -682,11 +702,17 @@ struct API{
         
     }
     
-    func RemoveStockFromWatchList(stockId: Int, completion: @escaping (RequestResponse) -> ()) {
+    func RemoveAssetFromWatchList(assetId: Int, isCrypto: Bool, completion: @escaping (RequestResponse) -> ()) {
         
-        let url = apiRoutes.removeStock!
-        let queryItems = [URLQueryItem(name: "stockId", value: "\(stockId)")]
-        let newUrl = url.appending(queryItems)!
+        var url = apiRoutes.removeStock!
+        var queryItems = [URLQueryItem(name: "stockId", value: "\(assetId)")]
+        var newUrl = url.appending(queryItems)!
+        
+        if(isCrypto){
+            url = apiRoutes.removeCrypto!
+            queryItems = [URLQueryItem(name: "cryptoId", value: "\(assetId)")]
+            newUrl = url.appending(queryItems)!
+        }
         
         var request = AppUrlRequest(url: newUrl, httpMethod: "DELETE").request
         

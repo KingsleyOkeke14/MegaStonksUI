@@ -28,8 +28,6 @@ struct ChartView: View {
     @Binding var chartLabel:String
     
     
-    @State var stock:StockSymbol
-    
     
     var body: some View {
         
@@ -83,6 +81,6 @@ struct ChartView: View {
 
 struct ChartView_Previews: PreviewProvider {
     static var previews: some View {
-        ChartView(isStockGaining: Binding.constant(false), themeColor: Binding.constant(MyColors().redColor), data: Binding.constant([(String, Double)]()), chartDiscrepancy: Binding.constant(""), chartLabel: Binding.constant(""), stock: StockSymbolModel().symbols[1])
+        ChartView(isStockGaining: Binding.constant(false), themeColor: Binding.constant(MyColors().redColor), data: Binding.constant([(String, Double)]()), chartDiscrepancy: Binding.constant(""), chartLabel: Binding.constant(""))
     }
 }

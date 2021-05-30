@@ -12,6 +12,7 @@ struct RequestResponse{
     var data:Data? = nil
     var errorMessage:String = ""
     var stockWatchListResponse:[StockSymbol] = [StockSymbol]()
+    var cryptoWatchListResponse:[CryptoSymbol] = [CryptoSymbol]()
     var stockSearchResponse:[StockSearchResult] = [StockSearchResult]()
     var stockInfoSearchStocksPage:StockSymbol?
     var stockHoldingResponse:StockHolding?
@@ -67,9 +68,6 @@ struct StockSearchElementResponse: Codable{
 }
 
 typealias StockSearchResponse = [StockSearchElementResponse]
-
-
-
 
 struct StockHoldingsResponseElement: Codable {
     let id, stockId: Int
@@ -163,14 +161,14 @@ typealias NewsResponse = [NewsResponseElement]
 
 
 struct CryptoResponse: Codable {
-    let crypto: Crypto?
-    let info: CryptoInfo?
-    let usdQuote, cadQuote: CrptoQuote?
+    let crypto: CryptoResponseElement?
+    let info: CryptoInfoResponse?
+    let usdQuote, cadQuote: CryptoQuoteResponse?
     let isInWatchlist, isInPortfolio: Bool?
 }
 
 // MARK: - Quote
-struct CrptoQuote: Codable {
+struct CryptoQuoteResponse: Codable {
     let price, volume24H, percentChange1H, percentChange24H: Double?
     let percentChange7D, percentChange30D, percentChange60D, percentChange90D: Double?
     let marketCap: Double?
@@ -189,8 +187,8 @@ struct CrptoQuote: Codable {
 }
 
 // MARK: - Crypto
-struct Crypto: Codable {
-    let id: Int?
+struct CryptoResponseElement: Codable{
+    let id: Int
     let name, symbol, slug, dateAdded: String?
     let maxSupply: Int?
     let circulatingSupply: Double?
@@ -199,7 +197,7 @@ struct Crypto: Codable {
 }
 
 // MARK: - CryptoInfo
-struct CryptoInfo: Codable {
+struct CryptoInfoResponse: Codable {
     let category, infoDescription: String?
     let logo: String?
     let website, twitter, reddit: String?
@@ -210,7 +208,6 @@ struct CryptoInfo: Codable {
         case logo, website, twitter, reddit
     }
 }
-
 
 struct CommonAPIResponse: Codable {
     let message: String

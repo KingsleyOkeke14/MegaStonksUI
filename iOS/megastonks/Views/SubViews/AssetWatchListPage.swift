@@ -147,7 +147,7 @@ struct AssetWatchListPage: View {
                                             NavigationLink(
                                                 destination: StocksInfoPageView2(stockToGet: stock, showOrderButtons: true, showWatchListButton: true)
                                                     .onDisappear(perform: {
-                                                        myAppObjects.updateWatchListAsync()
+                                                        myAppObjects.updateStockWatchListAsync()
                                                         myAppObjects.getStockHoldingsAsync()
                                                     }),
                                                 tag: stock.id.uuidString,
@@ -201,7 +201,7 @@ struct AssetWatchListPage: View {
                                         ForEach(myAppObjects.stockWatchList, id: \.self){ stock in
                                             NavigationLink(
                                                 destination: StocksInfoPageView(stock: stock).environmentObject(myAppObjects).onDisappear(perform: {
-                                                    myAppObjects.updateWatchListAsync()
+                                                    myAppObjects.updateStockWatchListAsync()
                                                     myAppObjects.getStockHoldingsAsync()
                                                 }),
                                                 tag: stock.id.uuidString,
@@ -347,7 +347,7 @@ struct AssetWatchListPage: View {
                                             NavigationLink(
                                                 destination: StocksInfoPageView2(stockToGet: stock, showOrderButtons: true, showWatchListButton: true)
                                                     .onDisappear(perform: {
-                                                        myAppObjects.updateWatchListAsync()
+                                                        myAppObjects.updateStockWatchListAsync()
                                                         myAppObjects.getStockHoldingsAsync()
                                                     }),
                                                 tag: stock.id.uuidString,
@@ -398,8 +398,8 @@ struct AssetWatchListPage: View {
                                     LazyVStack {
                                         ForEach(myAppObjects.stockWatchList, id: \.self){ stock in
                                             NavigationLink(
-                                                destination: StocksInfoPageView(stock: stock).environmentObject(myAppObjects).onDisappear(perform: {
-                                                    myAppObjects.updateWatchListAsync()
+                                                destination: CryptoInfoPageView(crypto: StockSymbolModel().cryptoSymbol, cryptoQuote: CryptoQuote(StockSymbolModel().cryptoSymbol.cadQuote)).environmentObject(myAppObjects).onDisappear(perform: {
+                                                    myAppObjects.updateStockWatchListAsync()
                                                     myAppObjects.getStockHoldingsAsync()
                                                 }),
                                                 tag: stock.id.uuidString,
@@ -451,7 +451,7 @@ struct AssetWatchListPage: View {
                     myAppObjects.getStockHoldingsAsync()
                     if(shouldRefreshWatchlist){
                         isLoadingWatchlist = true
-                        myAppObjects.updateWatchList(){
+                        myAppObjects.updateStockWatchList(){
                             result in
                             if(result.isSuccessful){
                                 isLoadingWatchlist = false
@@ -487,7 +487,7 @@ struct AssetWatchListPage: View {
     func reloadData(){
         isLoadingWatchlist = true
         myAppObjects.getStockHoldingsAsync()
-        myAppObjects.updateWatchList(){
+        myAppObjects.updateStockWatchList(){
             result in
             if(result.isSuccessful){
                 isLoadingWatchlist = false

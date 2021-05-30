@@ -74,10 +74,11 @@
 		D0DEBFE2264240CE0086DC36 /* AdData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0DEBFE1264240CE0086DC36 /* AdData.swift */; };
 		D0DEBFE5264242DE0086DC36 /* AsyncImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0DEBFE4264242DE0086DC36 /* AsyncImage.swift */; };
 		D0DEFFB425DB050C008D8C9C /* SwiftUICharts in Frameworks */ = {isa = PBXBuildFile; productRef = D0DEFFB325DB050C008D8C9C /* SwiftUICharts */; };
+		D0E08FF02661ECC9005B0C11 /* CryptoInfoPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E08FEF2661ECC9005B0C11 /* CryptoInfoPageView.swift */; };
+		D0E08FF22661F3B4005B0C11 /* CryptoSymbol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E08FF12661F3B4005B0C11 /* CryptoSymbol.swift */; };
 		D0E282EF263DC0E90027EFDB /* UserWallet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E282EE263DC0E90027EFDB /* UserWallet.swift */; };
 		D0E282F3263E56610027EFDB /* PlaceOrderPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E282F2263E56600027EFDB /* PlaceOrderPageView.swift */; };
 		D0E282FC263E5A2C0027EFDB /* NumberPadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E282FB263E5A2C0027EFDB /* NumberPadView.swift */; };
-		D0EAEFB7265F3BF400540933 /* CryptoWatchListPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0EAEFB6265F3BF400540933 /* CryptoWatchListPageView.swift */; };
 		D0EAEFB9265F3CF200540933 /* WatchListPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0EAEFB8265F3CF200540933 /* WatchListPageView.swift */; };
 		D0F948802635B20C0069D2B7 /* BannerViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0F9487F2635B20C0069D2B7 /* BannerViewModifier.swift */; };
 		D0FC0FF725D2287600366B26 /* StocksInfoPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0FC0FF625D2287600366B26 /* StocksInfoPageView.swift */; };
@@ -165,10 +166,11 @@
 		D0DEBFDD26422BC40086DC36 /* AdsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdsView.swift; sourceTree = "<group>"; };
 		D0DEBFE1264240CE0086DC36 /* AdData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdData.swift; sourceTree = "<group>"; };
 		D0DEBFE4264242DE0086DC36 /* AsyncImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncImage.swift; sourceTree = "<group>"; };
+		D0E08FEF2661ECC9005B0C11 /* CryptoInfoPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoInfoPageView.swift; sourceTree = "<group>"; };
+		D0E08FF12661F3B4005B0C11 /* CryptoSymbol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoSymbol.swift; sourceTree = "<group>"; };
 		D0E282EE263DC0E90027EFDB /* UserWallet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserWallet.swift; sourceTree = "<group>"; };
 		D0E282F2263E56600027EFDB /* PlaceOrderPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceOrderPageView.swift; sourceTree = "<group>"; };
 		D0E282FB263E5A2C0027EFDB /* NumberPadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberPadView.swift; sourceTree = "<group>"; };
-		D0EAEFB6265F3BF400540933 /* CryptoWatchListPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoWatchListPageView.swift; sourceTree = "<group>"; };
 		D0EAEFB8265F3CF200540933 /* WatchListPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchListPageView.swift; sourceTree = "<group>"; };
 		D0F9487F2635B20C0069D2B7 /* BannerViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerViewModifier.swift; sourceTree = "<group>"; };
 		D0FC0FF625D2287600366B26 /* StocksInfoPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StocksInfoPageView.swift; sourceTree = "<group>"; };
@@ -353,6 +355,7 @@
 				D06C298526409D6700F1B31A /* OrderHistory.swift */,
 				D0DEBFE1264240CE0086DC36 /* AdData.swift */,
 				D01708002649AFD10009023E /* News.swift */,
+				D0E08FF12661F3B4005B0C11 /* CryptoSymbol.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -371,7 +374,7 @@
 			isa = PBXGroup;
 			children = (
 				D0415B0E2653A2D3005124CA /* CryptoInfoView.swift */,
-				D0EAEFB6265F3BF400540933 /* CryptoWatchListPageView.swift */,
+				D0E08FEF2661ECC9005B0C11 /* CryptoInfoPageView.swift */,
 			);
 			path = CryptoViews;
 			sourceTree = "<group>";
@@ -502,6 +505,7 @@
 			files = (
 				D0336E252635F52E004DB6A3 /* AppObjects.swift in Sources */,
 				D0FC0FF725D2287600366B26 /* StocksInfoPageView.swift in Sources */,
+				D0E08FF22661F3B4005B0C11 /* CryptoSymbol.swift in Sources */,
 				D0A3125926339880008993C2 /* PromptView.swift in Sources */,
 				D06B311825C7BA5200A37C08 /* SecretFormView.swift in Sources */,
 				D0E282EF263DC0E90027EFDB /* UserWallet.swift in Sources */,
@@ -539,7 +543,6 @@
 				D0C20853264A0690001B91D3 /* NewsPageView.swift in Sources */,
 				D017B3F1264866A3002EA084 /* NewsView.swift in Sources */,
 				D0369D1A25C76B1900718A52 /* megastonksApp.swift in Sources */,
-				D0EAEFB7265F3BF400540933 /* CryptoWatchListPageView.swift in Sources */,
 				D0D1933825CCB41900D83D87 /* StockInfoView.swift in Sources */,
 				D02D7C2D25DC496600DAC07A /* ButtonSelectionView.swift in Sources */,
 				D06C297A263F587100F1B31A /* PortfolioStockSymbolView.swift in Sources */,
@@ -555,6 +558,7 @@
 				D057842325C894530039E6CD /* OnBoardPageView.swift in Sources */,
 				D004686025D4D2CD006C60E9 /* ProfilePageView.swift in Sources */,
 				D01707FE2649A5FF0009023E /* NewsSymbolView.swift in Sources */,
+				D0E08FF02661ECC9005B0C11 /* CryptoInfoPageView.swift in Sources */,
 				D0585E6D26385451000C8546 /* StockSearchView.swift in Sources */,
 				D004687325D8D19F006C60E9 /* OrderDetailPageView.swift in Sources */,
 				D031EB4326143B71001504B5 /* APIResponse.swift in Sources */,

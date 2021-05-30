@@ -9,6 +9,7 @@ import Foundation
 
 class AppObjects: ObservableObject {
     @Published var stockWatchList: [StockSymbol]
+    @Published var cryptoWatchList: [CryptoSymbol]
     @Published var showBanner:Bool = false
     @Published var bannerData:BannerData = BannerData(title: "", detail: "", type: .Info)
     @Published var stockSearchResult:[StockSearchResult]
@@ -23,6 +24,7 @@ class AppObjects: ObservableObject {
     init() {
         
         self.stockWatchList = [StockSymbol]()
+        self.cryptoWatchList = [CryptoSymbol]()
         self.stockSearchResult = [StockSearchResult]()
         self.userWallet = UserWallet(WalletResponse(firstName: "", lastName: "", cash: 0.0, initialDeposit: 0.0, investments: 0.0, total: 0.0, percentReturnToday: 0.0, moneyReturnToday: 0.0, percentReturnTotal: 0.0, moneyReturnTotal: 0.0))
         self.holdings = StockHoldings(holdingsArray: [StockHoldingsResponseElement]())
@@ -44,9 +46,9 @@ class AppObjects: ObservableObject {
        getNewsAsync()
     }
     
-    func updateWatchList(completion: @escaping (RequestResponse) -> ()) {
+    func updateStockWatchList(completion: @escaping (RequestResponse) -> ()) {
         var response = RequestResponse()
-        API().GetStockWatchList(){ result in
+        API().GetAssetWatchList(isCrypto: false){ result in
             response = result
             if(result.isSuccessful){
                 let decoder = JSONDecoder()
@@ -77,9 +79,9 @@ class AppObjects: ObservableObject {
         }
     }
     
-    func updateWatchListAsync() {
+    func updateStockWatchListAsync() {
         var response = RequestResponse()
-        API().GetStockWatchList(){ result in
+        API().GetAssetWatchList(isCrypto: false){ result in
             response = result
             if(result.isSuccessful){
                 let decoder = JSONDecoder()
@@ -101,7 +103,71 @@ class AppObjects: ObservableObject {
                  }
                 
             }
+            else{
+                DispatchQueue.main.async {
+                    self.bannerData.detail = result.errorMessage
+                    self.bannerData.type = .Warning
+                    self.showBanner = true
+                }
+            }
+        }
+    }
+    
+    func updateCryptoWatchList(completion: @escaping (RequestResponse) -> ()) {
+        var response = RequestResponse()
+        API().GetAssetWatchList(isCrypto: true){ result in
+            response = result
+            if(result.isSuccessful){
+                let decoder = JSONDecoder()
+                if let jsonResponse = try? decoder.decode([CryptoResponse].self, from: result.data!) {
+                    response.cryptoWatchListResponse = CryptoSymbols(cryptoArray: jsonResponse).cryptos
+                        DispatchQueue.main.async {
+                            self.cryptoWatchList = response.cryptoWatchListResponse.reversed()
+                        }
+                }
+                 else{
+                    DispatchQueue.main.async {
+                        self.bannerData.detail = "Error Updating Crypto Watchlist. Please contact Support if the problem persists. (hello@megastonks.com)"
+                        self.bannerData.type = .Error
+                        self.showBanner = true
+                    }
+                 }
+            }
             
+            else{
+                DispatchQueue.main.async {
+                    self.bannerData.detail = result.errorMessage
+                    self.bannerData.type = .Warning
+                    self.showBanner = true
+                }
+            }
+            completion(response)
+        }
+    }
+    
+    func updateCryptoWatchListAsync() {
+        var response = RequestResponse()
+        API().GetAssetWatchList(isCrypto: true){ result in
+            response = result
+            if(result.isSuccessful){
+                let decoder = JSONDecoder()
+                 if let jsonResponse = try? decoder.decode([CryptoResponse].self, from: result.data!) {
+                    response.cryptoWatchListResponse = CryptoSymbols(cryptoArray: jsonResponse).cryptos
+                    if(response.cryptoWatchListResponse.count != self.cryptoWatchList.count){
+                        DispatchQueue.main.async {
+                            self.cryptoWatchList = response.cryptoWatchListResponse.reversed()
+                        }
+                    }
+                }
+                 else{
+                    DispatchQueue.main.async {
+                        self.bannerData.detail = "Error Updating Watchlist. Please contact Support if the problem persists. (hello@megastonks.com)"
+                        self.bannerData.type = .Error
+                        self.showBanner = true
+                    }
+                 }
+                
+            }
             else{
                 DispatchQueue.main.async {
                     self.bannerData.detail = result.errorMessage
@@ -177,7 +243,7 @@ class AppObjects: ObservableObject {
     
     func addStockToWatchListAsync(stockToAdd: Int) {
         var response = RequestResponse()
-        API().AddStockToWatchList(stockId: stockToAdd){ result in
+        API().AddAssetToWatchList(assetId: stockToAdd, isCrypto: false){ result in
             response = result
             if(result.isSuccessful){
                 let decoder = JSONDecoder()
@@ -210,9 +276,44 @@ class AppObjects: ObservableObject {
         }
     }
     
+    func addCryptoToWatchListAsync(cryptoToAdd: Int) {
+        var response = RequestResponse()
+        API().AddAssetToWatchList(assetId: cryptoToAdd, isCrypto: true){ result in
+            response = result
+            if(result.isSuccessful){
+                let decoder = JSONDecoder()
+                 if let jsonResponse = try? decoder.decode(CommonAPIResponse.self, from: result.data!) {
+                    response.errorMessage = jsonResponse.message
+                    DispatchQueue.main.async {
+                        self.bannerData.detail = jsonResponse.message
+                        self.bannerData.type = .Info
+                        self.showBanner = true
+                    }
+
+                }
+                 else{
+                    DispatchQueue.main.async {
+                        self.bannerData.detail = "Error Adding Crypto to Watchlist. Please contact Support if the problem persists. (hello@megastonks.com)"
+                        self.bannerData.type = .Error
+                        self.showBanner = true
+                    }
+                 }
+                
+            }
+            
+            else{
+                DispatchQueue.main.async {
+                    self.bannerData.detail = result.errorMessage
+                    self.bannerData.type = .Warning
+                    self.showBanner = true
+                }
+            }
+        }
+    }
+    
     func removeStockFromWatchListAsync(stockToRemove: Int) {
         var response = RequestResponse()
-        API().RemoveStockFromWatchList(stockId: stockToRemove){ result in
+        API().RemoveAssetFromWatchList(assetId: stockToRemove, isCrypto: false){ result in
             response = result
             if(result.isSuccessful){
                 let decoder = JSONDecoder()
@@ -245,6 +346,40 @@ class AppObjects: ObservableObject {
         }
     }
     
+    func removeCryptoFromWatchListAsync(cryptoToRemove: Int) {
+        var response = RequestResponse()
+        API().RemoveAssetFromWatchList(assetId: cryptoToRemove, isCrypto: true){ result in
+            response = result
+            if(result.isSuccessful){
+                let decoder = JSONDecoder()
+                 if let jsonResponse = try? decoder.decode(CommonAPIResponse.self, from: result.data!) {
+                    response.errorMessage = jsonResponse.message
+                    DispatchQueue.main.async {
+                        self.bannerData.detail = jsonResponse.message
+                        self.bannerData.type = .Info
+                        self.showBanner = true
+                    }
+
+                }
+                 else{
+                    DispatchQueue.main.async {
+                        self.bannerData.detail = "Error Removing Crypto from Watchlist. Please contact Support if the problem persists. (hello@megastonks.com)"
+                        self.bannerData.type = .Error
+                        self.showBanner = true
+                    }
+                 }
+                
+            }
+            
+            else{
+                DispatchQueue.main.async {
+                    self.bannerData.detail = result.errorMessage
+                    self.bannerData.type = .Warning
+                    self.showBanner = true
+                }
+            }
+        }
+    }
     
     func getStockInfo(stockId: Int, completion: @escaping (RequestResponse) -> ()) {
         var response = RequestResponse()

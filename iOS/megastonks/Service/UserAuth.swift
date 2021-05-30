@@ -14,8 +14,6 @@ class UserAuth: ObservableObject {
     @Published var user:User = User(firstName: "", lastName: "", emailAddress: "", currency: "", isOnBoarded: true)
     @Published var showAuthError:Bool = false
     
-    
-    
     init() {
         refreshLogin(isFirstLogin: true)
     }
@@ -46,7 +44,6 @@ class UserAuth: ObservableObject {
             }
             
             else{
-                
                 _  = KeychainWrapper.standard.removeObject(forKey: "jwtToken")
                 _  = KeychainWrapper.standard.removeObject(forKey: "refreshToken")
                 
