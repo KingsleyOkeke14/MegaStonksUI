@@ -117,12 +117,12 @@ struct CryptoQuote{
         self.percentChange30D = cryptoQuoteElement.percentChange30D
         self.percentChange60D = cryptoQuoteElement.percentChange60D
         self.percentChange90D = cryptoQuoteElement.percentChange90D
-        self.change1H = (((cryptoQuoteElement.percentChange1H / 100) * cryptoQuoteElement.price) + cryptoQuoteElement.price)
-        self.change24H = (((cryptoQuoteElement.percentChange24H / 100) * cryptoQuoteElement.price) + cryptoQuoteElement.price)
-        self.change7D = (((cryptoQuoteElement.percentChange7D / 100) * cryptoQuoteElement.price) + cryptoQuoteElement.price)
-        self.change30D = (((cryptoQuoteElement.percentChange30D / 100) * cryptoQuoteElement.price) + cryptoQuoteElement.price)
-        self.change60D = (((cryptoQuoteElement.percentChange60D / 100) * cryptoQuoteElement.price) + cryptoQuoteElement.price)
-        self.change90D = (((cryptoQuoteElement.percentChange90D / 100) * cryptoQuoteElement.price) + cryptoQuoteElement.price)
+        self.change1H = ((cryptoQuoteElement.percentChange1H / 100) * cryptoQuoteElement.price)
+        self.change24H = ((cryptoQuoteElement.percentChange24H / 100) * cryptoQuoteElement.price)
+        self.change7D = ((cryptoQuoteElement.percentChange7D / 100) * cryptoQuoteElement.price)
+        self.change30D = ((cryptoQuoteElement.percentChange30D / 100) * cryptoQuoteElement.price)
+        self.change60D = ((cryptoQuoteElement.percentChange60D / 100) * cryptoQuoteElement.price)
+        self.change90D = ((cryptoQuoteElement.percentChange90D / 100) * cryptoQuoteElement.price)
         self.marketCap = cryptoQuoteElement.marketCap
     }
     
@@ -135,12 +135,12 @@ struct CryptoQuote{
         self.percentChange30D = cryptoQuoteElement.percentChange30D
         self.percentChange60D = cryptoQuoteElement.percentChange60D
         self.percentChange90D = cryptoQuoteElement.percentChange90D
-        self.change1H = (((cryptoQuoteElement.percentChange1H / 100) * cryptoQuoteElement.price) + cryptoQuoteElement.price)
-        self.change24H = (((cryptoQuoteElement.percentChange24H / 100) * cryptoQuoteElement.price) + cryptoQuoteElement.price)
-        self.change7D = (((cryptoQuoteElement.percentChange7D / 100) * cryptoQuoteElement.price) + cryptoQuoteElement.price)
-        self.change30D = (((cryptoQuoteElement.percentChange30D / 100) * cryptoQuoteElement.price) + cryptoQuoteElement.price)
-        self.change60D = (((cryptoQuoteElement.percentChange60D / 100) * cryptoQuoteElement.price) + cryptoQuoteElement.price)
-        self.change90D = (((cryptoQuoteElement.percentChange90D / 100) * cryptoQuoteElement.price) + cryptoQuoteElement.price)
+        self.change1H = ((cryptoQuoteElement.percentChange1H / 100) * cryptoQuoteElement.price)
+        self.change24H = ((cryptoQuoteElement.percentChange24H / 100) * cryptoQuoteElement.price)
+        self.change7D = ((cryptoQuoteElement.percentChange7D / 100) * cryptoQuoteElement.price)
+        self.change30D = ((cryptoQuoteElement.percentChange30D / 100) * cryptoQuoteElement.price)
+        self.change60D = ((cryptoQuoteElement.percentChange60D / 100) * cryptoQuoteElement.price)
+        self.change90D = ((cryptoQuoteElement.percentChange90D / 100) * cryptoQuoteElement.price)
         self.marketCap = cryptoQuoteElement.marketCap
     }
 }

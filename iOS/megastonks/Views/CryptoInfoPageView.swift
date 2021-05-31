@@ -257,8 +257,8 @@ struct CryptoInfoPageView: View {
 //                                            }
 //                                        })
 //                                    }
-//                                    StatisticsView(stockSymbol: $cryptoSymbol, themeColor: $themeColor)
-//                                    CompanyInfoView(stockSymbol: $cryptoSymbol, themeColor: $themeColor)
+                                    CryptoStatisticsView(cryptoSymbol: $cryptoSymbol, cryptoQuote: userAuth.user.currency == "CAD" ? CryptoQuote(cryptoSymbol.cadQuote) : CryptoQuote(cryptoSymbol.usdQuote), themeColor: $themeColor)
+                                    TokenInfoView(cryptoSymbol: $cryptoSymbol, themeColor: $themeColor)
                                 }
                                 
                             }

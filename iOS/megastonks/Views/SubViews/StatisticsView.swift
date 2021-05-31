@@ -14,8 +14,7 @@ struct StatisticsView: View {
     @Binding var themeColor: Color
     
     var body: some View {
-        
-        VStack {
+        VStack{
             VStack(alignment: .leading, spacing: 2){
                 Text("Statistics")
                     .font(.custom("Apple SD Gothic Neo", fixedSize: 22))
@@ -31,16 +30,16 @@ struct StatisticsView: View {
             }
             PriceActionView(themeColor: $themeColor, label: "52 Week Price Action", lowPrice: "$\(stockSymbol.yearLow.formatPrice())", highPrice: "$\(stockSymbol.yearHigh.formatPrice())")
             PriceActionView(themeColor: $themeColor, label: "Today's Price Action", lowPrice: "$\(stockSymbol.dayLow.formatPrice())", highPrice: "$\(stockSymbol.dayHigh.formatPrice())")
-            
             VStack{
                 SingleStatView(label: "Today's Opening Price", value: "$\(stockSymbol.open.formatPrice())")
                 SingleStatView(label: "Market Cap", value: stockSymbol.marketCap != 0 ? "\(stockSymbol.marketCap.abbreviated)" : "-")
                 SingleStatView(label: "Average Volume", value: stockSymbol.avgVolume != 0 ? "\(stockSymbol.avgVolume.abbreviated)" : "-")
                 SingleStatView(label: "Volume", value: stockSymbol.volume != 0 ? "\(stockSymbol.volume.abbreviated)" : "-")
-                
                 SingleStatView(label: "Exchange", value: stockSymbol.exchange != "" ? "\(stockSymbol.exchange)" : "-")
             }
-        }.padding(.horizontal)
+        }
+        .lineLimit(1)
+        .padding(.horizontal)
     }
 }
 
@@ -73,6 +72,19 @@ struct CryptoStatisticsView: View {
                 SingleStatView(label: "Circulating Supply", value: cryptoSymbol.crypto.circulatingSupply != 0 ? "\(cryptoSymbol.crypto.circulatingSupply.abbreviated())" : "-")
                 SingleStatView(label: "Market Cap", value: cryptoQuote.marketCap != 0 ? "\(cryptoQuote.marketCap.abbreviated())" : "-")
                 SingleStatView(label: "24Hr Volume", value: cryptoQuote.volume24H != 0 ? "\(cryptoQuote.volume24H.abbreviated())" : "-")
+            }
+            VStack(alignment: .leading, spacing: 2){
+                Text("Price Movement")
+                    .font(.custom("Apple SD Gothic Neo", fixedSize: 22))
+                    .bold()
+                    .foregroundColor(themeColor)
+                    .padding(.top)
+                SingleStatPriceView(label: "1Hr Change", percentage: cryptoQuote.percentChange1H, price: cryptoQuote.change1H, color: cryptoQuote.percentChange1H > 0 ? .green : .red)
+                SingleStatPriceView(label: "24Hr Change", percentage: cryptoQuote.percentChange24H, price: cryptoQuote.percentChange24H, color: cryptoQuote.percentChange24H > 0 ? .green : .red)
+                SingleStatPriceView(label: "7D Change", percentage: cryptoQuote.percentChange7D, price: cryptoQuote.change7D, color: cryptoQuote.percentChange7D > 0 ? .green : .red)
+                SingleStatPriceView(label: "30D Change", percentage: cryptoQuote.percentChange30D, price: cryptoQuote.change30D, color: cryptoQuote.percentChange30D > 0 ? .green : .red)
+                SingleStatPriceView(label: "60D Change", percentage: cryptoQuote.percentChange60D, price: cryptoQuote.change60D, color: cryptoQuote.percentChange60D > 0 ? .green : .red)
+                SingleStatPriceView(label: "90D Change", percentage: cryptoQuote.percentChange90D, price: cryptoQuote.change90D, color: cryptoQuote.percentChange90D > 0 ? .green : .red)
             }
         }.padding(.horizontal)
     }
@@ -156,6 +168,30 @@ struct SingleStatView: View {
             Text(value)
                 .foregroundColor(.white)
                 .font(.custom("Verdana", fixedSize: 20))
+            Rectangle()
+                .fill(myColors.lightGrayColor)
+                .frame(height: 2)
+                .edgesIgnoringSafeArea(.horizontal)
+        }
+    }
+}
+
+struct SingleStatPriceView: View {
+    var label:String
+    var percentage:Double
+    var price:Double
+    var color:Color
+    let myColors = MyColors()
+    var body: some View {
+        VStack{
+            Text(label)
+                .font(.custom("Verdana", fixedSize: 14))
+                .bold()
+                .foregroundColor(myColors.lightGrayColor)
+            Text("\(price.signToString())$\(fabs(price).formatPrice()) (\(percentage.formatPercentChange())%)")
+                .foregroundColor(color)
+                .font(.custom("Verdana", fixedSize: 20))
+                .opacity(0.6)
             Rectangle()
                 .fill(myColors.lightGrayColor)
                 .frame(height: 2)

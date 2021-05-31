@@ -34,8 +34,26 @@ extension Double {
     func formatPrice() -> String {
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .decimal
-        numberFormatter.minimumFractionDigits = 2
-        numberFormatter.maximumFractionDigits = 2
+        
+        if(fabs(self) < 0.1){
+            numberFormatter.usesSignificantDigits = true
+            numberFormatter.minimumSignificantDigits = 5
+            numberFormatter.maximumSignificantDigits = 5
+        }
+        else{
+            numberFormatter.minimumFractionDigits = 2
+            numberFormatter.maximumFractionDigits = 2
+        }
+        return  numberFormatter.string(from: NSNumber(value: self))!
+        
+    }
+    
+    func formatCryptoPrice() -> String {
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = .decimal
+        numberFormatter.usesSignificantDigits = true
+        numberFormatter.maximumSignificantDigits = 5
+        numberFormatter.minimumSignificantDigits = 5
         
         return  numberFormatter.string(from: NSNumber(value: self))!
         

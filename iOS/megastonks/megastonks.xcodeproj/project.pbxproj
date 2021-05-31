@@ -37,7 +37,6 @@
 		D0369D1C25C76B1900718A52 /* FormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0369D1B25C76B1900718A52 /* FormView.swift */; };
 		D0369D1E25C76B1900718A52 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D0369D1D25C76B1900718A52 /* Assets.xcassets */; };
 		D0369D2125C76B1900718A52 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D0369D2025C76B1900718A52 /* Preview Assets.xcassets */; };
-		D0415B0F2653A2D3005124CA /* CryptoInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0415B0E2653A2D3005124CA /* CryptoInfoView.swift */; };
 		D045DB1B262BCEBE0040C067 /* SwiftKeychainWrapper in Frameworks */ = {isa = PBXBuildFile; productRef = D045DB1A262BCEBE0040C067 /* SwiftKeychainWrapper */; };
 		D045DB1E262BE5530040C067 /* APIRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D045DB1D262BE5530040C067 /* APIRequest.swift */; };
 		D04E9B252651B8BE000A1B7C /* megastonksUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D04E9B242651B8BE000A1B7C /* megastonksUITests.swift */; };
@@ -129,7 +128,6 @@
 		D0369D1D25C76B1900718A52 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D0369D2025C76B1900718A52 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		D0369D2225C76B1900718A52 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D0415B0E2653A2D3005124CA /* CryptoInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoInfoView.swift; sourceTree = "<group>"; };
 		D045DB1D262BE5530040C067 /* APIRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIRequest.swift; sourceTree = "<group>"; };
 		D04E9B222651B8BE000A1B7C /* megastonksUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = megastonksUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D04E9B242651B8BE000A1B7C /* megastonksUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = megastonksUITests.swift; sourceTree = "<group>"; };
@@ -232,6 +230,7 @@
 		D034871425C80DAE00CFCAB2 /* SubViews */ = {
 			isa = PBXGroup;
 			children = (
+				D0FC0FF625D2287600366B26 /* StocksInfoPageView.swift */,
 				D0D929B126609C7000C14BE2 /* AssetPorfolioPage.swift */,
 				D00CA78925CB93DD00232915 /* AssetWatchListPage.swift */,
 				D0369D1B25C76B1900718A52 /* FormView.swift */,
@@ -319,10 +318,10 @@
 		D0369D2A25C76FC700718A52 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				D0EAEFB5265F3B0B00540933 /* StockViews */,
-				D0EAEFB4265F36A500540933 /* CryptoViews */,
 				D034871425C80DAE00CFCAB2 /* SubViews */,
 				D06B311425C7AFF400A37C08 /* LoginPageView.swift */,
+				D05F0A2A2639BE7B00CCC115 /* StocksInfoPageView2.swift */,
+				D0E08FEF2661ECC9005B0C11 /* CryptoInfoPageView.swift */,
 				D0E282F2263E56600027EFDB /* PlaceOrderPageView.swift */,
 				D004687225D8D19F006C60E9 /* OrderDetailPageView.swift */,
 				D034870C25C7FE3D00CFCAB2 /* RegisterPageView.swift */,
@@ -368,24 +367,6 @@
 				D04E9B262651B8BE000A1B7C /* Info.plist */,
 			);
 			path = megastonksUITests;
-			sourceTree = "<group>";
-		};
-		D0EAEFB4265F36A500540933 /* CryptoViews */ = {
-			isa = PBXGroup;
-			children = (
-				D0415B0E2653A2D3005124CA /* CryptoInfoView.swift */,
-				D0E08FEF2661ECC9005B0C11 /* CryptoInfoPageView.swift */,
-			);
-			path = CryptoViews;
-			sourceTree = "<group>";
-		};
-		D0EAEFB5265F3B0B00540933 /* StockViews */ = {
-			isa = PBXGroup;
-			children = (
-				D0FC0FF625D2287600366B26 /* StocksInfoPageView.swift */,
-				D05F0A2A2639BE7B00CCC115 /* StocksInfoPageView2.swift */,
-			);
-			path = StockViews;
 			sourceTree = "<group>";
 		};
 		D0FC0FF225D2280C00366B26 /* Frameworks */ = {
@@ -510,7 +491,6 @@
 				D06B311825C7BA5200A37C08 /* SecretFormView.swift in Sources */,
 				D0E282EF263DC0E90027EFDB /* UserWallet.swift in Sources */,
 				D009875F2640CD8000F76AEA /* OrdersPageView.swift in Sources */,
-				D0415B0F2653A2D3005124CA /* CryptoInfoView.swift in Sources */,
 				D06E429425D3545E009701A2 /* StatisticsView.swift in Sources */,
 				D034870D25C7FE3D00CFCAB2 /* RegisterPageView.swift in Sources */,
 				D0A3125C2633A031008993C2 /* EULA.swift in Sources */,
