@@ -56,6 +56,21 @@ struct AssetPorfolioPage: View {
  
                     if(!myAppObjects.holdings.holdings.isEmpty){
                         ScrollView{
+                            VStack(spacing: 0) {
+                                PullToRefreshView(onRefresh:{
+                                    isLoadingHoldings = true
+                                    myAppObjects.getWalletAsync()
+                                    myAppObjects.getStockHoldings(){
+                                        result in
+                                        if(result.isSuccessful){
+                                            DispatchQueue.main.async {
+                                                myAppObjects.holdings = result.stockHoldingsResponse!
+                                            }
+                                            isLoadingHoldings = false
+                                        }
+                                    }
+                                })
+                            }
                             LazyVStack {
                                 ForEach(myAppObjects.holdings.holdings, id: \.self){ holding in
                                     NavigationLink(

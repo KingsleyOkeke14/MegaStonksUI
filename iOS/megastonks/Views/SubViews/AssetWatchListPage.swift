@@ -198,6 +198,22 @@ struct AssetWatchListPage: View {
                         VStack{
                             if(!myAppObjects.stockWatchList.isEmpty){
                                 ScrollView{
+                                    VStack(spacing: 0) {
+                                        PullToRefreshView(onRefresh:{
+                                            isLoadingWatchlist = true
+                                            myAppObjects.updateStockWatchList(){
+                                                result in
+                                                if(result.isSuccessful){
+                                                    isLoadingWatchlist = false
+                                                }
+                                                else{
+                                                    //Would need to show error message here or something
+                                                    isLoadingWatchlist = false
+                                                }
+                                                shouldRefreshWatchlist = false
+                                            }
+                                        })
+                                    }
                                     LazyVStack {
                                         ForEach(myAppObjects.stockWatchList, id: \.self){ stock in
                                             NavigationLink(
@@ -394,18 +410,34 @@ struct AssetWatchListPage: View {
                         VStack{
                             if(!myAppObjects.cryptoWatchList.isEmpty){
                                 ScrollView{
-                                    LazyVStack {
-                                        ForEach(myAppObjects.cryptoWatchList, id: \.self){ crypto in
-                                            NavigationLink(
-                                                destination: CryptoInfoPageView(crypto: crypto, cryptoQuote: userAuth.user.currency == "USD" ? CryptoQuote(crypto.usdQuote) : CryptoQuote(crypto.cadQuote)).environmentObject(myAppObjects).onDisappear(perform: {
-                                                    myAppObjects.updateCryptoWatchListAsync()
-                                                    myAppObjects.getStockHoldingsAsync()
-                                                }),
-                                                tag: crypto.crypto.id.uuidString,
-                                                selection: $selectedItem,
-                                                label: {CryptoSymbolView(cryptoSymbol: crypto, cryptoQuote: userAuth.user.currency == "USD" ? CryptoQuote(crypto.usdQuote) : CryptoQuote(crypto.cadQuote))})
-                                        }
-                                    }.padding(.horizontal)
+                                    VStack(spacing: 0) {
+                                        PullToRefreshView(onRefresh:{
+                                            isLoadingWatchlist = true
+                                            myAppObjects.updateCryptoWatchList(){
+                                                result in
+                                                if(result.isSuccessful){
+                                                    isLoadingWatchlist = false
+                                                }
+                                                else{
+                                                    //Would need to show error message here or something
+                                                    isLoadingWatchlist = false
+                                                }
+                                                shouldRefreshWatchlist = false
+                                            }
+                                        })
+                                        LazyVStack {
+                                            ForEach(myAppObjects.cryptoWatchList, id: \.self){ crypto in
+                                                NavigationLink(
+                                                    destination: CryptoInfoPageView(crypto: crypto, cryptoQuote: userAuth.user.currency == "USD" ? CryptoQuote(crypto.usdQuote) : CryptoQuote(crypto.cadQuote)).environmentObject(myAppObjects).onDisappear(perform: {
+                                                        myAppObjects.updateCryptoWatchListAsync()
+                                                        myAppObjects.getStockHoldingsAsync()
+                                                    }),
+                                                    tag: crypto.crypto.id.uuidString,
+                                                    selection: $selectedItem,
+                                                    label: {CryptoSymbolView(cryptoSymbol: crypto, cryptoQuote: userAuth.user.currency == "USD" ? CryptoQuote(crypto.usdQuote) : CryptoQuote(crypto.cadQuote))})
+                                            }
+                                        }.padding(.horizontal)
+                                    }
                                 }
                                 
                             }

@@ -84,6 +84,24 @@ struct NewsPageView: View {
                             
                             if(!myAppObjects.news.isEmpty){
                                 ScrollView{
+                                    VStack(spacing: 0) {
+                                        PullToRefreshView(onRefresh:{
+                                            isLoadingNews = true
+                                            myAppObjects.getNews(){
+                                                result in
+                                                if(result.isSuccessful){
+                                                    DispatchQueue.main.async {
+                                                        myAppObjects.news = result.newsResponse!
+                                                    }
+                                                     isLoadingNews = false
+                                                }
+                                                else{
+                                                    //Would need to show error message here or something
+                                                    isLoadingNews = false
+                                                }
+                                            }
+                                        })
+                                    }
                                     LazyVStack {
                                         ForEach(myAppObjects.news, id: \.self){ news in
                                             NavigationLink(

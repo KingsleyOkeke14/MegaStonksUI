@@ -33,6 +33,7 @@
 		D0336E252635F52E004DB6A3 /* AppObjects.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0336E242635F52E004DB6A3 /* AppObjects.swift */; };
 		D034870D25C7FE3D00CFCAB2 /* RegisterPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D034870C25C7FE3D00CFCAB2 /* RegisterPageView.swift */; };
 		D034871225C80DA500CFCAB2 /* ButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D034871125C80DA500CFCAB2 /* ButtonView.swift */; };
+		D0356A9126658EF700C07A3A /* PullToRefreshView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0356A9026658EF700C07A3A /* PullToRefreshView.swift */; };
 		D0369D1A25C76B1900718A52 /* megastonksApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0369D1925C76B1900718A52 /* megastonksApp.swift */; };
 		D0369D1C25C76B1900718A52 /* FormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0369D1B25C76B1900718A52 /* FormView.swift */; };
 		D0369D1E25C76B1900718A52 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D0369D1D25C76B1900718A52 /* Assets.xcassets */; };
@@ -122,6 +123,7 @@
 		D0336E242635F52E004DB6A3 /* AppObjects.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppObjects.swift; sourceTree = "<group>"; };
 		D034870C25C7FE3D00CFCAB2 /* RegisterPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterPageView.swift; sourceTree = "<group>"; };
 		D034871125C80DA500CFCAB2 /* ButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonView.swift; sourceTree = "<group>"; };
+		D0356A9026658EF700C07A3A /* PullToRefreshView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PullToRefreshView.swift; sourceTree = "<group>"; };
 		D0369D1625C76B1900718A52 /* megastonks.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = megastonks.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0369D1925C76B1900718A52 /* megastonksApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = megastonksApp.swift; sourceTree = "<group>"; };
 		D0369D1B25C76B1900718A52 /* FormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormView.swift; sourceTree = "<group>"; };
@@ -258,6 +260,7 @@
 				D01707FD2649A5FF0009023E /* NewsSymbolView.swift */,
 				D0D929AB2660925E00C14BE2 /* PageViewController.swift */,
 				D0D929AD266092C800C14BE2 /* PageView.swift */,
+				D0356A9026658EF700C07A3A /* PullToRefreshView.swift */,
 			);
 			path = SubViews;
 			sourceTree = "<group>";
@@ -488,6 +491,7 @@
 				D0FC0FF725D2287600366B26 /* StocksInfoPageView.swift in Sources */,
 				D0E08FF22661F3B4005B0C11 /* CryptoSymbol.swift in Sources */,
 				D0A3125926339880008993C2 /* PromptView.swift in Sources */,
+				D0356A9126658EF700C07A3A /* PullToRefreshView.swift in Sources */,
 				D06B311825C7BA5200A37C08 /* SecretFormView.swift in Sources */,
 				D0E282EF263DC0E90027EFDB /* UserWallet.swift in Sources */,
 				D009875F2640CD8000F76AEA /* OrdersPageView.swift in Sources */,
