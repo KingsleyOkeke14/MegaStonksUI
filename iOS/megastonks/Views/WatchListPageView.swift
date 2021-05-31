@@ -16,7 +16,6 @@ struct WatchListPageView: View {
     @State var currentPage: Int = 0
     
     let impactMed = UIImpactFeedbackGenerator(style: .heavy)
-    let timer = Timer.publish(every: 60, on: .main, in: .common).autoconnect()
     
     @State var showBanner:Bool = false
     

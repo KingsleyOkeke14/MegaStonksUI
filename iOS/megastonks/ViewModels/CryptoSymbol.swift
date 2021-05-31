@@ -99,6 +99,7 @@ struct CryptoCADQuote : Identifiable, Hashable{
         self.percentChange60D = cryptoResponseElement.cadQuote?.percentChange60D ?? 0.0
         self.percentChange90D = cryptoResponseElement.cadQuote?.percentChange90D ?? 0.0
         self.marketCap = cryptoResponseElement.cadQuote?.marketCap ?? 0.0
+
     }
 }
 
@@ -107,6 +108,7 @@ struct CryptoQuote{
     var percentChange7D, percentChange30D, percentChange60D, percentChange90D: Double
     var change1H, change24H, change7D, change30D, change60D, change90D: Double
     var marketCap: Double
+    var currency: String
     
     init(_ cryptoQuoteElement: CryptoUSDQuote) {
         self.price = cryptoQuoteElement.price
@@ -124,6 +126,7 @@ struct CryptoQuote{
         self.change60D = ((cryptoQuoteElement.percentChange60D / 100) * cryptoQuoteElement.price)
         self.change90D = ((cryptoQuoteElement.percentChange90D / 100) * cryptoQuoteElement.price)
         self.marketCap = cryptoQuoteElement.marketCap
+        self.currency = "USD"
     }
     
     init(_ cryptoQuoteElement: CryptoCADQuote) {
@@ -142,6 +145,7 @@ struct CryptoQuote{
         self.change60D = ((cryptoQuoteElement.percentChange60D / 100) * cryptoQuoteElement.price)
         self.change90D = ((cryptoQuoteElement.percentChange90D / 100) * cryptoQuoteElement.price)
         self.marketCap = cryptoQuoteElement.marketCap
+        self.currency = "CAD"
     }
 }
 

@@ -31,11 +31,11 @@ struct StatisticsView: View {
             PriceActionView(themeColor: $themeColor, label: "52 Week Price Action", lowPrice: "$\(stockSymbol.yearLow.formatPrice())", highPrice: "$\(stockSymbol.yearHigh.formatPrice())")
             PriceActionView(themeColor: $themeColor, label: "Today's Price Action", lowPrice: "$\(stockSymbol.dayLow.formatPrice())", highPrice: "$\(stockSymbol.dayHigh.formatPrice())")
             VStack{
-                SingleStatView(label: "Today's Opening Price", value: "$\(stockSymbol.open.formatPrice())")
-                SingleStatView(label: "Market Cap", value: stockSymbol.marketCap != 0 ? "\(stockSymbol.marketCap.abbreviated)" : "-")
-                SingleStatView(label: "Average Volume", value: stockSymbol.avgVolume != 0 ? "\(stockSymbol.avgVolume.abbreviated)" : "-")
-                SingleStatView(label: "Volume", value: stockSymbol.volume != 0 ? "\(stockSymbol.volume.abbreviated)" : "-")
-                SingleStatView(label: "Exchange", value: stockSymbol.exchange != "" ? "\(stockSymbol.exchange)" : "-")
+                SingleStatView(label: "Today's Opening Price", value: "$\(stockSymbol.open.formatPrice())", tipMessage: "", hasTip: true, showTip: Binding.constant(false))
+                SingleStatView(label: "Market Cap", value: stockSymbol.marketCap != 0 ? "\(stockSymbol.marketCap.abbreviated)" : "-", tipMessage: "", hasTip: false, showTip: Binding.constant(false))
+                SingleStatView(label: "Average Volume", value: stockSymbol.avgVolume != 0 ? "\(stockSymbol.avgVolume.abbreviated)" : "-", tipMessage: "", hasTip: false, showTip: Binding.constant(false))
+                SingleStatView(label: "Volume", value: stockSymbol.volume != 0 ? "\(stockSymbol.volume.abbreviated)" : "-", tipMessage: "", hasTip: false, showTip: Binding.constant(false))
+                SingleStatView(label: "Exchange", value: stockSymbol.exchange != "" ? "\(stockSymbol.exchange)" : "-", tipMessage: "", hasTip: false, showTip: Binding.constant(false))
             }
         }
         .lineLimit(1)
@@ -49,6 +49,7 @@ struct CryptoStatisticsView: View {
     @Binding var cryptoSymbol: CryptoSymbol
     var cryptoQuote: CryptoQuote
     @Binding var themeColor: Color
+    @State var showTipRank: Bool = false
     
     var body: some View {
         VStack {
@@ -66,12 +67,12 @@ struct CryptoStatisticsView: View {
                 
             }      
             VStack{
-                SingleStatView(label: "Rank", value: cryptoSymbol.crypto.cmcRank != 0 ? "\(cryptoSymbol.crypto.cmcRank)" : "-")
-                SingleStatView(label: "Inception Date", value: !cryptoSymbol.crypto.dateAdded.isEmpty ? "\(cryptoSymbol.crypto.dateAdded)" : "-")
-                SingleStatView(label: "Max Supply", value: cryptoSymbol.crypto.maxSupply != 0 ? "\(cryptoSymbol.crypto.maxSupply.abbreviated)" : "-")
-                SingleStatView(label: "Circulating Supply", value: cryptoSymbol.crypto.circulatingSupply != 0 ? "\(cryptoSymbol.crypto.circulatingSupply.abbreviated())" : "-")
-                SingleStatView(label: "Market Cap", value: cryptoQuote.marketCap != 0 ? "\(cryptoQuote.marketCap.abbreviated())" : "-")
-                SingleStatView(label: "24Hr Volume", value: cryptoQuote.volume24H != 0 ? "\(cryptoQuote.volume24H.abbreviated())" : "-")
+                SingleStatView(label: "Rank", value: cryptoSymbol.crypto.cmcRank != 0 ? "\(cryptoSymbol.crypto.cmcRank)" : "-", tipMessage: "Assets are ranked based on the value of their market cap", hasTip: true, showTip: $showTipRank)
+                SingleStatView(label: "Inception Date", value: !cryptoSymbol.crypto.dateAdded.isEmpty ? "\(cryptoSymbol.crypto.dateAdded)" : "-", tipMessage: "", hasTip: false, showTip: Binding.constant(false))
+                SingleStatView(label: "Max Supply", value: cryptoSymbol.crypto.maxSupply != 0 ? "\(cryptoSymbol.crypto.maxSupply.abbreviated)" : "-", tipMessage: "", hasTip: false, showTip: Binding.constant(false))
+                SingleStatView(label: "Circulating Supply", value: cryptoSymbol.crypto.circulatingSupply != 0 ? "\(cryptoSymbol.crypto.circulatingSupply.abbreviated())" : "-", tipMessage: "", hasTip: false, showTip: Binding.constant(false))
+                SingleStatView(label: "Market Cap", value: cryptoQuote.marketCap != 0 ? "\(cryptoQuote.marketCap.abbreviated())" : "-", tipMessage: "", hasTip: false, showTip: Binding.constant(false))
+                SingleStatView(label: "24Hr Volume", value: cryptoQuote.volume24H != 0 ? "\(cryptoQuote.volume24H.abbreviated())" : "-", tipMessage: "", hasTip: false, showTip: Binding.constant(false))
             }
             VStack(alignment: .leading, spacing: 2){
                 Text("Price Movement")
@@ -158,20 +159,45 @@ struct PriceActionView: View {
 struct SingleStatView: View {
     var label:String
     var value:String
+    var tipMessage:String
+    var hasTip:Bool
+    @Binding var showTip:Bool
     let myColors = MyColors()
     var body: some View {
         VStack{
-            Text(label)
-                .font(.custom("Verdana", fixedSize: 14))
-                .bold()
-                .foregroundColor(myColors.lightGrayColor)
+            HStack {
+                if(!showTip){
+                    Text(label)
+                        .font(.custom("Verdana", fixedSize: 14))
+                        .bold()
+                        .foregroundColor(myColors.lightGrayColor)
+                }
+                if(hasTip){
+                    Button(action: {
+                        showTip.toggle()
+                    }, label: {
+                        Image(systemName: "questionmark.circle")
+                            .foregroundColor(.white)
+                            .font(.custom("Apple SD Gothic Neo", fixedSize: 12))
+                    })
+                }
+                if(showTip){
+                    Text(tipMessage)
+                        .font(.custom("Apple SD Gothic Neo", fixedSize: 12))
+                        .foregroundColor(.white)
+                        .lineLimit(4)
+                        .multilineTextAlignment(.center)
+                }
+            }
             Text(value)
                 .foregroundColor(.white)
                 .font(.custom("Verdana", fixedSize: 20))
+            
             Rectangle()
                 .fill(myColors.lightGrayColor)
                 .frame(height: 2)
                 .edgesIgnoringSafeArea(.horizontal)
+            
         }
     }
 }

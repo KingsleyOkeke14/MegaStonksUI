@@ -29,7 +29,8 @@ struct AssetWatchListPage: View {
     @EnvironmentObject var userAuth:UserAuth
     @EnvironmentObject var myAppObjects:AppObjects
     
-    let timer = Timer.publish(every: 60, on: .main, in: .common).autoconnect()
+    let stockRefreshtimer = Timer.publish(every: 60, on: .main, in: .common).autoconnect()
+    let cryptoRefreshtimer = Timer.publish(every: 600, on: .main, in: .common).autoconnect()
     
     var body: some View {
         if(!isCrypto){
@@ -253,7 +254,7 @@ struct AssetWatchListPage: View {
                 .onAppear(perform: {
                     onLoad()
                 })
-                .onReceive(self.timer, perform: { _ in
+                .onReceive(self.stockRefreshtimer, perform: { _ in
                     shouldRefreshWatchlist = true
                 })
                 .banner(data: $myAppObjects.bannerData, show: $myAppObjects.showBanner)
@@ -298,7 +299,6 @@ struct AssetWatchListPage: View {
                                     .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
                                     .padding(.leading, 12)
                             }
-                            
                         )
                         .onTapGesture {
                             self.isEditing = true
@@ -368,13 +368,12 @@ struct AssetWatchListPage: View {
                             }
                             else{
                                 Spacer()
-                                Text("Could not find what you were looking for? Please remember that we only provide access to the US and Canadian stock market at this time. Please contact us if you have any further questions")
+                                Text("Could not find what you were looking for? Please remember that we only provide access to select stable crypto currencies at this time. Please contact us if you have any further questions")
                                     .font(.custom("Apple SD Gothic Neo", fixedSize: 12))
                                     .bold()
                                     .foregroundColor(.white)
                                     .padding(.horizontal)
                             }
-                            
                             Spacer()
                         }
                     }
@@ -393,25 +392,24 @@ struct AssetWatchListPage: View {
                         }
                         .padding(.horizontal)
                         VStack{
-                            if(!myAppObjects.stockWatchList.isEmpty){
+                            if(!myAppObjects.cryptoWatchList.isEmpty){
                                 ScrollView{
                                     LazyVStack {
-                                        ForEach(myAppObjects.stockWatchList, id: \.self){ stock in
+                                        ForEach(myAppObjects.cryptoWatchList, id: \.self){ crypto in
                                             NavigationLink(
-                                                destination: CryptoInfoPageView(crypto: StockSymbolModel().cryptoSymbol, cryptoQuote: CryptoQuote(StockSymbolModel().cryptoSymbol.cadQuote)).environmentObject(myAppObjects).onDisappear(perform: {
-                                                    myAppObjects.updateStockWatchListAsync()
+                                                destination: CryptoInfoPageView(crypto: crypto, cryptoQuote: userAuth.user.currency == "USD" ? CryptoQuote(crypto.usdQuote) : CryptoQuote(crypto.cadQuote)).environmentObject(myAppObjects).onDisappear(perform: {
+                                                    myAppObjects.updateCryptoWatchListAsync()
                                                     myAppObjects.getStockHoldingsAsync()
                                                 }),
-                                                tag: stock.id.uuidString,
+                                                tag: crypto.crypto.id.uuidString,
                                                 selection: $selectedItem,
-                                                label: {StockSymbolView(stock: stock)})
-                                            
+                                                label: {CryptoSymbolView(cryptoSymbol: crypto, cryptoQuote: userAuth.user.currency == "USD" ? CryptoQuote(crypto.usdQuote) : CryptoQuote(crypto.cadQuote))})
                                         }
                                     }.padding(.horizontal)
                                 }
                                 
                             }
-                            else if(myAppObjects.stockWatchList.isEmpty && !isLoadingWatchlist){
+                            else if(myAppObjects.cryptoWatchList.isEmpty && !isLoadingWatchlist){
                                 Spacer()
                                 VStack(spacing: 16){
                                     Text("Wow! Such Empty!")
@@ -423,7 +421,7 @@ struct AssetWatchListPage: View {
                                         .font(.custom("Apple SD Gothic Neo", fixedSize: 16))
                                         .foregroundColor(.gray)
                                         .padding(.horizontal)
-                                    Text("Surely, there are some assets you would like to track in your watchlist")
+                                    Text("Surely, there are some assets you would like to track in your crypto watchlist")
                                         .font(.custom("Apple SD Gothic Neo", fixedSize: 16))
                                         .bold()
                                         .foregroundColor(.gray)
@@ -451,7 +449,7 @@ struct AssetWatchListPage: View {
                     myAppObjects.getStockHoldingsAsync()
                     if(shouldRefreshWatchlist){
                         isLoadingWatchlist = true
-                        myAppObjects.updateStockWatchList(){
+                        myAppObjects.updateCryptoWatchList(){
                             result in
                             if(result.isSuccessful){
                                 isLoadingWatchlist = false
@@ -464,13 +462,14 @@ struct AssetWatchListPage: View {
                         }
                     }
                 })
-                .onReceive(self.timer, perform: { _ in
-                    shouldRefreshWatchlist = true
-                })
-                .banner(data: $myAppObjects.bannerData, show: $myAppObjects.showBanner)
                 
             }
-            
+            .onAppear(perform: {
+                onLoad()
+            })
+            .onReceive(self.cryptoRefreshtimer, perform: { _ in
+                shouldRefreshWatchlist = true
+            })
             .banner(data: $myAppObjects.bannerData, show: $myAppObjects.showBanner)
         }
         
@@ -486,17 +485,33 @@ struct AssetWatchListPage: View {
     
     func reloadData(){
         isLoadingWatchlist = true
-        myAppObjects.getStockHoldingsAsync()
-        myAppObjects.updateStockWatchList(){
-            result in
-            if(result.isSuccessful){
-                isLoadingWatchlist = false
-            }
-            else{
-                //Would need to show error message here or something
-                isLoadingWatchlist = false
+        if(isCrypto){
+            myAppObjects.getStockHoldingsAsync()
+            myAppObjects.updateCryptoWatchList(){
+                result in
+                if(result.isSuccessful){
+                    isLoadingWatchlist = false
+                }
+                else{
+                    //Would need to show error message here or something
+                    isLoadingWatchlist = false
+                }
             }
         }
+        else{
+            myAppObjects.getStockHoldingsAsync()
+            myAppObjects.updateStockWatchList(){
+                result in
+                if(result.isSuccessful){
+                    isLoadingWatchlist = false
+                }
+                else{
+                    //Would need to show error message here or something
+                    isLoadingWatchlist = false
+                }
+            }
+        }
+
     }
 }
     

@@ -12,8 +12,7 @@ struct ProfileSettingsPageView: View {
     @State var isLoading:Bool = false
     
     @EnvironmentObject var userAuth: UserAuth
-    
-    
+
     @State var errorMessage: String = ""
     
     @Environment(\.presentationMode) var presentation
@@ -32,8 +31,6 @@ struct ProfileSettingsPageView: View {
         
         UINavigationBar.appearance().tintColor = .systemGray4
     }
-    
-
     
     let myColors = MyColors()
     var body: some View {
@@ -88,7 +85,6 @@ struct ProfileSettingsPageView: View {
                                       
                                     })
                                     
-                                
                                     Button(action: {
                                         openURL(URL(string: "https://www.instagram.com/megastonksapp")!)
                                         
@@ -99,7 +95,6 @@ struct ProfileSettingsPageView: View {
                                             .padding(.horizontal)
                                            
                                     })
-                                  
                                 }
                                 Button(action: {
                                     openURL(URL(string: "https://www.megastonks.com")!)

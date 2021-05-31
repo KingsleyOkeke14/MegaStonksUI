@@ -8,8 +8,6 @@
 import SwiftUI
 
 struct CryptoInfoPageView: View {
-
-    
     let myColors = MyColors()
     
     var cryptoQuote:CryptoQuote
@@ -34,8 +32,6 @@ struct CryptoInfoPageView: View {
     @State var showingOrderPage:Bool = false
     
     @State var orderAction:String = ""
-    
-    
     
     @EnvironmentObject var myAppObjects:AppObjects
     @EnvironmentObject var userAuth: UserAuth
@@ -246,8 +242,9 @@ struct CryptoInfoPageView: View {
                                         
                                         Spacer()
                                     }
-//                                    if(cryptoSymbol.isInPortfolio){
-//                                        MyHoldingsView(themeColor: $themeColor, holding: $stockHolding).onChange(of: showingOrderPage, perform: { value in
+                                    if(cryptoSymbol.isInPortfolio){
+                                        MyHoldingsView(isCrypto: true, themeColor: $themeColor, holding: $stockHolding)
+                                            //.onChange(of: showingOrderPage, perform: { value in
 //                                            myAppObjects.getStockHolding(stockId: cryptoSymbol.stockId){
 //                                                result in
 //
@@ -256,7 +253,7 @@ struct CryptoInfoPageView: View {
 //                                                }
 //                                            }
 //                                        })
-//                                    }
+                                    }
                                     CryptoStatisticsView(cryptoSymbol: $cryptoSymbol, cryptoQuote: userAuth.user.currency == "CAD" ? CryptoQuote(cryptoSymbol.cadQuote) : CryptoQuote(cryptoSymbol.usdQuote), themeColor: $themeColor)
                                     TokenInfoView(cryptoSymbol: $cryptoSymbol, themeColor: $themeColor)
                                 }

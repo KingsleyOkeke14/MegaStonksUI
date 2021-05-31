@@ -277,7 +277,7 @@ struct StocksInfoPageView2: View {
                                     }
                                     
                                     if(stockSymbol.isInPortfolio){
-                                        MyHoldingsView(themeColor: $themeColor, holding: $stockHolding).onChange(of: showingOrderPage, perform: { value in
+                                        MyHoldingsView(isCrypto: false, themeColor: $themeColor, holding: $stockHolding).onChange(of: showingOrderPage, perform: { value in
                                             myAppObjects.getStockHolding(stockId: stockSymbol.stockId){
                                                 result in
                                                 
