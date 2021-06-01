@@ -209,6 +209,17 @@ struct CryptoInfoResponse: Codable {
     }
 }
 
+struct CryptoSearchResponseElement: Codable {
+    let id: Int
+    let name, symbol, slug, dateAdded: String?
+    let circulatingSupply, totalSupply: Double?
+    let cmcRank: Int?
+    let lastUpdated: String?
+    let maxSupply: Int?
+}
+
+typealias CryptoSearchResponse = [CryptoSearchResponseElement]
+
 struct CommonAPIResponse: Codable {
     let message: String
 }

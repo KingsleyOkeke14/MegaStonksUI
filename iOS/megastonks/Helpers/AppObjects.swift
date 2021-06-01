@@ -181,7 +181,7 @@ class AppObjects: ObservableObject {
     
     func searchStockAsync(stockToSearch: String = "DOC") {
         var response = RequestResponse()
-        API().SearchStock(textToSearch: stockToSearch){ result in
+        API().SearchAsset(isCrypto: false, textToSearch: stockToSearch){ result in
             response = result
             if(result.isSuccessful){
                 let decoder = JSONDecoder()
@@ -213,7 +213,7 @@ class AppObjects: ObservableObject {
     
     func searchStock(stockToSearch: String, completion: @escaping (RequestResponse) -> ()) {
         var response = RequestResponse()
-        API().SearchStock(textToSearch: stockToSearch){ result in
+        API().SearchAsset(isCrypto: false, textToSearch: stockToSearch){ result in
             response = result
             if(result.isSuccessful){
                 let decoder = JSONDecoder()

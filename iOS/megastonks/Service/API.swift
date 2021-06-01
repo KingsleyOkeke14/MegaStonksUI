@@ -21,6 +21,7 @@ struct APIRoutes {
     private let resetPasswordRoute = "accounts/reset-password"
     private let onBoardRoute = "accounts/onboard-completed"
     private let searchStockRoute = "stocks/searchstock"
+    private let searchCryptoRoute = "cryptos/searchCrypto"
     private let addStockRoute = "watchlist/addstock"
     private let removeStockRoute = "watchlist/removestock"
     private let addCryptoRoute = "watchlist/addCrypto"
@@ -48,6 +49,7 @@ struct APIRoutes {
     var resetPassword = URL(string: "")
     var onBoard = URL(string: "")
     var searchStock = URL(string: "")
+    var searchCrypto = URL(string: "")
     var addStock = URL(string: "")
     var removeStock = URL(string: "")
     var addCrypto = URL(string: "")
@@ -76,6 +78,7 @@ struct APIRoutes {
         resetPassword = URL(string: server + resetPasswordRoute)!
         onBoard = URL(string: server + onBoardRoute)!
         searchStock = URL(string: server + searchStockRoute)!
+        searchCrypto = URL(string: server + searchCryptoRoute)!
         addStock = URL(string: server + addStockRoute)!
         removeStock = URL(string: server + removeStockRoute)!
         addCrypto = URL(string: server + addCryptoRoute)!
@@ -575,11 +578,18 @@ struct API{
         
     }
     
-    func SearchStock(textToSearch: String, completion: @escaping (RequestResponse) -> ()) {
+    func SearchAsset(isCrypto: Bool, textToSearch: String, completion: @escaping (RequestResponse) -> ()) {
         
-        let url = apiRoutes.searchStock!
-        let queryItems = [URLQueryItem(name: "stocktosearch", value: textToSearch)]
-        let newUrl = url.appending(queryItems)!
+        var url = apiRoutes.searchStock!
+        var queryItems = [URLQueryItem(name: "stocktosearch", value: textToSearch)]
+        var newUrl = url.appending(queryItems)!
+        
+        if(isCrypto){
+            url = apiRoutes.searchCrypto!
+            queryItems = [URLQueryItem(name: "cryptoToSearch", value: textToSearch)]
+            newUrl = url.appending(queryItems)!
+        }
+        
         
         var request = AppUrlRequest(url: newUrl, httpMethod: "GET").request
         if let jwtToken: String = KeychainWrapper.standard.string(forKey: "jwtToken"){
@@ -637,6 +647,8 @@ struct API{
         
         
     }
+    
+    
     
     func AddAssetToWatchList(assetId: Int, isCrypto: Bool, completion: @escaping (RequestResponse) -> ()) {
         

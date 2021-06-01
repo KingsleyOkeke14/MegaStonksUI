@@ -168,7 +168,6 @@ struct AssetWatchListPage: View {
                                                     .accentColor(.green)
                                                     .scaleEffect(x: 1.4, y: 1.4)
                                                     .progressViewStyle(CircularProgressViewStyle(tint: myColors.greenColor))
-                                            
                                             )
                                         }
                                     })
