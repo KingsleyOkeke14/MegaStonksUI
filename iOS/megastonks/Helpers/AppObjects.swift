@@ -44,6 +44,7 @@ class AppObjects: ObservableObject {
             }
         }
        getNewsAsync()
+       searchStockAsync()
     }
     
     func updateStockWatchList(completion: @escaping (RequestResponse) -> ()) {

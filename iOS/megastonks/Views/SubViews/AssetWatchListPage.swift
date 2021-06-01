@@ -81,12 +81,12 @@ struct AssetWatchListPage: View {
                             myAppObjects.searchStock(stockToSearch: searchText){
                                 result in
                                 if(result.isSuccessful){
-                                    
                                     DispatchQueue.main.async {
                                         myAppObjects.stockSearchResult = result.stockSearchResponse
                                     }
                                 }
                                 isLoadingStock = false
+                               
                             }
                         })
                         .padding()
@@ -114,6 +114,7 @@ struct AssetWatchListPage: View {
                                 hideKeyboard()
                                 presentationMode.wrappedValue.dismiss()
                                 myAppObjects.stockSearchResult.removeAll()
+                                myAppObjects.searchStockAsync()
                                 
                             }) {
                                 Text("Cancel")
@@ -160,10 +161,15 @@ struct AssetWatchListPage: View {
                                 }.overlay(
                                     VStack{
                                         if(isLoadingStock){
-                                            ProgressView()
-                                                .accentColor(.green)
-                                                .scaleEffect(x: 1.4, y: 1.4)
-                                                .progressViewStyle(CircularProgressViewStyle(tint: myColors.greenColor))
+                                        Color.black
+                                            .ignoresSafeArea()
+                                            .overlay(
+                                                ProgressView()
+                                                    .accentColor(.green)
+                                                    .scaleEffect(x: 1.4, y: 1.4)
+                                                    .progressViewStyle(CircularProgressViewStyle(tint: myColors.greenColor))
+                                            
+                                            )
                                         }
                                     })
                             }
@@ -174,6 +180,20 @@ struct AssetWatchListPage: View {
                                     .bold()
                                     .foregroundColor(.white)
                                     .padding(.horizontal)
+                                    .overlay(
+                                        VStack{
+                                            if(isLoadingStock){
+                                            Color.black
+                                                .ignoresSafeArea()
+                                                .overlay(
+                                                    ProgressView()
+                                                        .accentColor(.green)
+                                                        .scaleEffect(x: 1.4, y: 1.4)
+                                                        .progressViewStyle(CircularProgressViewStyle(tint: myColors.greenColor))
+                                                
+                                                )
+                                            }
+                                        })
                             }
                             
                             Spacer()
@@ -293,14 +313,12 @@ struct AssetWatchListPage: View {
                             myAppObjects.searchStock(stockToSearch: searchText){
                                 result in
                                 if(result.isSuccessful){
-                                    
                                     DispatchQueue.main.async {
                                         myAppObjects.stockSearchResult = result.stockSearchResponse
                                     }
                                 }
                                 isLoadingStock = false
                             }
-                            
                         })
                         .padding()
                         .padding(.horizontal, 24)
@@ -328,6 +346,7 @@ struct AssetWatchListPage: View {
                                 hideKeyboard()
                                 presentationMode.wrappedValue.dismiss()
                                 myAppObjects.stockSearchResult.removeAll()
+                                myAppObjects.searchStockAsync()
                                 
                             }) {
                                 Text("Cancel")
@@ -375,10 +394,15 @@ struct AssetWatchListPage: View {
                                 }.overlay(
                                     VStack{
                                         if(isLoadingStock){
-                                            ProgressView()
-                                                .accentColor(.green)
-                                                .scaleEffect(x: 1.4, y: 1.4)
-                                                .progressViewStyle(CircularProgressViewStyle(tint: myColors.greenColor))
+                                        Color.black
+                                            .ignoresSafeArea()
+                                            .overlay(
+                                                ProgressView()
+                                                    .accentColor(.green)
+                                                    .scaleEffect(x: 1.4, y: 1.4)
+                                                    .progressViewStyle(CircularProgressViewStyle(tint: myColors.greenColor))
+                                            
+                                            )
                                         }
                                     })
                             }
@@ -389,6 +413,20 @@ struct AssetWatchListPage: View {
                                     .bold()
                                     .foregroundColor(.white)
                                     .padding(.horizontal)
+                                    .overlay(
+                                        VStack{
+                                            if(isLoadingStock){
+                                            Color.black
+                                                .ignoresSafeArea()
+                                                .overlay(
+                                                    ProgressView()
+                                                        .accentColor(.green)
+                                                        .scaleEffect(x: 1.4, y: 1.4)
+                                                        .progressViewStyle(CircularProgressViewStyle(tint: myColors.greenColor))
+                                                
+                                                )
+                                            }
+                                        })
                             }
                             Spacer()
                         }

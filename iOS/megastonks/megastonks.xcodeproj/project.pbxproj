@@ -17,7 +17,6 @@
 		D009875F2640CD8000F76AEA /* OrdersPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D009875E2640CD8000F76AEA /* OrdersPageView.swift */; };
 		D00987632640E3D600F76AEA /* OrderSucessPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00987622640E3D600F76AEA /* OrderSucessPageView.swift */; };
 		D00A6687263486AD0085EB1C /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00A6686263486AD0085EB1C /* User.swift */; };
-		D00CA77B25CA40C400232915 /* SearchBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00CA77A25CA40C400232915 /* SearchBarView.swift */; };
 		D00CA78125CB3BF600232915 /* StockSymbolView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00CA78025CB3BF600232915 /* StockSymbolView.swift */; };
 		D00CA78425CB50CF00232915 /* StockSymbol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00CA78325CB50CF00232915 /* StockSymbol.swift */; };
 		D00CA78725CB55CD00232915 /* StockSymbolModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00CA78625CB55CD00232915 /* StockSymbolModel.swift */; };
@@ -107,7 +106,6 @@
 		D009875E2640CD8000F76AEA /* OrdersPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrdersPageView.swift; sourceTree = "<group>"; };
 		D00987622640E3D600F76AEA /* OrderSucessPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderSucessPageView.swift; sourceTree = "<group>"; };
 		D00A6686263486AD0085EB1C /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
-		D00CA77A25CA40C400232915 /* SearchBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarView.swift; sourceTree = "<group>"; };
 		D00CA78025CB3BF600232915 /* StockSymbolView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockSymbolView.swift; sourceTree = "<group>"; };
 		D00CA78325CB50CF00232915 /* StockSymbol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockSymbol.swift; sourceTree = "<group>"; };
 		D00CA78625CB55CD00232915 /* StockSymbolModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockSymbolModel.swift; sourceTree = "<group>"; };
@@ -238,7 +236,6 @@
 				D0369D1B25C76B1900718A52 /* FormView.swift */,
 				D034871125C80DA500CFCAB2 /* ButtonView.swift */,
 				D06B311725C7BA5200A37C08 /* SecretFormView.swift */,
-				D00CA77A25CA40C400232915 /* SearchBarView.swift */,
 				D00CA78025CB3BF600232915 /* StockSymbolView.swift */,
 				D0D1933725CCB41900D83D87 /* StockInfoView.swift */,
 				D0D1933A25CCCFAF00D83D87 /* ChartView.swift */,
@@ -536,7 +533,6 @@
 				D0DEBFE5264242DE0086DC36 /* AsyncImage.swift in Sources */,
 				D057841B25C88C5E0039E6CD /* OnBoardCard.swift in Sources */,
 				D0336E1F2635DD09004DB6A3 /* Extensions.swift in Sources */,
-				D00CA77B25CA40C400232915 /* SearchBarView.swift in Sources */,
 				D0E282F3263E56610027EFDB /* PlaceOrderPageView.swift in Sources */,
 				D06C2983264098EC00F1B31A /* OrderResultInfo.swift in Sources */,
 				D057842325C894530039E6CD /* OnBoardPageView.swift in Sources */,
