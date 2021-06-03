@@ -14,7 +14,9 @@ struct RequestResponse{
     var stockWatchListResponse:[StockSymbol] = [StockSymbol]()
     var cryptoWatchListResponse:[CryptoSymbol] = [CryptoSymbol]()
     var stockSearchResponse:[StockSearchResult] = [StockSearchResult]()
+    var cryptoSearchResponse:[CryptoSearchResult] = [CryptoSearchResult]()
     var stockInfoSearchStocksPage:StockSymbol?
+    var cryptoInfoSearchCryptosPage:CryptoSymbol?
     var stockHoldingResponse:StockHolding?
     var stockHoldingsResponse:StockHoldings?
     var stockHoldingInfoPageResponse:StockHoldingInfoPage?
@@ -190,9 +192,10 @@ struct CryptoQuoteResponse: Codable {
 struct CryptoResponseElement: Codable{
     let id: Int
     let name, symbol, slug, dateAdded: String?
-    let maxSupply: Int?
+    let maxSupply: Double?
     let circulatingSupply: Double?
-    let totalSupply, cmcRank: Int?
+    let totalSupply: Double?
+    let cmcRank: Int?
     let lastUpdated: String?
 }
 

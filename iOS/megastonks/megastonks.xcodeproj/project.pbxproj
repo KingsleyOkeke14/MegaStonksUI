@@ -232,7 +232,6 @@
 		D034871425C80DAE00CFCAB2 /* SubViews */ = {
 			isa = PBXGroup;
 			children = (
-				D0FC0FF625D2287600366B26 /* StocksInfoPageView.swift */,
 				D0D929B126609C7000C14BE2 /* AssetPorfolioPage.swift */,
 				D00CA78925CB93DD00232915 /* AssetWatchListPage.swift */,
 				D0369D1B25C76B1900718A52 /* FormView.swift */,
@@ -322,6 +321,7 @@
 			children = (
 				D034871425C80DAE00CFCAB2 /* SubViews */,
 				D06B311425C7AFF400A37C08 /* LoginPageView.swift */,
+				D0FC0FF625D2287600366B26 /* StocksInfoPageView.swift */,
 				D05F0A2A2639BE7B00CCC115 /* StocksInfoPageView2.swift */,
 				D0E08FEF2661ECC9005B0C11 /* CryptoInfoPageView.swift */,
 				D0E282F2263E56600027EFDB /* PlaceOrderPageView.swift */,

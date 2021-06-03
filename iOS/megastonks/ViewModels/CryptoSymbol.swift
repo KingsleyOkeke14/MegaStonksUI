@@ -29,9 +29,10 @@ struct Crypto : Identifiable, Hashable {
     var id: UUID = UUID()
     var cryptoId: Int
     var name, symbol, slug, dateAdded: String
-    var maxSupply: Int
+    var maxSupply: Double
     var circulatingSupply: Double
-    var totalSupply, cmcRank: Int
+    var totalSupply: Double
+    var cmcRank: Int
     var lastUpdated: String
     
     init(_ cryptoResponseElement: CryptoResponse) {
@@ -40,9 +41,9 @@ struct Crypto : Identifiable, Hashable {
         self.symbol = cryptoResponseElement.crypto?.symbol ?? ""
         self.slug = cryptoResponseElement.crypto?.slug ?? ""
         self.dateAdded = cryptoResponseElement.crypto?.dateAdded ?? ""
-        self.maxSupply = cryptoResponseElement.crypto?.maxSupply ?? 0
+        self.maxSupply = cryptoResponseElement.crypto?.maxSupply ?? 0.0
         self.circulatingSupply = cryptoResponseElement.crypto?.circulatingSupply ?? 0.0
-        self.totalSupply = cryptoResponseElement.crypto?.totalSupply ?? 0
+        self.totalSupply = cryptoResponseElement.crypto?.totalSupply ?? 0.0
         self.cmcRank = cryptoResponseElement.crypto?.cmcRank ?? 0
         self.lastUpdated = cryptoResponseElement.crypto?.lastUpdated ?? ""
     }

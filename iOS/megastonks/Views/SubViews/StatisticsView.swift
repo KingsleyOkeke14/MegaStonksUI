@@ -46,7 +46,7 @@ struct StatisticsView: View {
 struct CryptoStatisticsView: View {
     let myColors = MyColors()
     
-    @Binding var cryptoSymbol: CryptoSymbol
+    @Binding var cryptoSymbol: CryptoSymbol?
     var cryptoQuote: CryptoQuote
     @Binding var themeColor: Color
     @State var showTipRank: Bool = false
@@ -67,10 +67,10 @@ struct CryptoStatisticsView: View {
                 
             }      
             VStack{
-                SingleStatView(label: "Rank", value: cryptoSymbol.crypto.cmcRank != 0 ? "\(cryptoSymbol.crypto.cmcRank)" : "-", tipMessage: "Assets are ranked based on the value of their market cap", hasTip: true, showTip: $showTipRank)
-                SingleStatView(label: "Inception Date", value: !cryptoSymbol.crypto.dateAdded.isEmpty ? "\(cryptoSymbol.crypto.dateAdded)" : "-", tipMessage: "", hasTip: false, showTip: Binding.constant(false))
-                SingleStatView(label: "Max Supply", value: cryptoSymbol.crypto.maxSupply != 0 ? "\(cryptoSymbol.crypto.maxSupply.abbreviated)" : "-", tipMessage: "", hasTip: false, showTip: Binding.constant(false))
-                SingleStatView(label: "Circulating Supply", value: cryptoSymbol.crypto.circulatingSupply != 0 ? "\(cryptoSymbol.crypto.circulatingSupply.abbreviated())" : "-", tipMessage: "", hasTip: false, showTip: Binding.constant(false))
+                SingleStatView(label: "Rank", value: cryptoSymbol!.crypto.cmcRank != 0 ? "\(cryptoSymbol!.crypto.cmcRank)" : "-", tipMessage: "Assets are ranked based on the value of their market cap", hasTip: true, showTip: $showTipRank)
+                SingleStatView(label: "Inception Date", value: !cryptoSymbol!.crypto.dateAdded.isEmpty ? "\(cryptoSymbol!.crypto.dateAdded.toDateFormat())" : "-", tipMessage: "", hasTip: false, showTip: Binding.constant(false))
+                SingleStatView(label: "Max Supply", value: cryptoSymbol!.crypto.maxSupply != 0 ? "\(cryptoSymbol!.crypto.maxSupply.abbreviated())" : "-", tipMessage: "", hasTip: false, showTip: Binding.constant(false))
+                SingleStatView(label: "Circulating Supply", value: cryptoSymbol!.crypto.circulatingSupply != 0 ? "\(cryptoSymbol!.crypto.circulatingSupply.abbreviated())" : "-", tipMessage: "", hasTip: false, showTip: Binding.constant(false))
                 SingleStatView(label: "Market Cap", value: cryptoQuote.marketCap != 0 ? "\(cryptoQuote.marketCap.abbreviated())" : "-", tipMessage: "", hasTip: false, showTip: Binding.constant(false))
                 SingleStatView(label: "24Hr Volume", value: cryptoQuote.volume24H != 0 ? "\(cryptoQuote.volume24H.abbreviated())" : "-", tipMessage: "", hasTip: false, showTip: Binding.constant(false))
             }
@@ -81,7 +81,7 @@ struct CryptoStatisticsView: View {
                     .foregroundColor(themeColor)
                     .padding(.top)
                 SingleStatPriceView(label: "1Hr Change", percentage: cryptoQuote.percentChange1H, price: cryptoQuote.change1H, color: cryptoQuote.percentChange1H > 0 ? .green : .red)
-                SingleStatPriceView(label: "24Hr Change", percentage: cryptoQuote.percentChange24H, price: cryptoQuote.percentChange24H, color: cryptoQuote.percentChange24H > 0 ? .green : .red)
+                SingleStatPriceView(label: "24Hr Change", percentage: cryptoQuote.percentChange24H, price: cryptoQuote.change24H, color: cryptoQuote.percentChange24H > 0 ? .green : .red)
                 SingleStatPriceView(label: "7D Change", percentage: cryptoQuote.percentChange7D, price: cryptoQuote.change7D, color: cryptoQuote.percentChange7D > 0 ? .green : .red)
                 SingleStatPriceView(label: "30D Change", percentage: cryptoQuote.percentChange30D, price: cryptoQuote.change30D, color: cryptoQuote.percentChange30D > 0 ? .green : .red)
                 SingleStatPriceView(label: "60D Change", percentage: cryptoQuote.percentChange60D, price: cryptoQuote.change60D, color: cryptoQuote.percentChange60D > 0 ? .green : .red)

@@ -66,36 +66,36 @@ struct StocksInfoPageView2: View {
                         VStack(spacing: 2){
                             
                             if(showWatcListButton){
-                            HStack {
-                                Spacer()
-                                Button(action: {
-                                    let impactMed = UIImpactFeedbackGenerator(style: .heavy)
-                                    impactMed.impactOccurred()
-                                    if(stockSymbol.isInWatchList){
-                                        myAppObjects.removeStockFromWatchListAsync(stockToRemove: stockSymbol.stockId)
-                                    }
-                                    else{
-                                        myAppObjects.addStockToWatchListAsync(stockToAdd: stockSymbol.stockId)
-                                    }
-                                    stockSymbol.isInWatchList.toggle()
-                                }, label: {
-                                    HStack{
+                                HStack {
+                                    Spacer()
+                                    Button(action: {
+                                        let impactMed = UIImpactFeedbackGenerator(style: .heavy)
+                                        impactMed.impactOccurred()
                                         if(stockSymbol.isInWatchList){
-                                            Image(systemName: "eye")
-                                                .foregroundColor(themeColor)
-                                                .font(.custom("", fixedSize: 18))
-                                                .padding(.trailing, 10)
-                                            
+                                            myAppObjects.removeStockFromWatchListAsync(stockToRemove: stockSymbol.stockId)
                                         }
                                         else{
-                                            Image(systemName: "eye.slash")
-                                                .foregroundColor(themeColor)
-                                                .font(.custom("", fixedSize: 18))
-                                                .padding(.trailing, 10)
+                                            myAppObjects.addStockToWatchListAsync(stockToAdd: stockSymbol.stockId)
                                         }
-                                    }
-                                })
-                            }
+                                        stockSymbol.isInWatchList.toggle()
+                                    }, label: {
+                                        HStack{
+                                            if(stockSymbol.isInWatchList){
+                                                Image(systemName: "eye")
+                                                    .foregroundColor(themeColor)
+                                                    .font(.custom("", fixedSize: 18))
+                                                    .padding(.trailing, 10)
+                                                
+                                            }
+                                            else{
+                                                Image(systemName: "eye.slash")
+                                                    .foregroundColor(themeColor)
+                                                    .font(.custom("", fixedSize: 18))
+                                                    .padding(.trailing, 10)
+                                            }
+                                        }
+                                    })
+                                }
                             }
                             StockInfoView(stockSymbol: $stockSymbol, highlightColor: $themeColor)
                             ScrollView{

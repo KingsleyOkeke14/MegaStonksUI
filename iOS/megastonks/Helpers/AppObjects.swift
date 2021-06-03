@@ -13,6 +13,7 @@ class AppObjects: ObservableObject {
     @Published var showBanner:Bool = false
     @Published var bannerData:BannerData = BannerData(title: "", detail: "", type: .Info)
     @Published var stockSearchResult:[StockSearchResult]
+    @Published var cryptoSearchResult:[CryptoSearchResult]
     @Published var userWallet:UserWallet
     @Published var holdings:StockHoldings
     @Published var orderHistory: OrderHistory
@@ -26,6 +27,7 @@ class AppObjects: ObservableObject {
         self.stockWatchList = [StockSymbol]()
         self.cryptoWatchList = [CryptoSymbol]()
         self.stockSearchResult = [StockSearchResult]()
+        self.cryptoSearchResult = [CryptoSearchResult]()
         self.userWallet = UserWallet(WalletResponse(firstName: "", lastName: "", cash: 0.0, initialDeposit: 0.0, investments: 0.0, total: 0.0, percentReturnToday: 0.0, moneyReturnToday: 0.0, percentReturnTotal: 0.0, moneyReturnTotal: 0.0))
         self.holdings = StockHoldings(holdingsArray: [StockHoldingsResponseElement]())
         self.orderHistory = OrderHistory(orderArray: [OrderHistoryResponseElement]())
@@ -45,16 +47,19 @@ class AppObjects: ObservableObject {
         }
        getNewsAsync()
        searchStockAsync()
+       populateCryptoListAsync()
     }
     
     func updateStockWatchList(completion: @escaping (RequestResponse) -> ()) {
         var response = RequestResponse()
         API().GetAssetWatchList(isCrypto: false){ result in
             response = result
+            response.isSuccessful = false
             if(result.isSuccessful){
                 let decoder = JSONDecoder()
                  if let jsonResponse = try? decoder.decode(StockListResponse.self, from: result.data!) {
                     response.stockWatchListResponse = StockSymbols(stockElementArray: jsonResponse).stocks
+                    response.isSuccessful = true
                         DispatchQueue.main.async {
                             self.stockWatchList = response.stockWatchListResponse.reversed()
                         }
@@ -118,10 +123,12 @@ class AppObjects: ObservableObject {
         var response = RequestResponse()
         API().GetAssetWatchList(isCrypto: true){ result in
             response = result
+            response.isSuccessful = false
             if(result.isSuccessful){
                 let decoder = JSONDecoder()
                 if let jsonResponse = try? decoder.decode([CryptoResponse].self, from: result.data!) {
                     response.cryptoWatchListResponse = CryptoSymbols(cryptoArray: jsonResponse).cryptos
+                    response.isSuccessful = true
                         DispatchQueue.main.async {
                             self.cryptoWatchList = response.cryptoWatchListResponse.reversed()
                         }
@@ -211,18 +218,84 @@ class AppObjects: ObservableObject {
         }
     }
     
+    func populateCryptoListAsync() {
+        var response = RequestResponse()
+        API().GetCryptoInSchema{ result in
+            response = result
+            if(result.isSuccessful){
+                let decoder = JSONDecoder()
+                 if let jsonResponse = try? decoder.decode(CryptoSearchResponse.self, from: result.data!) {
+                    response.cryptoSearchResponse = CryptoSearchResults(cryptoElemetArray: jsonResponse).cryptos
+                        DispatchQueue.main.async {
+                            self.cryptoSearchResult = response.cryptoSearchResponse
+                        }
+                }
+                 else{
+                    DispatchQueue.main.async {
+                        self.bannerData.detail = "Error getting crypto data requested. Please contact Support if the problem persists. (hello@megastonks.com)"
+                        self.bannerData.type = .Error
+                        self.showBanner = true
+                    }
+                 }
+                
+            }
+            
+            else{
+                DispatchQueue.main.async {
+                    self.bannerData.detail = result.errorMessage
+                    self.bannerData.type = .Warning
+                    self.showBanner = true
+                }
+            }
+        }
+    }
+    
     func searchStock(stockToSearch: String, completion: @escaping (RequestResponse) -> ()) {
         var response = RequestResponse()
         API().SearchAsset(isCrypto: false, textToSearch: stockToSearch){ result in
             response = result
+            response.isSuccessful = false
             if(result.isSuccessful){
                 let decoder = JSONDecoder()
                  if let jsonResponse = try? decoder.decode(StockSearchResponse.self, from: result.data!) {
                     response.stockSearchResponse = StockSearchResults(stockElementArray: jsonResponse).stocks
+                    response.isSuccessful = true
                 }
                  else{
                     DispatchQueue.main.async {
                         self.bannerData.detail = "Error getting stock data requested. Please contact Support if the problem persists. (hello@megastonks.com)"
+                        self.bannerData.type = .Error
+                        self.showBanner = true
+                    }
+                 }
+                
+            }
+            
+            else{
+                DispatchQueue.main.async {
+                    self.bannerData.detail = result.errorMessage
+                    self.bannerData.type = .Warning
+                    self.showBanner = true
+                }
+            }
+            completion(response)
+        }
+    }
+    
+    func searchCrypto(cryptoToSearch: String, completion: @escaping (RequestResponse) -> ()) {
+        var response = RequestResponse()
+        API().SearchAsset(isCrypto: true, textToSearch: cryptoToSearch){ result in
+            response = result
+            response.isSuccessful = false
+            if(result.isSuccessful){
+                let decoder = JSONDecoder()
+                 if let jsonResponse = try? decoder.decode(CryptoSearchResponse.self, from: result.data!) {
+                    response.cryptoSearchResponse = CryptoSearchResults(cryptoElemetArray: jsonResponse).cryptos
+                    response.isSuccessful = true
+                }
+                 else{
+                    DispatchQueue.main.async {
+                        self.bannerData.detail = "Error getting crypto data requested. Please contact Support if the problem persists. (hello@megastonks.com)"
                         self.bannerData.type = .Error
                         self.showBanner = true
                     }
@@ -384,12 +457,30 @@ class AppObjects: ObservableObject {
     
     func getStockInfo(stockId: Int, completion: @escaping (RequestResponse) -> ()) {
         var response = RequestResponse()
-        API().GetStockInfo(stockId: stockId){ result in
+        API().GetAssetInfo(assetId: stockId, isCrypto: false){ result in
             response = result
+            response.isSuccessful = false
             if(result.isSuccessful){
                 let decoder = JSONDecoder()
                  if let jsonResponse = try? decoder.decode(StockElementResponse.self, from: result.data!) {
                     response.stockInfoSearchStocksPage = StockSymbol(jsonResponse)
+                    response.isSuccessful = true
+                }
+            }
+            completion(response)
+        }
+    }
+    
+    func getCryptoInfo(cryptoId: Int, completion: @escaping (RequestResponse) -> ()) {
+        var response = RequestResponse()
+        API().GetAssetInfo(assetId: cryptoId, isCrypto: true){ result in
+            response = result
+            response.isSuccessful = false
+            if(result.isSuccessful){
+                let decoder = JSONDecoder()
+                if let jsonResponse = try? decoder.decode(CryptoResponse.self, from: result.data!){
+                    response.cryptoInfoSearchCryptosPage = CryptoSymbol(jsonResponse)
+                    response.isSuccessful = true
                 }
             }
             completion(response)
@@ -400,10 +491,12 @@ class AppObjects: ObservableObject {
         var response = RequestResponse()
         API().GetStockHolding(stockId: stockId){ result in
             response = result
+            response.isSuccessful = false
             if(result.isSuccessful){
                 let decoder = JSONDecoder()
                  if let jsonResponse = try? decoder.decode(HoldingResponseInfoPage.self, from: result.data!) {
                     response.stockHoldingInfoPageResponse = StockHoldingInfoPage(jsonResponse)
+                    response.isSuccessful = true
                 }
             }
             completion(response)
@@ -432,10 +525,12 @@ class AppObjects: ObservableObject {
         var response = RequestResponse()
         API().GetStockHoldings(){ result in
             response = result
+            response.isSuccessful = false
             if(result.isSuccessful){
                 let decoder = JSONDecoder()
                  if let jsonResponse = try? decoder.decode(HoldingsResponse.self, from: result.data!) {
                     response.stockHoldingsResponse = StockHoldings(holdingsArray: jsonResponse)
+                    response.isSuccessful = true
                 }
             }
             completion(response)
@@ -447,10 +542,12 @@ class AppObjects: ObservableObject {
         var response = RequestResponse()
         API().GetPriceChart(stockId: stockId, interval: interval, isPriceHistory: isPriceHistory){ result in
             response = result
+            response.isSuccessful = false
             if(result.isSuccessful){
                 let decoder = JSONDecoder()
                  if let jsonResponse = try? decoder.decode(ChartDataResponse.self, from: result.data!) {
                     response.stockChartDataResponse = ChartData(jsonResponse)
+                    response.isSuccessful = true
                 }
             }
             completion(response)
@@ -474,10 +571,12 @@ class AppObjects: ObservableObject {
         var response = RequestResponse()
         API().GetWallet(){ result in
             response = result
+            response.isSuccessful = false
             if(result.isSuccessful){
                 let decoder = JSONDecoder()
                  if let jsonResponse = try? decoder.decode(WalletResponse.self, from: result.data!) {
                     response.walletResponse  = UserWallet(jsonResponse)
+                    response.isSuccessful = true
                 }
             }
             completion(response)
@@ -505,10 +604,12 @@ class AppObjects: ObservableObject {
         var response = RequestResponse()
         API().OrderStock(stockId: stockId, orderType: orderType, orderAction: orderAction, quantitySubmitted: quantitySubmitted){ result in
             response = result
+            response.isSuccessful = false
             if(result.isSuccessful){
                 let decoder = JSONDecoder()
                 if let jsonResponse = try? decoder.decode(OrderStockResponse.self, from: result.data!) {
                     response.orderStockResponse = OrderResultInfo(orderResponse: jsonResponse)
+                    response.isSuccessful = true
                }
             }
             completion(response)
@@ -533,10 +634,12 @@ class AppObjects: ObservableObject {
         var response = RequestResponse()
         API().GetNews(){ result in
             response = result
+            response.isSuccessful = false
             if(result.isSuccessful){
                 let decoder = JSONDecoder()
                  if let jsonResponse = try? decoder.decode(NewsResponse.self, from: result.data!) {
                     response.newsResponse = News(jsonResponse).news
+                    response.isSuccessful = true
                     if(response.newsResponse!.count <= 0){
                         response.isSuccessful = false
                     }
@@ -550,6 +653,7 @@ class AppObjects: ObservableObject {
         var response = RequestResponse()
         API().GetNews(){ result in
             response = result
+            response.isSuccessful = false
             if(result.isSuccessful){
                 let decoder = JSONDecoder()
                  if let jsonResponse = try? decoder.decode(NewsResponse.self, from: result.data!) {
@@ -558,6 +662,7 @@ class AppObjects: ObservableObject {
                         response.isSuccessful = false
                     }
                     else{
+                        response.isSuccessful = true
                         DispatchQueue.main.async {
                             self.news  = News(jsonResponse).news
                         }

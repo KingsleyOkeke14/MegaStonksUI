@@ -79,8 +79,9 @@ extension Double {
         return  numberFormatter.string(from: NSNumber(value: self))!
         
     }
-       func abbreviated() -> String {
-            let abbrev = "KMBTPE"
+    
+    func abbreviated() -> String {
+        let abbrev = "KMBTPE"
         return abbrev
                 .enumerated()
                 .reversed()
@@ -90,7 +91,6 @@ extension Double {
                     return accum ?? (factor >= 1 ? String(format: format, factor, String(tuple.1)) : nil)
                 } ?? String(self)
         }
-    
 }
 
 
@@ -150,6 +150,18 @@ extension String {
     
     func removingWhitespaces() -> String {
             return components(separatedBy: .whitespaces).joined()
+    }
+    
+    func toDateFormat() -> String {
+        
+        let dateFormatter1 = DateFormatter()
+        dateFormatter1.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
+        let dateFromString = dateFormatter1.date(from: self)
+
+        let dateFormatter2 = DateFormatter()
+        dateFormatter2.dateFormat = "EEEE, MMM d, yyyy"
+        
+        return dateFormatter2.string(from: dateFromString ?? Date())
     }
     
 }

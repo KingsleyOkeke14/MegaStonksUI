@@ -71,7 +71,7 @@ struct CryptoInfoView: View {
     let myColors = MyColors()
     
     var defaultCurrency: String
-    @Binding var cryptoSymbol: CryptoSymbol
+    @Binding var cryptoSymbol: CryptoSymbol?
     
     @Binding var highlightColor:Color
     
@@ -79,7 +79,7 @@ struct CryptoInfoView: View {
     
     let impactMed = UIImpactFeedbackGenerator(style: .heavy)
     
-    init(defaultCurrency:String, cryptoSymbol: Binding<CryptoSymbol>, highlightColor: Binding<Color>) {
+    init(defaultCurrency:String, cryptoSymbol: Binding<CryptoSymbol?>, highlightColor: Binding<Color>) {
         self.defaultCurrency = defaultCurrency
         _currentCurrency = State.init(initialValue: defaultCurrency)
         self._cryptoSymbol = cryptoSymbol
@@ -93,7 +93,7 @@ struct CryptoInfoView: View {
                         .stroke(highlightColor, lineWidth: 4)
                         .frame(width: 80, height: 80)
                         .shadow(color: highlightColor, radius: 6, x: 4, y: 4)
-                    AsyncImage(url: URL(string: cryptoSymbol.info.logo)!,
+                    AsyncImage(url: URL(string: cryptoSymbol!.info.logo)!,
                                placeholder: { Image("blackImage") },
                                image: { Image(uiImage: $0).resizable() })
                         .frame(width: 80, height: 80, alignment: .center)
@@ -103,7 +103,7 @@ struct CryptoInfoView: View {
                 }
                 
                 
-                Text("(\(cryptoSymbol.crypto.symbol)) \(cryptoSymbol.crypto.name)")
+                Text("(\(cryptoSymbol!.crypto.symbol)) \(cryptoSymbol!.crypto.name)")
                     .font(.custom("Helvetica", fixedSize: 18))
                     .foregroundColor(.white)
                     .bold()
@@ -113,7 +113,7 @@ struct CryptoInfoView: View {
                     .padding(.horizontal)
                 
                 HStack {
-                    Text(currentCurrency == "USD" ? "\(cryptoSymbol.usdQuote.price.formatPrice())" : "\(cryptoSymbol.cadQuote.price.formatPrice())")
+                    Text(currentCurrency == "USD" ? "\(cryptoSymbol!.usdQuote.price.formatPrice())" : "\(cryptoSymbol!.cadQuote.price.formatPrice())")
                         .foregroundColor(.white)
                         .font(.custom("Verdana", fixedSize: 24))
                         .bold()

@@ -12,13 +12,14 @@ struct AssetWatchListPage: View {
     
     let myColors = MyColors()
     var isCrypto: Bool
+    
     @State var searchText:String = ""
     
     @State private var selectedItem: String?
     
     @State var isEditing: Bool = false
     
-    @State var isLoadingStock: Bool = false
+    @State var isLoadingAsset: Bool = false
     @State var isLoadingWatchlist: Bool = false
     
     @State var isMarketOpen:Bool?
@@ -77,7 +78,7 @@ struct AssetWatchListPage: View {
                     })
                     HStack {
                         TextField("Tap to Search for Stocks", text: $searchText, onCommit: {
-                            isLoadingStock = true
+                            isLoadingAsset = true
                             myAppObjects.searchStock(stockToSearch: searchText){
                                 result in
                                 if(result.isSuccessful){
@@ -85,7 +86,7 @@ struct AssetWatchListPage: View {
                                         myAppObjects.stockSearchResult = result.stockSearchResponse
                                     }
                                 }
-                                isLoadingStock = false
+                                isLoadingAsset = false
                                
                             }
                         })
@@ -110,7 +111,7 @@ struct AssetWatchListPage: View {
                             Button(action: {
                                 self.isEditing = false
                                 self.searchText = ""
-                                isLoadingStock = false
+                                isLoadingAsset = false
                                 hideKeyboard()
                                 presentationMode.wrappedValue.dismiss()
                                 myAppObjects.stockSearchResult.removeAll()
@@ -160,7 +161,7 @@ struct AssetWatchListPage: View {
                                     
                                 }.overlay(
                                     VStack{
-                                        if(isLoadingStock){
+                                        if(isLoadingAsset){
                                         Color.black
                                             .ignoresSafeArea()
                                             .overlay(
@@ -181,7 +182,7 @@ struct AssetWatchListPage: View {
                                     .padding(.horizontal)
                                     .overlay(
                                         VStack{
-                                            if(isLoadingStock){
+                                            if(isLoadingAsset){
                                             Color.black
                                                 .ignoresSafeArea()
                                                 .overlay(
@@ -308,15 +309,15 @@ struct AssetWatchListPage: View {
                     }
                     HStack {
                         TextField("Tap to Search For Crypto", text: $searchText, onCommit: {
-                            isLoadingStock = true
-                            myAppObjects.searchStock(stockToSearch: searchText){
+                            isLoadingAsset = true
+                            myAppObjects.searchCrypto(cryptoToSearch: searchText){
                                 result in
                                 if(result.isSuccessful){
                                     DispatchQueue.main.async {
-                                        myAppObjects.stockSearchResult = result.stockSearchResponse
+                                        myAppObjects.cryptoSearchResult = result.cryptoSearchResponse
                                     }
                                 }
-                                isLoadingStock = false
+                                isLoadingAsset = false
                             }
                         })
                         .padding()
@@ -341,11 +342,11 @@ struct AssetWatchListPage: View {
                             Button(action: {
                                 self.isEditing = false
                                 self.searchText = ""
-                                isLoadingStock = false
+                                isLoadingAsset = false
                                 hideKeyboard()
                                 presentationMode.wrappedValue.dismiss()
-                                myAppObjects.stockSearchResult.removeAll()
-                                myAppObjects.searchStockAsync()
+                                myAppObjects.cryptoSearchResult.removeAll()
+                                myAppObjects.populateCryptoListAsync()
                                 
                             }) {
                                 Text("Cancel")
@@ -373,26 +374,26 @@ struct AssetWatchListPage: View {
                             }
                             .padding(.horizontal)
                             
-                            if(!myAppObjects.stockSearchResult.isEmpty){
+                            if(!myAppObjects.cryptoSearchResult.isEmpty){
                                 
                                 ScrollView{
                                     LazyVStack{
-                                        ForEach(myAppObjects.stockSearchResult, id: \.self){ stock in
+                                        ForEach(myAppObjects.cryptoSearchResult, id: \.self){ crypto in
                                             NavigationLink(
-                                                destination: StocksInfoPageView2(stockToGet: stock, showOrderButtons: true, showWatchListButton: true)
+                                                destination: CryptoInfoPageView(cryptoToSearch: crypto.cryptoId, crypto: nil, cryptoQuote: nil)
                                                     .onDisappear(perform: {
-                                                        myAppObjects.updateStockWatchListAsync()
+                                                        myAppObjects.updateCryptoWatchListAsync()
                                                         myAppObjects.getStockHoldingsAsync()
                                                     }),
-                                                tag: stock.id.uuidString,
+                                                tag: crypto.id.uuidString,
                                                 selection: $selectedItem,
-                                                label: {StockSearchView(stock: stock)})
+                                                label: {CryptoSearchView(crypto: crypto)})
                                         }
                                     }.padding(.horizontal)
                                     
                                 }.overlay(
                                     VStack{
-                                        if(isLoadingStock){
+                                        if(isLoadingAsset){
                                         Color.black
                                             .ignoresSafeArea()
                                             .overlay(
@@ -414,7 +415,7 @@ struct AssetWatchListPage: View {
                                     .padding(.horizontal)
                                     .overlay(
                                         VStack{
-                                            if(isLoadingStock){
+                                            if(isLoadingAsset){
                                             Color.black
                                                 .ignoresSafeArea()
                                                 .overlay(
@@ -465,7 +466,7 @@ struct AssetWatchListPage: View {
                                         LazyVStack {
                                             ForEach(myAppObjects.cryptoWatchList, id: \.self){ crypto in
                                                 NavigationLink(
-                                                    destination: CryptoInfoPageView(crypto: crypto, cryptoQuote: userAuth.user.currency == "USD" ? CryptoQuote(crypto.usdQuote) : CryptoQuote(crypto.cadQuote)).environmentObject(myAppObjects).onDisappear(perform: {
+                                                    destination: CryptoInfoPageView(cryptoToSearch: 0, crypto: crypto, cryptoQuote: userAuth.user.currency == "USD" ? CryptoQuote(crypto.usdQuote) : CryptoQuote(crypto.cadQuote)).environmentObject(myAppObjects).onDisappear(perform: {
                                                         myAppObjects.updateCryptoWatchListAsync()
                                                         myAppObjects.getStockHoldingsAsync()
                                                     }),

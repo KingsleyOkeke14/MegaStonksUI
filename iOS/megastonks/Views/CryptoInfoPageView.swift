@@ -10,11 +10,13 @@ import SwiftUI
 struct CryptoInfoPageView: View {
     let myColors = MyColors()
     
-    var cryptoQuote:CryptoQuote
+    @State var cryptoQuote:CryptoQuote?
+    var cryptoToSearch: Int = 0
     
     @State var isInWatchList:Bool
-    @State var cryptoSymbol:CryptoSymbol
+    @State var cryptoSymbol:CryptoSymbol? = nil
     @State var themeColor:Color
+    @State var isLoading:Bool = true
     
     
     @State var buttonList: [(buttonName: String, buttonState: Bool)] = [("1D", true), ("5D", false), ("10D", false), ("15D", false), ("30D", false)]
@@ -36,12 +38,13 @@ struct CryptoInfoPageView: View {
     @EnvironmentObject var myAppObjects:AppObjects
     @EnvironmentObject var userAuth: UserAuth
     
-
-    init(crypto: CryptoSymbol, cryptoQuote: CryptoQuote) {
-        self.cryptoQuote = cryptoQuote
-        _isInWatchList = State(initialValue: crypto.isInWatchlist)
-        _cryptoSymbol = State(initialValue: crypto)
-        _themeColor = State(initialValue: (cryptoQuote.percentChange24H >= 0) ? Color.green : Color.red )
+    
+    init(cryptoToSearch: Int, crypto: CryptoSymbol?, cryptoQuote: CryptoQuote?) {
+        self.cryptoToSearch = cryptoToSearch
+        _cryptoQuote = State(initialValue: cryptoQuote)
+        _cryptoSymbol = State(initialValue: crypto ?? nil)
+        _isInWatchList = State(initialValue: crypto?.isInWatchlist ?? false)
+        _themeColor = State(initialValue: (cryptoQuote?.percentChange24H ?? 0 >= 0) ? Color.green : Color.red )
         _stockHolding = State.init( initialValue: StockHoldingInfoPage(HoldingResponseInfoPage(id: 0, averageCost: 0, quantity: 0, marketValue: 0, percentReturnToday: 0, moneyReturnToday: 0, percentReturnTotal: 0, moneyReturnTotal: 0, percentOfPortfolio: 0, lastUpdated: "")))
     }
     
@@ -58,7 +61,7 @@ struct CryptoInfoPageView: View {
             .ignoresSafeArea()
             .overlay(
                 VStack{
-                    if(!cryptoSymbol.crypto.name.isEmpty){
+                    if(cryptoSymbol != nil){
                         VStack(spacing: 2){
                             HStack {
                                 Spacer()
@@ -66,10 +69,10 @@ struct CryptoInfoPageView: View {
                                     let impactMed = UIImpactFeedbackGenerator(style: .heavy)
                                     impactMed.impactOccurred()
                                     if(isInWatchList){
-                                        myAppObjects.removeCryptoFromWatchListAsync(cryptoToRemove: cryptoSymbol.crypto.cryptoId)
+                                        myAppObjects.removeCryptoFromWatchListAsync(cryptoToRemove: cryptoSymbol!.crypto.cryptoId)
                                     }
                                     else{
-                                        myAppObjects.addCryptoToWatchListAsync(cryptoToAdd: cryptoSymbol.crypto.cryptoId)
+                                        myAppObjects.addCryptoToWatchListAsync(cryptoToAdd: cryptoSymbol!.crypto.cryptoId)
                                     }
                                     isInWatchList.toggle()
                                 }, label: {
@@ -225,7 +228,7 @@ struct CryptoInfoPageView: View {
                                         }
                                         
                                         
-                                        if(cryptoSymbol.isInPortfolio){
+                                        if(cryptoSymbol!.isInPortfolio){
                                             Spacer()
                                             Button(action: {
                                                 orderAction = "Sell"
@@ -242,7 +245,7 @@ struct CryptoInfoPageView: View {
                                         
                                         Spacer()
                                     }
-                                    if(cryptoSymbol.isInPortfolio){
+                                    if(cryptoSymbol!.isInPortfolio){
                                         MyHoldingsView(isCrypto: true, themeColor: $themeColor, holding: $stockHolding)
                                             //.onChange(of: showingOrderPage, perform: { value in
 //                                            myAppObjects.getStockHolding(stockId: cryptoSymbol.stockId){
@@ -254,7 +257,7 @@ struct CryptoInfoPageView: View {
 //                                            }
 //                                        })
                                     }
-                                    CryptoStatisticsView(cryptoSymbol: $cryptoSymbol, cryptoQuote: userAuth.user.currency == "CAD" ? CryptoQuote(cryptoSymbol.cadQuote) : CryptoQuote(cryptoSymbol.usdQuote), themeColor: $themeColor)
+                                    CryptoStatisticsView(cryptoSymbol: $cryptoSymbol, cryptoQuote: userAuth.user.currency == "CAD" ? CryptoQuote(cryptoSymbol!.cadQuote) : CryptoQuote(cryptoSymbol!.usdQuote), themeColor: $themeColor)
                                     TokenInfoView(cryptoSymbol: $cryptoSymbol, themeColor: $themeColor)
                                 }
                                 
@@ -262,7 +265,7 @@ struct CryptoInfoPageView: View {
                             
                         }
                     }
-                    else{
+                    else {
                         VStack{
                             Image("megastonkslogo")
                                 .scaleEffect(0.6)
@@ -277,41 +280,74 @@ struct CryptoInfoPageView: View {
                                 .multilineTextAlignment(.center)
                             Spacer()
                         }
+                        .overlay(
+                            VStack{
+                                if(isLoading){
+                                    Color.black
+                                        .overlay(
+                                            ProgressView()
+                                                .accentColor(.green)
+                                                .scaleEffect(x: 1.4, y: 1.4)
+                                                .progressViewStyle(CircularProgressViewStyle(tint: myColors.greenColor))
+                                        )
+                                }
+                            }
+                        )
                     }
                 }
             )
             .onAppear(perform: {
-//                myAppObjects.getStockHolding(stockId: cryptoSymbol.stockId){
-//                    result in
+                if(cryptoSymbol == nil || cryptoQuote == nil){
+                    myAppObjects.getCryptoInfo(cryptoId: cryptoToSearch){
+                        result in
+                        
+                        if(result.isSuccessful){
+                            cryptoSymbol = result.cryptoInfoSearchCryptosPage!
+                            cryptoQuote = userAuth.user.currency == "USD" ? CryptoQuote(cryptoSymbol!.usdQuote) : CryptoQuote(cryptoSymbol!.cadQuote)
+                            themeColor =  (cryptoQuote!.percentChange24H >= 0) ? Color.green : Color.red
+//                            myAppObjects.getPriceChart(stockId: stockToSearch.stockId, isPriceHistory: false){
+//                                result in
+//                                if(result.isSuccessful){
+//                                    chartDiscrepancy = String(stockSymbol.change.formatPrice() + "  (" + stockSymbol.changesPercentage.formatPercentChange() + "%)")
+//                                    chartPeriod = "Today"
+//                                    chartData = result.stockChartDataResponse!.dataSet
+//                                    isStockGaining = (stockSymbol.change >= 0) ? true : false
+//                                }
 //
-//                    if(result.isSuccessful){
-//                        stockHolding = result.stockHoldingInfoPageResponse!
-//                    }
-//                }
-                chartDiscrepancy = String(cryptoQuote.change24H.formatPrice() + "  (" + cryptoQuote.percentChange24H.formatPercentChange() + "%)")
-                chartPeriod = "Today"
-//                myAppObjects.getPriceChart(stockId: cryptoSymbol.stockId, isPriceHistory: false){
-//                    result in
-//                    if(result.isSuccessful){
-//                        chartData = result.stockChartDataResponse!.dataSet
-//                        chartDiscrepancy = String(cryptoSymbol.change.formatPrice() + "  (" + cryptoSymbol.changesPercentage.formatPercentChange() + "%)")
-//                        chartPeriod = "Today"
-//                        isStockGaining = (cryptoSymbol.changesPercentage >= 0) ? true : false
-//                    }
-//
-//                }
+//                            }
+                        }
+                        isLoading = false
+                    }
+                    //                myAppObjects.getStockHolding(stockId: cryptoSymbol.stockId){
+                    //                    result in
+                    //
+                    //                    if(result.isSuccessful){
+                    //                        stockHolding = result.stockHoldingInfoPageResponse!
+                    //                    }
+                    //                }
+                    //                myAppObjects.getPriceChart(stockId: cryptoSymbol.stockId, isPriceHistory: false){
+                    //                    result in
+                    //                    if(result.isSuccessful){
+                    //                        chartData = result.stockChartDataResponse!.dataSet
+                    //                        chartDiscrepancy = String(cryptoSymbol.change.formatPrice() + "  (" + cryptoSymbol.changesPercentage.formatPercentChange() + "%)")
+                    //                        chartPeriod = "Today"
+                    //                        isStockGaining = (cryptoSymbol.changesPercentage >= 0) ? true : false
+                    //                    }
+                    //
+                    //                }
+                }
+                else{
+                    //
+                }
             })
             .navigationBarTitleDisplayMode(.inline)
             .banner(data: $myAppObjects.bannerData, show: $myAppObjects.showBanner)
     }
-    
-
-    
 }
 
 struct CryptoInfoPageView_Previews: PreviewProvider {
     static var previews: some View {
-        CryptoInfoPageView(crypto: StockSymbolModel().cryptoSymbol, cryptoQuote: CryptoQuote(StockSymbolModel().cryptoSymbol.usdQuote)).environmentObject(UserAuth())
+        CryptoInfoPageView(cryptoToSearch: 0, crypto: StockSymbolModel().cryptoSymbol, cryptoQuote: CryptoQuote(StockSymbolModel().cryptoSymbol.usdQuote)).environmentObject(UserAuth())
             .environmentObject(AppObjects())
     }
 }

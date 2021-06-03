@@ -22,11 +22,13 @@ struct APIRoutes {
     private let onBoardRoute = "accounts/onboard-completed"
     private let searchStockRoute = "stocks/searchstock"
     private let searchCryptoRoute = "cryptos/searchCrypto"
+    private let getCryptoInSchemaRoute = "cryptos/cryptosInSchema"
     private let addStockRoute = "watchlist/addstock"
     private let removeStockRoute = "watchlist/removestock"
     private let addCryptoRoute = "watchlist/addCrypto"
     private let removeCryptoRoute = "watchlist/removeCrypto"
     private let stockInfoRoute = "stocks/stockinfo"
+    private let cryptoInfoRoute = "cryptos/crypto"
     private let stockHoldingRoute = "stocks/stockholding"
     private let stockHoldingsRoute = "stocks/stockholdings"
     private let priceChartRoute = "stocks/pricechart"
@@ -50,11 +52,13 @@ struct APIRoutes {
     var onBoard = URL(string: "")
     var searchStock = URL(string: "")
     var searchCrypto = URL(string: "")
+    var getCryptoInSchema = URL(string: "")
     var addStock = URL(string: "")
     var removeStock = URL(string: "")
     var addCrypto = URL(string: "")
     var removeCrypto = URL(string: "")
     var stockInfo = URL(string: "")
+    var cryptoInfo = URL(string: "")
     var stockHolding = URL(string: "")
     var stockHoldings = URL(string: "")
     var priceChart = URL(string: "")
@@ -79,11 +83,13 @@ struct APIRoutes {
         onBoard = URL(string: server + onBoardRoute)!
         searchStock = URL(string: server + searchStockRoute)!
         searchCrypto = URL(string: server + searchCryptoRoute)!
+        getCryptoInSchema = URL(string: server + getCryptoInSchemaRoute)!
         addStock = URL(string: server + addStockRoute)!
         removeStock = URL(string: server + removeStockRoute)!
         addCrypto = URL(string: server + addCryptoRoute)!
         removeCrypto = URL(string: server + removeCryptoRoute)!
         stockInfo = URL(string: server + stockInfoRoute)!
+        cryptoInfo = URL(string: server + cryptoInfoRoute)!
         stockHolding = URL(string: server + stockHoldingRoute)!
         stockHoldings = URL(string: server + stockHoldingsRoute)!
         priceChart = URL(string: server + priceChartRoute)!
@@ -648,6 +654,66 @@ struct API{
         
     }
     
+    func GetCryptoInSchema(completion: @escaping (RequestResponse) -> ()) {
+        
+        let url = apiRoutes.getCryptoInSchema!
+        
+        var request = AppUrlRequest(url: url, httpMethod: "GET").request
+        if let jwtToken: String = KeychainWrapper.standard.string(forKey: "jwtToken"){
+            request.setValue( "Bearer \(jwtToken)", forHTTPHeaderField: "Authorization")
+            
+            var result = RequestResponse()
+            
+            let task = session.dataTask(with: request) { (data, response, error) in
+                result.data = data
+                
+                if error != nil  {
+                    print("Client error!")
+                    print("Error is \(error!)")
+                    result.isSuccessful = false
+                    result.errorMessage = "Error contacting the server. Please Check your internet connection"
+                    completion(result)
+                    return
+                }
+                
+                if let httpResponse = response as? HTTPURLResponse{
+                    
+                    if httpResponse.statusCode == 200{
+                        
+                        result.isSuccessful = true
+                    }
+                    else if(httpResponse.statusCode == 201){
+                        result.isSuccessful = true
+                        result.data = Data()
+                    }
+                    else if(httpResponse.statusCode == 401){
+                        DispatchQueue.main.async {
+                            NotificationCenter.default.post(name: .didAuthTokenExpire, object: nil)
+                            print("401 Unauthorized")
+                        }
+                        
+                    }
+                    else{
+                        result.isSuccessful = false
+                        
+                        if let jsonResponse = try? decoder.decode(CommonAPIResponse.self, from: result.data!){
+                            result.errorMessage = jsonResponse.message
+                        }
+                        else{
+                            result.errorMessage = "Could Not Retrieve Stock Information"
+                        }
+                        
+                    }
+                }
+                completion(result)
+            }
+            task.resume()
+            
+            
+        }
+        
+        
+    }
     
     
     func AddAssetToWatchList(assetId: Int, isCrypto: Bool, completion: @escaping (RequestResponse) -> ()) {
@@ -780,11 +846,17 @@ struct API{
     }
     
     
-    func GetStockInfo(stockId: Int, completion: @escaping (RequestResponse) -> ()) {
+    func GetAssetInfo(assetId: Int, isCrypto: Bool, completion: @escaping (RequestResponse) -> ()) {
         
-        let url = apiRoutes.stockInfo!
-        let queryItems = [URLQueryItem(name: "stockId", value: "\(stockId)")]
-        let newUrl = url.appending(queryItems)!
+        var url = apiRoutes.stockInfo!
+        var queryItems = [URLQueryItem(name: "stockId", value: "\(assetId)")]
+        var newUrl = url.appending(queryItems)!
+        
+        if(isCrypto){
+            url = apiRoutes.cryptoInfo!
+            queryItems = [URLQueryItem(name: "cryptoId", value: "\(assetId)")]
+            newUrl = url.appending(queryItems)!
+        }
         
         var request = AppUrlRequest(url: newUrl, httpMethod: "GET").request
         if let jwtToken: String = KeychainWrapper.standard.string(forKey: "jwtToken"){

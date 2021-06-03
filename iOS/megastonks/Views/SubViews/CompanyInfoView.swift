@@ -37,12 +37,12 @@ struct CompanyInfoView: View {
 
 struct TokenInfoView: View {
     let myColors = MyColors()
-    @Binding var cryptoSymbol: CryptoSymbol
+    @Binding var cryptoSymbol: CryptoSymbol?
     @Binding var themeColor: Color
     @Environment(\.openURL) var openURL
     
     var body: some View {
-        if(!cryptoSymbol.info.infoDescription.isEmpty){
+        if(!cryptoSymbol!.info.infoDescription.isEmpty){
             VStack(alignment: .leading, spacing: 2){
                 Text("Token Information")
                     .font(.custom("Apple SD Gothic Neo", fixedSize: 22))
@@ -54,7 +54,7 @@ struct TokenInfoView: View {
                     .fill(myColors.lightGrayColor)
                     .frame(height: 2)
                     .edgesIgnoringSafeArea(.horizontal)
-                Text(cryptoSymbol.info.infoDescription)
+                Text(cryptoSymbol!.info.infoDescription)
                     .foregroundColor(.white)
                     .font(.custom("Verdana", fixedSize: 14))
                 
@@ -68,10 +68,10 @@ struct TokenInfoView: View {
                         .opacity(0.8)
                     HStack{
                         Spacer()
-                        if(!cryptoSymbol.info.website.isEmpty){
+                        if(!cryptoSymbol!.info.website.isEmpty){
                             VStack {
                                 Button(action: {
-                                    openURL(URL(string: cryptoSymbol.info.website)!)
+                                    openURL(URL(string: cryptoSymbol!.info.website)!)
                                 }, label: {
                                     Image(systemName: "globe")
                                         .resizable()
@@ -86,10 +86,10 @@ struct TokenInfoView: View {
                                 
                             }
                         }
-                        if(!cryptoSymbol.info.twitter.isEmpty){
+                        if(!cryptoSymbol!.info.twitter.isEmpty){
                             VStack {
                                 Button(action: {
-                                    openURL(URL(string: cryptoSymbol.info.twitter)!)
+                                    openURL(URL(string: cryptoSymbol!.info.twitter)!)
                                 }, label: {
                                     Image("twitterLogo")
                                         .resizable()
@@ -102,10 +102,10 @@ struct TokenInfoView: View {
                                     .font(.custom("Verdana", fixedSize: 14))
                             }
                         }
-                        if(!cryptoSymbol.info.reddit.isEmpty){
+                        if(!cryptoSymbol!.info.reddit.isEmpty){
                             VStack {
                                 Button(action: {
-                                    openURL(URL(string: cryptoSymbol.info.reddit)!)
+                                    openURL(URL(string: cryptoSymbol!.info.reddit)!)
                                 }, label: {
                                     Image("redditLogo")
                                         .resizable()

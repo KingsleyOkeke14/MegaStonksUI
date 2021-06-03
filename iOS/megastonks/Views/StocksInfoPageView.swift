@@ -36,7 +36,7 @@ struct StocksInfoPageView: View {
     @EnvironmentObject var myAppObjects:AppObjects
     @EnvironmentObject var userAuth: UserAuth
     
-
+    
     init(stock: StockSymbol) {
         _isInWatchList = State(initialValue: stock.isInWatchList)
         _stockSymbol = State(initialValue: stock)
@@ -320,7 +320,7 @@ struct StocksInfoPageView: View {
                         chartPeriod = "Today"
                         isStockGaining = (stockSymbol.changesPercentage >= 0) ? true : false
                     }
-               
+                    
                 }
             })
             .navigationBarTitleDisplayMode(.inline)
