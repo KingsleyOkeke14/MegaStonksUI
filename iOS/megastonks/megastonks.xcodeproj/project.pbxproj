@@ -23,7 +23,7 @@
 		D00CA78A25CB93DD00232915 /* AssetWatchListPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00CA78925CB93DD00232915 /* AssetWatchListPage.swift */; };
 		D01707FE2649A5FF0009023E /* NewsSymbolView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D01707FD2649A5FF0009023E /* NewsSymbolView.swift */; };
 		D01708012649AFD10009023E /* News.swift in Sources */ = {isa = PBXBuildFile; fileRef = D01708002649AFD10009023E /* News.swift */; };
-		D017B3F1264866A3002EA084 /* NewsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D017B3F0264866A3002EA084 /* NewsView.swift */; };
+		D017B3F1264866A3002EA084 /* NewsInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D017B3F0264866A3002EA084 /* NewsInfoView.swift */; };
 		D02CBD5F263331D1003BB203 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D02CBD5E263331D1003BB203 /* LaunchScreen.storyboard */; };
 		D02D7C2D25DC496600DAC07A /* ButtonSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D02D7C2C25DC496600DAC07A /* ButtonSelectionView.swift */; };
 		D031EB3F26118C7F001504B5 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = D031EB3E26118C7F001504B5 /* API.swift */; };
@@ -48,7 +48,6 @@
 		D057842325C894530039E6CD /* OnBoardPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D057842225C894530039E6CD /* OnBoardPageView.swift */; };
 		D0585E6D26385451000C8546 /* StockSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0585E6C26385451000C8546 /* StockSearchView.swift */; };
 		D0585E74263856A4000C8546 /* StockSearchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0585E73263856A4000C8546 /* StockSearchResult.swift */; };
-		D05F0A2B2639BE7B00CCC115 /* StocksInfoPageView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = D05F0A2A2639BE7B00CCC115 /* StocksInfoPageView2.swift */; };
 		D05F0A31263A0A6300CCC115 /* StockHolding.swift in Sources */ = {isa = PBXBuildFile; fileRef = D05F0A30263A0A6300CCC115 /* StockHolding.swift */; };
 		D05F0A36263A3E6800CCC115 /* ChartData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D05F0A35263A3E6800CCC115 /* ChartData.swift */; };
 		D06B311525C7AFF400A37C08 /* LoginPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06B311425C7AFF400A37C08 /* LoginPageView.swift */; };
@@ -57,6 +56,8 @@
 		D06C2983264098EC00F1B31A /* OrderResultInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06C2982264098EC00F1B31A /* OrderResultInfo.swift */; };
 		D06C298626409D6700F1B31A /* OrderHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06C298526409D6700F1B31A /* OrderHistory.swift */; };
 		D06E429425D3545E009701A2 /* StatisticsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06E429325D3545E009701A2 /* StatisticsView.swift */; };
+		D07B3B99266AE45A00B9CD1B /* AssetPortfolioPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07B3B98266AE45A00B9CD1B /* AssetPortfolioPageView.swift */; };
+		D07B3B9B266AF22200B9CD1B /* NewsPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07B3B9A266AF22200B9CD1B /* NewsPage.swift */; };
 		D09EF9DD2624989B00D9EF05 /* RootPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D09EF9DC2624989B00D9EF05 /* RootPageView.swift */; };
 		D09EF9E02624994C00D9EF05 /* UserAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = D09EF9DF2624994C00D9EF05 /* UserAuth.swift */; };
 		D0A3125926339880008993C2 /* PromptView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A3125826339880008993C2 /* PromptView.swift */; };
@@ -113,7 +114,7 @@
 		D00CA78925CB93DD00232915 /* AssetWatchListPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetWatchListPage.swift; sourceTree = "<group>"; };
 		D01707FD2649A5FF0009023E /* NewsSymbolView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsSymbolView.swift; sourceTree = "<group>"; };
 		D01708002649AFD10009023E /* News.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = News.swift; sourceTree = "<group>"; };
-		D017B3F0264866A3002EA084 /* NewsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsView.swift; sourceTree = "<group>"; };
+		D017B3F0264866A3002EA084 /* NewsInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsInfoView.swift; sourceTree = "<group>"; };
 		D02CBD5E263331D1003BB203 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D02D7C2C25DC496600DAC07A /* ButtonSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonSelectionView.swift; sourceTree = "<group>"; };
 		D031EB3E26118C7F001504B5 /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
@@ -141,7 +142,6 @@
 		D057842225C894530039E6CD /* OnBoardPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardPageView.swift; sourceTree = "<group>"; };
 		D0585E6C26385451000C8546 /* StockSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockSearchView.swift; sourceTree = "<group>"; };
 		D0585E73263856A4000C8546 /* StockSearchResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockSearchResult.swift; sourceTree = "<group>"; };
-		D05F0A2A2639BE7B00CCC115 /* StocksInfoPageView2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StocksInfoPageView2.swift; sourceTree = "<group>"; };
 		D05F0A30263A0A6300CCC115 /* StockHolding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockHolding.swift; sourceTree = "<group>"; };
 		D05F0A35263A3E6800CCC115 /* ChartData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartData.swift; sourceTree = "<group>"; };
 		D06B311425C7AFF400A37C08 /* LoginPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginPageView.swift; sourceTree = "<group>"; };
@@ -150,6 +150,8 @@
 		D06C2982264098EC00F1B31A /* OrderResultInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderResultInfo.swift; sourceTree = "<group>"; };
 		D06C298526409D6700F1B31A /* OrderHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderHistory.swift; sourceTree = "<group>"; };
 		D06E429325D3545E009701A2 /* StatisticsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsView.swift; sourceTree = "<group>"; };
+		D07B3B98266AE45A00B9CD1B /* AssetPortfolioPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetPortfolioPageView.swift; sourceTree = "<group>"; };
+		D07B3B9A266AF22200B9CD1B /* NewsPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsPage.swift; sourceTree = "<group>"; };
 		D09EF9DC2624989B00D9EF05 /* RootPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootPageView.swift; sourceTree = "<group>"; };
 		D09EF9DF2624994C00D9EF05 /* UserAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAuth.swift; sourceTree = "<group>"; };
 		D0A3125826339880008993C2 /* PromptView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromptView.swift; sourceTree = "<group>"; };
@@ -254,11 +256,12 @@
 				D0E282FB263E5A2C0027EFDB /* NumberPadView.swift */,
 				D06C2979263F587100F1B31A /* PortfolioStockSymbolView.swift */,
 				D0DEBFDD26422BC40086DC36 /* AdsView.swift */,
-				D017B3F0264866A3002EA084 /* NewsView.swift */,
+				D017B3F0264866A3002EA084 /* NewsInfoView.swift */,
 				D01707FD2649A5FF0009023E /* NewsSymbolView.swift */,
 				D0D929AB2660925E00C14BE2 /* PageViewController.swift */,
 				D0D929AD266092C800C14BE2 /* PageView.swift */,
 				D0356A9026658EF700C07A3A /* PullToRefreshView.swift */,
+				D07B3B9A266AF22200B9CD1B /* NewsPage.swift */,
 			);
 			path = SubViews;
 			sourceTree = "<group>";
@@ -322,7 +325,6 @@
 				D034871425C80DAE00CFCAB2 /* SubViews */,
 				D06B311425C7AFF400A37C08 /* LoginPageView.swift */,
 				D0FC0FF625D2287600366B26 /* StocksInfoPageView.swift */,
-				D05F0A2A2639BE7B00CCC115 /* StocksInfoPageView2.swift */,
 				D0E08FEF2661ECC9005B0C11 /* CryptoInfoPageView.swift */,
 				D0E282F2263E56600027EFDB /* PlaceOrderPageView.swift */,
 				D004687225D8D19F006C60E9 /* OrderDetailPageView.swift */,
@@ -339,6 +341,7 @@
 				D00987622640E3D600F76AEA /* OrderSucessPageView.swift */,
 				D0C20852264A0690001B91D3 /* NewsPageView.swift */,
 				D0EAEFB8265F3CF200540933 /* WatchListPageView.swift */,
+				D07B3B98266AE45A00B9CD1B /* AssetPortfolioPageView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -509,6 +512,7 @@
 				D0D3C40226249E5E00DC6B36 /* AppPageView.swift in Sources */,
 				D0585E74263856A4000C8546 /* StockSearchResult.swift in Sources */,
 				D004685725D43795006C60E9 /* CompanyInfoView.swift in Sources */,
+				D07B3B9B266AF22200B9CD1B /* NewsPage.swift in Sources */,
 				D004686A25D64E87006C60E9 /* LoadingIndicatorView.swift in Sources */,
 				D0A94F8D2626D1F3005477B6 /* ForgotPasswordPageView.swift in Sources */,
 				D034871225C80DA500CFCAB2 /* ButtonView.swift in Sources */,
@@ -518,15 +522,15 @@
 				D00CA78125CB3BF600232915 /* StockSymbolView.swift in Sources */,
 				D09EF9DD2624989B00D9EF05 /* RootPageView.swift in Sources */,
 				D045DB1E262BE5530040C067 /* APIRequest.swift in Sources */,
+				D07B3B99266AE45A00B9CD1B /* AssetPortfolioPageView.swift in Sources */,
 				D05F0A31263A0A6300CCC115 /* StockHolding.swift in Sources */,
 				D00CA78425CB50CF00232915 /* StockSymbol.swift in Sources */,
 				D0DEBFDE26422BC40086DC36 /* AdsView.swift in Sources */,
 				D057841E25C88D400039E6CD /* OnBoardCardModel.swift in Sources */,
 				D0369D1C25C76B1900718A52 /* FormView.swift in Sources */,
-				D05F0A2B2639BE7B00CCC115 /* StocksInfoPageView2.swift in Sources */,
 				D09EF9E02624994C00D9EF05 /* UserAuth.swift in Sources */,
 				D0C20853264A0690001B91D3 /* NewsPageView.swift in Sources */,
-				D017B3F1264866A3002EA084 /* NewsView.swift in Sources */,
+				D017B3F1264866A3002EA084 /* NewsInfoView.swift in Sources */,
 				D0369D1A25C76B1900718A52 /* megastonksApp.swift in Sources */,
 				D0D1933825CCB41900D83D87 /* StockInfoView.swift in Sources */,
 				D02D7C2D25DC496600DAC07A /* ButtonSelectionView.swift in Sources */,

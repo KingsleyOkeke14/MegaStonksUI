@@ -11,7 +11,7 @@ struct StockInfoView: View {
     
     let mycolors = MyColors()
     
-    @Binding var stockSymbol: StockSymbol
+    @Binding var stockSymbol: StockSymbol?
     
     @Binding var highlightColor:Color
     
@@ -28,7 +28,7 @@ struct StockInfoView: View {
                     Circle()
                         .fill(mycolors.grayColor)
                         .frame(width: 80, height: 80)
-                    Text(stockSymbol.symbol)
+                    Text(stockSymbol!.symbol)
                         .font(.custom("Helvetica", fixedSize: 20))
                         .bold()
                         .foregroundColor(.white)
@@ -38,7 +38,7 @@ struct StockInfoView: View {
                         .padding()
                 }
                 
-                Text(stockSymbol.name)
+                Text(stockSymbol!.name)
                     .font(.custom("Helvetica", fixedSize: 18))
                     .foregroundColor(.white)
                     .bold()
@@ -49,12 +49,12 @@ struct StockInfoView: View {
                 
                 
                 HStack {
-                    Text(stockSymbol.price.formatPrice())
+                    Text(stockSymbol!.price.formatPrice())
                         .foregroundColor(.white)
                         .font(.custom("Verdana", fixedSize: 24))
                         .bold()
                         +
-                        Text(" \(stockSymbol.currency)")
+                        Text(" \(stockSymbol!.currency)")
                         .foregroundColor(.white)
                         .font(.custom("Verdana", fixedSize: 16))
                         .bold()

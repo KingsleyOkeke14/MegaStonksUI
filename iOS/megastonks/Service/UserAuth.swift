@@ -13,6 +13,7 @@ class UserAuth: ObservableObject {
     @Published var isLoggedin:Bool?
     @Published var user:User = User(firstName: "", lastName: "", emailAddress: "", currency: "", isOnBoarded: true)
     @Published var showAuthError:Bool = false
+    @Published var isRefreshingAuth:Bool = false
     
     init() {
         refreshLogin(isFirstLogin: true)
@@ -42,7 +43,6 @@ class UserAuth: ObservableObject {
                 response.isSuccessful = true
                 response.errorMessage = ""
             }
-            
             else{
                 _  = KeychainWrapper.standard.removeObject(forKey: "jwtToken")
                 _  = KeychainWrapper.standard.removeObject(forKey: "refreshToken")
@@ -57,6 +57,24 @@ class UserAuth: ObservableObject {
         }
     }
     
+    func checkTimeStampForAuth(){
+        if let sessionTimeStamp: String = KeychainWrapper.standard.string(forKey: "sessionTimeStamp"){
+            let format = DateFormatter()
+            format.dateFormat = "yyyy-MM-dd HH:mm:ss"
+            let sessionTimeStampToDate = format.date(from: sessionTimeStamp)
+            if(sessionTimeStampToDate != nil){
+                let dateToCheck = Date().addingTimeInterval(-3600)
+                if(sessionTimeStampToDate! < dateToCheck){
+                    isRefreshingAuth = true
+                    refreshLogin()
+                }
+            }
+        }
+        else{
+            isRefreshingAuth = false
+        }
+    }
+    
     @objc func refreshLogin(isFirstLogin: Bool = false){
         print("Refresh Login...")
         if let refreshToken: String = KeychainWrapper.standard.string(forKey: "refreshToken"){
@@ -67,6 +85,7 @@ class UserAuth: ObservableObject {
                     DispatchQueue.main.async {
                         self.user = User(firstName: jsonResponse.firstName, lastName: jsonResponse.lastName, emailAddress: jsonResponse.email, currency: jsonResponse.currency, isOnBoarded: jsonResponse.isOnboarded)
                         self.isLoggedin = true
+                        self.isRefreshingAuth = false
                         print("Login Successfull")
                     }
                 }
@@ -78,7 +97,7 @@ class UserAuth: ObservableObject {
                             _  = KeychainWrapper.standard.removeObject(forKey: "refreshToken")
                             self.user = User(firstName: "", lastName: "", emailAddress: "", currency: "", isOnBoarded: true)
                             self.isLoggedin = false
-
+                            self.isRefreshingAuth = false
                         }
                     }
                     else{
@@ -92,6 +111,7 @@ class UserAuth: ObservableObject {
                             self.user = User(firstName: "", lastName: "", emailAddress: "", currency: "", isOnBoarded: true)
                             self.isLoggedin = false
                             self.showAuthError = false
+                            self.isRefreshingAuth = false
                             print("Login Failed #1")
                         }
                     }
@@ -103,6 +123,7 @@ class UserAuth: ObservableObject {
             _  = KeychainWrapper.standard.removeObject(forKey: "jwtToken")
             _  = KeychainWrapper.standard.removeObject(forKey: "refreshToken")
             self.isLoggedin = false
+            self.isRefreshingAuth = false
             print("Login Failed #2")
         }
         

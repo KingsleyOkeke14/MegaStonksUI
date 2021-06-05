@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftKeychainWrapper
 
 struct RootPageView: View {
     
@@ -15,6 +16,7 @@ struct RootPageView: View {
     let pub = NotificationCenter.default.publisher(for: .didAuthTokenExpire)
     
     @State var bannerData:BannerData = BannerData(title: "Authentication Failed", detail: "Your Session has expired and cannot be authenticated at this time. You will be logged out in 6 seconds. Please Login Again", type: .Error)
+    
     
     var body: some View {
         if (userAuth.isLoggedin == nil) {
@@ -31,12 +33,34 @@ struct RootPageView: View {
         else {
             AppPageView()
                 .onAppear(perform: {
-                    userAuth.refreshLogin()
+                    if(userAuth.isLoggedin == nil){
+                        userAuth.refreshLogin()
+                    }
                 })
                 .banner(data: $bannerData, show: $userAuth.showAuthError)
                 .onReceive(pub, perform: { _ in
                     userAuth.refreshLogin()
                 })
+                .if(userAuth.isRefreshingAuth){
+                    view in
+                    view.redacted(reason: .placeholder).disabled(true)
+                }
+                .onReceive(NotificationCenter.default.publisher(for: UIApplication.willResignActiveNotification)) { _ in
+                    print("Moving to the background!")
+                    let date = Date()
+                    let format = DateFormatter()
+                    format.dateFormat = "yyyy-MM-dd HH:mm:ss"
+                    let timeStamp = format.string(from: date)
+                    
+                    _ = KeychainWrapper.standard.set(timeStamp, forKey: "sessionTimeStamp")
+                }
+                .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
+                    print("Moving to the foreground!")
+                    if(userAuth.isLoggedin != nil){
+                      userAuth.checkTimeStampForAuth()
+                        
+                    }
+                }
                 .environmentObject(userAuth)
         }
     }

@@ -10,7 +10,7 @@ import SwiftUI
 struct PlaceOrderPageView: View {
     @State var quantityEntry:[String] = [""]
     @State var estimatedCost:Double = 0.0
-    @Binding var stockSymbol:StockSymbol
+    @Binding var stockSymbol:StockSymbol?
     @Binding var orderAction:String
     @State var showTip:Bool = false
     @State var ownedShares:Double = 0.0
@@ -40,7 +40,7 @@ struct PlaceOrderPageView: View {
                             .font(.custom("Verdana", fixedSize: 20))
                     }.padding(.top, 20)
                     VStack{
-                        Text("How many shares of \"\(stockSymbol.symbol)\"")
+                        Text("How many shares of \"\(stockSymbol!.symbol)\"")
                             .foregroundColor(.white)
                             .font(.custom("Verdana", fixedSize: 24))
                             .multilineTextAlignment(.center)
@@ -83,7 +83,7 @@ struct PlaceOrderPageView: View {
                                 .font(.custom("Apple SD Gothic Neo", fixedSize: 18))
                                 .foregroundColor(.white)
                             Spacer()
-                            Text("$\(stockSymbol.price.formatPrice()) \(stockSymbol.currency)")
+                            Text("$\(stockSymbol!.price.formatPrice()) \(stockSymbol!.currency)")
                                 .bold()
                                 .font(.custom("Apple SD Gothic Neo", fixedSize: 18))
                                 .foregroundColor(.white)
@@ -95,13 +95,13 @@ struct PlaceOrderPageView: View {
                                     .font(.custom("Apple SD Gothic Neo", fixedSize: 18))
                                     .foregroundColor(.white)
                                 Spacer()
-                                Text("$\(estimatedCost.formatPrice()) \(stockSymbol.currency)")
+                                Text("$\(estimatedCost.formatPrice()) \(stockSymbol!.currency)")
                                     .bold()
                                     .font(.custom("Apple SD Gothic Neo", fixedSize: 20))
                                     .shadow(color: estimatedCost > myAppObjects.userWallet.cash ? .red : .white, radius: 12, x: 2, y: 4)
                                     .foregroundColor(estimatedCost > myAppObjects.userWallet.cash ? .red : .white)
                                     .onChange(of: quantityEntry, perform: { newValue in
-                                        estimatedCost = (stockSymbol.price  * (Double(String(newValue.joined(separator: ""))) ?? 0.0))
+                                        estimatedCost = (stockSymbol!.price  * (Double(String(newValue.joined(separator: ""))) ?? 0.0))
                                     })
                             }
                             else if (orderAction.uppercased() == "SELL"){
@@ -110,13 +110,13 @@ struct PlaceOrderPageView: View {
                                     .font(.custom("Apple SD Gothic Neo", fixedSize: 18))
                                     .foregroundColor(.white)
                                 Spacer()
-                                Text("$\(estimatedCost.formatPrice()) \(stockSymbol.currency)")
+                                Text("$\(estimatedCost.formatPrice()) \(stockSymbol!.currency)")
                                     .bold()
                                     .font(.custom("Apple SD Gothic Neo", fixedSize: 20))
                                     .shadow(color: Double(String(quantityEntry.joined(separator: ""))) ?? 0.0  > ownedShares ? .red : .white, radius: 12, x: 2, y: 4)
                                     .foregroundColor(Double(String(quantityEntry.joined(separator: ""))) ?? 0.0  > ownedShares ? .red : .white)
                                     .onChange(of: quantityEntry, perform: { newValue in
-                                        estimatedCost = (stockSymbol.price  * (Double(String(newValue.joined(separator: ""))) ?? 0.0))
+                                        estimatedCost = (stockSymbol!.price  * (Double(String(newValue.joined(separator: ""))) ?? 0.0))
                                         
                                     })
                             }
@@ -154,7 +154,7 @@ struct PlaceOrderPageView: View {
                         Button(action: {
                             isLoading = true
                             let quantityToSend = Int(String(quantityEntry.joined(separator: ""))) ?? 0
-                            myAppObjects.orderStock(stockId: stockSymbol.stockId, orderType: "MarketOrder", orderAction: orderAction, quantitySubmitted: quantityToSend){
+                            myAppObjects.orderStock(stockId: stockSymbol!.stockId, orderType: "MarketOrder", orderAction: orderAction, quantitySubmitted: quantityToSend){
                                 result in
                                 
                                 if (result.isSuccessful){
@@ -253,7 +253,7 @@ struct PlaceOrderPageView: View {
                                 myAppObjects.holdings = result.stockHoldingsResponse!
                             }
                             if(orderAction.uppercased() == "SELL"){
-                                let filtered = myAppObjects.holdings.holdings.filter {$0.stockId == stockSymbol.stockId}
+                                let filtered = myAppObjects.holdings.holdings.filter {$0.stockId == stockSymbol!.stockId}
                                 if(!filtered.isEmpty){
                                     ownedShares = filtered[0].quantity
                                 }
@@ -262,6 +262,7 @@ struct PlaceOrderPageView: View {
                         }
                     }
                 })
+                
             )
         
     }

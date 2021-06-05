@@ -14,7 +14,7 @@ struct CryptoInfoPageView: View {
     var cryptoToSearch: Int = 0
     
     @State var isInWatchList:Bool
-    @State var cryptoSymbol:CryptoSymbol? = nil
+    @State var cryptoSymbol:CryptoSymbol?
     @State var themeColor:Color
     @State var isLoading:Bool = true
     
@@ -61,7 +61,7 @@ struct CryptoInfoPageView: View {
             .ignoresSafeArea()
             .overlay(
                 VStack{
-                    if(cryptoSymbol != nil){
+                    if(cryptoSymbol != nil && !(cryptoSymbol?.crypto.name.isEmpty ?? true)){
                         VStack(spacing: 2){
                             HStack {
                                 Spacer()
@@ -77,19 +77,10 @@ struct CryptoInfoPageView: View {
                                     isInWatchList.toggle()
                                 }, label: {
                                     HStack{
-                                        if(isInWatchList){
-                                            Image(systemName: "eye")
+                                            Image(systemName: isInWatchList ? "eye": "eye.slash")
                                                 .foregroundColor(themeColor)
                                                 .font(.custom("", fixedSize: 18))
                                                 .padding(.trailing, 10)
-                                            
-                                        }
-                                        else{
-                                            Image(systemName: "eye.slash")
-                                                .foregroundColor(themeColor)
-                                                .font(.custom("", fixedSize: 18))
-                                                .padding(.trailing, 10)
-                                        }
                                     }
                                 })
                             }

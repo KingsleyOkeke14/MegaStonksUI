@@ -12,7 +12,6 @@ import UIKit
 //
 
 class YourHostingController: UIHostingController<AnyView> {
-
     override func viewWillAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: false)
@@ -31,8 +30,15 @@ struct PageViewController<Page: View>: UIViewControllerRepresentable {
         let pageViewController = UIPageViewController(
             transitionStyle: .scroll,
             navigationOrientation: .horizontal)
-        pageViewController.dataSource = context.coordinator
-        pageViewController.delegate = context.coordinator
+        
+        if(pages.count == 1){
+            pageViewController.dataSource = nil
+            pageViewController.delegate = nil
+        }
+        else{
+            pageViewController.dataSource = context.coordinator
+            pageViewController.delegate = context.coordinator
+        }
         return pageViewController
     }
 
@@ -49,7 +55,6 @@ struct PageViewController<Page: View>: UIViewControllerRepresentable {
 
         init(_ pageViewController: PageViewController) {
             parent = pageViewController
-            
             controllers = parent.pages.map {
                 return YourHostingController(rootView: AnyView($0))
             }

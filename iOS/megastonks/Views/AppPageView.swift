@@ -36,7 +36,7 @@ struct AppPageView: View {
                         }.tag(1)
                         .preferredColorScheme(.dark)
                     
-                    AssetPorfolioPage()
+                    AssetPortfolioPageView()
                         .environmentObject(userAuth)
                         .environmentObject(appObject)
                         .tabItem {

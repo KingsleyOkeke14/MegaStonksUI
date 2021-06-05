@@ -8,7 +8,7 @@
 import SwiftUI
 import SafariServices
 
-struct NewsView: View {
+struct NewsInfoView: View {
     
     let myColors = MyColors()
     @EnvironmentObject var myAppObjects:AppObjects
@@ -82,9 +82,11 @@ struct NewsView: View {
     }
 }
 
-struct NewsView_Previews: PreviewProvider {
+
+
+struct NewsInfoView_Previews: PreviewProvider {
     static var previews: some View {
-        NewsView(newsElement: StockSymbolModel().newsModel).preferredColorScheme(.dark).environmentObject(AppObjects())
+        NewsInfoView(newsElement: StockSymbolModel().newsModel).preferredColorScheme(.dark).environmentObject(AppObjects())
     }
 }
 

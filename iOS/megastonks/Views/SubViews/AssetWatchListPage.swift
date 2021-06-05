@@ -64,7 +64,6 @@ struct AssetWatchListPage: View {
                                 .font(.custom("Apple SD Gothic Neo", fixedSize: 14))
                                 .offset(x: 0, y: 2)
                         }
-                        
                     }
                     .onAppear(perform: {
                         API().IsMarketOpen(){
@@ -148,7 +147,7 @@ struct AssetWatchListPage: View {
                                     LazyVStack{
                                         ForEach(myAppObjects.stockSearchResult, id: \.self){ stock in
                                             NavigationLink(
-                                                destination: StocksInfoPageView2(stockToGet: stock, showOrderButtons: true, showWatchListButton: true)
+                                                destination: StocksInfoPageView(showOrderButtons: true, stockToSearch: stock.stockId, stock: nil)
                                                     .onDisappear(perform: {
                                                         myAppObjects.updateStockWatchListAsync()
                                                         myAppObjects.getStockHoldingsAsync()
@@ -237,7 +236,7 @@ struct AssetWatchListPage: View {
                                     LazyVStack {
                                         ForEach(myAppObjects.stockWatchList, id: \.self){ stock in
                                             NavigationLink(
-                                                destination: StocksInfoPageView(stock: stock).environmentObject(myAppObjects).onDisappear(perform: {
+                                                destination: StocksInfoPageView(showOrderButtons: true, stockToSearch: 0, stock: stock).environmentObject(myAppObjects).onDisappear(perform: {
                                                     myAppObjects.updateStockWatchListAsync()
                                                     myAppObjects.getStockHoldingsAsync()
                                                 }),
@@ -468,7 +467,7 @@ struct AssetWatchListPage: View {
                                                 NavigationLink(
                                                     destination: CryptoInfoPageView(cryptoToSearch: 0, crypto: crypto, cryptoQuote: userAuth.user.currency == "USD" ? CryptoQuote(crypto.usdQuote) : CryptoQuote(crypto.cadQuote)).environmentObject(myAppObjects).onDisappear(perform: {
                                                         myAppObjects.updateCryptoWatchListAsync()
-                                                        myAppObjects.getStockHoldingsAsync()
+                                                        //myAppObjects.getStockHoldingsAsync()
                                                     }),
                                                     tag: crypto.crypto.id.uuidString,
                                                     selection: $selectedItem,

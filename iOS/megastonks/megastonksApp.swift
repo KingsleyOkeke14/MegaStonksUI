@@ -14,5 +14,6 @@ struct megastonksApp: App {
             let userAuth = UserAuth()
             RootPageView().environmentObject(userAuth)
         }
+        
     }
 }
