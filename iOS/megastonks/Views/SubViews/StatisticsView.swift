@@ -31,7 +31,7 @@ struct StatisticsView: View {
             PriceActionView(themeColor: $themeColor, label: "52 Week Price Action", lowPrice: "$\(stockSymbol!.yearLow.formatPrice())", highPrice: "$\(stockSymbol!.yearHigh.formatPrice())")
             PriceActionView(themeColor: $themeColor, label: "Today's Price Action", lowPrice: "$\(stockSymbol!.dayLow.formatPrice())", highPrice: "$\(stockSymbol!.dayHigh.formatPrice())")
             VStack{
-                SingleStatView(label: "Today's Opening Price", value: "$\(stockSymbol!.open.formatPrice())", tipMessage: "", hasTip: true, showTip: Binding.constant(false))
+                SingleStatView(label: "Today's Opening Price", value: "$\(stockSymbol!.open.formatPrice())", tipMessage: "", hasTip: false, showTip: Binding.constant(false))
                 SingleStatView(label: "Market Cap", value: stockSymbol!.marketCap != 0 ? "\(stockSymbol!.marketCap.abbreviated)" : "-", tipMessage: "", hasTip: false, showTip: Binding.constant(false))
                 SingleStatView(label: "Average Volume", value: stockSymbol!.avgVolume != 0 ? "\(stockSymbol!.avgVolume.abbreviated)" : "-", tipMessage: "", hasTip: false, showTip: Binding.constant(false))
                 SingleStatView(label: "Volume", value: stockSymbol!.volume != 0 ? "\(stockSymbol!.volume.abbreviated)" : "-", tipMessage: "", hasTip: false, showTip: Binding.constant(false))

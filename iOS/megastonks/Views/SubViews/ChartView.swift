@@ -21,7 +21,7 @@ struct ChartView: View {
     
     @Binding var themeColor: Color
     
-    @Binding var data:[(String, Double)]
+    @Binding var data:[(String, Double)]?
     
     @Binding var chartDiscrepancy:String
     
@@ -44,35 +44,59 @@ struct ChartView: View {
                         .font(.custom("Verdana", fixedSize: 12))
                         .bold()
                 }
-                        
-                CardView(showShadow: true) {
-                    ChartLabel("")
-                        .background(Color.black)
-                        .foregroundColor(.white)
-                     
-                    LineChart()
-                        .background(Color.black)
-                        .overlay(
-                                VStack{
-                                    if(data.count <= 0){
-                                        Color.black
-                                            .overlay(
-                                                VStack{
-                                                    Text("Data for the selected time period is not currently available")
-                                                        .font(.custom("Apple SD Gothic Neo", fixedSize: 16))
-                                                        .bold()
-                                                        .foregroundColor(.gray)
-                                                        .padding(.horizontal)
-                                                        .multilineTextAlignment(.center)
-                                                }
-                                            )
+                if(data != nil){
+                    CardView(showShadow: true) {
+                        ChartLabel("")
+                            .background(Color.black)
+                            .foregroundColor(.white)
+                         
+                        LineChart()
+                            .background(Color.black)
+                            .overlay(
+                                    VStack{
+                                        if(data!.count <= 0){
+                                            Color.black
+                                                .overlay(
+                                                    VStack{
+                                                        Text("Data for the selected time period is not currently available")
+                                                            .font(.custom("Apple SD Gothic Neo", fixedSize: 16))
+                                                            .bold()
+                                                            .foregroundColor(.gray)
+                                                            .padding(.horizontal)
+                                                            .multilineTextAlignment(.center)
+                                                            .opacity(0.2)
+                                                    }
+                                                )
 
+                                        }
                                     }
-                                }
-                        )
+                            )
+                    }
+                    .data(data!)
+                    .chartStyle(isStockGaining ? greenStyle : redStyle)
                 }
-                .data(data)
-                .chartStyle(isStockGaining ? greenStyle : redStyle)
+                else if (data == nil){
+                    CardView(showShadow: false){
+                        Color.black
+                            .ignoresSafeArea()
+                            .overlay(
+                                    VStack{
+                                            Color.black
+                                                .overlay(
+                                                    VStack{
+                                                        Text("")
+                                                            .font(.custom("Apple SD Gothic Neo", fixedSize: 16))
+                                                            .bold()
+                                                            .foregroundColor(.gray)
+                                                            .padding(.horizontal)
+                                                            .multilineTextAlignment(.center)
+                                                            .opacity(0.2)
+                                                    }
+                                                )
+                                    }
+                            )
+                    }
+                }
             
             }.background(Color.black)
         }
@@ -81,6 +105,6 @@ struct ChartView: View {
 
 struct ChartView_Previews: PreviewProvider {
     static var previews: some View {
-        ChartView(isStockGaining: Binding.constant(false), themeColor: Binding.constant(MyColors().redColor), data: Binding.constant([(String, Double)]()), chartDiscrepancy: Binding.constant(""), chartLabel: Binding.constant(""))
+        ChartView(isStockGaining: Binding.constant(false), themeColor: Binding.constant(MyColors().redColor), data: Binding.constant(nil), chartDiscrepancy: Binding.constant(""), chartLabel: Binding.constant(""))
     }
 }

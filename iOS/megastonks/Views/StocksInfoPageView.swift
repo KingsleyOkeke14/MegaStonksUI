@@ -21,7 +21,7 @@ struct StocksInfoPageView: View {
     
     @State var stockHolding:StockHoldingInfoPage
     
-    @State var chartData = [(String, Double)]()
+    @State var chartData:[(String, Double)]? = nil
     
     @State var chartDiscrepancy = ""
     
@@ -259,7 +259,8 @@ struct StocksInfoPageView: View {
                                     }
                                 }
                                 if(stockSymbol!.isInPortfolio){
-                                    MyHoldingsView(isCrypto: false, themeColor: $themeColor, holding: $stockHolding).onChange(of: showingOrderPage, perform: { value in
+                                    MyHoldingsView(isCrypto: false, themeColor: $themeColor, holding: $stockHolding)
+                                        .onChange(of: showingOrderPage, perform: { value in
                                         myAppObjects.getStockHolding(stockId: stockSymbol!.stockId){
                                             result in
                                             
@@ -273,13 +274,13 @@ struct StocksInfoPageView: View {
                                         }
                                     })
                                 }
-                                StatisticsView(stockSymbol: $stockSymbol, themeColor: $themeColor)
+                                StatisticsView(stockSymbol: $stockSymbol, themeColor: $themeColor)//.animation(.easeOut.speed(1))
                                 CompanyInfoView(stockSymbol: $stockSymbol, themeColor: $themeColor)
                             }
                             
                         }
                         
-                    }
+                    }.animation(.easeIn.delay(0.2))
                 }
                 else{
                     VStack{
@@ -368,7 +369,7 @@ struct StocksInfoPageView: View {
             )
             .navigationBarTitleDisplayMode(.inline)
             .banner(data: $myAppObjects.bannerData, show: $myAppObjects.showBanner)
-        }
+    }
     
 }
 

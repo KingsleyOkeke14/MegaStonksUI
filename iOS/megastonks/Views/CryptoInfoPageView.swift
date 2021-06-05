@@ -23,7 +23,7 @@ struct CryptoInfoPageView: View {
     
     @State var stockHolding:StockHoldingInfoPage
     
-    @State var chartData = [(String, Double)]()
+    @State var chartData:[(String, Double)]? = nil
     
     @State var chartDiscrepancy = ""
     
@@ -61,7 +61,7 @@ struct CryptoInfoPageView: View {
             .ignoresSafeArea()
             .overlay(
                 VStack{
-                    if(cryptoSymbol != nil && !(cryptoSymbol?.crypto.name.isEmpty ?? true)){
+                    if(cryptoSymbol != nil){
                         VStack(spacing: 2){
                             HStack {
                                 Spacer()
@@ -255,7 +255,9 @@ struct CryptoInfoPageView: View {
                             }
                             
                         }
+                        .animation(.easeIn.delay(0.2))
                     }
+                    
                     else {
                         VStack{
                             Image("megastonkslogo")
