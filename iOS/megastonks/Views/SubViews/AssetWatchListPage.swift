@@ -194,7 +194,6 @@ struct AssetWatchListPage: View {
                                             }
                                         })
                             }
-                            
                             Spacer()
                         }
                     }
@@ -212,8 +211,6 @@ struct AssetWatchListPage: View {
                         
                     }
                     .padding(.horizontal)
-                    
-                    
                         VStack{
                             if(!myAppObjects.stockWatchList.isEmpty){
                                 ScrollView{

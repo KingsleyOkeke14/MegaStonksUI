@@ -88,8 +88,6 @@ struct WatchListPageView: View {
                                     }
                                 })
                         }
-                        
-                        
                     }.animation(.easeIn)
                     
                     VStack{

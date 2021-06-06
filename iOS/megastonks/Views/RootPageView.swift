@@ -33,13 +33,15 @@ struct RootPageView: View {
         else {
             AppPageView()
                 .onAppear(perform: {
-                    if(userAuth.isLoggedin == nil){
+                    if(userAuth.isLoggedin == nil && !userAuth.isRefreshingAuth){
                         userAuth.refreshLogin()
                     }
                 })
                 .banner(data: $bannerData, show: $userAuth.showAuthError)
                 .onReceive(pub, perform: { _ in
-                    userAuth.refreshLogin()
+                    if(!userAuth.isRefreshingAuth){
+                        userAuth.refreshLogin()
+                    }
                 })
                 .if(userAuth.isRefreshingAuth){
                     view in
@@ -58,7 +60,6 @@ struct RootPageView: View {
                     print("Moving to the foreground!")
                     if(userAuth.isLoggedin != nil){
                       userAuth.checkTimeStampForAuth()
-                        
                     }
                 }
                 .environmentObject(userAuth)

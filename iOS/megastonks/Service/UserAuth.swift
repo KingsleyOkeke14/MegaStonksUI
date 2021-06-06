@@ -104,7 +104,7 @@ class UserAuth: ObservableObject {
                         DispatchQueue.main.async {
                             self.showAuthError = true
                         }
-        
+                        
                         DispatchQueue.main.asyncAfter(deadline: .now() + 6) {
                             _  = KeychainWrapper.standard.removeObject(forKey: "jwtToken")
                             _  = KeychainWrapper.standard.removeObject(forKey: "refreshToken")
@@ -115,7 +115,6 @@ class UserAuth: ObservableObject {
                             print("Login Failed #1")
                         }
                     }
-
                 }
             }
         }
