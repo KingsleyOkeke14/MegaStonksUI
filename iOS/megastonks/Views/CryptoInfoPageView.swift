@@ -252,10 +252,9 @@ struct CryptoInfoPageView: View {
                                     TokenInfoView(cryptoSymbol: $cryptoSymbol, themeColor: $themeColor)
                                 }
                                 
-                            }
+                            }.animation(.easeIn.delay(0.2))
                             
                         }
-                        .animation(.easeIn.delay(0.2))
                     }
                     
                     else {

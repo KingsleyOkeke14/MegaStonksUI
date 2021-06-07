@@ -274,13 +274,13 @@ struct StocksInfoPageView: View {
                                         }
                                     })
                                 }
-                                StatisticsView(stockSymbol: $stockSymbol, themeColor: $themeColor)//.animation(.easeOut.speed(1))
+                                StatisticsView(stockSymbol: $stockSymbol, themeColor: $themeColor)
                                 CompanyInfoView(stockSymbol: $stockSymbol, themeColor: $themeColor)
                             }
                             
-                        }
+                        }.animation(.easeIn.delay(0.2))
                         
-                    }.animation(.easeIn.delay(0.2))
+                    }
                 }
                 else{
                     VStack{
