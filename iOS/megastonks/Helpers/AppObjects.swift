@@ -20,6 +20,7 @@ class AppObjects: ObservableObject {
     @Published var ads: [AdDataElement]
     @Published var randomAdIndex: Int
     @Published var news: [NewsElement]
+    @Published var notificationManager = LocalNotificationManager()
     
     
     init() {

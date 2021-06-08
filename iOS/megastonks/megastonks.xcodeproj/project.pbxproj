@@ -38,6 +38,7 @@
 		D0369D1C25C76B1900718A52 /* FormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0369D1B25C76B1900718A52 /* FormView.swift */; };
 		D0369D1E25C76B1900718A52 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D0369D1D25C76B1900718A52 /* Assets.xcassets */; };
 		D0369D2125C76B1900718A52 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D0369D2025C76B1900718A52 /* Preview Assets.xcassets */; };
+		D03BBAD9266F2CE400928FB8 /* LocalNotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D03BBAD8266F2CE400928FB8 /* LocalNotificationManager.swift */; };
 		D045DB1B262BCEBE0040C067 /* SwiftKeychainWrapper in Frameworks */ = {isa = PBXBuildFile; productRef = D045DB1A262BCEBE0040C067 /* SwiftKeychainWrapper */; };
 		D045DB1E262BE5530040C067 /* APIRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D045DB1D262BE5530040C067 /* APIRequest.swift */; };
 		D04E9B252651B8BE000A1B7C /* megastonksUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D04E9B242651B8BE000A1B7C /* megastonksUITests.swift */; };
@@ -131,6 +132,7 @@
 		D0369D1D25C76B1900718A52 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D0369D2025C76B1900718A52 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		D0369D2225C76B1900718A52 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D03BBAD8266F2CE400928FB8 /* LocalNotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalNotificationManager.swift; sourceTree = "<group>"; };
 		D045DB1D262BE5530040C067 /* APIRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIRequest.swift; sourceTree = "<group>"; };
 		D04E9B222651B8BE000A1B7C /* megastonksUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = megastonksUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D04E9B242651B8BE000A1B7C /* megastonksUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = megastonksUITests.swift; sourceTree = "<group>"; };
@@ -227,6 +229,7 @@
 				D0336E242635F52E004DB6A3 /* AppObjects.swift */,
 				D0336E1E2635DD09004DB6A3 /* Extensions.swift */,
 				D0DEBFE4264242DE0086DC36 /* AsyncImage.swift */,
+				D03BBAD8266F2CE400928FB8 /* LocalNotificationManager.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -496,6 +499,7 @@
 				D0A3125926339880008993C2 /* PromptView.swift in Sources */,
 				D0356A9126658EF700C07A3A /* PullToRefreshView.swift in Sources */,
 				D06B311825C7BA5200A37C08 /* SecretFormView.swift in Sources */,
+				D03BBAD9266F2CE400928FB8 /* LocalNotificationManager.swift in Sources */,
 				D0E282EF263DC0E90027EFDB /* UserWallet.swift in Sources */,
 				D009875F2640CD8000F76AEA /* OrdersPageView.swift in Sources */,
 				D06E429425D3545E009701A2 /* StatisticsView.swift in Sources */,

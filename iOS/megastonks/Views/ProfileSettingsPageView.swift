@@ -57,6 +57,36 @@ struct ProfileSettingsPageView: View {
                             ProfileInformationView(infoHeader: "Currency", info: userAuth.user.currency, isEditable: false)
                             ProfileInformationView(infoHeader: "Password", info: "***********", isEditable: true)
                             
+                            
+                            VStack(spacing: 0.5){
+                                HStack{
+                                    Text("Notifications")
+                                        .foregroundColor(myColors.greenColor)
+                                        .bold()
+                                        .fontWeight(.heavy)
+                                        .font(.custom("Apple SD Gothic Neo", fixedSize: 18))
+                                    Spacer()
+                                    Button(action: {
+                                        if let bundleIdentifier = Bundle.main.bundleIdentifier, let appSettings = URL(string: UIApplication.openSettingsURLString + bundleIdentifier) {
+                                            if UIApplication.shared.canOpenURL(appSettings) {
+                                                UIApplication.shared.open(appSettings)
+                                            }
+                                        }
+                                    }, label: {
+                                        Image(systemName: "pencil")
+                                            .font(.custom("Apple SD Gothic Neo", fixedSize: 18))
+                                            .foregroundColor(.green)
+                                        
+                                })
+                                }
+                                
+                                Rectangle()
+                                    .fill(myColors.greenColor)
+                                    .frame(height: 2)
+                                    .edgesIgnoringSafeArea(.horizontal)
+                                
+                            }.padding(.vertical)
+                            
                             VStack(spacing:1){
                                 Text("About Us")
                                     .foregroundColor(myColors.greenColor)
