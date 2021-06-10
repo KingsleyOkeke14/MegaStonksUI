@@ -199,7 +199,7 @@ struct ProfileSettingsPageView: View {
                 }
                 if showDeleteAccountConfirmation {
                     ZStack {
-                        Color.black
+                        myColors.grayColor
                         VStack {
                             Text("Confirm Account Deletion!")
                                 .font(.custom("Verdana", fixedSize: 18))
@@ -243,7 +243,6 @@ struct ProfileSettingsPageView: View {
                     }
                     .frame(width: 300, height: 200)
                     .cornerRadius(20).shadow(radius: 20)
-                    .shadow(color: .white, radius: 2, x: 0, y: 0)
                     .transition(AnyTransition.scale.animation(.easeInOut(duration: 0.5)))
                 }
             }

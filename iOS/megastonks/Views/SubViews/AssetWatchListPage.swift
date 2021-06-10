@@ -94,7 +94,7 @@ struct AssetWatchListPage: View {
                         .background(myColors.grayColor)
                         .foregroundColor(.white)
                         .font(.system(size: 18, weight: .bold, design: .rounded))
-                        .cornerRadius(20)
+                        .cornerRadius(14)
                         .overlay(
                             HStack{
                                 Image(systemName: "magnifyingglass")
@@ -198,19 +198,19 @@ struct AssetWatchListPage: View {
                         }
                     }
                     if(!isEditing){
-                    HStack{
-                        Text("Stock Watchlist")
-                            .font(.custom("Apple SD Gothic Neo", fixedSize: 22))
-                            .fontWeight(.heavy)
-                            .bold()
-                            .foregroundColor(myColors.greenColor)
-                        Image(systemName: "eye")
-                            .foregroundColor(myColors.greenColor)
-                            .font(.custom("", fixedSize: 18))
-                        Spacer()
-                        
-                    }
-                    .padding(.horizontal)
+//                    HStack{
+//                        Text("Stock Watchlist")
+//                            .font(.custom("Apple SD Gothic Neo", fixedSize: 22))
+//                            .fontWeight(.heavy)
+//                            .bold()
+//                            .foregroundColor(myColors.greenColor)
+//                        Image(systemName: "eye")
+//                            .foregroundColor(myColors.greenColor)
+//                            .font(.custom("", fixedSize: 18))
+//                        Spacer()
+//
+//                    }
+//                    .padding(.horizontal)
                         VStack{
                             if(!myAppObjects.stockWatchList.isEmpty){
                                 ScrollView{
@@ -321,7 +321,7 @@ struct AssetWatchListPage: View {
                         .background(myColors.grayColor)
                         .foregroundColor(.white)
                         .font(.system(size: 18, weight: .bold, design: .rounded))
-                        .cornerRadius(20)
+                        .cornerRadius(14)
                         .overlay(
                             HStack{
                                 Image(systemName: "magnifyingglass")
@@ -428,19 +428,19 @@ struct AssetWatchListPage: View {
                         }
                     }
                     if(!isEditing){
-                        HStack{
-                            Text("Crypto Watchlist")
-                                .font(.custom("Apple SD Gothic Neo", fixedSize: 22))
-                                .fontWeight(.heavy)
-                                .bold()
-                                .foregroundColor(myColors.greenColor)
-                            Image(systemName: "eye")
-                                .foregroundColor(myColors.greenColor)
-                                .font(.custom("", fixedSize: 18))
-                            Spacer()
-                            
-                        }
-                        .padding(.horizontal)
+//                        HStack{
+//                            Text("Crypto Watchlist")
+//                                .font(.custom("Apple SD Gothic Neo", fixedSize: 22))
+//                                .fontWeight(.heavy)
+//                                .bold()
+//                                .foregroundColor(myColors.greenColor)
+//                            Image(systemName: "eye")
+//                                .foregroundColor(myColors.greenColor)
+//                                .font(.custom("", fixedSize: 18))
+//                            Spacer()
+//
+//                        }
+//                        .padding(.horizontal)
                         VStack{
                             if(!myAppObjects.cryptoWatchList.isEmpty){
                                 ScrollView{

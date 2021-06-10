@@ -339,7 +339,9 @@ struct CryptoInfoPageView: View {
 
 struct CryptoInfoPageView_Previews: PreviewProvider {
     static var previews: some View {
-        CryptoInfoPageView(cryptoToSearch: 0, crypto: StockSymbolModel().cryptoSymbol, cryptoQuote: CryptoQuote(StockSymbolModel().cryptoSymbol.usdQuote)).environmentObject(UserAuth())
+        CryptoInfoPageView(cryptoToSearch: 0, crypto: StockSymbolModel().cryptoSymbol, cryptoQuote: CryptoQuote(StockSymbolModel().cryptoSymbol.usdQuote))
+            .preferredColorScheme(.dark)
+            .environmentObject(UserAuth())
             .environmentObject(AppObjects())
     }
 }

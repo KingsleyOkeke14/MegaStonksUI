@@ -269,6 +269,7 @@ struct UserProfileWalletSummary: View {
 struct ProfilePageView_Previews: PreviewProvider {
     static var previews: some View {
         ProfilePageView().environmentObject(UserAuth())
+            .preferredColorScheme(.dark)
             .environmentObject(AppObjects())
     }
 }

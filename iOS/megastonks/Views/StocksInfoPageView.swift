@@ -412,6 +412,7 @@ struct ButtonSelected: View {
 struct StocksInfoPageView_Previews: PreviewProvider {
     static var previews: some View {
         StocksInfoPageView(showOrderButtons: false, stockToSearch: 0, stock: StockSymbolModel().symbols[0])
+            .preferredColorScheme(.dark)
             .environmentObject(AppObjects())
     }
 }
