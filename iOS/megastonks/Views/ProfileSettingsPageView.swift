@@ -9,7 +9,11 @@ import SwiftUI
 
 struct ProfileSettingsPageView: View {
     
+    let impactMed = UIImpactFeedbackGenerator(style: .heavy)
+    
     @State var isLoading:Bool = false
+    @State var showDeleteAccountConfirmation:Bool = false
+    @State var promptOpacity:Bool = false
     
     @EnvironmentObject var userAuth: UserAuth
 
@@ -34,16 +38,9 @@ struct ProfileSettingsPageView: View {
     
     let myColors = MyColors()
     var body: some View {
-        NavigationView{
         VStack {
-            Color.black
-                .ignoresSafeArea()
-                .overlay(
                     ScrollView{
                         VStack(spacing: 2){
-                            Image("megastonkslogo")
-                                .scaleEffect(0.6)
-                                .aspectRatio(contentMode: .fit)
                             HStack{
                                 Image(systemName: "gear")
                                     .foregroundColor(.green)
@@ -55,8 +52,9 @@ struct ProfileSettingsPageView: View {
                             }
                             ProfileInformationView(infoHeader: "Email Address", info: userAuth.user.emailAddress, isEditable: false)
                             ProfileInformationView(infoHeader: "Currency", info: userAuth.user.currency, isEditable: false)
-                            ProfileInformationView(infoHeader: "Password", info: "***********", isEditable: true)
-                            
+                            ProfileInformationView(infoHeader: "Password", info: "***********", isEditable: true).onTapGesture {
+                                showDeleteAccountConfirmation = false
+                            }
                             
                             VStack(spacing: 0.5){
                                 HStack{
@@ -67,6 +65,7 @@ struct ProfileSettingsPageView: View {
                                         .font(.custom("Apple SD Gothic Neo", fixedSize: 18))
                                     Spacer()
                                     Button(action: {
+                                        showDeleteAccountConfirmation = false
                                         if let bundleIdentifier = Bundle.main.bundleIdentifier, let appSettings = URL(string: UIApplication.openSettingsURLString + bundleIdentifier) {
                                             if UIApplication.shared.canOpenURL(appSettings) {
                                                 UIApplication.shared.open(appSettings)
@@ -87,6 +86,13 @@ struct ProfileSettingsPageView: View {
                                 
                             }.padding(.vertical)
                             
+                            Button(action: {
+                                impactMed.impactOccurred()
+                                showDeleteAccountConfirmation.toggle()
+                            }, label: {
+                                ButtonView(cornerRadius: 12,  text: "Delete Account", textColor: myColors.lightGrayColor, textSize: 16, frameWidth: 120, frameHeight: 40, strokeBorders: false, fillColor: myColors.grayColor)
+                            }).padding()
+                            
                             VStack(spacing:1){
                                 Text("About Us")
                                     .foregroundColor(myColors.greenColor)
@@ -106,6 +112,7 @@ struct ProfileSettingsPageView: View {
                                 
                                 HStack{
                                     Button(action: {
+                                        showDeleteAccountConfirmation = false
                                         openURL(URL(string: "https://twitter.com/MegaStonksApp")!)
                                     }, label: {
                                         Image("twitterLogo")
@@ -116,6 +123,7 @@ struct ProfileSettingsPageView: View {
                                     })
                                     
                                     Button(action: {
+                                        showDeleteAccountConfirmation = false
                                         openURL(URL(string: "https://www.instagram.com/megastonksapp")!)
                                         
                                     }, label: {
@@ -127,6 +135,7 @@ struct ProfileSettingsPageView: View {
                                     })
                                 }
                                 Button(action: {
+                                    showDeleteAccountConfirmation = false
                                     openURL(URL(string: "https://www.megastonks.com")!)
                                 }, label: {
                                     Text("megastonks.com")
@@ -153,6 +162,7 @@ struct ProfileSettingsPageView: View {
                             Spacer()
                             HStack{
                                 Button(action: {
+                                    showDeleteAccountConfirmation = false
                                     isLoading = true
                                     userAuth.logout(){ result in
                                         if(result.isSuccessful){
@@ -178,21 +188,68 @@ struct ProfileSettingsPageView: View {
                             
                         }.padding()
                     }
-                )
-        }.overlay(
+        }.onTapGesture {
+            showDeleteAccountConfirmation = false
+        }
+        .overlay(
             
             VStack{
                 if(isLoading){
                     LoadingIndicatorView()
                 }
-                
+                if showDeleteAccountConfirmation {
+                    ZStack {
+                        Color.black
+                        VStack {
+                            Text("Confirm Account Deletion!")
+                                .font(.custom("Verdana", fixedSize: 18))
+                                .bold()
+                                .bold()
+                                .foregroundColor(.red)
+                                .opacity(promptOpacity ? 0.2 : 1)
+                                
+                                .animation(Animation
+                                            .easeInOut(duration: 0.5)
+                                            .repeatForever(autoreverses: true))
+                                .onAppear { promptOpacity.toggle() }
+                               
+                            Spacer()
+                            Text("Are you sure you would like to delete your account? This process is not reversible and you would lose access to your data and account")
+                                .font(.custom("Apple SD Gothic Neo", fixedSize: 14))
+                                .bold()
+                            Spacer()
+                            HStack{
+                                Spacer()
+                                Button(action: {
+                                    self.showDeleteAccountConfirmation = false
+                                }, label: {
+                                    Text("Yes")
+                                        .font(.custom("Apple SD Gothic Neo", fixedSize: 16))
+                                        .foregroundColor(.red)
+                                        .opacity(0.6)
+                                })
+                                Spacer()
+                                Button(action: {
+                                    self.showDeleteAccountConfirmation = false
+                                }, label: {
+                                    Text("No")
+                                        .font(.custom("Verdana", fixedSize: 18))
+                                        .bold()
+                                        .foregroundColor(.green)
+                                })
+                                Spacer()
+                            }
+                        }.padding()
+                    }
+                    .frame(width: 300, height: 200)
+                    .cornerRadius(20).shadow(radius: 20)
+                    .shadow(color: .white, radius: 2, x: 0, y: 0)
+                    .transition(AnyTransition.scale.animation(.easeInOut(duration: 0.5)))
+                }
             }
         )
         .navigationBarTitleDisplayMode(.inline)
         .navigationBarTitle("")
-        .navigationBarHidden(true)
-        
-        }.navigationViewStyle(StackNavigationViewStyle())
     }
 }
 
@@ -221,7 +278,8 @@ struct ProfileInformationView: View {
                 Spacer()
                 if(isEditable){
                     NavigationLink(
-                        destination: ForgotPasswordPageView(emailField: userAuth.user.emailAddress).navigationBarTitle("").navigationBarHidden(true),
+                        destination: ForgotPasswordPageView(emailField: userAuth.user.emailAddress)
+                            .preferredColorScheme(.dark),
                         label: {
                             Image(systemName: "pencil")
                                 .font(.custom("Apple SD Gothic Neo", fixedSize: 18))
@@ -249,7 +307,9 @@ struct ProfileInformationView: View {
 
 struct ProfileSettingsPageView_Previews: PreviewProvider {
     static var previews: some View {
-        ProfileSettingsPageView().environmentObject(UserAuth())
+        ProfileSettingsPageView()
+            .preferredColorScheme(.dark)
+            .environmentObject(UserAuth())
     }
 }
 

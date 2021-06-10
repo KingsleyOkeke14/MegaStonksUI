@@ -44,6 +44,7 @@ struct LoginPageView: View {
                         Image("megastonkslogo")
                             .scaleEffect(0.8)
                             .aspectRatio(contentMode: .fit)
+                            .padding(.top, 40)
                         Spacer(minLength: 100)
                         
                         FormView(formField: "Email Address", formText: $emailText)
@@ -82,7 +83,7 @@ struct LoginPageView: View {
                             HStack{
                                 Spacer()
                                 NavigationLink(
-                                    destination: ForgotPasswordPageView(emailField: "")){
+                                    destination: ForgotPasswordPageView(emailField: "").preferredColorScheme(.dark)){
                                     Text("Forgot Password?")
                                         .bold()
                                         .font(.custom("Apple SD Gothic Neo", fixedSize: 16))
@@ -97,7 +98,7 @@ struct LoginPageView: View {
                             HStack{
                                 Spacer()
                                 NavigationLink(
-                                    destination: RegisterPageView()){
+                                    destination: RegisterPageView().preferredColorScheme(.dark)){
                                     
                                     
                                     Text("Register")
@@ -112,7 +113,7 @@ struct LoginPageView: View {
                             Spacer()
                         }
                         
-                    }.padding()
+                    }
                     .overlay(
                         
                         VStack{

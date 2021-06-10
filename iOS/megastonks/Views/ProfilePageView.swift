@@ -55,7 +55,10 @@ struct ProfilePageView: View {
                         HStack{
                             Spacer()
                             NavigationLink(
-                                destination: ProfileSettingsPageView().environmentObject(userAuth)){
+                                destination: ProfileSettingsPageView()
+                                    .preferredColorScheme(.dark)
+                                    .environmentObject(userAuth))
+                            {
                                 Image(systemName: "person.crop.circle.fill")
                                     .font(.custom("Apple SD Gothic Neo", fixedSize: 24))
                                     .foregroundColor(Color.green)

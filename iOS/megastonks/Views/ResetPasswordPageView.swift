@@ -23,16 +23,12 @@ struct ResetPasswordPageView: View {
     
     var body: some View {
         VStack {
-            Color.black
-                .ignoresSafeArea()
-                .overlay(
                     VStack{
                             FormView(formField: "Reset Token", formText: $formText1)
                             
                             SecretFormView(formField: "New Password", secretText: $formText2)
                             SecretFormView(formField: "Confirm Password", secretText: $formText3)
-                        
-                      
+      
                         PromptView(promptText: $promptText, isError: $isPromptError)
                         Button(action: {
                                 hideKeyboard()
@@ -75,8 +71,6 @@ struct ResetPasswordPageView: View {
                         }
 
                     }.padding(.horizontal)
-                    
-                )
         }.overlay(
         
             VStack{
@@ -85,8 +79,7 @@ struct ResetPasswordPageView: View {
                 }
 
             }
-        )
-        .navigationBarHidden(true)
+            )
     }
 }
 

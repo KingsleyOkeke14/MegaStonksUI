@@ -47,10 +47,6 @@ struct ForgotPasswordPageView: View {
     }
     
     var body: some View {
-       NavigationView{
-        Color.black
-            .ignoresSafeArea(.all)
-            .overlay(
                 VStack(spacing: 40){
 
                     VStack {
@@ -92,7 +88,7 @@ struct ForgotPasswordPageView: View {
 
            
                   NavigationLink(
-                    destination: ResetPasswordPageView(),
+                    destination: ResetPasswordPageView().preferredColorScheme(.dark),
                     label: {
                         HStack{
                             Spacer()
@@ -115,14 +111,9 @@ struct ForgotPasswordPageView: View {
                         
                     }
                 )
+                .navigationBarTitleDisplayMode(.automatic)
+                .navigationBarTitle("")
                 
-            )
-            
-            .navigationBarTitleDisplayMode(.inline)
-            .navigationBarTitle("Forgot Password")
-            .navigationBarHidden(true)
-        }.navigationViewStyle(StackNavigationViewStyle())
-
     }
 }
 

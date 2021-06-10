@@ -67,9 +67,6 @@ struct RegisterPageView: View {
     
     
     var body: some View {
-        Color.black
-            .ignoresSafeArea() // Ignore just for the color
-            .overlay(
                 VStack {
                     if(!registerCompleted){
                         VStack {
@@ -194,9 +191,6 @@ struct RegisterPageView: View {
                         
                     }
                 }
-
-                
-            )
             .navigationBarTitleDisplayMode(.inline)
     }
 }
@@ -247,7 +241,6 @@ struct SheetView: View {
 
 struct RegisterPageView_Previews: PreviewProvider {
     static var previews: some View {
-        //SheetView()
         RegisterPageView()
     }
 }

@@ -47,7 +47,7 @@ struct RootPageView: View {
                 })
                 .if(userAuth.isRefreshingAuth){
                     view in
-                    view.redacted(when: userAuth.isRefreshingAuth, redactionType: .customPlaceholder)
+                    view.redacted(when: true, redactionType: .customPlaceholder)
                 }
                 .onReceive(NotificationCenter.default.publisher(for: UIApplication.willResignActiveNotification)) { _ in
                     print("Moving to the background!")
