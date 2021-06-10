@@ -187,6 +187,14 @@ extension URL {
     }
 }
 
+#if canImport(UIKit)
+extension View {
+    func hideKeyboard() {
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+    }
+}
+#endif
+
 extension View {
     /// Applies the given transform if the given condition evaluates to `true`.
     /// - Parameters:
@@ -201,3 +209,19 @@ extension View {
         }
     }
 }
+
+extension View {
+    @ViewBuilder
+    func redacted(when condition: Bool, redactionType: RedactionType) -> some View {
+        if !condition {
+            unredacted()
+        } else {
+            redacted(reason: redactionType)
+        }
+    }
+
+    func redacted(reason: RedactionType?) -> some View {
+        self.modifier(Redactable(type: reason))
+    }
+}
+

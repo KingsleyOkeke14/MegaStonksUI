@@ -40,10 +40,6 @@ struct LoginPageView: View {
     
     var body: some View {
         NavigationView{
-            Color.black
-                .ignoresSafeArea() // Ignore just for the color
-                .overlay(
-                    
                     VStack{
                         Image("megastonkslogo")
                             .scaleEffect(0.8)
@@ -125,23 +121,16 @@ struct LoginPageView: View {
                             } 
                         }
                     )
-                )
                 .navigationBarTitleDisplayMode(.inline)
                 .navigationBarTitle("Login")
                 .navigationBarHidden(true)
-        }.navigationViewStyle(StackNavigationViewStyle())
+        }
+        .animation(Animation.default)
+        .navigationViewStyle(StackNavigationViewStyle())
         
     }
     
 }
-
-#if canImport(UIKit)
-extension View {
-    func hideKeyboard() {
-        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-    }
-}
-#endif
 
 struct LoginPageView_Previews: PreviewProvider {
     static var previews: some View {

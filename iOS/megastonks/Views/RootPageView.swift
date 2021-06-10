@@ -12,7 +12,6 @@ struct RootPageView: View {
     
     @EnvironmentObject var userAuth: UserAuth
     
-    
     let pub = NotificationCenter.default.publisher(for: .didAuthTokenExpire)
     
     @State var bannerData:BannerData = BannerData(title: "Authentication Failed", detail: "Your Session has expired and cannot be authenticated at this time. You will be logged out in 6 seconds. Please Login Again", type: .Error)
@@ -21,7 +20,9 @@ struct RootPageView: View {
     var body: some View {
         if (userAuth.isLoggedin == nil) {
             VStack{
-                LoginPageView().redacted(reason: .placeholder).preferredColorScheme(.dark)
+                LoginPageView()
+                    .redacted(when: true, redactionType: .customPlaceholder)
+                    .preferredColorScheme(.dark)
                 Text("Confirming Authentication....")
                     .bold()
                     .font(.custom("Apple SD Gothic Neo", fixedSize: 18))
@@ -32,6 +33,7 @@ struct RootPageView: View {
         }
         else {
             AppPageView()
+                .preferredColorScheme(.dark)
                 .onAppear(perform: {
                     if(userAuth.isLoggedin == nil && !userAuth.isRefreshingAuth){
                         userAuth.refreshLogin()
@@ -45,7 +47,7 @@ struct RootPageView: View {
                 })
                 .if(userAuth.isRefreshingAuth){
                     view in
-                    view.redacted(reason: .placeholder).disabled(true)
+                    view.redacted(when: userAuth.isRefreshingAuth, redactionType: .customPlaceholder)
                 }
                 .onReceive(NotificationCenter.default.publisher(for: UIApplication.willResignActiveNotification)) { _ in
                     print("Moving to the background!")

@@ -25,14 +25,14 @@ struct AppPageView: View {
                     
                     WatchListPageView()
                         .tabItem {
-                            Label("WatchList", systemImage: "eyeglasses")
+                            Label("WatchList", systemImage: "eye")
                         }.tag(0)
                         .preferredColorScheme(.dark)
                         .environmentObject(appObject)
                     NewsPageView()
                         .environmentObject(appObject)
                         .tabItem {
-                            Label("News Feed", systemImage: "newspaper")
+                            Label("News Feed", systemImage: selection == 1 ? "newspaper.fill" : "newspaper")
                         }.tag(1)
                         .preferredColorScheme(.dark)
                     
@@ -40,7 +40,7 @@ struct AppPageView: View {
                         .environmentObject(userAuth)
                         .environmentObject(appObject)
                         .tabItem {
-                            Label("Portfolio", systemImage: "banknote")
+                            Label("Portfolio", systemImage: selection == 2 ? "banknote.fill" : "banknote")
                         }.tag(2)
                         .preferredColorScheme(.dark)
                     
@@ -48,13 +48,12 @@ struct AppPageView: View {
                         .environmentObject(userAuth)
                         .environmentObject(appObject)
                         .tabItem {
-                            Label("Account", systemImage: "person")
+                            Label("Account", systemImage: selection == 3 ? "person.fill" : "person")
                         }.tag(3)
                         .preferredColorScheme(.dark)
                 }
-                .animation(.easeInOut)
-                .transition(.scale)
-                .accentColor(.white)
+                .animation(Animation.default)
+                .accentColor(myColors.greenColor)
                 .onAppear() {
                     UITabBar.appearance().barTintColor = .black
                 }
