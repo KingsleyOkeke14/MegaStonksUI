@@ -38,9 +38,6 @@ struct ProfilePageView: View {
     
     var body: some View {
         NavigationView{
-            Color.black
-                .ignoresSafeArea() // Ignore just for the color
-                .overlay(
                     VStack(spacing: 12){
                         
                         HStack{
@@ -140,8 +137,6 @@ struct ProfilePageView: View {
                         }
                         isLoading = false
                     })
-                    
-                )
                 .navigationBarTitleDisplayMode(.inline)
                 .navigationBarTitle("")
                 .navigationBarHidden(true)
