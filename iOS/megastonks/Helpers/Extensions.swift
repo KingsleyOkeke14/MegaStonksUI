@@ -224,4 +224,3 @@ extension View {
         self.modifier(Redactable(type: reason))
     }
 }
-
