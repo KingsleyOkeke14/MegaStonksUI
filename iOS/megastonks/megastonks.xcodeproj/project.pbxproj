@@ -240,10 +240,10 @@
 			isa = PBXGroup;
 			children = (
 				D0D929B126609C7000C14BE2 /* AssetPorfolioPage.swift */,
+				D06B311725C7BA5200A37C08 /* SecretFormView.swift */,
 				D00CA78925CB93DD00232915 /* AssetWatchListPage.swift */,
 				D0369D1B25C76B1900718A52 /* FormView.swift */,
 				D034871125C80DA500CFCAB2 /* ButtonView.swift */,
-				D06B311725C7BA5200A37C08 /* SecretFormView.swift */,
 				D00CA78025CB3BF600232915 /* StockSymbolView.swift */,
 				D0D1933725CCB41900D83D87 /* StockInfoView.swift */,
 				D0D1933A25CCCFAF00D83D87 /* ChartView.swift */,

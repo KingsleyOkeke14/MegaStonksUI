@@ -30,6 +30,22 @@ struct AssetPorfolioPage: View {
                         .bold()
                         .foregroundColor(myColors.greenColor)
                     Spacer()
+                        Button(action: {
+                            let impactMed = UIImpactFeedbackGenerator(style: .heavy)
+                            impactMed.impactOccurred()
+                            isAllTimeGains.toggle()
+                            
+                        }, label: {
+                            Text(isAllTimeGains ? "All Time Return" : "Today's Return")
+                                .font(.custom("Apple SD Gothic Neo", fixedSize: 14))
+                                .bold()
+                                .padding(.horizontal, 10)
+                                .padding(.vertical, 6)
+                                .background(myColors.grayColor)
+                                .foregroundColor(.white)
+                                .cornerRadius(20)
+                        })
+                    
                 }.padding(.horizontal)
                 
                 if(!myAppObjects.holdings.holdings.isEmpty){
@@ -83,7 +99,6 @@ struct AssetPorfolioPage: View {
                 }
                 Spacer()
             }
-//            .navigationBarTitleDisplayMode(.inline)
         }
         .onAppear(perform: {
                 isLoadingHoldings = true
@@ -107,6 +122,7 @@ struct AssetPorfolioPage: View {
 struct PortfolioPageView_Previews: PreviewProvider {
     static var previews: some View {
         AssetPorfolioPage(isAllTimeGains: Binding.constant(true))
+            .preferredColorScheme(.dark)
             .environmentObject(AppObjects())
             .environmentObject(UserAuth())
         

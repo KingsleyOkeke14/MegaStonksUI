@@ -35,6 +35,7 @@ struct AssetPortfolioPageView: View {
                     .environmentObject(myAppObjects)
                     .environmentObject(userAuth)
                 PageView(pages: [AssetPorfolioPage(isAllTimeGains: $isAllTimeGains)], currentPage: Binding.constant(0))
+                    .padding(.top, 20)
             }
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarTitle("")
