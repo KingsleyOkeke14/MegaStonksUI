@@ -76,7 +76,9 @@ struct AssetWatchListPage: View {
                         }
                     })
                     HStack {
-                        TextField("Tap to Search for Stocks", text: $searchText, onCommit: {
+                        TextField("Tap to Search for Stocks", text: $searchText) { isEditing in
+                            self.isEditing = isEditing
+                        } onCommit: {
                             isLoadingAsset = true
                             myAppObjects.searchStock(stockToSearch: searchText){
                                 result in
@@ -88,9 +90,10 @@ struct AssetWatchListPage: View {
                                 isLoadingAsset = false
                                
                             }
-                        })
+                        }
+                        .disableAutocorrection(true)
                         .padding()
-                        .padding(.horizontal, 24)
+                        .padding(.horizontal, 20)
                         .background(myColors.grayColor)
                         .foregroundColor(.white)
                         .font(.system(size: 18, weight: .bold, design: .rounded))
@@ -103,9 +106,6 @@ struct AssetWatchListPage: View {
                                     .padding(.leading, 12)
                             }
                         )
-                        .onTapGesture {
-                            self.isEditing = true
-                        }
                         if isEditing {
                             Button(action: {
                                 self.isEditing = false
@@ -304,7 +304,9 @@ struct AssetWatchListPage: View {
                             .offset(x: 0, y: 2)
                     }
                     HStack {
-                        TextField("Tap to Search For Crypto", text: $searchText, onCommit: {
+                        TextField("Tap to Search For Crypto", text: $searchText){ isEditing in
+                            self.isEditing = isEditing
+                        } onCommit: {
                             isLoadingAsset = true
                             myAppObjects.searchCrypto(cryptoToSearch: searchText){
                                 result in
@@ -315,7 +317,8 @@ struct AssetWatchListPage: View {
                                 }
                                 isLoadingAsset = false
                             }
-                        })
+                        }
+                        .disableAutocorrection(true)
                         .padding()
                         .padding(.horizontal, 24)
                         .background(myColors.grayColor)
@@ -330,9 +333,6 @@ struct AssetWatchListPage: View {
                                     .padding(.leading, 12)
                             }
                         )
-                        .onTapGesture {
-                            self.isEditing = true
-                        }
                         
                         if isEditing {
                             Button(action: {
