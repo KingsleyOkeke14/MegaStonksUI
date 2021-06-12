@@ -44,13 +44,24 @@ class LocalNotificationManager: ObservableObject{
         let request = UNNotificationRequest(identifier: uuidString,
                     content: content, trigger: trigger)
  
+        
         // Schedule the request with the system.
         let notificationCenter = UNUserNotificationCenter.current()
+        
+        // Remove all delivered notification request
+        notificationCenter.removeAllDeliveredNotifications()
+        
+        //Remove all pending notifications
+        notificationCenter.removeAllPendingNotificationRequests()
+        
         notificationCenter.add(request) { (error) in
            if error != nil {
             print("Could not Send Notification")
               // Handle any errors.
            }
         }
+        
+      
+        
     }
 }

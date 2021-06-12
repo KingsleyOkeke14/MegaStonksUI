@@ -221,15 +221,19 @@ struct ProfileSettingsPageView: View {
                             HStack{
                                 Spacer()
                                 Button(action: {
+                                    impactMed.impactOccurred()
                                     self.showDeleteAccountConfirmation = false
                                 }, label: {
+                                    
                                     Text("Yes")
                                         .font(.custom("Apple SD Gothic Neo", fixedSize: 16))
+                                        
                                         .foregroundColor(.red)
                                         .opacity(0.6)
                                 })
                                 Spacer()
                                 Button(action: {
+                                    impactMed.impactOccurred()
                                     self.showDeleteAccountConfirmation = false
                                 }, label: {
                                     Text("No")
@@ -237,6 +241,7 @@ struct ProfileSettingsPageView: View {
                                         .bold()
                                         .foregroundColor(.green)
                                 })
+                                
                                 Spacer()
                             }
                         }.padding()
