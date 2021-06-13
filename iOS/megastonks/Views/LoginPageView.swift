@@ -48,6 +48,9 @@ struct LoginPageView: View {
                         Spacer(minLength: 100)
                         
                         FormView(formField: "Email Address", formText: $emailText)
+                            .onAppear(perform: {
+                                emailText = userAuth.user.emailAddress.removingWhitespaces()
+                            })
                         SecretFormView(formField: "Password", secretText: $passwordText)
                         Text(errorMessage)
                             .font(.custom("Apple SD Gothic Neo", fixedSize: 16))

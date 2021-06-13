@@ -191,6 +191,7 @@ struct API{
                 
                 if let jsonResponse = try? decoder.decode(AuthenticateResponse.self, from: result.data!) {
                     KeychainWrapper.standard.set(jsonResponse.jwtToken, forKey: "jwtToken")
+                    KeychainWrapper.standard.set(jsonResponse.email, forKey: "EmailAddress")
                 }
                 
             }
@@ -331,6 +332,7 @@ struct API{
                     result.isSuccessful = true
                     KeychainWrapper.standard.removeObject(forKey: "refreshToken")
                     KeychainWrapper.standard.removeObject(forKey: "jwtToken")
+                    KeychainWrapper.standard.removeObject(forKey: "EmailAddress")
                 }
                 
             }

@@ -209,6 +209,8 @@
 			children = (
 				D031EB4126143B56001504B5 /* Models */,
 				D031EB3E26118C7F001504B5 /* API.swift */,
+				D03BBAD8266F2CE400928FB8 /* LocalNotificationManager.swift */,
+				D0336E242635F52E004DB6A3 /* AppObjects.swift */,
 				D09EF9DF2624994C00D9EF05 /* UserAuth.swift */,
 			);
 			path = Service;
@@ -228,10 +230,8 @@
 			isa = PBXGroup;
 			children = (
 				D0FC100225D2F96D00366B26 /* MyColors.swift */,
-				D0336E242635F52E004DB6A3 /* AppObjects.swift */,
 				D0336E1E2635DD09004DB6A3 /* Extensions.swift */,
 				D0DEBFE4264242DE0086DC36 /* AsyncImage.swift */,
-				D03BBAD8266F2CE400928FB8 /* LocalNotificationManager.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";

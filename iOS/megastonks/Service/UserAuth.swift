@@ -16,6 +16,7 @@ class UserAuth: ObservableObject {
     @Published var isRefreshingAuth:Bool = false
     
     init() {
+        user.emailAddress = KeychainWrapper.standard.string(forKey: "EmailAddress") ?? ""
         refreshLogin(isFirstLogin: true)
     }
     
@@ -29,6 +30,8 @@ class UserAuth: ObservableObject {
                     self.user = User(firstName: jsonResponse.firstName, lastName: jsonResponse.lastName, emailAddress: jsonResponse.email, currency: jsonResponse.currency, isOnBoarded: jsonResponse.isOnboarded)
                     self.isLoggedin = true
                 }
+                
+                
             }
             completion(response)
         }
@@ -46,6 +49,7 @@ class UserAuth: ObservableObject {
             else{
                 _  = KeychainWrapper.standard.removeObject(forKey: "jwtToken")
                 _  = KeychainWrapper.standard.removeObject(forKey: "refreshToken")
+                _  = KeychainWrapper.standard.removeObject(forKey: "EmailAddress")
                 
                 response.isSuccessful = true
                 response.errorMessage = ""
@@ -95,7 +99,7 @@ class UserAuth: ObservableObject {
                         DispatchQueue.main.async {
                             _  = KeychainWrapper.standard.removeObject(forKey: "jwtToken")
                             _  = KeychainWrapper.standard.removeObject(forKey: "refreshToken")
-                            self.user = User(firstName: "", lastName: "", emailAddress: "", currency: "", isOnBoarded: true)
+                            //self.user = User(firstName: "", lastName: "", emailAddress: "", currency: "", isOnBoarded: true)
                             self.isLoggedin = false
                             self.isRefreshingAuth = false
                         }
@@ -108,7 +112,7 @@ class UserAuth: ObservableObject {
                         DispatchQueue.main.asyncAfter(deadline: .now() + 6) {
                             _  = KeychainWrapper.standard.removeObject(forKey: "jwtToken")
                             _  = KeychainWrapper.standard.removeObject(forKey: "refreshToken")
-                            self.user = User(firstName: "", lastName: "", emailAddress: "", currency: "", isOnBoarded: true)
+                            //self.user = User(firstName: "", lastName: "", emailAddress: "", currency: "", isOnBoarded: true)
                             self.isLoggedin = false
                             self.showAuthError = false
                             self.isRefreshingAuth = false
