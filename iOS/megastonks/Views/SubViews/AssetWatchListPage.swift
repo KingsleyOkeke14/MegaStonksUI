@@ -77,7 +77,9 @@ struct AssetWatchListPage: View {
                     })
                     HStack {
                         TextField("Tap to Search for Stocks", text: $searchText) { isEditing in
-                            self.isEditing = isEditing
+                            if(isEditing){
+                                self.isEditing = isEditing
+                            }
                         } onCommit: {
                             isLoadingAsset = true
                             myAppObjects.searchStock(stockToSearch: searchText){
@@ -305,7 +307,9 @@ struct AssetWatchListPage: View {
                     }
                     HStack {
                         TextField("Tap to Search For Crypto", text: $searchText){ isEditing in
-                            self.isEditing = isEditing
+                            if(isEditing){
+                                self.isEditing = isEditing
+                            }
                         } onCommit: {
                             isLoadingAsset = true
                             myAppObjects.searchCrypto(cryptoToSearch: searchText){
