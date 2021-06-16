@@ -70,8 +70,8 @@ struct OrderView: View {
                         .foregroundColor(myColors.greenColor)
                         .font(.custom("Verdana", fixedSize: 12))
                     Spacer()
-                    Text("\(orderHistoryElement.dateFilled)")
-                        .foregroundColor(.white)
+                    Text("\(orderHistoryElement.dateFilled.getTimeInterval())")
+                        .foregroundColor(.gray)
                         .font(.custom("Verdana", fixedSize: 12))
                 }
                 Rectangle()

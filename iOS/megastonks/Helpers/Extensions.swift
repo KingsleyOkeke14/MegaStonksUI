@@ -164,6 +164,40 @@ extension String {
         return dateFormatter2.string(from: dateFromString ?? Date())
     }
     
+    func toDateTimeFormat() -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
+        dateFormatter.timeZone = TimeZone(abbreviation: "UTC")
+        var dateToConvert = self
+        dateToConvert.removeLast(8)
+        let dateFromString = dateFormatter.date(from: dateToConvert)
+
+        dateFormatter.dateFormat = "EE, MMM d, yyyy h:mm:ss a"
+
+        dateFormatter.timeZone = TimeZone.current
+        return dateFormatter.string(from: dateFromString ?? Date())
+    }
+    
+    func getTimeInterval() -> String {
+        
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
+        dateFormatter.timeZone = TimeZone(abbreviation: "UTC")
+        var dateToConvert = self
+        dateToConvert.removeLast(8)
+        let dateFromString = dateFormatter.date(from: dateToConvert)
+        
+        let formatter = DateComponentsFormatter()
+        formatter.allowedUnits = [.year, .day, .hour, .minute]
+        formatter.unitsStyle = .full
+        formatter.maximumUnitCount = 1
+        
+        let timeInterval = formatter.string(from: dateFromString ?? Date(), to: Date()) ?? ""
+        
+        return (!timeInterval.isEmpty ? "\(timeInterval) ago" : "-")
+    }
+    
 }
 
 extension Notification.Name {

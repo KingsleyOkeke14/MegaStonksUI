@@ -62,7 +62,7 @@ struct OrderDetailView: View {
                             .padding(.horizontal)
                         
                         TripleRowView(label1: "Order Type", value1: orderHistoryElement.orderType, label2: "Status", value2: orderHistoryElement.orderStatus, label3: "Action", value3: orderHistoryElement.orderAction)
-                        DoubleRowView(label1: "Date Submitted", value1: orderHistoryElement.dateSubmitted, label2: "Date Filled", value2: orderHistoryElement.dateFilled)
+                        DoubleRowView(label1: "Date Submitted", value1: orderHistoryElement.dateSubmitted.toDateTimeFormat(), label2: "Date Filled", value2: orderHistoryElement.dateFilled.toDateTimeFormat())
                         DoubleRowView(label1: "Qty Submitted", value1: "\(orderHistoryElement.quantitySubmitted.formatNoDecimal()) \(shareText)", label2: "Qty Filled", value2: "\(orderHistoryElement.quantityFilled.formatNoDecimal()) \(shareText)")
                         SingleRowView(label: "Commission", value: "$\(orderHistoryElement.commission)")
                         DoubleRowView(label1: "", value1: "\(orderHistoryElement.quantityFilled.formatNoDecimal()) \(shareText) x $\(orderHistoryElement.pricePerShare)", label2: "Price Filled", value2: "$\(orderHistoryElement.totalPriceFilled)")
