@@ -40,6 +40,7 @@
 		D0369D2125C76B1900718A52 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D0369D2025C76B1900718A52 /* Preview Assets.xcassets */; };
 		D038CEED2671B0FE00F5DA57 /* RedactedViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D038CEEC2671B0FE00F5DA57 /* RedactedViewModifier.swift */; };
 		D03BBAD9266F2CE400928FB8 /* LocalNotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D03BBAD8266F2CE400928FB8 /* LocalNotificationManager.swift */; };
+		D040342126783651006E2F5A /* CryptoSymbolHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D040342026783651006E2F5A /* CryptoSymbolHomeView.swift */; };
 		D045DB1B262BCEBE0040C067 /* SwiftKeychainWrapper in Frameworks */ = {isa = PBXBuildFile; productRef = D045DB1A262BCEBE0040C067 /* SwiftKeychainWrapper */; };
 		D045DB1E262BE5530040C067 /* APIRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D045DB1D262BE5530040C067 /* APIRequest.swift */; };
 		D04E9B252651B8BE000A1B7C /* megastonksUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D04E9B242651B8BE000A1B7C /* megastonksUITests.swift */; };
@@ -135,6 +136,7 @@
 		D0369D2225C76B1900718A52 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D038CEEC2671B0FE00F5DA57 /* RedactedViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RedactedViewModifier.swift; sourceTree = "<group>"; };
 		D03BBAD8266F2CE400928FB8 /* LocalNotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalNotificationManager.swift; sourceTree = "<group>"; };
+		D040342026783651006E2F5A /* CryptoSymbolHomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoSymbolHomeView.swift; sourceTree = "<group>"; };
 		D045DB1D262BE5530040C067 /* APIRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIRequest.swift; sourceTree = "<group>"; };
 		D04E9B222651B8BE000A1B7C /* megastonksUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = megastonksUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D04E9B242651B8BE000A1B7C /* megastonksUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = megastonksUITests.swift; sourceTree = "<group>"; };
@@ -267,6 +269,7 @@
 				D0D929AD266092C800C14BE2 /* PageView.swift */,
 				D0356A9026658EF700C07A3A /* PullToRefreshView.swift */,
 				D07B3B9A266AF22200B9CD1B /* NewsPage.swift */,
+				D040342026783651006E2F5A /* CryptoSymbolHomeView.swift */,
 			);
 			path = SubViews;
 			sourceTree = "<group>";
@@ -576,6 +579,7 @@
 				D031EB3F26118C7F001504B5 /* API.swift in Sources */,
 				D004686F25D8B96E006C60E9 /* OrderView.swift in Sources */,
 				D0F948802635B20C0069D2B7 /* BannerViewModifier.swift in Sources */,
+				D040342126783651006E2F5A /* CryptoSymbolHomeView.swift in Sources */,
 				D00A6687263486AD0085EB1C /* User.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -57,6 +57,7 @@ struct LoginPageView: View {
                             .foregroundColor(.red)
                             .bold()
                             .padding(.horizontal, 10)
+                            .multilineTextAlignment(.center)
                         
                         Button(action: {
                             hideKeyboard()
@@ -129,7 +130,6 @@ struct LoginPageView: View {
                 .navigationBarTitle("Login")
                 .navigationBarHidden(true)
         }
-        .animation(Animation.default)
         .navigationViewStyle(StackNavigationViewStyle())
         
     }
@@ -139,6 +139,7 @@ struct LoginPageView: View {
 struct LoginPageView_Previews: PreviewProvider {
     static var previews: some View {
         LoginPageView()
+            .environmentObject(UserAuth())
         
     }
 }
