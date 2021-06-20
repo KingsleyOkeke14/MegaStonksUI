@@ -31,12 +31,16 @@ struct APIRoutes {
     private let cryptoInfoRoute = "cryptos/crypto"
     private let stockHoldingRoute = "stocks/stockholding"
     private let stockHoldingsRoute = "stocks/stockholdings"
+    private let cryptoHoldingRoute = "cryptos/cryptoholding"
+    private let cryptoHoldingsRoute = "cryptos/cryptoholdings"
     private let priceChartRoute = "stocks/pricechart"
     private let priceHistoryRoute = "stocks/pricehistory"
     private let isMarketOpenRoute = "fmpApi/ismarketopen"
     private let walletRoute = "wallet"
-    private let orderHistoryRoute = "order/getorders"
+    private let orderStockHistoryRoute = "order/getorders"
+    private let orderCryptoHistoryRoute = "order/getcryptoorders"
     private let orderStockRoute = "order/orderStock"
+    private let orderCryptoRoute = "order/orderCrypto"
     private let getAdsRoute = "ads/getallads"
     private let getNewsRoute = "stocks/stocknews"
     
@@ -61,12 +65,16 @@ struct APIRoutes {
     var cryptoInfo = URL(string: "")
     var stockHolding = URL(string: "")
     var stockHoldings = URL(string: "")
+    var cryptoHolding = URL(string: "")
+    var cryptoHoldings = URL(string: "")
     var priceChart = URL(string: "")
     var priceHistory = URL(string: "")
     var isMarketOpen = URL(string: "")
     var wallet = URL(string: "")
-    var orderHistory = URL(string: "")
+    var orderStockHistory = URL(string: "")
+    var orderCryptoHistory = URL(string: "")
     var orderStock = URL(string: "")
+    var orderCrypto = URL(string: "")
     var getAds = URL(string: "")
     var getNews = URL(string: "")
     
@@ -92,12 +100,16 @@ struct APIRoutes {
         cryptoInfo = URL(string: server + cryptoInfoRoute)!
         stockHolding = URL(string: server + stockHoldingRoute)!
         stockHoldings = URL(string: server + stockHoldingsRoute)!
+        cryptoHolding = URL(string: server + cryptoHoldingRoute)!
+        cryptoHoldings = URL(string: server + cryptoHoldingsRoute)!
         priceChart = URL(string: server + priceChartRoute)!
         priceHistory = URL(string: server + priceHistoryRoute)!
         isMarketOpen = URL(string: server + isMarketOpenRoute)!
         wallet = URL(string: server + walletRoute)!
-        orderHistory = URL(string: server + orderHistoryRoute)!
+        orderStockHistory = URL(string: server + orderStockHistoryRoute)!
+        orderCryptoHistory = URL(string: server + orderCryptoHistoryRoute)!
         orderStock = URL(string: server + orderStockRoute)!
+        orderCrypto = URL(string: server + orderCryptoRoute)!
         getAds = URL(string: server + getAdsRoute)!
         getNews = URL(string: server + getNewsRoute)!
     }
@@ -914,11 +926,17 @@ struct API{
     }
     
     
-    func GetStockHolding(stockId: Int, completion: @escaping (RequestResponse) -> ()) {
+    func GetAssetHolding(assetId: Int, isCrypto:Bool, completion: @escaping (RequestResponse) -> ()) {
         
-        let url = apiRoutes.stockHolding!
-        let queryItems = [URLQueryItem(name: "stockId", value: "\(stockId)")]
-        let newUrl = url.appending(queryItems)!
+        var url = apiRoutes.stockHolding!
+        var queryItems = [URLQueryItem(name: "stockId", value: "\(assetId)")]
+        var newUrl = url.appending(queryItems)!
+        
+        if(isCrypto){
+            url = apiRoutes.cryptoHolding!
+            queryItems = [URLQueryItem(name: "cryptoId", value: "\(assetId)")]
+            newUrl = url.appending(queryItems)!
+        }
         
         var request = AppUrlRequest(url: newUrl, httpMethod: "GET").request
         if let jwtToken: String = KeychainWrapper.standard.string(forKey: "jwtToken"){
@@ -973,10 +991,12 @@ struct API{
         
     }
     
-    func GetStockHoldings(completion: @escaping (RequestResponse) -> ()) {
+    func GetAssetHoldings(isCrypto: Bool, completion: @escaping (RequestResponse) -> ()) {
         
-        let url = apiRoutes.stockHoldings!
-        
+        var url = apiRoutes.stockHoldings!
+        if isCrypto {
+            url = apiRoutes.cryptoHoldings!
+        }
         var request = AppUrlRequest(url: url, httpMethod: "GET").request
         if let jwtToken: String = KeychainWrapper.standard.string(forKey: "jwtToken"){
             request.setValue( "Bearer \(jwtToken)", forHTTPHeaderField: "Authorization")
@@ -1015,7 +1035,7 @@ struct API{
                             result.errorMessage = jsonResponse.message
                         }
                         else{
-                            result.errorMessage = "Could Not Retrieve Stock Holdings"
+                            result.errorMessage = "Could Not Retrieve Asset Holdings"
                         }
                         
                     }
@@ -1218,9 +1238,13 @@ struct API{
         
     }
     
-    func GetOrderHistory(completion: @escaping (RequestResponse) -> ()) {
+    func GetOrderHistory(isCrypto: Bool, completion: @escaping (RequestResponse) -> ()) {
         
-        let url = apiRoutes.orderHistory!
+        var url: URL = apiRoutes.orderStockHistory!
+        
+        if(isCrypto){
+            url = apiRoutes.orderCryptoHistory!
+        }
         
         var request = AppUrlRequest(url: url, httpMethod: "GET").request
         if let jwtToken: String = KeychainWrapper.standard.string(forKey: "jwtToken"){
@@ -1260,7 +1284,7 @@ struct API{
                             result.errorMessage = jsonResponse.message
                         }
                         else{
-                            result.errorMessage = "Could Not Retrieve Stock Information"
+                            result.errorMessage = "Could Not Retrieve Asset Information"
                         }
                         
                     }
@@ -1286,6 +1310,62 @@ struct API{
             
             
             let jsonData = try! JSONEncoder().encode(orderStockRequest)
+            
+            
+            let task = session.uploadTask(with: request, from: jsonData) { (data, response, error) in
+                
+                
+                result.data = data
+                
+                if error != nil || data == nil {
+                    print("Client error!")
+                    print("Error is \(error!)")
+                    result.isSuccessful = false
+                    result.errorMessage = "Error contacting the server. Please Check your internet connection"
+                    completion(result)
+                    return
+                }
+                
+                if let httpResponse = response as? HTTPURLResponse{
+                    
+                    if httpResponse.statusCode == 200{
+                        result.isSuccessful = true
+                    }
+                    else if(httpResponse.statusCode == 401){
+                        DispatchQueue.main.async {
+                            NotificationCenter.default.post(name: .didAuthTokenExpire, object: nil)
+                            print("401 Unauthorized")
+                        }
+                    }
+                    else{
+                        result.isSuccessful = false
+                        
+                        if let jsonResponse = try? decoder.decode(CommonAPIResponse.self, from: result.data!){
+                            result.errorMessage = jsonResponse.message
+                        }
+                        else{
+                            result.errorMessage = "Error: Placing Order. Please try again or contact us if the porblem persists"
+                        }
+                    }
+                }
+                completion(result)
+                
+            }
+            task.resume()
+        }
+    }
+    
+    func OrderCrypto(cryptoId:Int, orderType:String, orderAction:String, quantitySubmitted: Double, completion: @escaping (RequestResponse) -> ()) {
+        
+        var result = RequestResponse()
+        let orderCryptoRequest = OrderCryptoRequest(cryptoId: cryptoId, orderType: orderType, orderAction: orderAction, quantitySubmitted: quantitySubmitted)
+        var request = AppUrlRequest(url: apiRoutes.orderCrypto!, httpMethod: "POST").request
+        
+        if let jwtToken: String = KeychainWrapper.standard.string(forKey: "jwtToken"){
+            request.setValue( "Bearer \(jwtToken)", forHTTPHeaderField: "Authorization")
+            
+            
+            let jsonData = try! JSONEncoder().encode(orderCryptoRequest)
             
             
             let task = session.uploadTask(with: request, from: jsonData) { (data, response, error) in

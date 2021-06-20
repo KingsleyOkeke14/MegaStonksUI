@@ -12,7 +12,7 @@ struct MyHoldingsView: View {
     var isCrypto: Bool
     @Binding var themeColor:Color
     
-    @Binding var holding:StockHoldingInfoPage
+    @Binding var holding:HoldingInfoPage
     
     @State var showTip:Bool = false
     
@@ -33,7 +33,7 @@ struct MyHoldingsView: View {
                         .edgesIgnoringSafeArea(.horizontal)
                     
                 }
-                DoubleColumnedView(themeColor: $themeColor, column1Field: isCrypto ? "Units" : "My Shares", column1Text: "\(holding.quantity!.formatNoDecimal())", column2Field: "Market Value", column2Text: "$\(holding.marketValue!.formatPrice())", isPortfolio: false, percentofPortfolio: 0)
+                DoubleColumnedView(themeColor: $themeColor, column1Field: isCrypto ? "Units" : "My Shares", column1Text: isCrypto ? "\(holding.quantity!.formatPrice())" : "\(holding.quantity!.formatNoDecimal())", column2Field: "Market Value", column2Text: "$\(holding.marketValue!.formatPrice())", isPortfolio: false, percentofPortfolio: 0)
                 DoubleColumnedView(themeColor: $themeColor, column1Field: "Average Cost", column1Text: "$\(holding.averageCost!.formatPrice())", column2Field: "% of My Portfolio", column2Text: "\(holding.percentOfPortfolio!.formatPrice())%", isPortfolio: true, percentofPortfolio: CGFloat(holding.percentOfPortfolio!/100))
                 
                 VStack{
@@ -69,7 +69,10 @@ struct MyHoldingsView: View {
                         .edgesIgnoringSafeArea(.horizontal)
                 }
                 SingleColumnView(columnField: "Total Return", textField: "\(holding.moneyReturnTotal!.signToString())$\(fabs(holding.moneyReturnTotal!).formatPrice()) (\(holding.percentReturnTotal!.formatPercentChange())%)")
-            }.padding(.horizontal)
+            }
+            .lineLimit(1)
+            .minimumScaleFactor(0.5)
+            .padding(.horizontal)
         }
         
     }
@@ -183,7 +186,7 @@ struct SingleColumnView: View {
 
 struct MyHoldingsView_Previews: PreviewProvider {
     static var previews: some View {
-        MyHoldingsView(isCrypto: false, themeColor: Binding.constant(Color.red), holding: Binding.constant(StockHoldingInfoPage(HoldingResponseInfoPage(id: 0, averageCost: 10000, quantity: 200.00, marketValue: 0, percentReturnToday: 0, moneyReturnToday: 0, percentReturnTotal: 0, moneyReturnTotal: 0, percentOfPortfolio: 0, lastUpdated: ""))))
+        MyHoldingsView(isCrypto: false, themeColor: Binding.constant(Color.red), holding: Binding.constant(HoldingInfoPage(HoldingResponseInfoPage(id: 0, averageCost: 10000, quantity: 200.00, marketValue: 0, percentReturnToday: 0, moneyReturnToday: 0, percentReturnTotal: 0, moneyReturnTotal: 0, percentOfPortfolio: 0, lastUpdated: ""))))
             .preferredColorScheme(.dark)
     }
 }

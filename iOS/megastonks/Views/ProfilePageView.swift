@@ -38,7 +38,7 @@ struct ProfilePageView: View {
     
     var body: some View {
         NavigationView{
-                    VStack(spacing: 12){
+                    VStack(spacing: 10){
                         
                         HStack{
                             Text("Account")
@@ -80,36 +80,60 @@ struct ProfilePageView: View {
                         UserProfileWalletSummary(firsName: $userWallet.firstName, lastName: $userWallet.lastName, cash: $userWallet.cash, investments: $userWallet.investments, initialDeposit: $userWallet.initialDeposit, cashPercentage: $userWallet.cashPercentage)
                         
                         
-                        
-                        NavigationLink(
-                            destination: OrdersPageView().environmentObject(myAppObjects),
-                            label: {
-                                VStack(spacing: 0) {
-                                    
-                                    HStack {
-                                        Text("Orders")
-                                            .font(.custom("Apple SD Gothic Neo", fixedSize: 22))
-                                            .bold()
-                                            .foregroundColor(myColors.greenColor)
+                        VStack(spacing: 0){
+                            NavigationLink(
+                                destination: OrdersPageView(isCrypto: false).environmentObject(myAppObjects),
+                                label: {
+                                    VStack(spacing: 0) {
                                         
-                                        Spacer()
-                                        Image(systemName: "chevron.forward.circle")
-                                            .foregroundColor(myColors.greenColor)
-                                        
-                                    }
-                                    Rectangle()
-                                        .fill(myColors.greenColor)
-                                        .frame(height: 2)
-                                        .edgesIgnoringSafeArea(.horizontal)
-                                    
-                                }.padding(.horizontal)
-                            })
+                                        HStack {
+                                            Text("Stock Orders")
+                                                .font(.custom("Apple SD Gothic Neo", fixedSize: 22))
+                                                .bold()
+                                                .foregroundColor(myColors.greenColor)
+                                            
+                                            Spacer()
+                                            Image(systemName: "chevron.forward.circle")
+                                                .foregroundColor(myColors.greenColor)
+                                            
+                                        }
+                                    }.padding(.horizontal)
+                                })
+                                
                             
-                        
-                        
-                        if(!myAppObjects.orderHistory.history.isEmpty){
-                            OrderView(orderHistoryElement: myAppObjects.orderHistory.history[0]).padding(.top, 10)
+                            
+                            if(!myAppObjects.orderStockHistory.history.isEmpty){
+                                OrderStockHistoryView(orderHistoryElement: myAppObjects.orderStockHistory.history[0]).padding(.top, 10)
+                            }
                         }
+                        
+                        VStack(spacing: 0){
+                            NavigationLink(
+                                destination: OrdersPageView(isCrypto: true).environmentObject(myAppObjects),
+                                label: {
+                                    VStack(spacing: 0) {
+                                        
+                                        HStack {
+                                            Text("Crypto Orders")
+                                                .font(.custom("Apple SD Gothic Neo", fixedSize: 22))
+                                                .bold()
+                                                .foregroundColor(myColors.greenColor)
+                                            
+                                            Spacer()
+                                            Image(systemName: "chevron.forward.circle")
+                                                .foregroundColor(myColors.greenColor)
+                                            
+                                        }
+                                    }.padding(.horizontal)
+                                })
+                                
+                            if(!myAppObjects.orderCryptoHistory.history.isEmpty){
+                                OrderCryptoHistoryView(orderHistoryElement: myAppObjects.orderCryptoHistory.history[0]).padding(.top, 10)
+                            }
+                        }
+
+                        
+
                       
                         Spacer()
                         AdsView(showRandomAd: false).environmentObject(myAppObjects)
@@ -120,7 +144,8 @@ struct ProfilePageView: View {
                     
                     }.onAppear(perform: {
                         isLoading = true
-                        myAppObjects.getOrderHistoryAsync()
+                        myAppObjects.getStockOrderHistoryAsync()
+                        myAppObjects.getCryptoOrderHistoryAsync()
                         myAppObjects.getWallet(){
                             result in
                             if(result.isSuccessful){
@@ -144,7 +169,8 @@ struct ProfilePageView: View {
         
         }
         .onReceive(pub, perform: { _ in
-            myAppObjects.getOrderHistoryAsync()
+            myAppObjects.getStockOrderHistoryAsync()
+            myAppObjects.getCryptoOrderHistoryAsync()
             myAppObjects.getWallet(){
                 result in
                 if(result.isSuccessful){

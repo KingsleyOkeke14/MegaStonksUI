@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct OrderHistoryElement: Identifiable, Hashable{
+struct OrderStockHistoryElement: Identifiable, Hashable{
     var id: UUID = UUID()
     var symbol: String
     var name: String
@@ -18,7 +18,7 @@ struct OrderHistoryElement: Identifiable, Hashable{
     var pricePerShare, totalPriceFilled, totalCost: Double
     var dateSubmitted, dateFilled: String
     
-    init(_ orderHistoryElement: OrderHistoryResponseElement) {
+    init(_ orderHistoryElement: OrderStockHistoryResponseElement) {
         self.symbol = orderHistoryElement.symbol ?? ""
         self.name = orderHistoryElement.name ?? ""
         self.orderType = orderHistoryElement.orderType ?? ""
@@ -35,14 +35,14 @@ struct OrderHistoryElement: Identifiable, Hashable{
     }
 }
 
-struct OrderHistory{
-    var history: [OrderHistoryElement] = [OrderHistoryElement]()
+struct OrderStockHistory{
+    var history: [OrderStockHistoryElement] = [OrderStockHistoryElement]()
     
-    init(orderArray:[OrderHistoryResponseElement]){
+    init(orderArray:[OrderStockHistoryResponseElement]){
         
         for order in orderArray{
             
-            let orderToAdd = OrderHistoryElement(order)
+            let orderToAdd = OrderStockHistoryElement(order)
             history.append(orderToAdd)
         }
         history.reverse()

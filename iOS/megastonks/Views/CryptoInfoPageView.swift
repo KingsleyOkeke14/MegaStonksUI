@@ -21,7 +21,7 @@ struct CryptoInfoPageView: View {
     
     @State var buttonList: [(buttonName: String, buttonState: Bool)] = [("1D", true), ("5D", false), ("10D", false), ("15D", false), ("30D", false)]
     
-    @State var stockHolding:StockHoldingInfoPage
+    @State var cryptoHolding:HoldingInfoPage
     
     @State var chartData:[(String, Double)]? = nil
     
@@ -45,7 +45,7 @@ struct CryptoInfoPageView: View {
         _cryptoSymbol = State(initialValue: crypto ?? nil)
         _isInWatchList = State(initialValue: crypto?.isInWatchlist ?? false)
         _themeColor = State(initialValue: (cryptoQuote?.percentChange24H ?? 0 >= 0) ? Color.green : Color.red )
-        _stockHolding = State.init( initialValue: StockHoldingInfoPage(HoldingResponseInfoPage(id: 0, averageCost: 0, quantity: 0, marketValue: 0, percentReturnToday: 0, moneyReturnToday: 0, percentReturnTotal: 0, moneyReturnTotal: 0, percentOfPortfolio: 0, lastUpdated: "")))
+        _cryptoHolding = State.init( initialValue: HoldingInfoPage(HoldingResponseInfoPage(id: 0, averageCost: 0, quantity: 0, marketValue: 0, percentReturnToday: 0, moneyReturnToday: 0, percentReturnTotal: 0, moneyReturnTotal: 0, percentOfPortfolio: 0, lastUpdated: "")))
     }
     
     func changeActiveButton(activeButton: Int){
@@ -213,9 +213,9 @@ struct CryptoInfoPageView: View {
                                         }, label: {
                                             ButtonView(cornerRadius: 12,  text: "Buy", textColor: myColors.grayColor, textSize: 20, frameWidth: 80, frameHeight: 34, backGroundColor: themeColor, strokeBorders: false, fillColor: themeColor)
                                         }).sheet(isPresented: $showingOrderPage) {
-//                                            PlaceOrderPageView(stockSymbol: $cryptoSymbol, orderAction: $orderAction)
-//                                                .environmentObject(myAppObjects)
-//                                                .environmentObject(userAuth)
+                                            PlaceOrderCryptoPageView(cryptoSymbol: $cryptoSymbol, cryptoQuote: $cryptoQuote, orderAction: $orderAction)
+                                                .environmentObject(myAppObjects)
+                                                .environmentObject(userAuth)
                                         }
                                         
                                         
@@ -227,26 +227,24 @@ struct CryptoInfoPageView: View {
                                             }, label: {
                                                 ButtonView(cornerRadius: 12,  text: "Sell", textColor: themeColor, textSize: 20, frameWidth: 80, frameHeight: 34, strokeBorders: false, fillColor: myColors.grayColor)
                                             }).sheet(isPresented: $showingOrderPage) {
-//                                                PlaceOrderPageView(stockSymbol: $cryptoSymbol, orderAction: $orderAction)
-//                                                    .environmentObject(myAppObjects)
-//                                                    .environmentObject(userAuth)
+                                                PlaceOrderCryptoPageView(cryptoSymbol: $cryptoSymbol, cryptoQuote: $cryptoQuote, orderAction: $orderAction)
+                                                    .environmentObject(myAppObjects)
+                                                    .environmentObject(userAuth)
                                             }
-                                        }
-                                        
-                                        
+                                        }          
                                         Spacer()
                                     }
                                     if(cryptoSymbol!.isInPortfolio){
-                                        MyHoldingsView(isCrypto: true, themeColor: $themeColor, holding: $stockHolding)
-                                            //.onChange(of: showingOrderPage, perform: { value in
-//                                            myAppObjects.getStockHolding(stockId: cryptoSymbol.stockId){
-//                                                result in
-//
-//                                                if(result.isSuccessful){
-//                                                    stockHolding = result.stockHoldingInfoPageResponse!
-//                                                }
-//                                            }
-//                                        })
+                                        MyHoldingsView(isCrypto: true, themeColor: $themeColor, holding: $cryptoHolding)
+                                            .onChange(of: showingOrderPage, perform: { value in
+                                                myAppObjects.getCryptoHolding(cryptoId: cryptoSymbol!.crypto.cryptoId){
+                                                result in
+
+                                                if(result.isSuccessful){
+                                                    cryptoHolding = result.holdingInfoPageResponse!
+                                                }
+                                            }
+                                        })
                                     }
                                     CryptoStatisticsView(cryptoSymbol: $cryptoSymbol, cryptoQuote: userAuth.user.currency == "CAD" ? CryptoQuote(cryptoSymbol!.cadQuote) : CryptoQuote(cryptoSymbol!.usdQuote), themeColor: $themeColor)
                                     TokenInfoView(cryptoSymbol: $cryptoSymbol, themeColor: $themeColor)
@@ -310,31 +308,37 @@ struct CryptoInfoPageView: View {
                         }
                         isLoading = false
                     }
-                    //                myAppObjects.getStockHolding(stockId: cryptoSymbol.stockId){
-                    //                    result in
-                    //
-                    //                    if(result.isSuccessful){
-                    //                        stockHolding = result.stockHoldingInfoPageResponse!
-                    //                    }
-                    //                }
-                    //                myAppObjects.getPriceChart(stockId: cryptoSymbol.stockId, isPriceHistory: false){
-                    //                    result in
-                    //                    if(result.isSuccessful){
-                    //                        chartData = result.stockChartDataResponse!.dataSet
-                    //                        chartDiscrepancy = String(cryptoSymbol.change.formatPrice() + "  (" + cryptoSymbol.changesPercentage.formatPercentChange() + "%)")
-                    //                        chartPeriod = "Today"
-                    //                        isStockGaining = (cryptoSymbol.changesPercentage >= 0) ? true : false
-                    //                    }
-                    //
-                    //                }
+                    myAppObjects.getCryptoHolding(cryptoId: cryptoToSearch){
+                                        result in
+                    
+                                        if(result.isSuccessful){
+                                            cryptoHolding = result.holdingInfoPageResponse!
+                                        }
+                                    }
+//                                    myAppObjects.getPriceChart(stockId: cryptoSymbol.stockId, isPriceHistory: false){
+//                                        result in
+//                                        if(result.isSuccessful){
+//                                            chartData = result.stockChartDataResponse!.dataSet
+//                                            chartDiscrepancy = String(cryptoSymbol.change.formatPrice() + "  (" + cryptoSymbol.changesPercentage.formatPercentChange() + "%)")
+//                                            chartPeriod = "Today"
+//                                            isStockGaining = (cryptoSymbol.changesPercentage >= 0) ? true : false
+//                                        }
+//
+//                                    }
                 }
                 else{
-                    //
+                    myAppObjects.getCryptoHolding(cryptoId: cryptoSymbol!.crypto.cryptoId){
+                        result in
+                        
+                        if(result.isSuccessful){
+                            cryptoHolding = result.holdingInfoPageResponse!
+                        }
+                     }
                 }
             })
             .navigationBarTitleDisplayMode(.inline)
             .banner(data: $myAppObjects.bannerData, show: $myAppObjects.showBanner)
-    }
+            }
 }
 
 struct CryptoInfoPageView_Previews: PreviewProvider {

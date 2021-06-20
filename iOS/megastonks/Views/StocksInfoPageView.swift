@@ -19,7 +19,7 @@ struct StocksInfoPageView: View {
     
     @State var buttonList: [(buttonName: String, buttonState: Bool)] = [("1D", true), ("5D", false), ("1M", false), ("3M", false), ("1Y", false), ("5Y", false)]
     
-    @State var stockHolding:StockHoldingInfoPage
+    @State var stockHolding:HoldingInfoPage
     
     @State var chartData:[(String, Double)]? = nil
     
@@ -44,7 +44,7 @@ struct StocksInfoPageView: View {
         _isInWatchList = State(initialValue: stock?.isInWatchList ?? false)
         _stockSymbol = State(initialValue: stock)
         _themeColor = State(initialValue: (stock?.change ?? 0 >= 0) ? Color.green : Color.red )
-        _stockHolding = State.init( initialValue: StockHoldingInfoPage(HoldingResponseInfoPage(id: 0, averageCost: 0, quantity: 0, marketValue: 0, percentReturnToday: 0, moneyReturnToday: 0, percentReturnTotal: 0, moneyReturnTotal: 0, percentOfPortfolio: 0, lastUpdated: "")))
+        _stockHolding = State.init( initialValue: HoldingInfoPage(HoldingResponseInfoPage(id: 0, averageCost: 0, quantity: 0, marketValue: 0, percentReturnToday: 0, moneyReturnToday: 0, percentReturnTotal: 0, moneyReturnTotal: 0, percentOfPortfolio: 0, lastUpdated: "")))
         self.showOrderButtons = showOrderButtons
     }
     
@@ -265,7 +265,7 @@ struct StocksInfoPageView: View {
                                             result in
                                             
                                             if(result.isSuccessful){
-                                                stockHolding = result.stockHoldingInfoPageResponse!
+                                                stockHolding = result.holdingInfoPageResponse!
                                                 stockSymbol!.isInPortfolio = true
                                             }
                                             else{
@@ -339,7 +339,7 @@ struct StocksInfoPageView: View {
                             result in
                             
                             if(result.isSuccessful){
-                                stockHolding = result.stockHoldingInfoPageResponse!
+                                stockHolding = result.holdingInfoPageResponse!
                             }
                         }
                     }
@@ -349,7 +349,7 @@ struct StocksInfoPageView: View {
                             result in
                             
                             if(result.isSuccessful){
-                                stockHolding = result.stockHoldingInfoPageResponse!
+                                stockHolding = result.holdingInfoPageResponse!
                             }
                         }
                         chartDiscrepancy = String(stockSymbol!.change.formatPrice() + "  (" + stockSymbol!.changesPercentage.formatPercentChange() + "%)")
@@ -411,7 +411,7 @@ struct ButtonSelected: View {
 
 struct StocksInfoPageView_Previews: PreviewProvider {
     static var previews: some View {
-        StocksInfoPageView(showOrderButtons: false, stockToSearch: 0, stock: StockSymbolModel().symbols[0])
+        StocksInfoPageView(showOrderButtons: true, stockToSearch: 0, stock: StockSymbolModel().symbols[0])
             .preferredColorScheme(.dark)
             .environmentObject(AppObjects())
     }

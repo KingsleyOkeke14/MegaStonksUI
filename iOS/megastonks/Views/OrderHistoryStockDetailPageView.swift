@@ -7,21 +7,18 @@
 
 import SwiftUI
 
-struct OrderDetailView: View {
+struct OrderHistoryStockDetailPageView: View {
     
-    var orderHistoryElement: OrderHistoryElement
+    var orderHistoryElement: OrderStockHistoryElement
     var shareText = "Shares"
     
-    init(orderHistoryElement: OrderHistoryElement){
+    init(orderHistoryElement: OrderStockHistoryElement){
         self.orderHistoryElement = orderHistoryElement
         self.shareText = orderHistoryElement.quantityFilled <= 1.0 ? "Share" : "Shares"
     }
     
     let myColors = MyColors()
     var body: some View {
-        Color.black
-            .ignoresSafeArea()
-            .overlay(
                 ScrollView{
                     Spacer(minLength: 20)
                     VStack(spacing: 20){
@@ -50,7 +47,7 @@ struct OrderDetailView: View {
                                     .frame(width: 80, height: 80, alignment: .center)
                                     .padding()
                             }
-                            
+            
                         }
                         
                         
@@ -75,7 +72,6 @@ struct OrderDetailView: View {
                         
                     }.lineLimit(1).minimumScaleFactor(0.5)
                 }
-            )
     }
 }
 
@@ -197,6 +193,6 @@ struct TripleRowView: View {
 
 struct OrderDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        OrderDetailView(orderHistoryElement: StockSymbolModel().orderHistoryElement)
+        OrderHistoryStockDetailPageView(orderHistoryElement: StockSymbolModel().orderHistoryElement).preferredColorScheme(.dark)
     }
 }

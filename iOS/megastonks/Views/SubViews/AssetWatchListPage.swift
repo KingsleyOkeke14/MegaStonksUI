@@ -260,7 +260,7 @@ struct AssetWatchListPage: View {
                                         .font(.custom("Apple SD Gothic Neo", fixedSize: 16))
                                         .foregroundColor(.gray)
                                         .padding(.horizontal)
-                                    Text("Surely, there are some assets you would like to track in your watchlist")
+                                    Text("Surely, there are some assets you would like to track here. Use the search bar above to browse and search for stocks to add to your watchlist")
                                         .font(.custom("Apple SD Gothic Neo", fixedSize: 16))
                                         .bold()
                                         .foregroundColor(.gray)
@@ -383,7 +383,7 @@ struct AssetWatchListPage: View {
                                                 destination: CryptoInfoPageView(cryptoToSearch: crypto.cryptoId, crypto: nil, cryptoQuote: nil)
                                                     .onDisappear(perform: {
                                                         myAppObjects.updateCryptoWatchListAsync()
-                                                        myAppObjects.getStockHoldingsAsync()
+                                                        myAppObjects.getCryptoHoldingsAsync()
                                                     }),
                                                 tag: crypto.id.uuidString,
                                                 selection: $selectedItem,
@@ -468,7 +468,7 @@ struct AssetWatchListPage: View {
                                                 NavigationLink(
                                                     destination: CryptoInfoPageView(cryptoToSearch: 0, crypto: crypto, cryptoQuote: userAuth.user.currency == "USD" ? CryptoQuote(crypto.usdQuote) : CryptoQuote(crypto.cadQuote)).environmentObject(myAppObjects).onDisappear(perform: {
                                                         myAppObjects.updateCryptoWatchListAsync()
-                                                        //myAppObjects.getStockHoldingsAsync()
+                                                        myAppObjects.getCryptoHoldingsAsync()
                                                     }),
                                                     tag: crypto.crypto.id.uuidString,
                                                     selection: $selectedItem,
@@ -491,7 +491,7 @@ struct AssetWatchListPage: View {
                                         .font(.custom("Apple SD Gothic Neo", fixedSize: 16))
                                         .foregroundColor(.gray)
                                         .padding(.horizontal)
-                                    Text("Surely, there are some assets you would like to track in your crypto watchlist")
+                                    Text("Surely, there are some assets you would like to track in your crypto watchlist. Use the search bar above to browse and search for crypto currencies to add to your watchlist")
                                         .font(.custom("Apple SD Gothic Neo", fixedSize: 16))
                                         .bold()
                                         .foregroundColor(.gray)

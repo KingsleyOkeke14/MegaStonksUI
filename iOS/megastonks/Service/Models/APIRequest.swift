@@ -93,3 +93,18 @@ class OrderStockRequest: Codable {
         self.quantitySubmitted = quantitySubmitted
     }
 }
+
+class OrderCryptoRequest: Codable {
+
+    let cryptoId: Int
+    let orderType: String
+    let orderAction: String
+    let quantitySubmitted: Double
+
+    init(cryptoId: Int, orderType: String, orderAction: String, quantitySubmitted: Double) {
+        self.cryptoId = cryptoId
+        self.orderType = orderType
+        self.orderAction = orderAction
+        self.quantitySubmitted = quantitySubmitted
+    }
+}

@@ -86,12 +86,12 @@ struct ProfileSettingsPageView: View {
                                 
                             }.padding(.vertical)
                             
-                            Button(action: {
-                                impactMed.impactOccurred()
-                                showDeleteAccountConfirmation.toggle()
-                            }, label: {
-                                ButtonView(cornerRadius: 12,  text: "Delete Account", textColor: myColors.lightGrayColor, textSize: 16, frameWidth: 120, frameHeight: 40, strokeBorders: false, fillColor: myColors.grayColor)
-                            }).padding()
+//                            Button(action: {
+//                                impactMed.impactOccurred()
+//                                showDeleteAccountConfirmation.toggle()
+//                            }, label: {
+//                                ButtonView(cornerRadius: 12,  text: "Delete Account", textColor: myColors.lightGrayColor, textSize: 16, frameWidth: 120, frameHeight: 40, strokeBorders: false, fillColor: myColors.grayColor)
+//                            }).padding()
                             
                             VStack(spacing:1){
                                 Text("About Us")

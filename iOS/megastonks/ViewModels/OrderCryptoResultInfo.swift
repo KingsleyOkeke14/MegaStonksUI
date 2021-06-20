@@ -1,24 +1,24 @@
 //
-//  OrderResultInfo.swift
+//  OrderCryptoResultInfo.swift
 //  megastonks
 //
-//  Created by Kingsley Okeke on 2021-05-03.
+//  Created by Kingsley Okeke on 2021-06-19.
 //
 
 import Foundation
-
-struct OrderResultInfo{
-    var name, stockSymbol, currency, orderType: String
-    var orderStatus, orderAction: String
+struct OrderCryptoResultInfo {
+    var name, cryptoSymbol: String
+    var logo: String
+    var orderType, orderStatus, orderAction: String
     var quantitySubmitted, quantityFilled, commission: Double
-    var pricePerShare, totalPriceFilled, totalCost, forexExchangeRate: Double
-    var exchangeResult: Double
+    var pricePerShare, totalPriceFilled, totalCost: Double
+    var forexExchangeRate, exchangeResult: Double
     var dateSubmitted, dateFilled: String
     
-    init(orderResponse: OrderStockResponse){
+    init(orderResponse: OrderCryptoResponse) {
         self.name = orderResponse.name ?? ""
-        self.stockSymbol = orderResponse.stockSymbol ?? ""
-        self.currency = orderResponse.currency ?? ""
+        self.cryptoSymbol = orderResponse.cryptoSymbol ?? ""
+        self.logo = orderResponse.logo ?? ""
         self.orderType = orderResponse.orderType ?? ""
         self.orderStatus = orderResponse.orderStatus ?? ""
         self.orderAction = orderResponse.orderAction ?? ""
@@ -34,4 +34,3 @@ struct OrderResultInfo{
         self.dateFilled = orderResponse.dateFilled ?? ""
     }
 }
-

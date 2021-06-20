@@ -24,10 +24,7 @@ struct StockSymbolView: View {
                             RoundedRectangle(cornerRadius: 14)
                                 .stroke(Color.gray.opacity(0), lineWidth: 1)
                                 
-                        ).foregroundColor(myColors.grayColor)
-                        //.shadow(color: Color.gray.opacity(0.2), radius: 1, x: 0, y: 0)
-                        
-                    
+                        ).foregroundColor(myColors.grayColor) 
                 }
             }
             .overlay(

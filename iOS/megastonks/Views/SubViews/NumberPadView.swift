@@ -11,13 +11,14 @@ import SwiftUI
 struct NumberPadView : View {
     
     @Binding var codes : [String]
+    var isCrypto:Bool
     
     var body : some View{
         
         VStack(alignment: .leading,spacing: 20){
             
             
-            ForEach(datas){i in
+            ForEach(isCrypto ? datasCrypto : datasStock){i in
                 
                 HStack(spacing: self.getspacing()){
                     
@@ -84,7 +85,7 @@ struct NumberPadView : View {
 }
 struct NumberPadView_Previews: PreviewProvider {
     static var previews: some View {
-        NumberPadView(codes: Binding.constant(["", ""])).preferredColorScheme(/*@START_MENU_TOKEN@*/.dark/*@END_MENU_TOKEN@*/)
+        NumberPadView(codes: Binding.constant(["", ""]), isCrypto: true).preferredColorScheme(/*@START_MENU_TOKEN@*/.dark/*@END_MENU_TOKEN@*/)
     }
 }
 // datas...
@@ -101,7 +102,7 @@ struct row : Identifiable {
     var value : String
 }
 
-var datas = [
+var datasStock = [
 
 type(id: 0, row: [row(id: 0, value: "1"),row(id: 1, value: "2"),row(id: 2, value: "3")]),
 type(id: 1, row: [row(id: 0, value: "4"),row(id: 1, value: "5"),row(id: 2, value: "6")]),
@@ -109,4 +110,11 @@ type(id: 2, row: [row(id: 0, value: "7"),row(id: 1, value: "8"),row(id: 2, value
 type(id: 3, row: [row(id: 0, value: ""), row(id: 1, value: "  0"), row(id: 2, value: "delete.left.fill")])
 ]
 
+var datasCrypto = [
+
+type(id: 0, row: [row(id: 0, value: "1"),row(id: 1, value: "2"),row(id: 2, value: "3")]),
+type(id: 1, row: [row(id: 0, value: "4"),row(id: 1, value: "5"),row(id: 2, value: "6")]),
+type(id: 2, row: [row(id: 0, value: "7"),row(id: 1, value: "8"),row(id: 2, value: "9")]),
+type(id: 3, row: [row(id: 0, value: " ."), row(id: 1, value: "0"), row(id: 2, value: "delete.left.fill")])
+]
 

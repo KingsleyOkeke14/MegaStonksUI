@@ -32,28 +32,6 @@ struct StockHolding: Identifiable, Hashable{
     }
 }
 
-struct StockHoldingInfoPage: Identifiable, Hashable{
-    var id = UUID()
-    var averageCost: Double?
-    var quantity, marketValue: Double?
-    var percentReturnToday, moneyReturnToday, percentReturnTotal: Double?
-    var moneyReturnTotal: Double?
-    var percentOfPortfolio: Double?
-    var lastUpdated: String?
-    
-    init(_ stockElement:HoldingResponseInfoPage){
-        averageCost = stockElement.averageCost ?? 0
-        quantity = stockElement.quantity ?? 0.0
-        marketValue = stockElement.marketValue ?? 0.0
-        percentReturnToday = stockElement.percentReturnToday ?? 0
-        moneyReturnToday = stockElement.moneyReturnToday ?? 0
-        percentReturnTotal = stockElement.percentReturnTotal ?? 0
-        moneyReturnTotal = stockElement.moneyReturnTotal ?? 0.0
-        percentOfPortfolio = stockElement.percentOfPortfolio ?? 0
-        lastUpdated = stockElement.lastUpdated ?? ""
-    }
-}
-
 struct StockHoldings{
     
     var holdings: [StockHolding] = [StockHolding]()
@@ -65,6 +43,7 @@ struct StockHoldings{
             let holdingToAdd = StockHolding(holding)
             holdings.append(holdingToAdd)
         }
+        holdings.reverse()
     }
 }
 

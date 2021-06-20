@@ -48,7 +48,7 @@ struct AssetPorfolioPage: View {
                     
                 }.padding(.horizontal)
                 
-                if(!myAppObjects.holdings.holdings.isEmpty){
+                if(!myAppObjects.stockHoldings.holdings.isEmpty || !myAppObjects.cryptoHoldings.holdings.isEmpty){
                     ScrollView{
                         VStack(spacing: 0) {
                             PullToRefreshView(onRefresh:{
@@ -58,27 +58,54 @@ struct AssetPorfolioPage: View {
                                     result in
                                     if(result.isSuccessful){
                                         DispatchQueue.main.async {
-                                            myAppObjects.holdings = result.stockHoldingsResponse!
+                                            myAppObjects.stockHoldings = result.stockHoldingsResponse!
                                         }
-                                        isLoadingHoldings = false
                                     }
+                                    isLoadingHoldings = false
+                                }
+                                myAppObjects.getCryptoHoldings(){
+                                    result in
+                                    if(result.isSuccessful){
+                                        DispatchQueue.main.async {
+                                            myAppObjects.cryptoHoldings = result.cryptoHoldingsResponse!
+                                        }
+                                    }
+                                    isLoadingHoldings = false
                                 }
                             })
                         }
                         LazyVStack {
-                            ForEach(myAppObjects.holdings.holdings, id: \.self){ holding in
-                                NavigationLink(
-                                    destination: StocksInfoPageView(showOrderButtons: true, stockToSearch: holding.stockId, stock: nil)
-                                        .onDisappear(perform: {
-                                            myAppObjects.getStockHoldingsAsync()
-                                            myAppObjects.updateStockWatchListAsync()
-                                        })
-                                        .environmentObject(myAppObjects)
-                                        .environmentObject(userAuth)
-                                    ,
-                                    tag: holding.id.uuidString,
-                                    selection: $selectedItem,
-                                    label: {PortfolioStockSymbolView(holding: holding, isAllTimeGains: $isAllTimeGains)})
+                            if(!myAppObjects.stockHoldings.holdings.isEmpty){
+                                ForEach(myAppObjects.stockHoldings.holdings, id: \.self){ holding in
+                                    NavigationLink(
+                                        destination: StocksInfoPageView(showOrderButtons: true, stockToSearch: holding.stockId, stock: nil)
+                                            .onDisappear(perform: {
+                                                myAppObjects.getStockHoldingsAsync()
+                                                myAppObjects.updateStockWatchListAsync()
+                                            })
+                                            .environmentObject(myAppObjects)
+                                            .environmentObject(userAuth)
+                                        ,
+                                        tag: holding.id.uuidString,
+                                        selection: $selectedItem,
+                                        label: {PortfolioStockSymbolView(holding: holding, isAllTimeGains: $isAllTimeGains)})
+                                }
+                            }
+                            if(!myAppObjects.cryptoHoldings.holdings.isEmpty){
+                                ForEach(myAppObjects.cryptoHoldings.holdings, id: \.self){ holding in
+                                    NavigationLink(
+                                        destination: CryptoInfoPageView(cryptoToSearch: holding.cryptoId, crypto: nil, cryptoQuote: nil)
+                                            .onDisappear(perform: {
+                                                myAppObjects.getCryptoHoldingsAsync()
+                                                myAppObjects.updateCryptoWatchListAsync()
+                                            })
+                                            .environmentObject(myAppObjects)
+                                            .environmentObject(userAuth)
+                                        ,
+                                        tag: holding.id.uuidString,
+                                        selection: $selectedItem,
+                                        label: {PortfolioCryptoSymbolView(holding: holding, isAllTimeGains: $isAllTimeGains)})
+                                }
                             }
                         }.padding(.horizontal)
                     }.overlay(
@@ -107,11 +134,20 @@ struct AssetPorfolioPage: View {
                     result in
                     if(result.isSuccessful){
                         DispatchQueue.main.async {
-                            myAppObjects.holdings = result.stockHoldingsResponse!
+                            myAppObjects.stockHoldings = result.stockHoldingsResponse!
                         }
                     }
                     isLoadingHoldings = false
                 }
+            myAppObjects.getCryptoHoldings(){
+                result in
+                if(result.isSuccessful){
+                    DispatchQueue.main.async {
+                        myAppObjects.cryptoHoldings = result.cryptoHoldingsResponse!
+                    }
+                }
+                isLoadingHoldings = false
+            }
         })
         .onDisappear(perform: {
             myAppObjects.getWalletAsync()

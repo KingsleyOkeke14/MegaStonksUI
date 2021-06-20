@@ -48,17 +48,6 @@ extension Double {
         
     }
     
-    func formatCryptoPrice() -> String {
-        let numberFormatter = NumberFormatter()
-        numberFormatter.numberStyle = .decimal
-        numberFormatter.usesSignificantDigits = true
-        numberFormatter.maximumSignificantDigits = 5
-        numberFormatter.minimumSignificantDigits = 5
-        
-        return  numberFormatter.string(from: NSNumber(value: self))!
-        
-    }
-    
     func formatForex() -> String {
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .decimal
@@ -169,10 +158,38 @@ extension String {
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
         dateFormatter.timeZone = TimeZone(abbreviation: "UTC")
         var dateToConvert = self
-        dateToConvert.removeLast(8)
+        
+        if(dateToConvert.count == 28){//This is because dotnet DateTime.UtcNow returns the Z with the milliseconds but efCore truncates this Z
+            dateToConvert.removeLast(9)
+        }
+        else{
+            dateToConvert.removeLast(8)
+        }
+        
         let dateFromString = dateFormatter.date(from: dateToConvert)
 
         dateFormatter.dateFormat = "EE, MMM d, yyyy h:mm:ss a"
+
+        dateFormatter.timeZone = TimeZone.current
+        return dateFormatter.string(from: dateFromString ?? Date())
+    }
+    
+    func toDateTimeFormatShort() -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
+        dateFormatter.timeZone = TimeZone(abbreviation: "UTC")
+        var dateToConvert = self
+        
+        if(dateToConvert.count == 28){//This is because dotnet DateTime.UtcNow returns the Z with the milliseconds but efCore truncates this Z
+            dateToConvert.removeLast(9)
+        }
+        else{
+            dateToConvert.removeLast(8)
+        }
+        
+        let dateFromString = dateFormatter.date(from: dateToConvert)
+
+        dateFormatter.dateFormat = "MMM d, yyyy h:mma"
 
         dateFormatter.timeZone = TimeZone.current
         return dateFormatter.string(from: dateFromString ?? Date())
@@ -185,7 +202,14 @@ extension String {
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
         dateFormatter.timeZone = TimeZone(abbreviation: "UTC")
         var dateToConvert = self
-        dateToConvert.removeLast(8)
+        
+        if(dateToConvert.count == 28){//This is because dotnet DateTime.UtcNow returns the Z with the milliseconds but efCore truncates this Z
+            dateToConvert.removeLast(9)
+        }
+        else{
+            dateToConvert.removeLast(8)
+        }
+        
         let dateFromString = dateFormatter.date(from: dateToConvert)
         
         let formatter = DateComponentsFormatter()

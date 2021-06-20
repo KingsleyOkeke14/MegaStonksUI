@@ -15,8 +15,10 @@ class AppObjects: ObservableObject {
     @Published var stockSearchResult:[StockSearchResult]
     @Published var cryptoSearchResult:[CryptoSearchResult]
     @Published var userWallet:UserWallet
-    @Published var holdings:StockHoldings
-    @Published var orderHistory: OrderHistory
+    @Published var stockHoldings:StockHoldings
+    @Published var cryptoHoldings:CryptoHoldings
+    @Published var orderStockHistory: OrderStockHistory
+    @Published var orderCryptoHistory: OrderCryptoHistory
     @Published var ads: [AdDataElement]
     @Published var randomAdIndex: Int
     @Published var news: [NewsElement]
@@ -30,8 +32,10 @@ class AppObjects: ObservableObject {
         self.stockSearchResult = [StockSearchResult]()
         self.cryptoSearchResult = [CryptoSearchResult]()
         self.userWallet = UserWallet(WalletResponse(firstName: "", lastName: "", cash: 0.0, initialDeposit: 0.0, investments: 0.0, total: 0.0, percentReturnToday: 0.0, moneyReturnToday: 0.0, percentReturnTotal: 0.0, moneyReturnTotal: 0.0))
-        self.holdings = StockHoldings(holdingsArray: [StockHoldingsResponseElement]())
-        self.orderHistory = OrderHistory(orderArray: [OrderHistoryResponseElement]())
+        self.stockHoldings = StockHoldings(holdingsArray: [StockHoldingsResponseElement]())
+        self.cryptoHoldings = CryptoHoldings(holdingsArray: [CryptoHoldingsResponseElement]())
+        self.orderStockHistory = OrderStockHistory(orderArray: [OrderStockHistoryResponseElement]())
+        self.orderCryptoHistory = OrderCryptoHistory(orderArray: [OrderCryptoResponse]())
         self.ads = [AdDataElement]()
         self.news = [NewsElement]()
         self.randomAdIndex = 0
@@ -315,7 +319,6 @@ class AppObjects: ObservableObject {
         }
     }
     
-    
     func addStockToWatchListAsync(stockToAdd: Int) {
         var response = RequestResponse()
         API().AddAssetToWatchList(assetId: stockToAdd, isCrypto: false){ result in
@@ -490,13 +493,13 @@ class AppObjects: ObservableObject {
     
     func getStockHolding(stockId: Int, completion: @escaping (RequestResponse) -> ()) {
         var response = RequestResponse()
-        API().GetStockHolding(stockId: stockId){ result in
+        API().GetAssetHolding(assetId: stockId, isCrypto: false){ result in
             response = result
             response.isSuccessful = false
             if(result.isSuccessful){
                 let decoder = JSONDecoder()
                  if let jsonResponse = try? decoder.decode(HoldingResponseInfoPage.self, from: result.data!) {
-                    response.stockHoldingInfoPageResponse = StockHoldingInfoPage(jsonResponse)
+                    response.holdingInfoPageResponse = HoldingInfoPage(jsonResponse)
                     response.isSuccessful = true
                 }
             }
@@ -506,15 +509,15 @@ class AppObjects: ObservableObject {
     
     func getStockHoldingsAsync() {
         var response = RequestResponse()
-        API().GetStockHoldings(){ result in
+        API().GetAssetHoldings(isCrypto: false){ result in
             response = result
             if(result.isSuccessful){
                 let decoder = JSONDecoder()
-                 if let jsonResponse = try? decoder.decode(HoldingsResponse.self, from: result.data!) {
+                 if let jsonResponse = try? decoder.decode(stockHoldingsResponse.self, from: result.data!) {
                     response.stockHoldingsResponse = StockHoldings(holdingsArray: jsonResponse)
-                    if(self.shouldStockholdingsUpdate(response.stockHoldingsResponse!, self.holdings)){
+                    if(self.shouldStockholdingsUpdate(response.stockHoldingsResponse!, self.stockHoldings)){
                         DispatchQueue.main.async {
-                            self.holdings = response.stockHoldingsResponse!
+                            self.stockHoldings = response.stockHoldingsResponse!
                         }
                     }
                 }
@@ -524,12 +527,12 @@ class AppObjects: ObservableObject {
     
     func getStockHoldings(completion: @escaping (RequestResponse) -> ()) {
         var response = RequestResponse()
-        API().GetStockHoldings(){ result in
+        API().GetAssetHoldings(isCrypto: false){ result in
             response = result
             response.isSuccessful = false
             if(result.isSuccessful){
                 let decoder = JSONDecoder()
-                 if let jsonResponse = try? decoder.decode(HoldingsResponse.self, from: result.data!) {
+                 if let jsonResponse = try? decoder.decode(stockHoldingsResponse.self, from: result.data!) {
                     response.stockHoldingsResponse = StockHoldings(holdingsArray: jsonResponse)
                     response.isSuccessful = true
                 }
@@ -538,6 +541,55 @@ class AppObjects: ObservableObject {
         }
     }
     
+    func getCryptoHolding(cryptoId: Int, completion: @escaping (RequestResponse) -> ()) {
+        var response = RequestResponse()
+        API().GetAssetHolding(assetId: cryptoId, isCrypto: true){ result in
+            response = result
+            response.isSuccessful = false
+            if(result.isSuccessful){
+                let decoder = JSONDecoder()
+                 if let jsonResponse = try? decoder.decode(HoldingResponseInfoPage.self, from: result.data!) {
+                    response.holdingInfoPageResponse = HoldingInfoPage(jsonResponse)
+                    response.isSuccessful = true
+                }
+            }
+            completion(response)
+        }
+    }
+    
+    func getCryptoHoldingsAsync() {
+        var response = RequestResponse()
+        API().GetAssetHoldings(isCrypto: true){ result in
+            response = result
+            if(result.isSuccessful){
+                let decoder = JSONDecoder()
+                 if let jsonResponse = try? decoder.decode([CryptoHoldingsResponseElement].self, from: result.data!) {
+                    response.cryptoHoldingsResponse = CryptoHoldings(holdingsArray: jsonResponse)
+                    if(self.shouldCryptoholdingsUpdate(response.cryptoHoldingsResponse!, self.cryptoHoldings)){
+                        DispatchQueue.main.async {
+                            self.cryptoHoldings = response.cryptoHoldingsResponse!
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    func getCryptoHoldings(completion: @escaping (RequestResponse) -> ()) {
+        var response = RequestResponse()
+        API().GetAssetHoldings(isCrypto: true){ result in
+            response = result
+            response.isSuccessful = false
+            if(result.isSuccessful){
+                let decoder = JSONDecoder()
+                 if let jsonResponse = try? decoder.decode([CryptoHoldingsResponseElement].self, from: result.data!) {
+                    response.cryptoHoldingsResponse = CryptoHoldings(holdingsArray: jsonResponse)
+                    response.isSuccessful = true
+                }
+            }
+            completion(response)
+        }
+    }
     
     func getPriceChart(stockId: Int, interval: String = "5Y", isPriceHistory: Bool = true, completion: @escaping (RequestResponse) -> ()){
         var response = RequestResponse()
@@ -585,14 +637,30 @@ class AppObjects: ObservableObject {
     }
     
     
-    func getOrderHistoryAsync() {
-        API().GetOrderHistory(){ result in
+    func getStockOrderHistoryAsync() {
+        API().GetOrderHistory(isCrypto: false){ result in
             if(result.isSuccessful){
                 let decoder = JSONDecoder()
-                 if let jsonResponse = try? decoder.decode(OrderHistoryResponse.self, from: result.data!) {
-                    if(jsonResponse.count != self.orderHistory.history.count){
+                 if let jsonResponse = try? decoder.decode(OrderStockHistoryResponse.self, from: result.data!) {
+                    if(jsonResponse.count != self.orderStockHistory.history.count){
                         DispatchQueue.main.async {
-                            self.orderHistory  = OrderHistory(orderArray: jsonResponse)
+                            self.orderStockHistory  = OrderStockHistory(orderArray: jsonResponse)
+                        }
+                    }
+
+                }
+            }
+        }
+    }
+    
+    func getCryptoOrderHistoryAsync() {
+        API().GetOrderHistory(isCrypto: true){ result in
+            if(result.isSuccessful){
+                let decoder = JSONDecoder()
+                 if let jsonResponse = try? decoder.decode(OrderCryptoHistoryResponse.self, from: result.data!) {
+                    if(jsonResponse.count != self.orderCryptoHistory.history.count){
+                        DispatchQueue.main.async {
+                            self.orderCryptoHistory  = OrderCryptoHistory(orderArray: jsonResponse)
                         }
                     }
 
@@ -609,7 +677,23 @@ class AppObjects: ObservableObject {
             if(result.isSuccessful){
                 let decoder = JSONDecoder()
                 if let jsonResponse = try? decoder.decode(OrderStockResponse.self, from: result.data!) {
-                    response.orderStockResponse = OrderResultInfo(orderResponse: jsonResponse)
+                    response.orderStockResponse = OrderStockResultInfo(orderResponse: jsonResponse)
+                    response.isSuccessful = true
+               }
+            }
+            completion(response)
+        }
+    }
+    
+    func orderCrypto(cryptoId:Int, orderType:String, orderAction:String, quantitySubmitted: Double, completion: @escaping (RequestResponse) -> ()){
+        var response = RequestResponse()
+        API().OrderCrypto(cryptoId: cryptoId, orderType: orderType, orderAction: orderAction, quantitySubmitted: quantitySubmitted){ result in
+            response = result
+            response.isSuccessful = false
+            if(result.isSuccessful){
+                let decoder = JSONDecoder()
+                if let jsonResponse = try? decoder.decode(OrderCryptoResponse.self, from: result.data!) {
+                    response.orderCryptoResponse = OrderCryptoResultInfo(orderResponse: jsonResponse)
                     response.isSuccessful = true
                }
             }
@@ -682,9 +766,16 @@ class AppObjects: ObservableObject {
         }
     }
     
-    func shouldStockholdingsUpdate(_ incomingStockHoldings: StockHoldings, _ stockHoldings: StockHoldings) -> Bool{
+    private func shouldStockholdingsUpdate(_ incomingStockHoldings: StockHoldings, _ stockHoldings: StockHoldings) -> Bool{
         
         if(incomingStockHoldings.holdings.count != stockHoldings.holdings.count){
+            return true
+        }
+        return false
+    }
+    private func shouldCryptoholdingsUpdate(_ incomingCryptoHoldings: CryptoHoldings, _ cryptoHoldings: CryptoHoldings) -> Bool{
+        
+        if(incomingCryptoHoldings.holdings.count != cryptoHoldings.holdings.count){
             return true
         }
         return false

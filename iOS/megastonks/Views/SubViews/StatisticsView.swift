@@ -87,7 +87,10 @@ struct CryptoStatisticsView: View {
                 SingleStatPriceView(label: "60D Change", percentage: cryptoQuote.percentChange60D, price: cryptoQuote.change60D, color: cryptoQuote.percentChange60D > 0 ? .green : .red)
                 SingleStatPriceView(label: "90D Change", percentage: cryptoQuote.percentChange90D, price: cryptoQuote.change90D, color: cryptoQuote.percentChange90D > 0 ? .green : .red)
             }
-        }.padding(.horizontal)
+        }
+        .lineLimit(1)
+        .minimumScaleFactor(0.5)
+        .padding(.horizontal)
     }
 }
 

@@ -19,10 +19,13 @@ struct RequestResponse{
     var cryptoInfoSearchCryptosPage:CryptoSymbol?
     var stockHoldingResponse:StockHolding?
     var stockHoldingsResponse:StockHoldings?
-    var stockHoldingInfoPageResponse:StockHoldingInfoPage?
+    var cryptoHoldingResponse:CryptoHolding?
+    var cryptoHoldingsResponse:CryptoHoldings?
+    var holdingInfoPageResponse:HoldingInfoPage?
     var stockChartDataResponse: ChartData?
-    var orderHistoryResponse: [OrderHistoryElement] = OrderHistory(orderArray: [OrderHistoryResponseElement]()).history
-    var orderStockResponse: OrderResultInfo?
+    var orderStockHistoryResponse: [OrderStockHistoryElement] = OrderStockHistory(orderArray: [OrderStockHistoryResponseElement]()).history
+    var orderStockResponse: OrderStockResultInfo?
+    var orderCryptoResponse: OrderCryptoResultInfo?
     var walletResponse: UserWallet?
     var adResponse: AdData?
     var newsResponse: [NewsElement]?
@@ -51,7 +54,6 @@ struct StockElementResponse: Codable {
     let exchange: String?
     let open, previousClose: Double?
     let isInWatchList, isInPortfolio: Bool
-
 }
 
 typealias StockListResponse = [StockElementResponse]
@@ -80,8 +82,16 @@ struct StockHoldingsResponseElement: Codable {
     let moneyReturnTotal, percentOfPortfolio: Double?
 }
 
+struct CryptoHoldingsResponseElement: Codable {
+    let id, cryptoId: Int?
+    let name, symbol: String?
+    let logo: String?
+    let averageCost, quantity, marketValue, percentReturnToday: Double?
+    let moneyReturnToday, percentReturnTotal, moneyReturnTotal, percentOfPortfolio: Double?
+}
 
-struct OrderHistoryResponseElement: Codable {
+
+struct OrderStockHistoryResponseElement: Codable {
     let id: Int?
     let symbol: String?
     let name: String?
@@ -93,10 +103,23 @@ struct OrderHistoryResponseElement: Codable {
     let dateSubmitted, dateFilled: String?
 }
 
-typealias OrderHistoryResponse = [OrderHistoryResponseElement]
+
+struct OrderCryptoResponse: Codable {
+    let name, cryptoSymbol: String?
+    let logo: String?
+    let orderType, orderStatus, orderAction: String?
+    let quantitySubmitted, quantityFilled, commission: Double?
+    let pricePerShare, totalPriceFilled, totalCost: Double?
+    let forexExchangeRate, exchangeResult: Double?
+    let dateSubmitted, dateFilled: String?
+}
+
+typealias OrderCryptoHistoryResponse = [OrderCryptoResponse]
+
+typealias OrderStockHistoryResponse = [OrderStockHistoryResponseElement]
 
 
-typealias HoldingsResponse = [StockHoldingsResponseElement]
+typealias stockHoldingsResponse = [StockHoldingsResponseElement]
 
 
 struct HoldingResponseInfoPage: Codable {
