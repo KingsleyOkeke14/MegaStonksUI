@@ -591,15 +591,31 @@ class AppObjects: ObservableObject {
         }
     }
     
-    func getPriceChart(stockId: Int, interval: String = "5Y", isPriceHistory: Bool = true, completion: @escaping (RequestResponse) -> ()){
+    func getStockPriceChart(stockId: Int, interval: String = "5Y", isPriceHistory: Bool = true, completion: @escaping (RequestResponse) -> ()){
         var response = RequestResponse()
-        API().GetPriceChart(stockId: stockId, interval: interval, isPriceHistory: isPriceHistory){ result in
+        API().GetStockPriceChart(stockId: stockId, interval: interval, isPriceHistory: isPriceHistory){ result in
             response = result
             response.isSuccessful = false
             if(result.isSuccessful){
                 let decoder = JSONDecoder()
                  if let jsonResponse = try? decoder.decode(ChartDataResponse.self, from: result.data!) {
-                    response.stockChartDataResponse = ChartData(jsonResponse)
+                    response.chartDataResponse = ChartData(jsonResponse, isCrypto: false)
+                    response.isSuccessful = true
+                }
+            }
+            completion(response)
+        }
+    }
+    
+    func getCryptoPriceChart(cryptoId: Int, isPriceHistory: Bool = true, completion: @escaping (RequestResponse) -> ()){
+        var response = RequestResponse()
+        API().GetCryptoPriceChart(cryptoId: cryptoId, isPriceHistory: isPriceHistory){ result in
+            response = result
+            response.isSuccessful = false
+            if(result.isSuccessful){
+                let decoder = JSONDecoder()
+                 if let jsonResponse = try? decoder.decode(ChartDataResponse.self, from: result.data!) {
+                    response.chartDataResponse = ChartData(jsonResponse, isCrypto: true)
                     response.isSuccessful = true
                 }
             }

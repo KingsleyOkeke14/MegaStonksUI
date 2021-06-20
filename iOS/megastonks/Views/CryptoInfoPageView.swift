@@ -24,6 +24,8 @@ struct CryptoInfoPageView: View {
     @State var cryptoHolding:HoldingInfoPage
     
     @State var chartData:[(String, Double)]? = nil
+    @State var chartDataToday:[(String, Double)]? = nil
+    @State var chartDataHistorical:[(String, Double)]? = nil
     
     @State var chartDiscrepancy = ""
     
@@ -94,63 +96,53 @@ struct CryptoInfoPageView: View {
                                         
                                         Button(action: {
                                             changeActiveButton(activeButton: 0)
-//                                            myAppObjects.getPriceChart(stockId: cryptoSymbol.stockId, isPriceHistory: false){
-//                                                result in
-//                                                if(result.isSuccessful){
-//                                                    chartData = result.stockChartDataResponse!.dataSet
-//                                                    chartDiscrepancy = String(cryptoSymbol.change.formatPrice() + "  (" + cryptoSymbol.changesPercentage.formatPercentChange() + "%)")
-//                                                    chartPeriod = "Today"
-//                                                    themeColor = (cryptoSymbol.change >= 0) ? Color.green : Color.red
-//                                                    isStockGaining = (cryptoSymbol.change >= 0) ? true : false
-//                                                }
-//                                                else{
-//                                                    chartData = [(String, Double)]()
-//                                                }
-//                                            }
+                                    chartDiscrepancy = String(cryptoQuote!.change24H.formatPrice() + "  (" + cryptoQuote!.percentChange24H.formatPercentChange() + "%)")
+                                    chartPeriod = "Today"
+                                    chartData = chartDataToday
+                                    isStockGaining = (cryptoQuote!.percentChange24H >= 0) ? true : false
+                                    themeColor = (cryptoQuote!.percentChange24H >= 0) ? Color.green : Color.red
                                         }, label: {
                                             ButtonSelected(buttonName: buttonList[0].buttonName, buttonSelected: buttonList[0].buttonState, buttonColor: $themeColor)
                                             
                                         })
                                         Button(action: {
                                             changeActiveButton(activeButton: 1)
-//                                            myAppObjects.getPriceChart(stockId: cryptoSymbol.stockId, interval: buttonList[1].buttonName){
-//                                                result in
-//                                                if(result.isSuccessful){
-//                                                    chartData = result.stockChartDataResponse!.dataSet
-//                                                    let dataSet = result.stockChartDataResponse!.dataSet.map({$0.1})
-//                                                    let discrepancy:Double = (dataSet.last! - dataSet[0])
-//                                                    let percentChange = (discrepancy / dataSet.last! * 100)
-//                                                    chartDiscrepancy = String(discrepancy.formatPrice() + "  (" + percentChange.formatPercentChange() + "%)")
-//                                                    chartPeriod = "5 Days"
-//                                                    themeColor = (percentChange >= 0) ? Color.green : Color.red
-//                                                    isStockGaining = (percentChange >= 0) ? true : false
-//                                                }
-//                                                else{
-//                                                    chartData = [(String, Double)]()
-//                                                }
-//                                            }
+                                                if(chartDataHistorical != nil){
+                                                    let dataSet = chartDataHistorical?.map({$0.1})
+                                                    if(dataSet?[5] != nil){
+                                                        let discrepancy: Double = dataSet![5] - dataSet!.first!
+                                                        let percentChange = (discrepancy / dataSet![5] * 100)
+                                                        chartDiscrepancy = String(discrepancy.formatPrice() + "  (" + percentChange.formatPercentChange() + "%)")
+                                                            chartPeriod = "5 Days"
+                                                        chartData = Array(chartDataHistorical![0..<6]) as Array
+                                                            isStockGaining = (percentChange >= 0) ? true : false
+                                                        themeColor = (percentChange >= 0) ? Color.green : Color.red
+                                                    }
+                                                }
+                                                else if (chartDataHistorical == nil){
+                                                    chartData = [(String, Double)]()
+                                                }
                                         }, label: {
                                             ButtonSelected(buttonName: buttonList[1].buttonName, buttonSelected: buttonList[1].buttonState, buttonColor: $themeColor)
                                         })
                                         
                                         Button(action: {
                                             changeActiveButton(activeButton: 2)
-//                                            myAppObjects.getPriceChart(stockId: cryptoSymbol.stockId, interval: buttonList[2].buttonName){
-//                                                result in
-//                                                if(result.isSuccessful){
-//                                                    chartData = result.stockChartDataResponse!.dataSet
-//                                                    let dataSet = result.stockChartDataResponse!.dataSet.map({$0.1})
-//                                                    let discrepancy:Double = (dataSet.last! - dataSet[0])
-//                                                    let percentChange = (discrepancy / dataSet.last! * 100)
-//                                                    chartDiscrepancy = String(discrepancy.formatPrice() + "  (" + percentChange.formatPercentChange() + "%)")
-//                                                    chartPeriod = "10 Days"
-//                                                    themeColor = (percentChange >= 0) ? Color.green : Color.red
-//                                                    isStockGaining = (percentChange >= 0) ? true : false
-//                                                }
-//                                                else{
-//                                                    chartData = [(String, Double)]()
-//                                                }
-//                                            }
+                                            if(chartDataHistorical != nil){
+                                                let dataSet = chartDataHistorical?.map({$0.1})
+                                                if(dataSet?[10] != nil){
+                                                    let discrepancy: Double = dataSet![10] - dataSet!.first!
+                                                    let percentChange = (discrepancy / dataSet![10] * 100)
+                                                    chartDiscrepancy = String(discrepancy.formatPrice() + "  (" + percentChange.formatPercentChange() + "%)")
+                                                        chartPeriod = "10 Days"
+                                                    chartData = Array(chartDataHistorical![0..<11]) as Array
+                                                        isStockGaining = (percentChange >= 0) ? true : false
+                                                    themeColor = (percentChange >= 0) ? Color.green : Color.red
+                                                }
+                                            }
+                                            else if (chartDataHistorical == nil){
+                                                chartData = [(String, Double)]()
+                                            }
                                             
                                         }, label: {
                                             ButtonSelected(buttonName: buttonList[2].buttonName, buttonSelected: buttonList[2].buttonState, buttonColor: $themeColor)
@@ -158,22 +150,21 @@ struct CryptoInfoPageView: View {
                                         
                                         Button(action: {
                                             changeActiveButton(activeButton: 3)
-//                                            myAppObjects.getPriceChart(stockId: cryptoSymbol.stockId, interval: buttonList[3].buttonName){
-//                                                result in
-//                                                if(result.isSuccessful){
-//                                                    chartData = result.stockChartDataResponse!.dataSet
-//                                                    let dataSet = result.stockChartDataResponse!.dataSet.map({$0.1})
-//                                                    let discrepancy:Double = (dataSet.last! - dataSet[0])
-//                                                    let percentChange = (discrepancy / dataSet.last! * 100)
-//                                                    chartDiscrepancy = String(discrepancy.formatPrice() + "  (" + percentChange.formatPercentChange() + "%)")
-//                                                    chartPeriod = "15 Days"
-//                                                    themeColor = (percentChange >= 0) ? Color.green : Color.red
-//                                                    isStockGaining = (percentChange >= 0) ? true : false
-//                                                }
-//                                                else{
-//                                                    chartData = [(String, Double)]()
-//                                                }
-//                                            }
+                                            if(chartDataHistorical != nil){
+                                                let dataSet = chartDataHistorical?.map({$0.1})
+                                                if(dataSet?[15] != nil){
+                                                    let discrepancy: Double = dataSet![15] - dataSet!.first!
+                                                    let percentChange = (discrepancy / dataSet![15] * 100)
+                                                    chartDiscrepancy = String(discrepancy.formatPrice() + "  (" + percentChange.formatPercentChange() + "%)")
+                                                        chartPeriod = "15 Days"
+                                                    chartData = Array(chartDataHistorical![0..<16]) as Array
+                                                        isStockGaining = (percentChange >= 0) ? true : false
+                                                    themeColor = (percentChange >= 0) ? Color.green : Color.red
+                                                }
+                                            }
+                                            else if (chartDataHistorical == nil){
+                                                chartData = [(String, Double)]()
+                                            }
                                             
                                         }, label: {
                                             ButtonSelected(buttonName: buttonList[3].buttonName, buttonSelected: buttonList[3].buttonState, buttonColor: $themeColor)
@@ -181,22 +172,17 @@ struct CryptoInfoPageView: View {
                                         
                                         Button(action: {
                                             changeActiveButton(activeButton: 4)
-//                                            myAppObjects.getPriceChart(stockId: cryptoSymbol.stockId, interval: buttonList[4].buttonName){
-//                                                result in
-//                                                if(result.isSuccessful){
-//                                                    chartData = result.stockChartDataResponse!.dataSet
-//                                                    let dataSet = result.stockChartDataResponse!.dataSet.map({$0.1})
-//                                                    let discrepancy:Double = (dataSet.last! - dataSet[0])
-//                                                    let percentChange = (discrepancy / dataSet.last! * 100)
-//                                                    chartDiscrepancy = String(discrepancy.formatPrice() + "  (" + percentChange.formatPercentChange() + "%)")
-//                                                    chartPeriod = "30 Days"
-//                                                    themeColor = (percentChange >= 0) ? Color.green : Color.red
-//                                                    isStockGaining = (percentChange >= 0) ? true : false
-//                                                }
-//                                                else{
-//                                                    chartData = [(String, Double)]()
-//                                                }
-//                                            }
+                                            if(chartDataHistorical != nil){
+                                                chartDiscrepancy = String(cryptoQuote!.change30D.formatPrice() + "  (" + cryptoQuote!.percentChange30D.formatPercentChange() + "%)")
+                                                        chartPeriod = "30 Days"
+                                                        chartData = chartDataHistorical
+                                                        isStockGaining = (cryptoQuote!.change30D >= 0) ? true : false
+                                                themeColor = (cryptoQuote!.change30D >= 0) ? Color.green : Color.red
+                                                
+                                            }
+                                            else if (chartDataHistorical == nil){
+                                                chartData = [(String, Double)]()
+                                            }
                                             
                                         }, label: {
                                             ButtonSelected(buttonName: buttonList[4].buttonName, buttonSelected: buttonList[4].buttonState, buttonColor: $themeColor)
@@ -295,16 +281,32 @@ struct CryptoInfoPageView: View {
                             cryptoSymbol = result.cryptoInfoSearchCryptosPage!
                             cryptoQuote = userAuth.user.currency == "USD" ? CryptoQuote(cryptoSymbol!.usdQuote) : CryptoQuote(cryptoSymbol!.cadQuote)
                             themeColor =  (cryptoQuote!.percentChange24H >= 0) ? Color.green : Color.red
-//                            myAppObjects.getPriceChart(stockId: stockToSearch.stockId, isPriceHistory: false){
-//                                result in
-//                                if(result.isSuccessful){
-//                                    chartDiscrepancy = String(stockSymbol.change.formatPrice() + "  (" + stockSymbol.changesPercentage.formatPercentChange() + "%)")
-//                                    chartPeriod = "Today"
-//                                    chartData = result.stockChartDataResponse!.dataSet
-//                                    isStockGaining = (stockSymbol.change >= 0) ? true : false
-//                                }
-//
-//                            }
+                            myAppObjects.getCryptoPriceChart(cryptoId: cryptoSymbol!.crypto.cryptoId, isPriceHistory: false){
+                                result in
+                                if(result.isSuccessful){
+                                    chartDiscrepancy = String(cryptoQuote!.change24H.formatPrice() + "  (" + cryptoQuote!.percentChange24H.formatPercentChange() + "%)")
+                                    chartPeriod = "Today"
+                                    chartDataToday = result.chartDataResponse!.dataSet
+                                    chartData = chartDataToday
+                                    isStockGaining = (cryptoQuote!.percentChange24H >= 0) ? true : false
+                                }
+                                else{
+                                    chartDataToday = [(String, Double)]()
+                                    chartData = chartDataToday
+                                }
+
+                            }
+                            
+                            myAppObjects.getCryptoPriceChart(cryptoId: cryptoSymbol!.crypto.cryptoId, isPriceHistory: true){
+                                result in
+                                if(result.isSuccessful){
+                                    chartDataHistorical = result.chartDataResponse!.dataSet
+                                }
+                                else{
+                                    chartDataHistorical = nil
+                                }
+
+                            }
                         }
                         isLoading = false
                     }
@@ -315,16 +317,6 @@ struct CryptoInfoPageView: View {
                                             cryptoHolding = result.holdingInfoPageResponse!
                                         }
                                     }
-//                                    myAppObjects.getPriceChart(stockId: cryptoSymbol.stockId, isPriceHistory: false){
-//                                        result in
-//                                        if(result.isSuccessful){
-//                                            chartData = result.stockChartDataResponse!.dataSet
-//                                            chartDiscrepancy = String(cryptoSymbol.change.formatPrice() + "  (" + cryptoSymbol.changesPercentage.formatPercentChange() + "%)")
-//                                            chartPeriod = "Today"
-//                                            isStockGaining = (cryptoSymbol.changesPercentage >= 0) ? true : false
-//                                        }
-//
-//                                    }
                 }
                 else{
                     myAppObjects.getCryptoHolding(cryptoId: cryptoSymbol!.crypto.cryptoId){
@@ -334,11 +326,36 @@ struct CryptoInfoPageView: View {
                             cryptoHolding = result.holdingInfoPageResponse!
                         }
                      }
+                    
+                    myAppObjects.getCryptoPriceChart(cryptoId: cryptoSymbol!.crypto.cryptoId, isPriceHistory: false){
+                        result in
+                        if(result.isSuccessful){
+                            chartDiscrepancy = String(cryptoQuote!.change24H.formatPrice() + "  (" + cryptoQuote!.percentChange24H.formatPercentChange() + "%)")
+                            chartPeriod = "Today"
+                        
+                            chartDataToday = result.chartDataResponse!.dataSet
+                            chartData = chartDataToday
+                            isStockGaining = (cryptoQuote!.percentChange24H >= 0) ? true : false
+                        }
+
+                    }
+                    
+                    myAppObjects.getCryptoPriceChart(cryptoId: cryptoSymbol!.crypto.cryptoId, isPriceHistory: true){
+                        result in
+                        if(result.isSuccessful){
+                            chartDataHistorical = result.chartDataResponse!.dataSet
+                        }
+                        else{
+                            chartDataHistorical = nil
+                        }
+
+                    }
                 }
             })
             .navigationBarTitleDisplayMode(.inline)
             .banner(data: $myAppObjects.bannerData, show: $myAppObjects.showBanner)
             }
+    
 }
 
 struct CryptoInfoPageView_Previews: PreviewProvider {

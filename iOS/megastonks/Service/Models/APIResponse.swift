@@ -22,7 +22,7 @@ struct RequestResponse{
     var cryptoHoldingResponse:CryptoHolding?
     var cryptoHoldingsResponse:CryptoHoldings?
     var holdingInfoPageResponse:HoldingInfoPage?
-    var stockChartDataResponse: ChartData?
+    var chartDataResponse: ChartData?
     var orderStockHistoryResponse: [OrderStockHistoryElement] = OrderStockHistory(orderArray: [OrderStockHistoryResponseElement]()).history
     var orderStockResponse: OrderStockResultInfo?
     var orderCryptoResponse: OrderCryptoResultInfo?

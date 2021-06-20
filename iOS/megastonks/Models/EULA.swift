@@ -34,9 +34,11 @@ Read the full Disclaimer below
     We may update our Terms and Conditions from time to time. Thus, you are advised to review this page periodically for any changes. We will notify you of any changes by posting the new Terms and Conditions on this page.
 
     The app does use third party services that declare their own Terms and Conditions.
-    All Market Data is provided by Financial Modelling Prep API
+    All Stock Market Data is provided by Financial Modelling Prep API
     https://financialmodelingprep.com/developer/docs/terms-of-service
 
+    All Crypto Market Data is provided by Coin Market Cap API
+    https://CoinMarketCap.com
 
     These terms and conditions are effective as of 2021-04-24
 

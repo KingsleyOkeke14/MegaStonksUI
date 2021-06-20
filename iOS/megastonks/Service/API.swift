@@ -33,8 +33,10 @@ struct APIRoutes {
     private let stockHoldingsRoute = "stocks/stockholdings"
     private let cryptoHoldingRoute = "cryptos/cryptoholding"
     private let cryptoHoldingsRoute = "cryptos/cryptoholdings"
-    private let priceChartRoute = "stocks/pricechart"
-    private let priceHistoryRoute = "stocks/pricehistory"
+    private let stockPriceChartRoute = "stocks/pricechart"
+    private let stockPriceHistoryRoute = "stocks/pricehistory"
+    private let cryptoPriceChartRoute = "cryptos/pricechart"
+    private let cryptoPriceHistoryRoute = "cryptos/pricehistory"
     private let isMarketOpenRoute = "fmpApi/ismarketopen"
     private let walletRoute = "wallet"
     private let orderStockHistoryRoute = "order/getorders"
@@ -67,8 +69,10 @@ struct APIRoutes {
     var stockHoldings = URL(string: "")
     var cryptoHolding = URL(string: "")
     var cryptoHoldings = URL(string: "")
-    var priceChart = URL(string: "")
-    var priceHistory = URL(string: "")
+    var stockPriceChart = URL(string: "")
+    var stockPriceHistory = URL(string: "")
+    var cryptoPriceChart = URL(string: "")
+    var cryptoPriceHistory = URL(string: "")
     var isMarketOpen = URL(string: "")
     var wallet = URL(string: "")
     var orderStockHistory = URL(string: "")
@@ -102,8 +106,10 @@ struct APIRoutes {
         stockHoldings = URL(string: server + stockHoldingsRoute)!
         cryptoHolding = URL(string: server + cryptoHoldingRoute)!
         cryptoHoldings = URL(string: server + cryptoHoldingsRoute)!
-        priceChart = URL(string: server + priceChartRoute)!
-        priceHistory = URL(string: server + priceHistoryRoute)!
+        stockPriceChart = URL(string: server + stockPriceChartRoute)!
+        stockPriceHistory = URL(string: server + stockPriceHistoryRoute)!
+        cryptoPriceChart = URL(string: server + cryptoPriceChartRoute)!
+        cryptoPriceHistory = URL(string: server + cryptoPriceHistoryRoute)!
         isMarketOpen = URL(string: server + isMarketOpenRoute)!
         wallet = URL(string: server + walletRoute)!
         orderStockHistory = URL(string: server + orderStockHistoryRoute)!
@@ -1050,19 +1056,89 @@ struct API{
         
     }
     
-    func GetPriceChart(stockId: Int, interval: String, isPriceHistory: Bool, completion: @escaping (RequestResponse) -> ()) {
+    func GetStockPriceChart(stockId: Int, interval: String, isPriceHistory: Bool, completion: @escaping (RequestResponse) -> ()) {
         
         var url:URL
         
         var queryItems:[URLQueryItem]
         
         if(isPriceHistory){
-            url = apiRoutes.priceHistory!
+            url = apiRoutes.stockPriceHistory!
             queryItems = [URLQueryItem(name: "stockId", value: "\(stockId)"), URLQueryItem(name: "interval", value: "\(interval)")]
         }
         else{
-            url = apiRoutes.priceChart!
+            url = apiRoutes.stockPriceChart!
             queryItems = [URLQueryItem(name: "stockId", value: "\(stockId)")]
+        }
+        
+        let newUrl = url.appending(queryItems)!
+        
+        var request = AppUrlRequest(url: newUrl, httpMethod: "GET").request
+        if let jwtToken: String = KeychainWrapper.standard.string(forKey: "jwtToken"){
+            request.setValue( "Bearer \(jwtToken)", forHTTPHeaderField: "Authorization")
+            
+            var result = RequestResponse()
+            
+            let task = session.dataTask(with: request) { (data, response, error) in
+                result.data = data
+                
+                if error != nil  {
+                    print("Client error!")
+                    print("Error is \(error!)")
+                    result.isSuccessful = false
+                    result.errorMessage = "Error contacting the server. Please Check your internet connection"
+                    completion(result)
+                    return
+                }
+                
+                if let httpResponse = response as? HTTPURLResponse{
+                    
+                    if (httpResponse.statusCode == 200 && data != nil){
+                        
+                        result.isSuccessful = true
+                    }
+                    else if(httpResponse.statusCode == 401){
+                        DispatchQueue.main.async {
+                            NotificationCenter.default.post(name: .didAuthTokenExpire, object: nil)
+                            print("401 Unauthorized")
+                        }
+                        
+                    }
+                    else{
+                        result.isSuccessful = false
+                        
+                        if let jsonResponse = try? decoder.decode(CommonAPIResponse.self, from: result.data!){
+                            result.errorMessage = jsonResponse.message
+                        }
+                        else{
+                            result.errorMessage = "Could Not Retrieve Stock Information"
+                        }
+                        
+                    }
+                }
+                completion(result)
+            }
+            task.resume()
+            
+            
+        }
+        
+        
+    }
+    
+    func GetCryptoPriceChart(cryptoId: Int, isPriceHistory: Bool, completion: @escaping (RequestResponse) -> ()) {
+        
+        var url:URL
+        
+        var queryItems:[URLQueryItem]
+        
+        if(isPriceHistory){
+            url = apiRoutes.cryptoPriceHistory!
+            queryItems = [URLQueryItem(name: "cryptoId", value: "\(cryptoId)")]
+        }
+        else{
+            url = apiRoutes.cryptoPriceChart!
+            queryItems = [URLQueryItem(name: "cryptoId", value: "\(cryptoId)")]
         }
         
         let newUrl = url.appending(queryItems)!

@@ -30,7 +30,7 @@ struct AssetWatchListPage: View {
     @EnvironmentObject var userAuth:UserAuth
     @EnvironmentObject var myAppObjects:AppObjects
     
-    let stockRefreshtimer = Timer.publish(every: 4, on: .main, in: .common).autoconnect()
+    //let stockRefreshtimer = Timer.publish(every: 4, on: .main, in: .common).autoconnect()
     let cryptoRefreshtimer = Timer.publish(every: 600, on: .main, in: .common).autoconnect()
     
     var body: some View {
@@ -290,9 +290,9 @@ struct AssetWatchListPage: View {
                 .onAppear(perform: {
                     onLoad()
                 })
-                .onReceive(self.stockRefreshtimer, perform: { _ in
-                    shouldRefreshWatchlist = true
-                })
+//                .onReceive(self.stockRefreshtimer, perform: { _ in
+//                    shouldRefreshWatchlist = true
+//                })
                 .banner(data: $myAppObjects.bannerData, show: $myAppObjects.showBanner)
         }
         else {

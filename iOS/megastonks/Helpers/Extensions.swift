@@ -195,6 +195,21 @@ extension String {
         return dateFormatter.string(from: dateFromString ?? Date())
     }
     
+    func chartDateToLocalDate() -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        dateFormatter.timeZone = TimeZone(abbreviation: "UTC")
+        let dateToConvert = self
+        
+        
+        let dateFromString = dateFormatter.date(from: dateToConvert)
+
+        dateFormatter.dateFormat = "MMM d, yyyy h:mma"
+
+        dateFormatter.timeZone = TimeZone.current
+        return dateFormatter.string(from: dateFromString ?? Date())
+    }
+    
     func getTimeInterval() -> String {
         
         
