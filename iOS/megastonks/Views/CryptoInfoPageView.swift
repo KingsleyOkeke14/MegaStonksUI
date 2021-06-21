@@ -280,6 +280,7 @@ struct CryptoInfoPageView: View {
                         if(result.isSuccessful){
                             cryptoSymbol = result.cryptoInfoSearchCryptosPage!
                             cryptoQuote = userAuth.user.currency == "USD" ? CryptoQuote(cryptoSymbol!.usdQuote) : CryptoQuote(cryptoSymbol!.cadQuote)
+                            isInWatchList = cryptoSymbol!.isInWatchlist
                             themeColor =  (cryptoQuote!.percentChange24H >= 0) ? Color.green : Color.red
                             myAppObjects.getCryptoPriceChart(cryptoId: cryptoSymbol!.crypto.cryptoId, isPriceHistory: false){
                                 result in
