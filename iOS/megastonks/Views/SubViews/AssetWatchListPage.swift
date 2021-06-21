@@ -201,38 +201,26 @@ struct AssetWatchListPage: View {
                             }
                         }
                         if(!isEditing){
-    //                    HStack{
-    //                        Text("Stock Watchlist")
-    //                            .font(.custom("Apple SD Gothic Neo", fixedSize: 22))
-    //                            .fontWeight(.heavy)
-    //                            .bold()
-    //                            .foregroundColor(myColors.greenColor)
-    //                        Image(systemName: "eye")
-    //                            .foregroundColor(myColors.greenColor)
-    //                            .font(.custom("", fixedSize: 18))
-    //                        Spacer()
-    //
-    //                    }
-    //                    .padding(.horizontal)
                             VStack{
-                                if(!myAppObjects.stockWatchList.isEmpty){
-                                    ScrollView{
-                                        VStack(spacing: 0) {
-                                            PullToRefreshView(onRefresh:{
-                                                isLoadingWatchlist = true
-                                                myAppObjects.updateStockWatchList(){
-                                                    result in
-                                                    if(result.isSuccessful){
-                                                        isLoadingWatchlist = false
-                                                    }
-                                                    else{
-                                                        //Would need to show error message here or something
-                                                        isLoadingWatchlist = false
-                                                    }
-                                                    shouldRefreshWatchlist = false
+                                ScrollView{
+                                    VStack(spacing: 0){
+                                        PullToRefreshView(onRefresh:{
+                                            isLoadingWatchlist = true
+                                            myAppObjects.updateStockWatchList(){
+                                                result in
+                                                if(result.isSuccessful){
+                                                    isLoadingWatchlist = false
                                                 }
-                                            })
-                                        }
+                                                else{
+                                                    //Would need to show error message here or something
+                                                    isLoadingWatchlist = false
+                                                }
+                                                shouldRefreshWatchlist = false
+                                            }
+                                        })
+                                    }
+                                
+                                if(!myAppObjects.stockWatchList.isEmpty){
                                         LazyVStack {
                                             ForEach(myAppObjects.stockWatchList, id: \.self){ stock in
                                                 NavigationLink(
@@ -246,7 +234,7 @@ struct AssetWatchListPage: View {
                                                 
                                             }
                                         }.padding(.horizontal)
-                                    }
+                                    
                                     
                                 }
                                 else if(myAppObjects.stockWatchList.isEmpty && !isLoadingWatchlist){
@@ -270,6 +258,7 @@ struct AssetWatchListPage: View {
                                     }
                                 }
                                 Spacer()
+                            }
                             }.overlay(
                                 VStack{
                                     if(isLoadingWatchlist){
@@ -434,74 +423,59 @@ struct AssetWatchListPage: View {
                         }
                     }
                     if(!isEditing){
-//                        HStack{
-//                            Text("Crypto Watchlist")
-//                                .font(.custom("Apple SD Gothic Neo", fixedSize: 22))
-//                                .fontWeight(.heavy)
-//                                .bold()
-//                                .foregroundColor(myColors.greenColor)
-//                            Image(systemName: "eye")
-//                                .foregroundColor(myColors.greenColor)
-//                                .font(.custom("", fixedSize: 18))
-//                            Spacer()
-//
-//                        }
-//                        .padding(.horizontal)
                         VStack{
-                            if(!myAppObjects.cryptoWatchList.isEmpty){
-                                ScrollView{
-                                    VStack(spacing: 0) {
-                                        PullToRefreshView(onRefresh:{
-                                            isLoadingWatchlist = true
-                                            myAppObjects.updateCryptoWatchList(){
-                                                result in
-                                                if(result.isSuccessful){
-                                                    isLoadingWatchlist = false
-                                                }
-                                                else{
-                                                    //Would need to show error message here or something
-                                                    isLoadingWatchlist = false
-                                                }
-                                                shouldRefreshWatchlist = false
+                            ScrollView{
+                                VStack(spacing: 0){
+                                    PullToRefreshView(onRefresh:{
+                                        isLoadingWatchlist = true
+                                        myAppObjects.updateCryptoWatchList(){
+                                            result in
+                                            if(result.isSuccessful){
+                                                isLoadingWatchlist = false
                                             }
-                                        })
-                                        LazyVStack {
-                                            ForEach(myAppObjects.cryptoWatchList, id: \.self){ crypto in
-                                                NavigationLink(
-                                                    destination: CryptoInfoPageView(cryptoToSearch: 0, crypto: crypto, cryptoQuote: userAuth.user.currency == "USD" ? CryptoQuote(crypto.usdQuote) : CryptoQuote(crypto.cadQuote)).environmentObject(myAppObjects).onDisappear(perform: {
-                                                        myAppObjects.updateCryptoWatchListAsync()
-                                                        myAppObjects.getCryptoHoldingsAsync()
-                                                    }),
-                                                    tag: crypto.crypto.id.uuidString,
-                                                    selection: $selectedItem,
-                                                    label: {CryptoSymbolView(cryptoSymbol: crypto, cryptoQuote: userAuth.user.currency == "USD" ? CryptoQuote(crypto.usdQuote) : CryptoQuote(crypto.cadQuote))})
+                                            else{
+                                                //Would need to show error message here or something
+                                                isLoadingWatchlist = false
                                             }
-                                        }.padding(.horizontal)
+                                            shouldRefreshWatchlist = false
+                                        }
+                                    })
+                                }
+                                if(!myAppObjects.cryptoWatchList.isEmpty){
+                                            LazyVStack {
+                                                ForEach(myAppObjects.cryptoWatchList, id: \.self){ crypto in
+                                                    NavigationLink(
+                                                        destination: CryptoInfoPageView(cryptoToSearch: 0, crypto: crypto, cryptoQuote: userAuth.user.currency == "USD" ? CryptoQuote(crypto.usdQuote) : CryptoQuote(crypto.cadQuote)).environmentObject(myAppObjects).onDisappear(perform: {
+                                                            myAppObjects.updateCryptoWatchListAsync()
+                                                            myAppObjects.getCryptoHoldingsAsync()
+                                                        }),
+                                                        tag: crypto.crypto.id.uuidString,
+                                                        selection: $selectedItem,
+                                                        label: {CryptoSymbolView(cryptoSymbol: crypto, cryptoQuote: userAuth.user.currency == "USD" ? CryptoQuote(crypto.usdQuote) : CryptoQuote(crypto.cadQuote))})
+                                                }
+                                            }.padding(.horizontal)
+                                }
+                                else if(myAppObjects.cryptoWatchList.isEmpty && !isLoadingWatchlist){
+                                    VStack(spacing: 16){
+                                        Text("Wow! Such Empty!")
+                                            .font(.custom("Apple SD Gothic Neo", fixedSize: 20))
+                                            .bold()
+                                            .foregroundColor(.gray)
+                                            .padding(.horizontal)
+                                        Text("😒")
+                                            .font(.custom("Apple SD Gothic Neo", fixedSize: 16))
+                                            .foregroundColor(.gray)
+                                            .padding(.horizontal)
+                                        Text("Surely, there are some assets you would like to track in your crypto watchlist. Use the search bar above to browse and search for crypto currencies to add to your watchlist")
+                                            .font(.custom("Apple SD Gothic Neo", fixedSize: 16))
+                                            .bold()
+                                            .foregroundColor(.gray)
+                                            .padding(.horizontal)
+                                            .multilineTextAlignment(.center)
                                     }
                                 }
-                                
-                            }
-                            else if(myAppObjects.cryptoWatchList.isEmpty && !isLoadingWatchlist){
                                 Spacer()
-                                VStack(spacing: 16){
-                                    Text("Wow! Such Empty!")
-                                        .font(.custom("Apple SD Gothic Neo", fixedSize: 20))
-                                        .bold()
-                                        .foregroundColor(.gray)
-                                        .padding(.horizontal)
-                                    Text("😒")
-                                        .font(.custom("Apple SD Gothic Neo", fixedSize: 16))
-                                        .foregroundColor(.gray)
-                                        .padding(.horizontal)
-                                    Text("Surely, there are some assets you would like to track in your crypto watchlist. Use the search bar above to browse and search for crypto currencies to add to your watchlist")
-                                        .font(.custom("Apple SD Gothic Neo", fixedSize: 16))
-                                        .bold()
-                                        .foregroundColor(.gray)
-                                        .padding(.horizontal)
-                                        .multilineTextAlignment(.center)
-                                }
                             }
-                            Spacer()
                         }.overlay(
                             VStack{
                                 if(isLoadingWatchlist){
