@@ -23,7 +23,7 @@ struct AssetWatchListPage: View {
     @State var isLoadingWatchlist: Bool = false
     
     @State var isMarketOpen:Bool?
-    @State var didAppear = false
+    @State var didAppear = false //This is used to verify that some actions only happen once when the view is loaded in the apps current lifecycle because onappear is called multiple times in swiftui
     @State var shouldRefreshWatchlist = false
     @Environment(\.presentationMode) var presentationMode
     
@@ -35,135 +35,135 @@ struct AssetWatchListPage: View {
     
     var body: some View {
         if(!isCrypto){
+            VStack{
                 VStack{
-                    VStack{
-                        HStack{
-                            if(isMarketOpen == nil){
-                                Circle()
-                                    .frame(width: 10, height: 10)
-                                    .foregroundColor(Color.gray)
-                                    .shadow(color: Color.gray, radius: 4, x: -0.8, y: -1)
-                                Text("Could Not Get Market Status")
-                                    .font(.custom("Apple SD Gothic Neo", fixedSize: 14))
-                                    .offset(x: 0, y: 2)
-                            }
-                            else if(isMarketOpen!){
-                                Circle()
-                                    .frame(width: 10, height: 10)
-                                    .foregroundColor(Color.green)
-                                    .shadow(color: Color.green, radius: 6, x: -0.8, y: 1)
-                                Text("The US Stock Market is Open")
-                                    .font(.custom("Apple SD Gothic Neo", fixedSize: 14))
-                                    .offset(x: 0, y: 2)
-                            }
-                            else {
-                                Circle()
-                                    .frame(width: 10, height: 10)
-                                    .foregroundColor(Color.red)
-                                    .shadow(color: Color.red, radius: 6, x: -0.8, y: 1)
-                                Text("The US Stock Market is Closed")
-                                    .font(.custom("Apple SD Gothic Neo", fixedSize: 14))
-                                    .offset(x: 0, y: 2)
+                    HStack{
+                        if(isMarketOpen == nil){
+                            Circle()
+                                .frame(width: 10, height: 10)
+                                .foregroundColor(Color.gray)
+                                .shadow(color: Color.gray, radius: 4, x: -0.8, y: -1)
+                            Text("Could Not Get Market Status")
+                                .font(.custom("Apple SD Gothic Neo", fixedSize: 14))
+                                .offset(x: 0, y: 2)
+                        }
+                        else if(isMarketOpen!){
+                            Circle()
+                                .frame(width: 10, height: 10)
+                                .foregroundColor(Color.green)
+                                .shadow(color: Color.green, radius: 6, x: -0.8, y: 1)
+                            Text("The US Stock Market is Open")
+                                .font(.custom("Apple SD Gothic Neo", fixedSize: 14))
+                                .offset(x: 0, y: 2)
+                        }
+                        else {
+                            Circle()
+                                .frame(width: 10, height: 10)
+                                .foregroundColor(Color.red)
+                                .shadow(color: Color.red, radius: 6, x: -0.8, y: 1)
+                            Text("The US Stock Market is Closed")
+                                .font(.custom("Apple SD Gothic Neo", fixedSize: 14))
+                                .offset(x: 0, y: 2)
+                        }
+                    }
+                    .onAppear(perform: {
+                        API().IsMarketOpen(){
+                            result in
+                            if(result.isSuccessful){
+                                if let data = result.data, let jsonString = String(data: data, encoding: .utf8) {
+                                    isMarketOpen = jsonString.toBool
+                                }
                             }
                         }
-                        .onAppear(perform: {
-                            API().IsMarketOpen(){
+                    })
+                    HStack {
+                        TextField("Tap to Search for Stocks", text: $searchText) { isEditing in
+                            if(isEditing){
+                                self.isEditing = isEditing
+                            }
+                        } onCommit: {
+                            isLoadingAsset = true
+                            myAppObjects.searchStock(stockToSearch: searchText){
                                 result in
                                 if(result.isSuccessful){
-                                    if let data = result.data, let jsonString = String(data: data, encoding: .utf8) {
-                                        isMarketOpen = jsonString.toBool
+                                    DispatchQueue.main.async {
+                                        myAppObjects.stockSearchResult = result.stockSearchResponse
                                     }
                                 }
-                            }
-                        })
-                        HStack {
-                            TextField("Tap to Search for Stocks", text: $searchText) { isEditing in
-                                if(isEditing){
-                                    self.isEditing = isEditing
-                                }
-                            } onCommit: {
-                                isLoadingAsset = true
-                                myAppObjects.searchStock(stockToSearch: searchText){
-                                    result in
-                                    if(result.isSuccessful){
-                                        DispatchQueue.main.async {
-                                            myAppObjects.stockSearchResult = result.stockSearchResponse
-                                        }
-                                    }
-                                    isLoadingAsset = false
-                                   
-                                }
-                            }
-                            .disableAutocorrection(true)
-                            .padding()
-                            .padding(.horizontal, 20)
-                            .background(myColors.grayColor)
-                            .foregroundColor(.white)
-                            .font(.system(size: 18, weight: .bold, design: .rounded))
-                            .cornerRadius(14)
-                            .overlay(
-                                HStack{
-                                    Image(systemName: "magnifyingglass")
-                                        .foregroundColor(myColors.lightGrayColor)
-                                        .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-                                        .padding(.leading, 12)
-                                }
-                            )
-                            if isEditing {
-                                Button(action: {
-                                    self.isEditing = false
-                                    self.searchText = ""
-                                    isLoadingAsset = false
-                                    hideKeyboard()
-                                    presentationMode.wrappedValue.dismiss()
-                                    myAppObjects.stockSearchResult.removeAll()
-                                    myAppObjects.searchStockAsync()
-                                    
-                                }) {
-                                    Text("Cancel")
-                                        .foregroundColor(myColors.greenColor)
-                                        .font(.custom("Apple SD Gothic Neo", fixedSize: 18))
-                                }
-                                .padding(.trailing, 10)
-                                .transition(.move(edge: .trailing))
-                                .animation(.default)
+                                isLoadingAsset = false
+                                
                             }
                         }
-                        .padding(.horizontal).padding(.vertical, 2)
-                        
-                        if(isEditing){
-                            VStack{
-                                HStack{
-                                    Text("Stocks")
-                                        .font(.custom("Apple SD Gothic Neo", fixedSize: 22))
-                                        .fontWeight(.heavy)
-                                        .bold()
-                                        .foregroundColor(myColors.greenColor)
-                                    Spacer()
-                                    
-                                }
-                                .padding(.horizontal)
+                        .disableAutocorrection(true)
+                        .padding()
+                        .padding(.horizontal, 20)
+                        .background(myColors.grayColor)
+                        .foregroundColor(.white)
+                        .font(.system(size: 18, weight: .bold, design: .rounded))
+                        .cornerRadius(14)
+                        .overlay(
+                            HStack{
+                                Image(systemName: "magnifyingglass")
+                                    .foregroundColor(myColors.lightGrayColor)
+                                    .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+                                    .padding(.leading, 12)
+                            }
+                        )
+                        if isEditing {
+                            Button(action: {
+                                self.isEditing = false
+                                self.searchText = ""
+                                isLoadingAsset = false
+                                hideKeyboard()
+                                presentationMode.wrappedValue.dismiss()
+                                myAppObjects.stockSearchResult.removeAll()
+                                myAppObjects.searchStockAsync()
                                 
-                                if(!myAppObjects.stockSearchResult.isEmpty){
+                            }) {
+                                Text("Cancel")
+                                    .foregroundColor(myColors.greenColor)
+                                    .font(.custom("Apple SD Gothic Neo", fixedSize: 18))
+                            }
+                            .padding(.trailing, 10)
+                            .transition(.move(edge: .trailing))
+                            .animation(.default)
+                        }
+                    }
+                    .padding(.horizontal).padding(.vertical, 2)
+                    
+                    if(isEditing){
+                        VStack{
+                            HStack{
+                                Text("Stocks")
+                                    .font(.custom("Apple SD Gothic Neo", fixedSize: 22))
+                                    .fontWeight(.heavy)
+                                    .bold()
+                                    .foregroundColor(myColors.greenColor)
+                                Spacer()
+                                
+                            }
+                            .padding(.horizontal)
+                            
+                            if(!myAppObjects.stockSearchResult.isEmpty){
+                                
+                                ScrollView{
+                                    LazyVStack{
+                                        ForEach(myAppObjects.stockSearchResult, id: \.self){ stock in
+                                            NavigationLink(
+                                                destination: StocksInfoPageView(showOrderButtons: true, stockToSearch: stock.stockId, stock: nil)
+                                                    .onDisappear(perform: {
+                                                        myAppObjects.updateStockWatchListAsync()
+                                                        myAppObjects.getStockHoldingsAsync()
+                                                    }),
+                                                tag: stock.id.uuidString,
+                                                selection: $selectedItem,
+                                                label: {StockSearchView(stock: stock)})
+                                        }
+                                    }.padding(.horizontal)
                                     
-                                    ScrollView{
-                                        LazyVStack{
-                                            ForEach(myAppObjects.stockSearchResult, id: \.self){ stock in
-                                                NavigationLink(
-                                                    destination: StocksInfoPageView(showOrderButtons: true, stockToSearch: stock.stockId, stock: nil)
-                                                        .onDisappear(perform: {
-                                                            myAppObjects.updateStockWatchListAsync()
-                                                            myAppObjects.getStockHoldingsAsync()
-                                                        }),
-                                                    tag: stock.id.uuidString,
-                                                    selection: $selectedItem,
-                                                    label: {StockSearchView(stock: stock)})
-                                            }
-                                        }.padding(.horizontal)
-                                        
-                                    }.overlay(
-                                        VStack{
-                                            if(isLoadingAsset){
+                                }.overlay(
+                                    VStack{
+                                        if(isLoadingAsset){
                                             Color.black
                                                 .ignoresSafeArea()
                                                 .overlay(
@@ -172,19 +172,19 @@ struct AssetWatchListPage: View {
                                                         .scaleEffect(x: 1.4, y: 1.4)
                                                         .progressViewStyle(CircularProgressViewStyle(tint: myColors.greenColor))
                                                 )
-                                            }
-                                        })
-                                }
-                                else{
-                                    Spacer()
-                                    Text("Could not find what you were looking for? Please remember that we only provide access to the US and Canadian stock market at this time. Please contact us if you have any further questions")
-                                        .font(.custom("Apple SD Gothic Neo", fixedSize: 12))
-                                        .bold()
-                                        .foregroundColor(.white)
-                                        .padding(.horizontal)
-                                        .overlay(
-                                            VStack{
-                                                if(isLoadingAsset){
+                                        }
+                                    })
+                            }
+                            else{
+                                Spacer()
+                                Text("Could not find what you were looking for? Please remember that we only provide access to the US and Canadian stock market at this time. Please contact us if you have any further questions")
+                                    .font(.custom("Apple SD Gothic Neo", fixedSize: 12))
+                                    .bold()
+                                    .foregroundColor(.white)
+                                    .padding(.horizontal)
+                                    .overlay(
+                                        VStack{
+                                            if(isLoadingAsset){
                                                 Color.black
                                                     .ignoresSafeArea()
                                                     .overlay(
@@ -192,48 +192,48 @@ struct AssetWatchListPage: View {
                                                             .accentColor(.green)
                                                             .scaleEffect(x: 1.4, y: 1.4)
                                                             .progressViewStyle(CircularProgressViewStyle(tint: myColors.greenColor))
-                                                    
+                                                        
                                                     )
-                                                }
-                                            })
-                                }
-                                Spacer()
-                            }
-                        }
-                        if(!isEditing){
-                            VStack{
-                                ScrollView{
-                                    VStack(spacing: 0){
-                                        PullToRefreshView(onRefresh:{
-                                            isLoadingWatchlist = true
-                                            myAppObjects.updateStockWatchList(){
-                                                result in
-                                                if(result.isSuccessful){
-                                                    isLoadingWatchlist = false
-                                                }
-                                                else{
-                                                    //Would need to show error message here or something
-                                                    isLoadingWatchlist = false
-                                                }
-                                                shouldRefreshWatchlist = false
                                             }
                                         })
-                                    }
+                            }
+                            Spacer()
+                        }
+                    }
+                    if(!isEditing){
+                        VStack{
+                            ScrollView{
+                                VStack(spacing: 0){
+                                    PullToRefreshView(onRefresh:{
+                                        isLoadingWatchlist = true
+                                        myAppObjects.updateStockWatchList(){
+                                            result in
+                                            if(result.isSuccessful){
+                                                isLoadingWatchlist = false
+                                            }
+                                            else{
+                                                //Would need to show error message here or something
+                                                isLoadingWatchlist = false
+                                            }
+                                            shouldRefreshWatchlist = false
+                                        }
+                                    })
+                                }
                                 
                                 if(!myAppObjects.stockWatchList.isEmpty){
-                                        LazyVStack {
-                                            ForEach(myAppObjects.stockWatchList, id: \.self){ stock in
-                                                NavigationLink(
-                                                    destination: StocksInfoPageView(showOrderButtons: true, stockToSearch: 0, stock: stock).environmentObject(myAppObjects).onDisappear(perform: {
-                                                        myAppObjects.updateStockWatchListAsync()
-                                                        myAppObjects.getStockHoldingsAsync()
-                                                    }),
-                                                    tag: stock.id.uuidString,
-                                                    selection: $selectedItem,
-                                                    label: {StockSymbolView(stock: stock)})
-                                                
-                                            }
-                                        }.padding(.horizontal)
+                                    LazyVStack {
+                                        ForEach(myAppObjects.stockWatchList, id: \.self){ stock in
+                                            NavigationLink(
+                                                destination: StocksInfoPageView(showOrderButtons: true, stockToSearch: 0, stock: stock).environmentObject(myAppObjects).onDisappear(perform: {
+                                                    myAppObjects.updateStockWatchListAsync()
+                                                    myAppObjects.getStockHoldingsAsync()
+                                                }),
+                                                tag: stock.id.uuidString,
+                                                selection: $selectedItem,
+                                                label: {StockSymbolView(stock: stock)})
+                                            
+                                        }
+                                    }.padding(.horizontal)
                                     
                                     
                                 }
@@ -259,30 +259,34 @@ struct AssetWatchListPage: View {
                                 }
                                 Spacer()
                             }
-                            }.overlay(
-                                VStack{
-                                    if(isLoadingWatchlist){
-                                        Color.black
-                                            .overlay(
-                                                ProgressView()
-                                                    .accentColor(.green)
-                                                    .scaleEffect(x: 1.4, y: 1.4)
-                                                    .progressViewStyle(CircularProgressViewStyle(tint: myColors.greenColor))
-                                            )
-                                        
-                                    }
+                        }.overlay(
+                            VStack{
+                                if(isLoadingWatchlist){
+                                    Color.black
+                                        .overlay(
+                                            ProgressView()
+                                                .accentColor(.green)
+                                                .scaleEffect(x: 1.4, y: 1.4)
+                                                .progressViewStyle(CircularProgressViewStyle(tint: myColors.greenColor))
+                                        )
+                                    
                                 }
-                            )
-                        }
-                        }
+                            }
+                        )
                     }
-                .onAppear(perform: {
-                    onLoad()
-                })
-//                .onReceive(self.stockRefreshtimer, perform: { _ in
-//                    shouldRefreshWatchlist = true
-//                })
-                .banner(data: $myAppObjects.bannerData, show: $myAppObjects.showBanner)
+                }
+            }
+            .onAppear(perform: {
+                onLoad()
+            })
+            //                .onReceive(self.stockRefreshtimer, perform: { _ in
+            //                    shouldRefreshWatchlist = true
+            //                })
+            .if(!myAppObjects.didStockWatchlistLoad){
+                view in
+                view.redacted(when: true, redactionType: .customPlaceholder)
+            }
+            .banner(data: $myAppObjects.bannerData, show: $myAppObjects.showBanner)
         }
         else {
             VStack{
@@ -385,15 +389,15 @@ struct AssetWatchListPage: View {
                                 }.overlay(
                                     VStack{
                                         if(isLoadingAsset){
-                                        Color.black
-                                            .ignoresSafeArea()
-                                            .overlay(
-                                                ProgressView()
-                                                    .accentColor(.green)
-                                                    .scaleEffect(x: 1.4, y: 1.4)
-                                                    .progressViewStyle(CircularProgressViewStyle(tint: myColors.greenColor))
-                                            
-                                            )
+                                            Color.black
+                                                .ignoresSafeArea()
+                                                .overlay(
+                                                    ProgressView()
+                                                        .accentColor(.green)
+                                                        .scaleEffect(x: 1.4, y: 1.4)
+                                                        .progressViewStyle(CircularProgressViewStyle(tint: myColors.greenColor))
+                                                    
+                                                )
                                         }
                                     })
                             }
@@ -407,15 +411,15 @@ struct AssetWatchListPage: View {
                                     .overlay(
                                         VStack{
                                             if(isLoadingAsset){
-                                            Color.black
-                                                .ignoresSafeArea()
-                                                .overlay(
-                                                    ProgressView()
-                                                        .accentColor(.green)
-                                                        .scaleEffect(x: 1.4, y: 1.4)
-                                                        .progressViewStyle(CircularProgressViewStyle(tint: myColors.greenColor))
-                                                
-                                                )
+                                                Color.black
+                                                    .ignoresSafeArea()
+                                                    .overlay(
+                                                        ProgressView()
+                                                            .accentColor(.green)
+                                                            .scaleEffect(x: 1.4, y: 1.4)
+                                                            .progressViewStyle(CircularProgressViewStyle(tint: myColors.greenColor))
+                                                        
+                                                    )
                                             }
                                         })
                             }
@@ -442,18 +446,18 @@ struct AssetWatchListPage: View {
                                     })
                                 }
                                 if(!myAppObjects.cryptoWatchList.isEmpty){
-                                            LazyVStack {
-                                                ForEach(myAppObjects.cryptoWatchList, id: \.self){ crypto in
-                                                    NavigationLink(
-                                                        destination: CryptoInfoPageView(cryptoToSearch: 0, crypto: crypto, cryptoQuote: userAuth.user.currency == "USD" ? CryptoQuote(crypto.usdQuote) : CryptoQuote(crypto.cadQuote)).environmentObject(myAppObjects).onDisappear(perform: {
-                                                            myAppObjects.updateCryptoWatchListAsync()
-                                                            myAppObjects.getCryptoHoldingsAsync()
-                                                        }),
-                                                        tag: crypto.crypto.id.uuidString,
-                                                        selection: $selectedItem,
-                                                        label: {CryptoSymbolView(cryptoSymbol: crypto, cryptoQuote: userAuth.user.currency == "USD" ? CryptoQuote(crypto.usdQuote) : CryptoQuote(crypto.cadQuote))})
-                                                }
-                                            }.padding(.horizontal)
+                                    LazyVStack {
+                                        ForEach(myAppObjects.cryptoWatchList, id: \.self){ crypto in
+                                            NavigationLink(
+                                                destination: CryptoInfoPageView(cryptoToSearch: 0, crypto: crypto, cryptoQuote: userAuth.user.currency == "USD" ? CryptoQuote(crypto.usdQuote) : CryptoQuote(crypto.cadQuote)).environmentObject(myAppObjects).onDisappear(perform: {
+                                                    myAppObjects.updateCryptoWatchListAsync()
+                                                    myAppObjects.getCryptoHoldingsAsync()
+                                                }),
+                                                tag: crypto.crypto.id.uuidString,
+                                                selection: $selectedItem,
+                                                label: {CryptoSymbolView(cryptoSymbol: crypto, cryptoQuote: userAuth.user.currency == "USD" ? CryptoQuote(crypto.usdQuote) : CryptoQuote(crypto.cadQuote))})
+                                        }
+                                    }.padding(.horizontal)
                                 }
                                 else if(myAppObjects.cryptoWatchList.isEmpty && !isLoadingWatchlist){
                                     VStack(spacing: 16){
@@ -491,24 +495,7 @@ struct AssetWatchListPage: View {
                             }
                         )
                     }
-                }.onAppear(perform: {
-                    myAppObjects.getCryptoHoldingsAsync()
-                    if(shouldRefreshWatchlist){
-                        isLoadingWatchlist = true
-                        myAppObjects.updateCryptoWatchList(){
-                            result in
-                            if(result.isSuccessful){
-                                isLoadingWatchlist = false
-                            }
-                            else{
-                                //Would need to show error message here or something
-                                isLoadingWatchlist = false
-                            }
-                            shouldRefreshWatchlist = false
-                        }
-                    }
-                })
-                
+                }
             }
             .onAppear(perform: {
                 onLoad()
@@ -516,6 +503,10 @@ struct AssetWatchListPage: View {
             .onReceive(self.cryptoRefreshtimer, perform: { _ in
                 shouldRefreshWatchlist = true
             })
+            .if(!myAppObjects.didCryptoWatchlistLoad){
+                view in
+                view.redacted(when: true, redactionType: .customPlaceholder)
+            }
             .banner(data: $myAppObjects.bannerData, show: $myAppObjects.showBanner)
         }
         
@@ -530,41 +521,46 @@ struct AssetWatchListPage: View {
     }
     
     func reloadData(){
-        isLoadingWatchlist = true
         if(isCrypto){
             myAppObjects.getStockHoldingsAsync()
-            myAppObjects.updateCryptoWatchList(){
-                result in
-                if(result.isSuccessful){
-                    isLoadingWatchlist = false
-                }
-                else{
-                    //Would need to show error message here or something
-                    isLoadingWatchlist = false
+            if(!myAppObjects.didCryptoWatchlistLoad){
+                isLoadingWatchlist = true
+                myAppObjects.updateCryptoWatchList(){
+                    result in
+                    if(result.isSuccessful){
+                        isLoadingWatchlist = false
+                    }
+                    else{
+                        //Would need to show error message here or something
+                        isLoadingWatchlist = false
+                    }
                 }
             }
         }
         else{
             myAppObjects.getStockHoldingsAsync()
-            myAppObjects.updateStockWatchList(){
-                result in
-                if(result.isSuccessful){
-                    isLoadingWatchlist = false
-                }
-                else{
-                    //Would need to show error message here or something
-                    isLoadingWatchlist = false
+            if(!myAppObjects.didStockWatchlistLoad){
+                isLoadingWatchlist = true
+                myAppObjects.updateStockWatchList(){
+                    result in
+                    if(result.isSuccessful){
+                        isLoadingWatchlist = false
+                    }
+                    else{
+                        //Would need to show error message here or something
+                        isLoadingWatchlist = false
+                    }
                 }
             }
         }
-
+        
     }
 }
-    
-    struct StocksWatchListPageView_Previews: PreviewProvider {
-        static var previews: some View {
-            AssetWatchListPage(isCrypto: false)
-                .environmentObject(AppObjects())
-                .preferredColorScheme(.dark)
-        }
+
+struct StocksWatchListPageView_Previews: PreviewProvider {
+    static var previews: some View {
+        AssetWatchListPage(isCrypto: false)
+            .environmentObject(AppObjects())
+            .preferredColorScheme(.dark)
     }
+}

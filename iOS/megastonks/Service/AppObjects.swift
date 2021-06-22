@@ -23,6 +23,8 @@ class AppObjects: ObservableObject {
     @Published var randomAdIndex: Int
     @Published var news: [NewsElement]
     @Published var notificationManager = LocalNotificationManager()
+    @Published var didStockWatchlistLoad:Bool = false
+    @Published var didCryptoWatchlistLoad:Bool = false
     
     
     init() {
@@ -50,9 +52,32 @@ class AppObjects: ObservableObject {
                 }
             }
         }
+        updateStockWatchList(){ result in
+            if(result.isSuccessful){
+                print("Stock Watchlist Loaded First Time")
+            }else{
+                print("Error Loading Stock Watchlist First Time")
+            }
+            DispatchQueue.main.async {
+                self.didStockWatchlistLoad = true  //This is used to check if the objects that are in this init are loaded when the app is started
+            }
+   
+           
+        }
+        updateCryptoWatchList(){ result in
+            if(result.isSuccessful){
+                print("Stock Watchlist Loaded First Time")
+            }else{
+                print("Error Loading Crypto Watchlist First Time")
+            }
+            DispatchQueue.main.async {
+                self.didCryptoWatchlistLoad = true  //This is used to check if the objects that are in this init are loaded when the app is started
+            }
+        }
        getNewsAsync()
        searchStockAsync()
        populateCryptoListAsync()
+       
     }
     
     func updateStockWatchList(completion: @escaping (RequestResponse) -> ()) {
