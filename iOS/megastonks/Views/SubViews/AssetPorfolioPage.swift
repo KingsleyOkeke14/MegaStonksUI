@@ -47,8 +47,6 @@ struct AssetPorfolioPage: View {
                         })
                     
                 }.padding(.horizontal)
-                
-                if(!myAppObjects.stockHoldings.holdings.isEmpty || !myAppObjects.cryptoHoldings.holdings.isEmpty){
                     ScrollView{
                         VStack(spacing: 0) {
                             PullToRefreshView(onRefresh:{
@@ -74,6 +72,7 @@ struct AssetPorfolioPage: View {
                                 }
                             })
                         }
+                        if(!myAppObjects.stockHoldings.holdings.isEmpty || !myAppObjects.cryptoHoldings.holdings.isEmpty){
                         LazyVStack {
                             if(!myAppObjects.stockHoldings.holdings.isEmpty){
                                 ForEach(myAppObjects.stockHoldings.holdings, id: \.self){ holding in
@@ -108,6 +107,7 @@ struct AssetPorfolioPage: View {
                                 }
                             }
                         }.padding(.horizontal)
+                        }
                     }.overlay(
                         VStack{
                             if(isLoadingHoldings){
@@ -122,9 +122,6 @@ struct AssetPorfolioPage: View {
                             }
                         }
                     )
-                    
-                }
-                Spacer()
             }
         }
         .onAppear(perform: {

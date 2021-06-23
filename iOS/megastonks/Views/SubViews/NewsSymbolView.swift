@@ -16,7 +16,7 @@ struct NewsSymbolView: View {
     var body: some View {
         VStack(spacing: 2){
             HStack{
-                VStack{
+                LazyVStack{
                     AsyncImage(url: URL(string: newsElement.image)!,
                                placeholder: { Image("blackImage") },
                                   image: { Image(uiImage: $0).resizable() })
@@ -25,7 +25,7 @@ struct NewsSymbolView: View {
                         .aspectRatio(contentMode: .fill)
                         .shadow(radius: 8)
                         .opacity(0.6)
-                }
+                }.frame(width: 80, height: 80, alignment: .center)
                 VStack(spacing: 8){
                     HStack{
                         Text(newsElement.symbol)

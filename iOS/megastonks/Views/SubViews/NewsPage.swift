@@ -50,7 +50,7 @@ struct NewsPage: View {
                 }).padding(.horizontal)
             }
             
-            if(!myAppObjects.news.isEmpty){
+            
                 ScrollView{
                     VStack(spacing: 0) {
                         PullToRefreshView(onRefresh:{
@@ -70,6 +70,7 @@ struct NewsPage: View {
                             }
                         })
                     }
+                    if(!myAppObjects.news.isEmpty){
                     LazyVStack {
                         ForEach(myAppObjects.news, id: \.self){ news in
                             NavigationLink(
@@ -80,22 +81,20 @@ struct NewsPage: View {
 
                         }
                     }.padding(.horizontal)
-                }
-
-            }
-            else if(myAppObjects.news.isEmpty && !isLoadingNews){
-               Spacer()
-                VStack(spacing: 16){
-                        Text("The News Feed Cannot be Updated at this Time")
-                            .font(.custom("Apple SD Gothic Neo", fixedSize: 18))
-                            .bold()
-                            .foregroundColor(.gray)
-                            .multilineTextAlignment(.center)
-                            .padding(.horizontal)
                     }
-                Spacer()
-            }
-            Spacer()
+                    else if(myAppObjects.news.isEmpty && !isLoadingNews){
+                       Spacer()
+                        VStack(spacing: 16){
+                                Text("The News Feed Cannot be Updated at this Time")
+                                    .font(.custom("Apple SD Gothic Neo", fixedSize: 18))
+                                    .bold()
+                                    .foregroundColor(.gray)
+                                    .multilineTextAlignment(.center)
+                                    .padding(.horizontal)
+                            }
+                        Spacer()
+                    }
+                }
             AdsView(showRandomAd: false).environmentObject(myAppObjects)
 
         }.overlay(
