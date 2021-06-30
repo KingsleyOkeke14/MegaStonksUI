@@ -42,6 +42,7 @@ struct RootPageView: View {
                 .banner(data: $bannerData, show: $userAuth.showAuthError)
                 .onReceive(pub, perform: { _ in
                     if(!userAuth.isRefreshingAuth){
+                        userAuth.isRefreshingAuth = true
                         userAuth.refreshLogin()
                     }
                 })
