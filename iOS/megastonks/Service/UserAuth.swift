@@ -105,18 +105,33 @@ class UserAuth: ObservableObject {
                         }
                     }
                     else{
-                        DispatchQueue.main.async {
-                            self.showAuthError = true
-                        }
-                        
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 6) {
-                            _  = KeychainWrapper.standard.removeObject(forKey: "jwtToken")
-                            _  = KeychainWrapper.standard.removeObject(forKey: "refreshToken")
-                            //self.user = User(firstName: "", lastName: "", emailAddress: "", currency: "", isOnBoarded: true)
-                            self.isLoggedin = false
-                            self.showAuthError = false
-                            self.isRefreshingAuth = false
-                            print("Login Failed #1")
+                        //Basically a haflass implementation of retry of the auth token refresh
+                        API().RefreshToken(token: refreshToken){ result in
+                            if(result.isSuccessful){
+                                let jsonResponse = try! JSONDecoder().decode(AuthenticateResponse.self, from: result.data!)
+                                
+                                DispatchQueue.main.async {
+                                    self.user = User(firstName: jsonResponse.firstName, lastName: jsonResponse.lastName, emailAddress: jsonResponse.email, currency: jsonResponse.currency, isOnBoarded: jsonResponse.isOnboarded)
+                                    self.isLoggedin = true
+                                    self.isRefreshingAuth = false
+                                    print("Login Successfull")
+                                }
+                            }
+                            else{
+                                DispatchQueue.main.async {
+                                    self.showAuthError = true
+                                }
+                                
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 6) {
+                                    _  = KeychainWrapper.standard.removeObject(forKey: "jwtToken")
+                                    _  = KeychainWrapper.standard.removeObject(forKey: "refreshToken")
+                                    //self.user = User(firstName: "", lastName: "", emailAddress: "", currency: "", isOnBoarded: true)
+                                    self.isLoggedin = false
+                                    self.showAuthError = false
+                                    self.isRefreshingAuth = false
+                                    print("Login Failed #1")
+                                }
+                            }
                         }
                     }
                 }
