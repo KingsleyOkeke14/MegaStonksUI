@@ -15,7 +15,9 @@ struct NewsPageView: View {
     @State private var currentPage: Int = 0
     @State private var selectedItem: String?
     @State var isLoadingNews: Bool = false
-    @EnvironmentObject var myAppObjects:AppObjects
+    
+    @EnvironmentObject var newsVM: NewsVM
+    @EnvironmentObject var adsVM: AdsVM
     
     init() {
         let coloredAppearance = UINavigationBarAppearance()
@@ -50,12 +52,12 @@ struct NewsPageView: View {
                        PageView(pages: [NewsPage(isLoadingNews: $isLoadingNews)], currentPage: $currentPage)
                     }
                 .onAppear(perform: {
-                    if(myAppObjects.news.isEmpty){
+                    if(newsVM.news.isEmpty){
                         isLoadingNews = true
-                        myAppObjects.getNews(){ result in
+                        newsVM.getNews(){ result in
                             if(result.isSuccessful){
                                     DispatchQueue.main.async {
-                                        myAppObjects.news = result.newsResponse!
+                                        newsVM.news = result.newsResponse!
                                     }
                                 isLoadingNews = false
                             }
@@ -75,7 +77,8 @@ struct NewsPageView: View {
 struct NewsPageView_Previews: PreviewProvider {
     static var previews: some View {
         NewsPageView()
-        .environmentObject(AppObjects())
+            .environmentObject(NewsVM())
+            .environmentObject(AdsVM())
             .preferredColorScheme(.dark)
     }
 }

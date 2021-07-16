@@ -11,10 +11,12 @@ import SafariServices
 struct NewsInfoView: View {
     
     let myColors = MyColors()
-    @EnvironmentObject var myAppObjects:AppObjects
+    
     
     @State var showSafari:Bool = false
     @State var adToShow:Int = 0
+    
+    @EnvironmentObject var adsVM:AdsVM
     
     var newsElement:NewsElement
     
@@ -73,7 +75,7 @@ struct NewsInfoView: View {
                 })
             }.padding(.horizontal)
             Spacer()
-            AdsView(showRandomAd: true).environmentObject(myAppObjects)
+            AdsView(showRandomAd: true).environmentObject(adsVM)
         }
         .sheet(isPresented: $showSafari) {
             SafariView(url:URL(string: self.newsElement.url)!).preferredColorScheme(.dark)
@@ -86,7 +88,7 @@ struct NewsInfoView: View {
 
 struct NewsInfoView_Previews: PreviewProvider {
     static var previews: some View {
-        NewsInfoView(newsElement: StockSymbolModel().newsModel).preferredColorScheme(.dark).environmentObject(AppObjects())
+        NewsInfoView(newsElement: StockSymbolModel().newsModel).preferredColorScheme(.dark).environmentObject(AdsVM())
     }
 }
 

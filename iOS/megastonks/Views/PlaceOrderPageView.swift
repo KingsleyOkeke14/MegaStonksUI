@@ -26,8 +26,12 @@ struct PlaceOrderPageView: View {
     
     @Environment(\.presentationMode) var presentationMode
     
-    @EnvironmentObject var myAppObjects:AppObjects
     @EnvironmentObject var userAuth: UserAuth
+    
+    @EnvironmentObject var userWalletVM: UserWalletVM
+    @EnvironmentObject var stockOrderVM: StockOrderVM
+    @EnvironmentObject var stockWatchListVM: StockWatchListVM
+    @EnvironmentObject var stockHoldingsVM: StockHoldingsVM
     
     let myColors = MyColors()
     var body: some View {
@@ -99,8 +103,8 @@ struct PlaceOrderPageView: View {
                                 Text("$\(estimatedCost.formatPrice()) \(stockSymbol!.currency)")
                                     .bold()
                                     .font(.custom("Apple SD Gothic Neo", fixedSize: 20))
-                                    .shadow(color: estimatedCost > myAppObjects.userWallet.cash ? .red : .white, radius: 12, x: 2, y: 4)
-                                    .foregroundColor(estimatedCost > myAppObjects.userWallet.cash ? .red : .white)
+                                    .shadow(color: estimatedCost > userWalletVM.userWallet.cash ? .red : .white, radius: 12, x: 2, y: 4)
+                                    .foregroundColor(estimatedCost > userWalletVM.userWallet.cash ? .red : .white)
                                     .onChange(of: quantityEntry, perform: { newValue in
                                         estimatedCost = (stockSymbol!.price  * (Double(String(newValue.joined(separator: ""))) ?? 0.0))
                                     })
@@ -130,7 +134,7 @@ struct PlaceOrderPageView: View {
                                     .font(.custom("Apple SD Gothic Neo", fixedSize: 18))
                                     .foregroundColor(.white)
                                 Spacer()
-                                Text("$\(myAppObjects.userWallet.cash.formatPrice()) \(userAuth.user.currency)")
+                                Text("$\(userWalletVM.userWallet.cash.formatPrice()) \(userAuth.user.currency)")
                                     .bold()
                                     .font(.custom("Apple SD Gothic Neo", fixedSize: 18))
                                     .foregroundColor(.white)
@@ -155,14 +159,14 @@ struct PlaceOrderPageView: View {
                         Button(action: {
                             isLoading = true
                             let quantityToSend = Int(String(quantityEntry.joined(separator: ""))) ?? 0
-                            myAppObjects.orderStock(stockId: stockSymbol!.stockId, orderType: "MarketOrder", orderAction: orderAction, quantitySubmitted: quantityToSend){
+                            stockOrderVM.orderStock(stockId: stockSymbol!.stockId, orderType: "MarketOrder", orderAction: orderAction, quantitySubmitted: quantityToSend){
                                 result in
                                 
                                 if (result.isSuccessful){
                                     orderResult = result.orderStockResponse
                                     isLoading = false
                                     showOrderSuccessPage = true
-                                    myAppObjects.getStockHoldingsAsync()
+                                    stockHoldingsVM.getStockHoldingsAsync()
                                 }
                                 else{
                                     errorMessage = result.errorMessage
@@ -230,7 +234,7 @@ struct PlaceOrderPageView: View {
                                 else if(!isLoading && showOrderSuccessPage){
                                     OrderSucessPageView(isCrypto: false, orderStockResult: orderResult!, orderCryptoResult: nil)
                                         .onDisappear(perform: {
-                                        myAppObjects.updateStockWatchList(){
+                                            stockWatchListVM.updateStockWatchList(){
                                             result in
                                             if(result.isSuccessful){
                                                 DispatchQueue.main.async {
@@ -247,15 +251,15 @@ struct PlaceOrderPageView: View {
                 )
                 .minimumScaleFactor(0.4)
                 .onAppear(perform: {
-                    myAppObjects.getWalletAsync()
-                    myAppObjects.getStockHoldings(){
+                    userWalletVM.getWalletAsync()
+                    stockHoldingsVM.getStockHoldings(){
                         result in
                         if(result.isSuccessful){
                             DispatchQueue.main.async {
-                                myAppObjects.stockHoldings = result.stockHoldingsResponse!
+                                stockHoldingsVM.stockHoldings = result.stockHoldingsResponse!
                             }
                             if(orderAction.uppercased() == "SELL"){
-                                let filtered = myAppObjects.stockHoldings.holdings.filter {$0.stockId == stockSymbol!.stockId}
+                                let filtered = stockHoldingsVM.stockHoldings.holdings.filter {$0.stockId == stockSymbol!.stockId}
                                 if(!filtered.isEmpty){
                                     ownedShares = filtered[0].quantity
                                 }
@@ -288,9 +292,14 @@ struct PlaceOrderCryptoPageView : View {
         
         @Environment(\.presentationMode) var presentationMode
         
-        @EnvironmentObject var myAppObjects:AppObjects
+        
         @EnvironmentObject var userAuth: UserAuth
         
+        @EnvironmentObject var userWalletVM: UserWalletVM
+        @EnvironmentObject var cryptoOrderVM: CryptoOrderVM
+        @EnvironmentObject var cryptoWatchListVM: CryptoWatchListVM
+        @EnvironmentObject var cryptoHoldingsVM: CryptoHoldingsVM
+    
         let myColors = MyColors()
         var body: some View {
             Color.black
@@ -366,8 +375,8 @@ struct PlaceOrderCryptoPageView : View {
                                     Text("$\(estimatedCost.formatPrice()) \(cryptoQuote!.currency)")
                                         .bold()
                                         .font(.custom("Apple SD Gothic Neo", fixedSize: 20))
-                                        .shadow(color: estimatedCost > myAppObjects.userWallet.cash ? .red : .white, radius: 12, x: 2, y: 4)
-                                        .foregroundColor(estimatedCost > myAppObjects.userWallet.cash ? .red : .white)
+                                        .shadow(color: estimatedCost > userWalletVM.userWallet.cash ? .red : .white, radius: 12, x: 2, y: 4)
+                                        .foregroundColor(estimatedCost > userWalletVM.userWallet.cash ? .red : .white)
                                         .onChange(of: quantityEntry, perform: { newValue in
                                             estimatedCost = (cryptoQuote!.price  * (Double(String(newValue.joined(separator: ""))) ?? 0.0))
                                         })
@@ -397,7 +406,7 @@ struct PlaceOrderCryptoPageView : View {
                                         .font(.custom("Apple SD Gothic Neo", fixedSize: 18))
                                         .foregroundColor(.white)
                                     Spacer()
-                                    Text("$\(myAppObjects.userWallet.cash.formatPrice()) \(userAuth.user.currency)")
+                                    Text("$\(userWalletVM.userWallet.cash.formatPrice()) \(userAuth.user.currency)")
                                         .bold()
                                         .font(.custom("Apple SD Gothic Neo", fixedSize: 18))
                                         .foregroundColor(.white)
@@ -422,14 +431,14 @@ struct PlaceOrderCryptoPageView : View {
                             Button(action: {
                                 isLoading = true
                                 let quantityToSend = Double(String(quantityEntry.joined(separator: ""))) ?? 0.0
-                                myAppObjects.orderCrypto(cryptoId: cryptoSymbol!.crypto.cryptoId, orderType: "MarketOrder", orderAction: orderAction, quantitySubmitted: quantityToSend){
+                                cryptoOrderVM.orderCrypto(cryptoId: cryptoSymbol!.crypto.cryptoId, orderType: "MarketOrder", orderAction: orderAction, quantitySubmitted: quantityToSend){
                                     result in
                                     
                                     if (result.isSuccessful){
                                         orderResult = result.orderCryptoResponse
                                         isLoading = false
                                         showOrderSuccessPage = true
-                                        myAppObjects.getStockHoldingsAsync()
+                                        cryptoHoldingsVM.getCryptoHoldingsAsync()
                                     }
                                     else{
                                         errorMessage = result.errorMessage
@@ -497,7 +506,7 @@ struct PlaceOrderCryptoPageView : View {
                                     else if(!isLoading && showOrderSuccessPage){
                                         OrderSucessPageView(isCrypto: true, orderStockResult: nil, orderCryptoResult: orderResult!)
                                             .onDisappear(perform: {
-                                            myAppObjects.updateCryptoWatchList(){
+                                                cryptoWatchListVM.updateCryptoWatchList(){
                                                 result in
                                                 if(result.isSuccessful){
                                                     DispatchQueue.main.async {
@@ -514,15 +523,15 @@ struct PlaceOrderCryptoPageView : View {
                     )
                     .minimumScaleFactor(0.4)
                     .onAppear(perform: {
-                        myAppObjects.getWalletAsync()
-                        myAppObjects.getCryptoHoldings(){
+                        userWalletVM.getWalletAsync()
+                        cryptoHoldingsVM.getCryptoHoldings(){
                             result in
                             if(result.isSuccessful){
                                 DispatchQueue.main.async {
-                                    myAppObjects.cryptoHoldings = result.cryptoHoldingsResponse!
+                                    cryptoHoldingsVM.cryptoHoldings = result.cryptoHoldingsResponse!
                                 }
                                 if(orderAction.uppercased() == "SELL"){
-                                    let filtered = myAppObjects.cryptoHoldings.holdings.filter {$0.cryptoId == cryptoSymbol!.crypto.cryptoId}
+                                    let filtered = cryptoHoldingsVM.cryptoHoldings.holdings.filter {$0.cryptoId == cryptoSymbol!.crypto.cryptoId}
                                     if(!filtered.isEmpty){
                                         ownedShares = filtered[0].quantity
                                     }
@@ -541,12 +550,20 @@ struct PlaceOrderCryptoPageView : View {
 struct PlaceOrderPageView_Previews: PreviewProvider {
     static var previews: some View {
         PlaceOrderPageView(stockSymbol: Binding.constant(StockSymbolModel().symbols[0]), orderAction: Binding.constant("Buy"))
-            .environmentObject(AppObjects())
             .environmentObject(UserAuth())
+            .environmentObject(UserWalletVM())
+            .environmentObject(StockOrderVM())
+            .environmentObject(StockWatchListVM())
+            .environmentObject(StockHoldingsVM())
+  
+
         
         PlaceOrderCryptoPageView(cryptoSymbol: Binding.constant(StockSymbolModel().cryptoSymbol), cryptoQuote: Binding.constant(CryptoQuote(StockSymbolModel().cryptoSymbol.usdQuote)), orderAction: Binding.constant("Sell"))
-            .environmentObject(AppObjects())
             .environmentObject(UserAuth())
+            .environmentObject(UserWalletVM())
+            .environmentObject(CryptoOrderVM())
+            .environmentObject(CryptoWatchListVM())
+            .environmentObject(CryptoHoldingsVM())
 
     }
 }

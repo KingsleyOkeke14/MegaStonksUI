@@ -37,7 +37,12 @@ struct CryptoInfoPageView: View {
     
     @State var orderAction:String = ""
     
-    @EnvironmentObject var myAppObjects:AppObjects
+    @EnvironmentObject var cryptoWatchListVM: CryptoWatchListVM
+    @EnvironmentObject var cryptoSearchResultVM: CryptoSearchResultVM
+    @EnvironmentObject var cryptoHoldingsVM: CryptoHoldingsVM
+    @EnvironmentObject var cryptoOrderVM: CryptoOrderVM
+    @EnvironmentObject var userWalletVM: UserWalletVM
+    
     @EnvironmentObject var userAuth: UserAuth
     
     
@@ -71,10 +76,10 @@ struct CryptoInfoPageView: View {
                                     let impactMed = UIImpactFeedbackGenerator(style: .heavy)
                                     impactMed.impactOccurred()
                                     if(isInWatchList){
-                                        myAppObjects.removeCryptoFromWatchListAsync(cryptoToRemove: cryptoSymbol!.crypto.cryptoId)
+                                        cryptoWatchListVM.removeCryptoFromWatchListAsync(cryptoToRemove: cryptoSymbol!.crypto.cryptoId)
                                     }
                                     else{
-                                        myAppObjects.addCryptoToWatchListAsync(cryptoToAdd: cryptoSymbol!.crypto.cryptoId)
+                                        cryptoWatchListVM.addCryptoToWatchListAsync(cryptoToAdd: cryptoSymbol!.crypto.cryptoId)
                                     }
                                     isInWatchList.toggle()
                                 }, label: {
@@ -200,8 +205,12 @@ struct CryptoInfoPageView: View {
                                             ButtonView(cornerRadius: 12,  text: "Buy", textColor: myColors.grayColor, textSize: 20, frameWidth: 80, frameHeight: 34, backGroundColor: themeColor, strokeBorders: false, fillColor: themeColor)
                                         }).sheet(isPresented: $showingOrderPage) {
                                             PlaceOrderCryptoPageView(cryptoSymbol: $cryptoSymbol, cryptoQuote: $cryptoQuote, orderAction: $orderAction)
-                                                .environmentObject(myAppObjects)
                                                 .environmentObject(userAuth)
+                                                .environmentObject(userWalletVM)
+                                                .environmentObject(cryptoOrderVM)
+                                                .environmentObject(cryptoWatchListVM)
+                                                .environmentObject(cryptoHoldingsVM)
+                                                
                                         }
                                         
                                         
@@ -214,8 +223,11 @@ struct CryptoInfoPageView: View {
                                                 ButtonView(cornerRadius: 12,  text: "Sell", textColor: themeColor, textSize: 20, frameWidth: 80, frameHeight: 34, strokeBorders: false, fillColor: myColors.grayColor)
                                             }).sheet(isPresented: $showingOrderPage) {
                                                 PlaceOrderCryptoPageView(cryptoSymbol: $cryptoSymbol, cryptoQuote: $cryptoQuote, orderAction: $orderAction)
-                                                    .environmentObject(myAppObjects)
                                                     .environmentObject(userAuth)
+                                                    .environmentObject(userWalletVM)
+                                                    .environmentObject(cryptoOrderVM)
+                                                    .environmentObject(cryptoWatchListVM)
+                                                    .environmentObject(cryptoHoldingsVM)
                                             }
                                         }          
                                         Spacer()
@@ -223,7 +235,7 @@ struct CryptoInfoPageView: View {
                                     if(cryptoSymbol!.isInPortfolio){
                                         MyHoldingsView(isCrypto: true, themeColor: $themeColor, holding: $cryptoHolding)
                                             .onChange(of: showingOrderPage, perform: { value in
-                                                myAppObjects.getCryptoHolding(cryptoId: cryptoSymbol!.crypto.cryptoId){
+                                                cryptoHoldingsVM.getCryptoHolding(cryptoId: cryptoSymbol!.crypto.cryptoId){
                                                 result in
 
                                                 if(result.isSuccessful){
@@ -274,7 +286,7 @@ struct CryptoInfoPageView: View {
             )
             .onAppear(perform: {
                 if(cryptoSymbol == nil || cryptoQuote == nil){
-                    myAppObjects.getCryptoInfo(cryptoId: cryptoToSearch){
+                    cryptoSearchResultVM.getCryptoInfo(cryptoId: cryptoToSearch){
                         result in
                         
                         if(result.isSuccessful){
@@ -282,7 +294,7 @@ struct CryptoInfoPageView: View {
                             cryptoQuote = userAuth.user.currency == "USD" ? CryptoQuote(cryptoSymbol!.usdQuote) : CryptoQuote(cryptoSymbol!.cadQuote)
                             isInWatchList = cryptoSymbol!.isInWatchlist
                             themeColor =  (cryptoQuote!.percentChange24H >= 0) ? Color.green : Color.red
-                            myAppObjects.getCryptoPriceChart(cryptoId: cryptoSymbol!.crypto.cryptoId, isPriceHistory: false){
+                            cryptoSearchResultVM.getCryptoPriceChart(cryptoId: cryptoSymbol!.crypto.cryptoId, isPriceHistory: false){
                                 result in
                                 if(result.isSuccessful){
                                     chartDiscrepancy = String(cryptoQuote!.change24H.formatPrice() + "  (" + cryptoQuote!.percentChange24H.formatPercentChange() + "%)")
@@ -298,7 +310,7 @@ struct CryptoInfoPageView: View {
 
                             }
                             
-                            myAppObjects.getCryptoPriceChart(cryptoId: cryptoSymbol!.crypto.cryptoId, isPriceHistory: true){
+                            cryptoSearchResultVM.getCryptoPriceChart(cryptoId: cryptoSymbol!.crypto.cryptoId, isPriceHistory: true){
                                 result in
                                 if(result.isSuccessful){
                                     chartDataHistorical = result.chartDataResponse!.dataSet
@@ -311,7 +323,7 @@ struct CryptoInfoPageView: View {
                         }
                         isLoading = false
                     }
-                    myAppObjects.getCryptoHolding(cryptoId: cryptoToSearch){
+                    cryptoHoldingsVM.getCryptoHolding(cryptoId: cryptoToSearch){
                                         result in
                     
                                         if(result.isSuccessful){
@@ -320,7 +332,7 @@ struct CryptoInfoPageView: View {
                                     }
                 }
                 else{
-                    myAppObjects.getCryptoHolding(cryptoId: cryptoSymbol!.crypto.cryptoId){
+                    cryptoHoldingsVM.getCryptoHolding(cryptoId: cryptoSymbol!.crypto.cryptoId){
                         result in
                         
                         if(result.isSuccessful){
@@ -328,7 +340,7 @@ struct CryptoInfoPageView: View {
                         }
                      }
                     
-                    myAppObjects.getCryptoPriceChart(cryptoId: cryptoSymbol!.crypto.cryptoId, isPriceHistory: false){
+                    cryptoSearchResultVM.getCryptoPriceChart(cryptoId: cryptoSymbol!.crypto.cryptoId, isPriceHistory: false){
                         result in
                         if(result.isSuccessful){
                             chartDiscrepancy = String(cryptoQuote!.change24H.formatPrice() + "  (" + cryptoQuote!.percentChange24H.formatPercentChange() + "%)")
@@ -341,7 +353,7 @@ struct CryptoInfoPageView: View {
 
                     }
                     
-                    myAppObjects.getCryptoPriceChart(cryptoId: cryptoSymbol!.crypto.cryptoId, isPriceHistory: true){
+                    cryptoSearchResultVM.getCryptoPriceChart(cryptoId: cryptoSymbol!.crypto.cryptoId, isPriceHistory: true){
                         result in
                         if(result.isSuccessful){
                             chartDataHistorical = result.chartDataResponse!.dataSet
@@ -354,7 +366,7 @@ struct CryptoInfoPageView: View {
                 }
             })
             .navigationBarTitleDisplayMode(.inline)
-            .banner(data: $myAppObjects.bannerData, show: $myAppObjects.showBanner)
+            .banner(data: $cryptoSearchResultVM.bannerData, show: $cryptoSearchResultVM.showBanner)
             }
     
 }
@@ -364,6 +376,8 @@ struct CryptoInfoPageView_Previews: PreviewProvider {
         CryptoInfoPageView(cryptoToSearch: 0, crypto: StockSymbolModel().cryptoSymbol, cryptoQuote: CryptoQuote(StockSymbolModel().cryptoSymbol.usdQuote))
             .preferredColorScheme(.dark)
             .environmentObject(UserAuth())
-            .environmentObject(AppObjects())
+            .environmentObject(CryptoWatchListVM())
+            .environmentObject(CryptoSearchResultVM())
+            .environmentObject(CryptoHoldingsVM())
     }
 }

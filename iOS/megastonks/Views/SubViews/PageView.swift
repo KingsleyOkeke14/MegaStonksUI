@@ -21,10 +21,20 @@ struct PageView<Page: View>: View {
 struct PageView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView{
-            PageView(pages: [AssetWatchListPage(isCrypto: false), AssetWatchListPage(isCrypto: true)], currentPage: Binding.constant(0)).environmentObject(AppObjects()).preferredColorScheme(.dark)
+            PageView(pages: [AssetWatchListPage(isCrypto: false), AssetWatchListPage(isCrypto: true)], currentPage: Binding.constant(0))
+                .preferredColorScheme(.dark)
                 .navigationBarTitleDisplayMode(.inline)
                 .navigationBarTitle("")
                 .navigationBarHidden(true)
+                .environmentObject(UserAuth())
+                .environmentObject(StockWatchListVM())
+                .environmentObject(CryptoWatchListVM())
+                .environmentObject(StockHoldingsVM())
+                .environmentObject(CryptoHoldingsVM())
+                .environmentObject(StockSearchResultVM())
+                .environmentObject(CryptoSearchResultVM())
+                
+                
         }.navigationViewStyle(StackNavigationViewStyle())
     }
 }

@@ -10,7 +10,8 @@ import SwiftUI
 struct OrdersPageView: View {
     
     var isCrypto: Bool
-    @EnvironmentObject var myAppObjects:AppObjects
+    @EnvironmentObject var stockOrderVM: StockOrderVM
+    @EnvironmentObject var cryptoOrderVM: CryptoOrderVM
     
     let myColors = MyColors()
     var body: some View {
@@ -32,20 +33,20 @@ struct OrdersPageView: View {
             }.padding(.horizontal).padding()
             
             
-            if(!myAppObjects.orderStockHistory.history.isEmpty && !isCrypto){
+            if(!stockOrderVM.orderStockHistory.history.isEmpty && !isCrypto){
                 ScrollView{
                     LazyVStack {
-                        ForEach(myAppObjects.orderStockHistory.history, id: \.self){ order in
+                        ForEach(stockOrderVM.orderStockHistory.history, id: \.self){ order in
                             OrderStockHistoryView(orderHistoryElement: order)
                         }
                     }.padding(.horizontal)
                 }
             }
             
-            if(!myAppObjects.orderCryptoHistory.history.isEmpty && isCrypto){
+            if(!cryptoOrderVM.orderCryptoHistory.history.isEmpty && isCrypto){
                 ScrollView{
                     LazyVStack {
-                        ForEach(myAppObjects.orderCryptoHistory.history, id: \.self){ order in
+                        ForEach(cryptoOrderVM.orderCryptoHistory.history, id: \.self){ order in
                             OrderCryptoHistoryView(orderHistoryElement: order)
                         }
                     }.padding(.horizontal)
@@ -60,6 +61,9 @@ struct OrdersPageView: View {
 
 struct OrdersPageView_Previews: PreviewProvider {
     static var previews: some View {
-        OrdersPageView(isCrypto: false).environmentObject(AppObjects()).preferredColorScheme(.dark)
+        OrdersPageView(isCrypto: false)
+            .preferredColorScheme(.dark)
+            .environmentObject(StockOrderVM())
+            .environmentObject(CryptoOrderVM())
     }
 }
