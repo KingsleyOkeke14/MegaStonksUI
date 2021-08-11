@@ -10,8 +10,8 @@ import SwiftUI
 struct WatchListPageView: View {
     
     let myColors = MyColors()
-    
-
+    @EnvironmentObject var userAuth:UserAuth
+    @EnvironmentObject var myAppObjects:AppObjects
     
     @State var currentPage: Int = 0
     
@@ -24,14 +24,6 @@ struct WatchListPageView: View {
     var cryptoBannerInfo:BannerData = BannerData(title: "", detail: "Swipe left on page to view crypto watchlist", type: .Info)
     
     @State var bannerData:BannerData = BannerData(title: "", detail: "", type: .Info)
-    
-    @EnvironmentObject var userAuth:UserAuth
-    @EnvironmentObject var stockwatchListVM: StockWatchListVM
-    @EnvironmentObject var cryptoWatchListVM: CryptoWatchListVM
-    @EnvironmentObject var stockHoldingsVM: StockHoldingsVM
-    @EnvironmentObject var cryptoHoldingsVM: CryptoHoldingsVM
-    @EnvironmentObject var stockSearchResultVM: StockSearchResultVM
-    @EnvironmentObject var cryptoSearchResultVM: CryptoSearchResultVM
     
     init() {
         let coloredAppearance = UINavigationBarAppearance()
@@ -146,12 +138,6 @@ struct WatchListPageView: View {
                 }
                 
                 PageView(pages: [AssetWatchListPage(isCrypto: false), AssetWatchListPage(isCrypto: true)], currentPage: $currentPage)
-                    .environmentObject(stockwatchListVM)
-                    .environmentObject(stockHoldingsVM)
-                    .environmentObject(stockSearchResultVM)
-                    .environmentObject(cryptoHoldingsVM)
-                    .environmentObject(cryptoHoldingsVM)
-                    .environmentObject(cryptoSearchResultVM)
             }
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarTitle("")
@@ -165,14 +151,8 @@ struct WatchListPageView: View {
 struct WatchListPageView_Previews: PreviewProvider {
     static var previews: some View {
         WatchListPageView()
-            .preferredColorScheme(.dark)
             .environmentObject(UserAuth())
-            .environmentObject(StockWatchListVM())
-            .environmentObject(CryptoWatchListVM())
-            .environmentObject(StockHoldingsVM())
-            .environmentObject(CryptoHoldingsVM())
-            .environmentObject(StockSearchResultVM())
-            .environmentObject(CryptoSearchResultVM())
-            
+            .environmentObject(AppObjects())
+            .preferredColorScheme(.dark)
     }
 }

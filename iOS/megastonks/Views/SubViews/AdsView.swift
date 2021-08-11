@@ -20,20 +20,19 @@ struct AdsView: View {
     @State var randomAd:Int = 0
     
     @Environment(\.openURL) var openURL
-    
-    @EnvironmentObject var adsVM: AdsVM
+    @EnvironmentObject var myAppObjects:AppObjects
     
     
     
     var body: some View {
-        if(adsVM.ads.count > 1 && !showRandomAd){
+        if(myAppObjects.ads.count > 1 && !showRandomAd){
             TabView(selection: $currentIndex.animation()) {
-                ForEach(0..<adsVM.ads.count, id: \.self) { d in
+                ForEach(0..<myAppObjects.ads.count, id: \.self) { d in
                   
                     HStack{
                         VStack {
                             
-                            AsyncImage(url: URL(string: adsVM.ads[d].imageUrl)!,
+                            AsyncImage(url: URL(string: myAppObjects.ads[d].imageUrl)!,
                                           placeholder: { Image("blackImage") },
                                           image: { Image(uiImage: $0).resizable() })
                                 .frame(width: 80, height: 80, alignment: .center)
@@ -45,12 +44,12 @@ struct AdsView: View {
                             
                         }
                         VStack(alignment: .leading, spacing: 10){
-                            Text(adsVM.ads[d].title)
+                            Text(myAppObjects.ads[d].title)
                                 .font(.custom("Verdana", fixedSize: 16))
                                 .foregroundColor(.white)
                                 .lineLimit(1)
                                 .minimumScaleFactor(0.5)
-                            Text(adsVM.ads[d].description)
+                            Text(myAppObjects.ads[d].description)
                                 .font(.custom("Verdana", fixedSize: 12))
                                 .foregroundColor(.white)
                                 .lineLimit(3)
@@ -60,13 +59,13 @@ struct AdsView: View {
                         Spacer()
                     }//.tag(currentIndex)
                     .onTapGesture(perform: {
-                        openURL(URL(string: adsVM.ads[currentIndex].urlToLoad)!)
+                        openURL(URL(string: myAppObjects.ads[currentIndex].urlToLoad)!)
                     })
                     .cornerRadius(24)
                     }.background(Color.black)
             }.onReceive(self.timer, perform: { _ in
                 withAnimation(.easeInOut(duration: 2)) {
-                    if(currentIndex != adsVM.ads.count - 1){
+                    if(currentIndex != myAppObjects.ads.count - 1){
                         currentIndex += 1
                     }
                     else{
@@ -84,11 +83,11 @@ struct AdsView: View {
             .frame(height: 80, alignment: .center)
             .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
         }
-        else if (adsVM.ads.count == 1 && !showRandomAd){
+        else if (myAppObjects.ads.count == 1 && !showRandomAd){
             HStack{
                 VStack {
                     
-                    AsyncImage(url: URL(string: adsVM.ads[0].imageUrl)!,
+                    AsyncImage(url: URL(string: myAppObjects.ads[0].imageUrl)!,
                                   placeholder: { Image("blackImage") },
                                   image: { Image(uiImage: $0).resizable() })
                         .frame(width: 80, height: 80, alignment: .center)
@@ -100,12 +99,12 @@ struct AdsView: View {
                     
                 }
                 VStack(alignment: .leading, spacing: 10){
-                    Text(adsVM.ads[0].title)
+                    Text(myAppObjects.ads[0].title)
                         .font(.custom("Verdana", fixedSize: 16))
                         .foregroundColor(.white)
                         .lineLimit(1)
                         .minimumScaleFactor(0.5)
-                    Text(adsVM.ads[0].description)
+                    Text(myAppObjects.ads[0].description)
                         .font(.custom("Verdana", fixedSize: 12))
                         .foregroundColor(.white)
                         .lineLimit(3)
@@ -115,7 +114,7 @@ struct AdsView: View {
                 Spacer()
             }
             .onTapGesture(perform: {
-                openURL(URL(string: adsVM.ads[currentIndex].urlToLoad)!)
+                openURL(URL(string: myAppObjects.ads[currentIndex].urlToLoad)!)
             })
             .cornerRadius(24)
             .overlay(
@@ -128,11 +127,11 @@ struct AdsView: View {
             .frame(height: 80, alignment: .center)
         }
         
-        else if (showRandomAd && !adsVM.ads.isEmpty){
+        else if (showRandomAd && !myAppObjects.ads.isEmpty){
             HStack{
                 VStack {
                     
-                    AsyncImage(url: URL(string: adsVM.ads[adsVM.randomAdIndex].imageUrl)!,
+                    AsyncImage(url: URL(string: myAppObjects.ads[myAppObjects.randomAdIndex].imageUrl)!,
                                   placeholder: { Image("blackImage") },
                                   image: { Image(uiImage: $0).resizable() })
                         .frame(width: 80, height: 80, alignment: .center)
@@ -144,12 +143,12 @@ struct AdsView: View {
                     
                 }
                 VStack(alignment: .leading, spacing: 10){
-                    Text(adsVM.ads[adsVM.randomAdIndex].title)
+                    Text(myAppObjects.ads[myAppObjects.randomAdIndex].title)
                         .font(.custom("Verdana", fixedSize: 16))
                         .foregroundColor(.white)
                         .lineLimit(1)
                         .minimumScaleFactor(0.5)
-                    Text(adsVM.ads[adsVM.randomAdIndex].description)
+                    Text(myAppObjects.ads[myAppObjects.randomAdIndex].description)
                         .font(.custom("Verdana", fixedSize: 12))
                         .foregroundColor(.white)
                         .lineLimit(3)
@@ -159,10 +158,10 @@ struct AdsView: View {
                 Spacer()
             }
             .onDisappear(perform: {
-                adsVM.updateRandomAdIndex()
+                myAppObjects.updateRandomAdIndex()
             })
             .onTapGesture(perform: {
-                openURL(URL(string: adsVM.ads[adsVM.randomAdIndex].urlToLoad)!)
+                openURL(URL(string: myAppObjects.ads[myAppObjects.randomAdIndex].urlToLoad)!)
             })
             .cornerRadius(24)
             .overlay(
@@ -181,8 +180,6 @@ struct AdsView: View {
 
 struct AdsView_Previews: PreviewProvider {
     static var previews: some View {
-        AdsView(showRandomAd: false)
-            .preferredColorScheme(.dark)
-            .environmentObject(AdsVM())
+        AdsView(showRandomAd: false).environmentObject(AppObjects()).preferredColorScheme(.dark)
     }
 }

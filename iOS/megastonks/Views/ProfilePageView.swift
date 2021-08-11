@@ -13,10 +13,7 @@ struct ProfilePageView: View {
     
     
     @EnvironmentObject var userAuth: UserAuth
-    @EnvironmentObject var userWalletVM: UserWalletVM
-    @EnvironmentObject var stockOrderVM: StockOrderVM
-    @EnvironmentObject var cryptoOrderVM: CryptoOrderVM
-    @EnvironmentObject var adsVM: AdsVM
+    @EnvironmentObject var myAppObjects:AppObjects
     
     @State var userWallet:UserWallet = UserWallet(WalletResponse(firstName: "", lastName: "", cash: 0.0, initialDeposit: 0.0, investments: 0.0, total: 0.0, percentReturnToday: 0.0, moneyReturnToday: 0.0, percentReturnTotal: 0.0, moneyReturnTotal: 0.0))
     @State var isLoading:Bool = true
@@ -85,7 +82,7 @@ struct ProfilePageView: View {
                         
                         VStack(spacing: 0){
                             NavigationLink(
-                                destination: OrdersPageView(isCrypto: false).environmentObject(userWalletVM),
+                                destination: OrdersPageView(isCrypto: false).environmentObject(myAppObjects),
                                 label: {
                                     VStack(spacing: 0) {
                                         
@@ -105,14 +102,14 @@ struct ProfilePageView: View {
                                 
                             
                             
-                            if(!stockOrderVM.orderStockHistory.history.isEmpty){
-                                OrderStockHistoryView(orderHistoryElement: stockOrderVM.orderStockHistory.history[0]).padding(.top, 10)
+                            if(!myAppObjects.orderStockHistory.history.isEmpty){
+                                OrderStockHistoryView(orderHistoryElement: myAppObjects.orderStockHistory.history[0]).padding(.top, 10)
                             }
                         }
                         
                         VStack(spacing: 0){
                             NavigationLink(
-                                destination: OrdersPageView(isCrypto: true).environmentObject(stockOrderVM),
+                                destination: OrdersPageView(isCrypto: true).environmentObject(myAppObjects),
                                 label: {
                                     VStack(spacing: 0) {
                                         
@@ -130,8 +127,8 @@ struct ProfilePageView: View {
                                     }.padding(.horizontal)
                                 })
                                 
-                            if(!cryptoOrderVM.orderCryptoHistory.history.isEmpty){
-                                OrderCryptoHistoryView(orderHistoryElement: cryptoOrderVM.orderCryptoHistory.history[0]).padding(.top, 10)
+                            if(!myAppObjects.orderCryptoHistory.history.isEmpty){
+                                OrderCryptoHistoryView(orderHistoryElement: myAppObjects.orderCryptoHistory.history[0]).padding(.top, 10)
                             }
                         }
 
@@ -139,7 +136,7 @@ struct ProfilePageView: View {
 
                       
                         Spacer()
-                        AdsView(showRandomAd: false).environmentObject(adsVM)
+                        AdsView(showRandomAd: false).environmentObject(myAppObjects)
                         HStack{
                             
                         }.frame(height: 2, alignment: .center)
@@ -147,16 +144,16 @@ struct ProfilePageView: View {
                     
                     }.onAppear(perform: {
                         isLoading = true
-                        stockOrderVM.getStockOrderHistoryAsync()
-                        cryptoOrderVM.getCryptoOrderHistoryAsync()
-                        userWalletVM.getWallet(){
+                        myAppObjects.getStockOrderHistoryAsync()
+                        myAppObjects.getCryptoOrderHistoryAsync()
+                        myAppObjects.getWallet(){
                             result in
                             if(result.isSuccessful){
                                 //I should change the environment object here. However, this prevents the vieew from refreshing so I am only going to update the view state
                                 DispatchQueue.main.async {
                                      
-                                    userWalletVM.userWallet = result.walletResponse!
-                                    userWallet = userWalletVM.userWallet
+                                    myAppObjects.userWallet = result.walletResponse!
+                                    userWallet = myAppObjects.userWallet
                                     isLoading = false
                                     print("Wallet Refreshed")
                                 }
@@ -172,15 +169,15 @@ struct ProfilePageView: View {
         
         }
         .onReceive(pub, perform: { _ in
-            stockOrderVM.getStockOrderHistoryAsync()
-            cryptoOrderVM.getCryptoOrderHistoryAsync()
-            userWalletVM.getWallet(){
+            myAppObjects.getStockOrderHistoryAsync()
+            myAppObjects.getCryptoOrderHistoryAsync()
+            myAppObjects.getWallet(){
                 result in
                 if(result.isSuccessful){
                     //I should change the environment object here. However, this prevents the vieew from refreshing so I am only going to update the view state
                     DispatchQueue.main.async {
-                        userWalletVM.userWallet = result.walletResponse!
-                        userWallet = userWalletVM.userWallet
+                        myAppObjects.userWallet = result.walletResponse!
+                        userWallet = myAppObjects.userWallet
                         isLoading = false
                         print("Wallet Refreshed")
                     }
@@ -299,11 +296,7 @@ struct ProfilePageView_Previews: PreviewProvider {
     static var previews: some View {
         ProfilePageView().environmentObject(UserAuth())
             .preferredColorScheme(.dark)
-            .environmentObject(UserAuth())
-            .environmentObject(UserWalletVM())
-            .environmentObject(StockOrderVM())
-            .environmentObject(CryptoOrderVM())
-            .environmentObject(AdsVM())
+            .environmentObject(AppObjects())
     }
 }
 

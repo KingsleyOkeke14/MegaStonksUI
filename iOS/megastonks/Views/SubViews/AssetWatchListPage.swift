@@ -28,15 +28,7 @@ struct AssetWatchListPage: View {
     @Environment(\.presentationMode) var presentationMode
     
     @EnvironmentObject var userAuth:UserAuth
-    @EnvironmentObject var stockWatchListVM: StockWatchListVM
-    @EnvironmentObject var cryptoWatchListVM: CryptoWatchListVM
-    @EnvironmentObject var stockHoldingsVM: StockHoldingsVM
-    @EnvironmentObject var cryptoHoldingsVM: CryptoHoldingsVM
-    @EnvironmentObject var stockSearchResultVM: StockSearchResultVM
-    @EnvironmentObject var cryptoSearchResultVM: CryptoSearchResultVM
-    @EnvironmentObject var stockOrderVM: StockOrderVM
-    @EnvironmentObject var cryptoOrderVM: CryptoOrderVM
-    @EnvironmentObject var userWalletVM: UserWalletVM
+    @EnvironmentObject var myAppObjects:AppObjects
     
     //let stockRefreshtimer = Timer.publish(every: 4, on: .main, in: .common).autoconnect()
     let cryptoRefreshtimer = Timer.publish(every: 600, on: .main, in: .common).autoconnect()
@@ -91,11 +83,11 @@ struct AssetWatchListPage: View {
                             }
                         } onCommit: {
                             isLoadingAsset = true
-                            stockSearchResultVM.searchStock(stockToSearch: searchText){
+                            myAppObjects.searchStock(stockToSearch: searchText){
                                 result in
                                 if(result.isSuccessful){
                                     DispatchQueue.main.async {
-                                        stockSearchResultVM.stockSearchResult = result.stockSearchResponse
+                                        myAppObjects.stockSearchResult = result.stockSearchResponse
                                     }
                                 }
                                 isLoadingAsset = false
@@ -124,8 +116,8 @@ struct AssetWatchListPage: View {
                                 isLoadingAsset = false
                                 hideKeyboard()
                                 presentationMode.wrappedValue.dismiss()
-                                stockSearchResultVM.stockSearchResult.removeAll()
-                                stockSearchResultVM.searchStockAsync()
+                                myAppObjects.stockSearchResult.removeAll()
+                                myAppObjects.searchStockAsync()
                                 
                             }) {
                                 Text("Cancel")
@@ -152,22 +144,16 @@ struct AssetWatchListPage: View {
                             }
                             .padding(.horizontal)
                             
-                            if(!stockSearchResultVM.stockSearchResult.isEmpty){
+                            if(!myAppObjects.stockSearchResult.isEmpty){
                                 
                                 ScrollView{
                                     LazyVStack{
-                                        ForEach(stockSearchResultVM.stockSearchResult, id: \.self){ stock in
+                                        ForEach(myAppObjects.stockSearchResult, id: \.self){ stock in
                                             NavigationLink(
                                                 destination: StocksInfoPageView(showOrderButtons: true, stockToSearch: stock.stockId, stock: nil)
-                                                    .environmentObject(userAuth)
-                                                    .environmentObject(stockWatchListVM)
-                                                    .environmentObject(stockHoldingsVM)
-                                                    .environmentObject(stockSearchResultVM)
-                                                    .environmentObject(stockOrderVM)
-                                                    .environmentObject(userWalletVM)
                                                     .onDisappear(perform: {
-                                                        stockWatchListVM.updateStockWatchListAsync()
-                                                        stockHoldingsVM.getStockHoldingsAsync()
+                                                        myAppObjects.updateStockWatchListAsync()
+                                                        myAppObjects.getStockHoldingsAsync()
                                                     }),
                                                 tag: stock.id.uuidString,
                                                 selection: $selectedItem,
@@ -220,7 +206,7 @@ struct AssetWatchListPage: View {
                                 VStack(spacing: 0){
                                     PullToRefreshView(onRefresh:{
                                         isLoadingWatchlist = true
-                                        stockWatchListVM.updateStockWatchList(){
+                                        myAppObjects.updateStockWatchList(){
                                             result in
                                             if(result.isSuccessful){
                                                 isLoadingWatchlist = false
@@ -234,21 +220,13 @@ struct AssetWatchListPage: View {
                                     })
                                 }
                                 
-                                if(!stockWatchListVM.stockWatchList.isEmpty){
+                                if(!myAppObjects.stockWatchList.isEmpty){
                                     LazyVStack {
-                                        ForEach(stockWatchListVM.stockWatchList, id: \.self){ stock in
+                                        ForEach(myAppObjects.stockWatchList, id: \.self){ stock in
                                             NavigationLink(
-                                                destination: StocksInfoPageView(showOrderButtons: true, stockToSearch: 0, stock: stock)
-                                                    .environmentObject(userAuth)
-                                                    .environmentObject(stockWatchListVM)
-                                                    .environmentObject(stockHoldingsVM)
-                                                    .environmentObject(stockSearchResultVM)
-                                                    .environmentObject(stockOrderVM)
-                                                    .environmentObject(userWalletVM)
-                                                
-                                                    .onDisappear(perform: {
-                                                    stockWatchListVM.updateStockWatchListAsync()
-                                                    stockHoldingsVM.getStockHoldingsAsync()
+                                                destination: StocksInfoPageView(showOrderButtons: true, stockToSearch: 0, stock: stock).environmentObject(myAppObjects).onDisappear(perform: {
+                                                    myAppObjects.updateStockWatchListAsync()
+                                                    myAppObjects.getStockHoldingsAsync()
                                                 }),
                                                 tag: stock.id.uuidString,
                                                 selection: $selectedItem,
@@ -259,7 +237,7 @@ struct AssetWatchListPage: View {
                                     
                                     
                                 }
-                                else if(stockWatchListVM.stockWatchList.isEmpty && !isLoadingWatchlist){
+                                else if(myAppObjects.stockWatchList.isEmpty && !isLoadingWatchlist){
                                     Spacer()
                                     VStack(spacing: 16){
                                         Text("Wow! Such Empty!")
@@ -304,11 +282,11 @@ struct AssetWatchListPage: View {
             //                .onReceive(self.stockRefreshtimer, perform: { _ in
             //                    shouldRefreshWatchlist = true
             //                })
-            .if(!stockWatchListVM.didStockWatchlistLoad){
+            .if(!myAppObjects.didStockWatchlistLoad){
                 view in
                 view.redacted(when: true, redactionType: .customPlaceholder)
             }
-            .banner(data: $stockWatchListVM.bannerData, show: $stockWatchListVM.showBanner)
+            .banner(data: $myAppObjects.bannerData, show: $myAppObjects.showBanner)
         }
         else {
             VStack{
@@ -329,11 +307,11 @@ struct AssetWatchListPage: View {
                             }
                         } onCommit: {
                             isLoadingAsset = true
-                            cryptoSearchResultVM.searchCrypto(cryptoToSearch: searchText){
+                            myAppObjects.searchCrypto(cryptoToSearch: searchText){
                                 result in
                                 if(result.isSuccessful){
                                     DispatchQueue.main.async {
-                                        cryptoSearchResultVM.cryptoSearchResult = result.cryptoSearchResponse
+                                        myAppObjects.cryptoSearchResult = result.cryptoSearchResponse
                                     }
                                 }
                                 isLoadingAsset = false
@@ -362,8 +340,8 @@ struct AssetWatchListPage: View {
                                 isLoadingAsset = false
                                 hideKeyboard()
                                 presentationMode.wrappedValue.dismiss()
-                                cryptoSearchResultVM.cryptoSearchResult.removeAll()
-                                cryptoSearchResultVM.populateCryptoListAsync()
+                                myAppObjects.cryptoSearchResult.removeAll()
+                                myAppObjects.populateCryptoListAsync()
                                 
                             }) {
                                 Text("Cancel")
@@ -391,24 +369,16 @@ struct AssetWatchListPage: View {
                             }
                             .padding(.horizontal)
                             
-                            if(!cryptoSearchResultVM.cryptoSearchResult.isEmpty){
+                            if(!myAppObjects.cryptoSearchResult.isEmpty){
                                 
                                 ScrollView{
                                     LazyVStack{
-                                        ForEach(cryptoSearchResultVM.cryptoSearchResult, id: \.self){ crypto in
+                                        ForEach(myAppObjects.cryptoSearchResult, id: \.self){ crypto in
                                             NavigationLink(
                                                 destination: CryptoInfoPageView(cryptoToSearch: crypto.cryptoId, crypto: nil, cryptoQuote: nil)
-                                                    .environmentObject(userAuth)
-                                                    .environmentObject(cryptoWatchListVM)
-                                                    .environmentObject(cryptoSearchResultVM)
-                                                    .environmentObject(cryptoHoldingsVM)
-                                                    .environmentObject(cryptoOrderVM)
-                                                    .environmentObject(userWalletVM)
-                                                
-                                                
                                                     .onDisappear(perform: {
-                                                        cryptoWatchListVM.updateCryptoWatchListAsync()
-                                                        cryptoHoldingsVM.getCryptoHoldingsAsync()
+                                                        myAppObjects.updateCryptoWatchListAsync()
+                                                        myAppObjects.getCryptoHoldingsAsync()
                                                     }),
                                                 tag: crypto.id.uuidString,
                                                 selection: $selectedItem,
@@ -462,7 +432,7 @@ struct AssetWatchListPage: View {
                                 VStack(spacing: 0){
                                     PullToRefreshView(onRefresh:{
                                         isLoadingWatchlist = true
-                                        cryptoWatchListVM.updateCryptoWatchList(){
+                                        myAppObjects.updateCryptoWatchList(){
                                             result in
                                             if(result.isSuccessful){
                                                 isLoadingWatchlist = false
@@ -475,21 +445,13 @@ struct AssetWatchListPage: View {
                                         }
                                     })
                                 }
-                                if(!cryptoWatchListVM.cryptoWatchList.isEmpty){
+                                if(!myAppObjects.cryptoWatchList.isEmpty){
                                     LazyVStack {
-                                        ForEach(cryptoWatchListVM.cryptoWatchList, id: \.self){ crypto in
+                                        ForEach(myAppObjects.cryptoWatchList, id: \.self){ crypto in
                                             NavigationLink(
-                                                destination: CryptoInfoPageView(cryptoToSearch: 0, crypto: crypto, cryptoQuote: userAuth.user.currency == "USD" ? CryptoQuote(crypto.usdQuote) : CryptoQuote(crypto.cadQuote))
-                                                    .environmentObject(userAuth)
-                                                    .environmentObject(cryptoWatchListVM)
-                                                    .environmentObject(cryptoSearchResultVM)
-                                                    .environmentObject(cryptoHoldingsVM)
-                                                    .environmentObject(cryptoOrderVM)
-                                                    .environmentObject(userWalletVM)
-                                                     
-                                                    .onDisappear(perform: {
-                                                    cryptoWatchListVM.updateCryptoWatchListAsync()
-                                                    cryptoHoldingsVM.getCryptoHoldingsAsync()
+                                                destination: CryptoInfoPageView(cryptoToSearch: 0, crypto: crypto, cryptoQuote: userAuth.user.currency == "USD" ? CryptoQuote(crypto.usdQuote) : CryptoQuote(crypto.cadQuote)).environmentObject(myAppObjects).onDisappear(perform: {
+                                                    myAppObjects.updateCryptoWatchListAsync()
+                                                    myAppObjects.getCryptoHoldingsAsync()
                                                 }),
                                                 tag: crypto.crypto.id.uuidString,
                                                 selection: $selectedItem,
@@ -497,7 +459,7 @@ struct AssetWatchListPage: View {
                                         }
                                     }.padding(.horizontal)
                                 }
-                                else if(cryptoWatchListVM.cryptoWatchList.isEmpty && !isLoadingWatchlist){
+                                else if(myAppObjects.cryptoWatchList.isEmpty && !isLoadingWatchlist){
                                     VStack(spacing: 16){
                                         Text("Wow! Such Empty!")
                                             .font(.custom("Apple SD Gothic Neo", fixedSize: 20))
@@ -541,11 +503,11 @@ struct AssetWatchListPage: View {
             .onReceive(self.cryptoRefreshtimer, perform: { _ in
                 shouldRefreshWatchlist = true
             })
-            .if(!cryptoWatchListVM.didCryptoWatchlistLoad){
+            .if(!myAppObjects.didCryptoWatchlistLoad){
                 view in
                 view.redacted(when: true, redactionType: .customPlaceholder)
             }
-            .banner(data: $cryptoWatchListVM.bannerData, show: $cryptoWatchListVM.showBanner)
+            .banner(data: $myAppObjects.bannerData, show: $myAppObjects.showBanner)
         }
         
     }
@@ -560,10 +522,10 @@ struct AssetWatchListPage: View {
     
     func reloadData(){
         if(isCrypto){
-            cryptoHoldingsVM.getCryptoHoldingsAsync()
-            if(!cryptoWatchListVM.didCryptoWatchlistLoad){
+            myAppObjects.getStockHoldingsAsync()
+            if(!myAppObjects.didCryptoWatchlistLoad){
                 isLoadingWatchlist = true
-                cryptoWatchListVM.updateCryptoWatchList(){
+                myAppObjects.updateCryptoWatchList(){
                     result in
                     if(result.isSuccessful){
                         isLoadingWatchlist = false
@@ -576,10 +538,10 @@ struct AssetWatchListPage: View {
             }
         }
         else{
-            stockHoldingsVM.getStockHoldingsAsync()
-            if(!stockWatchListVM.didStockWatchlistLoad){
+            myAppObjects.getStockHoldingsAsync()
+            if(!myAppObjects.didStockWatchlistLoad){
                 isLoadingWatchlist = true
-                stockWatchListVM.updateStockWatchList(){
+                myAppObjects.updateStockWatchList(){
                     result in
                     if(result.isSuccessful){
                         isLoadingWatchlist = false
@@ -598,13 +560,7 @@ struct AssetWatchListPage: View {
 struct StocksWatchListPageView_Previews: PreviewProvider {
     static var previews: some View {
         AssetWatchListPage(isCrypto: false)
+            .environmentObject(AppObjects())
             .preferredColorScheme(.dark)
-            .environmentObject(UserAuth())
-            .environmentObject(StockWatchListVM())
-            .environmentObject(CryptoWatchListVM())
-            .environmentObject(StockHoldingsVM())
-            .environmentObject(CryptoHoldingsVM())
-            .environmentObject(StockSearchResultVM())
-            .environmentObject(CryptoSearchResultVM())
     }
 }

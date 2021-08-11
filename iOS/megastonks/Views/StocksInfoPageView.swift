@@ -35,11 +35,7 @@ struct StocksInfoPageView: View {
     
     @State var isLoading:Bool = true
     
-    @EnvironmentObject var stockWatchListVM: StockWatchListVM
-    @EnvironmentObject var stockHoldingsVM: StockHoldingsVM
-    @EnvironmentObject var stockSearchResultVM: StockSearchResultVM
-    @EnvironmentObject var stockOrderVM: StockOrderVM
-    @EnvironmentObject var userWalletVM: UserWalletVM
+    @EnvironmentObject var myAppObjects:AppObjects
     @EnvironmentObject var userAuth: UserAuth
     
     
@@ -70,10 +66,10 @@ struct StocksInfoPageView: View {
                                 let impactMed = UIImpactFeedbackGenerator(style: .heavy)
                                 impactMed.impactOccurred()
                                 if(isInWatchList){
-                                    stockWatchListVM.removeStockFromWatchListAsync(stockToRemove: stockSymbol!.stockId)
+                                    myAppObjects.removeStockFromWatchListAsync(stockToRemove: stockSymbol!.stockId)
                                 }
                                 else{
-                                    stockWatchListVM.addStockToWatchListAsync(stockToAdd: stockSymbol!.stockId)
+                                    myAppObjects.addStockToWatchListAsync(stockToAdd: stockSymbol!.stockId)
                                 }
                                 isInWatchList.toggle()
                             }, label: {
@@ -95,7 +91,7 @@ struct StocksInfoPageView: View {
                                     
                                     Button(action: {
                                         changeActiveButton(activeButton: 0)
-                                        stockSearchResultVM.getStockPriceChart(stockId: stockSymbol!.stockId, isPriceHistory: false){
+                                        myAppObjects.getStockPriceChart(stockId: stockSymbol!.stockId, isPriceHistory: false){
                                             result in
                                             if(result.isSuccessful){
                                                 chartData = result.chartDataResponse!.dataSet
@@ -114,7 +110,7 @@ struct StocksInfoPageView: View {
                                     })
                                     Button(action: {
                                         changeActiveButton(activeButton: 1)
-                                        stockSearchResultVM.getStockPriceChart(stockId: stockSymbol!.stockId, interval: buttonList[1].buttonName){
+                                        myAppObjects.getStockPriceChart(stockId: stockSymbol!.stockId, interval: buttonList[1].buttonName){
                                             result in
                                             if(result.isSuccessful){
                                                 chartData = result.chartDataResponse!.dataSet
@@ -136,7 +132,7 @@ struct StocksInfoPageView: View {
                                     
                                     Button(action: {
                                         changeActiveButton(activeButton: 2)
-                                        stockSearchResultVM.getStockPriceChart(stockId: stockSymbol!.stockId, interval: buttonList[2].buttonName){
+                                        myAppObjects.getStockPriceChart(stockId: stockSymbol!.stockId, interval: buttonList[2].buttonName){
                                             result in
                                             if(result.isSuccessful){
                                                 chartData = result.chartDataResponse!.dataSet
@@ -159,7 +155,7 @@ struct StocksInfoPageView: View {
                                     
                                     Button(action: {
                                         changeActiveButton(activeButton: 3)
-                                        stockSearchResultVM.getStockPriceChart(stockId: stockSymbol!.stockId, interval: buttonList[3].buttonName){
+                                        myAppObjects.getStockPriceChart(stockId: stockSymbol!.stockId, interval: buttonList[3].buttonName){
                                             result in
                                             if(result.isSuccessful){
                                                 chartData = result.chartDataResponse!.dataSet
@@ -182,7 +178,7 @@ struct StocksInfoPageView: View {
                                     
                                     Button(action: {
                                         changeActiveButton(activeButton: 4)
-                                        stockSearchResultVM.getStockPriceChart(stockId: stockSymbol!.stockId, interval: buttonList[4].buttonName){
+                                        myAppObjects.getStockPriceChart(stockId: stockSymbol!.stockId, interval: buttonList[4].buttonName){
                                             result in
                                             if(result.isSuccessful){
                                                 chartData = result.chartDataResponse!.dataSet
@@ -206,7 +202,7 @@ struct StocksInfoPageView: View {
                                     Button(action: {
                                         
                                         changeActiveButton(activeButton: 5)
-                                        stockSearchResultVM.getStockPriceChart(stockId: stockSymbol!.stockId, interval: buttonList[5].buttonName){
+                                        myAppObjects.getStockPriceChart(stockId: stockSymbol!.stockId, interval: buttonList[5].buttonName){
                                             result in
                                             if(result.isSuccessful){
                                                 chartData = result.chartDataResponse!.dataSet
@@ -239,13 +235,8 @@ struct StocksInfoPageView: View {
                                             ButtonView(cornerRadius: 12,  text: "Buy", textColor: myColors.grayColor, textSize: 20, frameWidth: 80, frameHeight: 34, backGroundColor: themeColor, strokeBorders: false, fillColor: themeColor)
                                         }).sheet(isPresented: $showingOrderPage) {
                                             PlaceOrderPageView(stockSymbol: $stockSymbol, orderAction: $orderAction)
-                                                .environmentObject(userWalletVM)
-                                                .environmentObject(stockOrderVM)
-                                                .environmentObject(stockWatchListVM)
-                                                .environmentObject(stockHoldingsVM)
+                                                .environmentObject(myAppObjects)
                                                 .environmentObject(userAuth)
-                                            
-                       
                                         }
                                         
                                         
@@ -258,10 +249,7 @@ struct StocksInfoPageView: View {
                                                 ButtonView(cornerRadius: 12,  text: "Sell", textColor: themeColor, textSize: 20, frameWidth: 80, frameHeight: 34, strokeBorders: false, fillColor: myColors.grayColor)
                                             }).sheet(isPresented: $showingOrderPage) {
                                                 PlaceOrderPageView(stockSymbol: $stockSymbol, orderAction: $orderAction)
-                                                    .environmentObject(userWalletVM)
-                                                    .environmentObject(stockOrderVM)
-                                                    .environmentObject(stockWatchListVM)
-                                                    .environmentObject(stockHoldingsVM)
+                                                    .environmentObject(myAppObjects)
                                                     .environmentObject(userAuth)
                                             }
                                         }
@@ -273,7 +261,7 @@ struct StocksInfoPageView: View {
                                 if(stockSymbol!.isInPortfolio){
                                     MyHoldingsView(isCrypto: false, themeColor: $themeColor, holding: $stockHolding)
                                         .onChange(of: showingOrderPage, perform: { value in
-                                            stockHoldingsVM.getStockHolding(stockId: stockSymbol!.stockId){
+                                        myAppObjects.getStockHolding(stockId: stockSymbol!.stockId){
                                             result in
                                             
                                             if(result.isSuccessful){
@@ -328,13 +316,13 @@ struct StocksInfoPageView: View {
                 perform: {
                     
                     if(stockSymbol == nil){
-                        stockSearchResultVM.getStockInfo(stockId: stockToSearch){
+                        myAppObjects.getStockInfo(stockId: stockToSearch){
                             result in
                             if(result.isSuccessful){
                                 stockSymbol = result.stockInfoSearchStocksPage!
                                 isInWatchList = stockSymbol!.isInWatchList
                                 themeColor =  (stockSymbol!.change >= 0) ? Color.green : Color.red
-                                stockSearchResultVM.getStockPriceChart(stockId: stockToSearch, isPriceHistory: false){
+                                myAppObjects.getStockPriceChart(stockId: stockToSearch, isPriceHistory: false){
                                     result in
                                     if(result.isSuccessful){
                                         chartDiscrepancy = String(stockSymbol!.change.formatPrice() + "  (" + stockSymbol!.changesPercentage.formatPercentChange() + "%)")
@@ -347,7 +335,7 @@ struct StocksInfoPageView: View {
                             isLoading = false
                         }
                         
-                        stockHoldingsVM.getStockHolding(stockId: stockToSearch){
+                        myAppObjects.getStockHolding(stockId: stockToSearch){
                             result in
                             
                             if(result.isSuccessful){
@@ -357,7 +345,7 @@ struct StocksInfoPageView: View {
                     }
                     
                     else{
-                        stockHoldingsVM.getStockHolding(stockId: stockSymbol!.stockId){
+                        myAppObjects.getStockHolding(stockId: stockSymbol!.stockId){
                             result in
                             
                             if(result.isSuccessful){
@@ -366,7 +354,7 @@ struct StocksInfoPageView: View {
                         }
                         chartDiscrepancy = String(stockSymbol!.change.formatPrice() + "  (" + stockSymbol!.changesPercentage.formatPercentChange() + "%)")
                         chartPeriod = "Today"
-                        stockSearchResultVM.getStockPriceChart(stockId: stockSymbol!.stockId, isPriceHistory: false){
+                        myAppObjects.getStockPriceChart(stockId: stockSymbol!.stockId, isPriceHistory: false){
                             result in
                             if(result.isSuccessful){
                                 chartData = result.chartDataResponse!.dataSet
@@ -380,7 +368,7 @@ struct StocksInfoPageView: View {
                 
             )
             .navigationBarTitleDisplayMode(.inline)
-            .banner(data: $stockWatchListVM.bannerData, show: $stockWatchListVM.showBanner)
+            .banner(data: $myAppObjects.bannerData, show: $myAppObjects.showBanner)
     }
     
 }
@@ -425,10 +413,6 @@ struct StocksInfoPageView_Previews: PreviewProvider {
     static var previews: some View {
         StocksInfoPageView(showOrderButtons: true, stockToSearch: 0, stock: StockSymbolModel().symbols[0])
             .preferredColorScheme(.dark)
-            .environmentObject(UserAuth())
-            .environmentObject(StockOrderVM())
-            .environmentObject(StockWatchListVM())
-            .environmentObject(StockHoldingsVM())
-            .environmentObject(StockSearchResultVM())
+            .environmentObject(AppObjects())
     }
 }

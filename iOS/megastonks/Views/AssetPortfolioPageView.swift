@@ -10,15 +10,8 @@ import SwiftUI
 struct AssetPortfolioPageView: View {
     
     @State var isAllTimeGains:Bool = true
-
+    @EnvironmentObject var myAppObjects:AppObjects
     @EnvironmentObject var userAuth: UserAuth
-    @EnvironmentObject var userWalletVM: UserWalletVM
-    @EnvironmentObject var stockHoldingsVM: StockHoldingsVM
-    @EnvironmentObject var cryptoHoldingsVM: CryptoHoldingsVM
-    @EnvironmentObject var stockWatchListVM: StockWatchListVM
-    @EnvironmentObject var cryptoWatchListVM: CryptoWatchListVM
-    @EnvironmentObject var stockSearchResultVM: StockSearchResultVM
-    @EnvironmentObject var cryptoSearchResultVM: CryptoSearchResultVM
     
         init() {
             let coloredAppearance = UINavigationBarAppearance()
@@ -39,18 +32,10 @@ struct AssetPortfolioPageView: View {
         NavigationView{
             VStack{
                 PortfolioSummaryView(isAllTimeGains: $isAllTimeGains)
-                    .environmentObject(userWalletVM)
+                    .environmentObject(myAppObjects)
                     .environmentObject(userAuth)
                 PageView(pages: [AssetPorfolioPage(isAllTimeGains: $isAllTimeGains)], currentPage: Binding.constant(0))
                     .padding(.top, 20)
-                    .environmentObject(userAuth)
-                    .environmentObject(userWalletVM)
-                    .environmentObject(stockHoldingsVM)
-                    .environmentObject(cryptoHoldingsVM)
-                    .environmentObject(stockWatchListVM)
-                    .environmentObject(cryptoWatchListVM)
-                    .environmentObject(stockSearchResultVM)
-                    .environmentObject(cryptoSearchResultVM)
             }
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarTitle("")
@@ -65,10 +50,6 @@ struct AssetPortfolioPageView_Previews: PreviewProvider {
         AssetPortfolioPageView()
             .preferredColorScheme(.dark)
             .environmentObject(UserAuth())
-            .environmentObject(UserWalletVM())
-            .environmentObject(StockHoldingsVM())
-            .environmentObject(CryptoHoldingsVM())
-            .environmentObject(StockWatchListVM())
-            .environmentObject(CryptoWatchListVM())
+            .environmentObject(AppObjects())
     }
 }

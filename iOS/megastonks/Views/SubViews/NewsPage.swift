@@ -14,9 +14,7 @@ struct NewsPage: View {
     
     @State private var selectedItem: String?
     @Binding var isLoadingNews: Bool
-    
-    @EnvironmentObject var newsVM: NewsVM
-    @EnvironmentObject var adsVM: AdsVM
+    @EnvironmentObject var myAppObjects:AppObjects
     
     var body: some View {
         VStack(spacing: 12){
@@ -27,10 +25,10 @@ struct NewsPage: View {
                     let impactMed = UIImpactFeedbackGenerator(style: .heavy)
                     impactMed.impactOccurred()
                     
-                    newsVM.getNews(){ result in
+                    myAppObjects.getNews(){ result in
                         if(result.isSuccessful){
                                 DispatchQueue.main.async {
-                                    newsVM.news = result.newsResponse!
+                                    myAppObjects.news = result.newsResponse!
                                 }
                             isLoadingNews = false
                         }
@@ -57,11 +55,11 @@ struct NewsPage: View {
                     VStack(spacing: 0) {
                         PullToRefreshView(onRefresh:{
                             isLoadingNews = true
-                            newsVM.getNews(){
+                            myAppObjects.getNews(){
                                 result in
                                 if(result.isSuccessful){
                                     DispatchQueue.main.async {
-                                        newsVM.news = result.newsResponse!
+                                        myAppObjects.news = result.newsResponse!
                                     }
                                      isLoadingNews = false
                                 }
@@ -72,9 +70,9 @@ struct NewsPage: View {
                             }
                         })
                     }
-                    if(!newsVM.news.isEmpty){
+                    if(!myAppObjects.news.isEmpty){
                     LazyVStack {
-                        ForEach(newsVM.news, id: \.self){ news in
+                        ForEach(myAppObjects.news, id: \.self){ news in
                             NavigationLink(
                                 destination: NewsInfoView(newsElement: news),
                                 tag: news.id.uuidString,
@@ -84,7 +82,7 @@ struct NewsPage: View {
                         }
                     }.padding(.horizontal)
                     }
-                    else if(newsVM.news.isEmpty && !isLoadingNews){
+                    else if(myAppObjects.news.isEmpty && !isLoadingNews){
                        Spacer()
                         VStack(spacing: 16){
                                 Text("The News Feed Cannot be Updated at this Time")
@@ -97,7 +95,7 @@ struct NewsPage: View {
                         Spacer()
                     }
                 }
-            AdsView(showRandomAd: false).environmentObject(adsVM)
+            AdsView(showRandomAd: false).environmentObject(myAppObjects)
 
         }.overlay(
             VStack{
@@ -130,7 +128,6 @@ struct NewsPage_Previews: PreviewProvider {
     static var previews: some View {
         NewsPage(isLoadingNews: Binding.constant(false))
             .preferredColorScheme(.dark)
-            .environmentObject(NewsVM())
-            .environmentObject(AdsVM())
+            .environmentObject(AppObjects())
     }
 }

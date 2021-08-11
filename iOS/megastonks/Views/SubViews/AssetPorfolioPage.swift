@@ -11,17 +11,8 @@ struct AssetPorfolioPage: View {
     
     let myColors = MyColors()
     
-    
+    @EnvironmentObject var myAppObjects:AppObjects
     @EnvironmentObject var userAuth: UserAuth
-    @EnvironmentObject var userWalletVM: UserWalletVM
-    @EnvironmentObject var stockHoldingsVM: StockHoldingsVM
-    @EnvironmentObject var cryptoHoldingsVM: CryptoHoldingsVM
-    @EnvironmentObject var stockWatchListVM: StockWatchListVM
-    @EnvironmentObject var cryptoWatchListVM: CryptoWatchListVM
-    @EnvironmentObject var stockSearchResultVM: StockSearchResultVM
-    @EnvironmentObject var cryptoSearchResultVM: CryptoSearchResultVM
-    @EnvironmentObject var stockOrderVM: StockOrderVM
-    @EnvironmentObject var cryptoOrderVM: CryptoOrderVM
     
     @State private var selectedItem: String?
     
@@ -60,44 +51,38 @@ struct AssetPorfolioPage: View {
                         VStack(spacing: 0) {
                             PullToRefreshView(onRefresh:{
                                 isLoadingHoldings = true
-                                userWalletVM.getWalletAsync()
-                                stockHoldingsVM.getStockHoldings(){
+                                myAppObjects.getWalletAsync()
+                                myAppObjects.getStockHoldings(){
                                     result in
                                     if(result.isSuccessful){
                                         DispatchQueue.main.async {
-                                            stockHoldingsVM.stockHoldings = result.stockHoldingsResponse!
+                                            myAppObjects.stockHoldings = result.stockHoldingsResponse!
                                         }
                                     }
                                     isLoadingHoldings = false
                                 }
-                                cryptoHoldingsVM.getCryptoHoldings(){
+                                myAppObjects.getCryptoHoldings(){
                                     result in
                                     if(result.isSuccessful){
                                         DispatchQueue.main.async {
-                                            cryptoHoldingsVM.cryptoHoldings = result.cryptoHoldingsResponse!
+                                            myAppObjects.cryptoHoldings = result.cryptoHoldingsResponse!
                                         }
                                     }
                                     isLoadingHoldings = false
                                 }
                             })
                         }
-                        if(!stockHoldingsVM.stockHoldings.holdings.isEmpty || !cryptoHoldingsVM.cryptoHoldings.holdings.isEmpty){
+                        if(!myAppObjects.stockHoldings.holdings.isEmpty || !myAppObjects.cryptoHoldings.holdings.isEmpty){
                         LazyVStack {
-                            if(!stockHoldingsVM.stockHoldings.holdings.isEmpty){
-                                ForEach(stockHoldingsVM.stockHoldings.holdings, id: \.self){ holding in
+                            if(!myAppObjects.stockHoldings.holdings.isEmpty){
+                                ForEach(myAppObjects.stockHoldings.holdings, id: \.self){ holding in
                                     NavigationLink(
                                         destination: StocksInfoPageView(showOrderButtons: true, stockToSearch: holding.stockId, stock: nil)
-                                            .environmentObject(userAuth)
-                                            .environmentObject(stockWatchListVM)
-                                            .environmentObject(stockHoldingsVM)
-                                            .environmentObject(stockSearchResultVM)
-                                            .environmentObject(stockOrderVM)
-                                            .environmentObject(userWalletVM)
                                             .onDisappear(perform: {
-                                                stockHoldingsVM.getStockHoldingsAsync()
-                                                stockWatchListVM.updateStockWatchListAsync()
+                                                myAppObjects.getStockHoldingsAsync()
+                                                myAppObjects.updateStockWatchListAsync()
                                             })
-                                            .environmentObject(stockHoldingsVM)
+                                            .environmentObject(myAppObjects)
                                             .environmentObject(userAuth)
                                         ,
                                         tag: holding.id.uuidString,
@@ -105,21 +90,15 @@ struct AssetPorfolioPage: View {
                                         label: {PortfolioStockSymbolView(holding: holding, isAllTimeGains: $isAllTimeGains)})
                                 }
                             }
-                            if(!cryptoHoldingsVM.cryptoHoldings.holdings.isEmpty){
-                                ForEach(cryptoHoldingsVM.cryptoHoldings.holdings, id: \.self){ holding in
+                            if(!myAppObjects.cryptoHoldings.holdings.isEmpty){
+                                ForEach(myAppObjects.cryptoHoldings.holdings, id: \.self){ holding in
                                     NavigationLink(
                                         destination: CryptoInfoPageView(cryptoToSearch: holding.cryptoId, crypto: nil, cryptoQuote: nil)
-                                            .environmentObject(userAuth)
-                                            .environmentObject(cryptoWatchListVM)
-                                            .environmentObject(cryptoSearchResultVM)
-                                            .environmentObject(cryptoHoldingsVM)
-                                            .environmentObject(cryptoOrderVM)
-                                            .environmentObject(userWalletVM)
                                             .onDisappear(perform: {
-                                                cryptoHoldingsVM.getCryptoHoldingsAsync()
-                                                cryptoWatchListVM.updateCryptoWatchListAsync()
+                                                myAppObjects.getCryptoHoldingsAsync()
+                                                myAppObjects.updateCryptoWatchListAsync()
                                             })
-                                            .environmentObject(cryptoHoldingsVM)
+                                            .environmentObject(myAppObjects)
                                             .environmentObject(userAuth)
                                         ,
                                         tag: holding.id.uuidString,
@@ -147,28 +126,28 @@ struct AssetPorfolioPage: View {
         }
         .onAppear(perform: {
                 isLoadingHoldings = true
-                userWalletVM.getWalletAsync()
-                stockHoldingsVM.getStockHoldings(){
+                myAppObjects.getWalletAsync()
+                myAppObjects.getStockHoldings(){
                     result in
                     if(result.isSuccessful){
                         DispatchQueue.main.async {
-                            stockHoldingsVM.stockHoldings = result.stockHoldingsResponse!
+                            myAppObjects.stockHoldings = result.stockHoldingsResponse!
                         }
                     }
                     isLoadingHoldings = false
                 }
-            cryptoHoldingsVM.getCryptoHoldings(){
+            myAppObjects.getCryptoHoldings(){
                 result in
                 if(result.isSuccessful){
                     DispatchQueue.main.async {
-                        cryptoHoldingsVM.cryptoHoldings = result.cryptoHoldingsResponse!
+                        myAppObjects.cryptoHoldings = result.cryptoHoldingsResponse!
                     }
                 }
                 isLoadingHoldings = false
             }
         })
         .onDisappear(perform: {
-            userWalletVM.getWalletAsync()
+            myAppObjects.getWalletAsync()
         })
     }
 }
@@ -177,7 +156,7 @@ struct PortfolioPageView_Previews: PreviewProvider {
     static var previews: some View {
         AssetPorfolioPage(isAllTimeGains: Binding.constant(true))
             .preferredColorScheme(.dark)
-            .environmentObject(UserWalletVM())
+            .environmentObject(AppObjects())
             .environmentObject(UserAuth())
         
     }

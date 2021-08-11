@@ -10,8 +10,7 @@ import SwiftUI
 struct PortfolioSummaryView: View {
     @Binding var isAllTimeGains:Bool
     
-    @EnvironmentObject var userWalletVM: UserWalletVM
-    
+    @EnvironmentObject var myAppObjects:AppObjects
     @EnvironmentObject var userAuth: UserAuth
     
     
@@ -28,7 +27,7 @@ struct PortfolioSummaryView: View {
                 Spacer()
             }
             HStack {
-                Text("$\(userWalletVM.userWallet.total.formatPrice())")
+                Text("$\(myAppObjects.userWallet.total.formatPrice())")
                     .foregroundColor(.white)
                     .font(.custom("Apple SD Gothic Neo", fixedSize: 48))
                     .bold()
@@ -62,12 +61,12 @@ struct PortfolioSummaryView: View {
                                         .font(.custom("Apple SD Gothic Neo", fixedSize: 14))
                                     Spacer()
                                  
-                                        Text("(\(userWalletVM.userWallet.percentReturnToday.formatPercentChange())%)")
-                                            .foregroundColor(userWalletVM.userWallet.percentReturnToday >= 0 ? .green : .red)
+                                        Text("(\(myAppObjects.userWallet.percentReturnToday.formatPercentChange())%)")
+                                            .foregroundColor(myAppObjects.userWallet.percentReturnToday >= 0 ? .green : .red)
                                             .font(.custom("Verdana", fixedSize: 16))
                                     
-                                        Text("\(userWalletVM.userWallet.moneyReturnToday.formatPercentChange())")
-                                            .foregroundColor(userWalletVM.userWallet.percentReturnToday >= 0 ? .green : .red)
+                                        Text("\(myAppObjects.userWallet.moneyReturnToday.formatPercentChange())")
+                                            .foregroundColor(myAppObjects.userWallet.percentReturnToday >= 0 ? .green : .red)
                                             .font(.custom("Verdana", fixedSize: 16))
                                     
                                 }.padding(.horizontal, 20)
@@ -94,12 +93,12 @@ struct PortfolioSummaryView: View {
                                     Text("All Time Return")
                                         .font(.custom("Apple SD Gothic Neo", fixedSize: 14))
                                     Spacer()
-                                        Text("(\(userWalletVM.userWallet.percentReturnTotal.formatPercentChange())%)")
-                                            .foregroundColor(userWalletVM.userWallet.percentReturnTotal >= 0 ? .green : .red)
+                                        Text("(\(myAppObjects.userWallet.percentReturnTotal.formatPercentChange())%)")
+                                            .foregroundColor(myAppObjects.userWallet.percentReturnTotal >= 0 ? .green : .red)
                                             .font(.custom("Verdana", fixedSize: 16))
 
-                                        Text("\(userWalletVM.userWallet.moneyReturnTotal.formatPercentChange())")
-                                            .foregroundColor(userWalletVM.userWallet.percentReturnTotal >= 0 ? .green : .red)
+                                        Text("\(myAppObjects.userWallet.moneyReturnTotal.formatPercentChange())")
+                                            .foregroundColor(myAppObjects.userWallet.percentReturnTotal >= 0 ? .green : .red)
                                             .font(.custom("Verdana", fixedSize: 16))
                                 }.padding(.horizontal, 20)
                         }.padding(.horizontal, 4)
@@ -115,9 +114,9 @@ struct PortfolioSummaryView: View {
 struct PortfolioSummaryView_Previews: PreviewProvider {
     static var previews: some View {
         PortfolioSummaryView(isAllTimeGains: Binding.constant(false))
-            .preferredColorScheme(.dark)
+            .environmentObject(AppObjects())
             .environmentObject(UserAuth())
-            .environmentObject(UserWalletVM())
+            .preferredColorScheme(.dark)
         
     }
 }
