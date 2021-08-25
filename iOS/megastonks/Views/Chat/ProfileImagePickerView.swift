@@ -44,6 +44,8 @@ struct ProfileImagePickerView: View {
                                 
                                 ProfileImageView(image: imageOptions[i].image, isSelected: $imageOptions[i].isSelected)
                                     .onTapGesture(perform: {
+                                        let impactMed = UIImpactFeedbackGenerator(style: .medium)
+                                        impactMed.impactOccurred()
                                         imageOptions.indices.forEach { index in
                                             imageOptions[index].isSelected = false
                                         }
@@ -83,8 +85,9 @@ struct ProfileImageView: View {
                     VStack{
                         if(isSelected){
                             Image(systemName: "checkmark.circle.fill")
+                                .font(.custom("", fixedSize: 18))
                                 .foregroundColor(myColors.greenColor)
-                                .offset(x: 44, y: -42)
+                                .offset(x: 46, y: -42)
                             
                         }
                     }
