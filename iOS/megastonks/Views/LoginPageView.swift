@@ -112,7 +112,22 @@ struct LoginPageView: View {
                                         .foregroundColor(.white)
                                         .padding()
                                         .padding(.trailing)
+                                    
                                 }
+                            }
+                            
+                            HStack {
+                                Spacer()
+                                Button(action: {
+                                    userAuth.isInChatMode = true
+                                    
+                                }, label: {
+                                    Label("Chat with the app developer", systemImage: "bubble.left")
+                                        
+                                        .foregroundColor(myColors.greenColor)
+                                        .font(.system(size: 16, weight: .bold, design: .default))
+                                })
+                                Spacer()
                             }
                             Spacer()
                         }
@@ -139,6 +154,7 @@ struct LoginPageView: View {
 struct LoginPageView_Previews: PreviewProvider {
     static var previews: some View {
         LoginPageView()
+            .preferredColorScheme(.dark)
             .environmentObject(UserAuth())
         
     }

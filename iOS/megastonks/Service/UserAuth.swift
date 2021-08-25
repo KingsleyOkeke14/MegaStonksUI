@@ -14,6 +14,7 @@ class UserAuth: ObservableObject {
     @Published var user:User = User(firstName: "", lastName: "", emailAddress: "", currency: "", isOnBoarded: true)
     @Published var showAuthError:Bool = false
     @Published var isRefreshingAuth:Bool = false
+    @Published var isInChatMode:Bool = false
     
     init() {
         user.emailAddress = KeychainWrapper.standard.string(forKey: "EmailAddress") ?? ""

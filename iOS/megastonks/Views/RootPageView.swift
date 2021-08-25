@@ -18,7 +18,7 @@ struct RootPageView: View {
     
     
     var body: some View {
-        if (userAuth.isLoggedin == nil) {
+        if (userAuth.isLoggedin == nil && !userAuth.isInChatMode) {
             VStack{
                 LoginPageView()
                     .redacted(when: true, redactionType: .customPlaceholder)
@@ -28,10 +28,10 @@ struct RootPageView: View {
                     .font(.custom("Apple SD Gothic Neo", fixedSize: 18))
             }.disabled(true)
         }
-        else if(!userAuth.isLoggedin!){
+        else if(!userAuth.isLoggedin! && !userAuth.isInChatMode){
             LoginPageView().preferredColorScheme(.dark)
         }
-        else {
+        else if(!userAuth.isInChatMode) {
             AppPageView()
                 .preferredColorScheme(.dark)
                 .onAppear(perform: {
@@ -65,6 +65,11 @@ struct RootPageView: View {
                       userAuth.checkTimeStampForAuth()
                     }
                 }
+                .environmentObject(userAuth)
+        }
+        else if(userAuth.isInChatMode){
+            ChatRegisterView()
+                .preferredColorScheme(.dark)
                 .environmentObject(userAuth)
         }
     }

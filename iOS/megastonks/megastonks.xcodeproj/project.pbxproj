@@ -70,6 +70,9 @@
 		D0A3125C2633A031008993C2 /* EULA.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A3125B2633A031008993C2 /* EULA.swift */; };
 		D0A94F8A2626CF6B005477B6 /* ResetPasswordPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A94F892626CF6B005477B6 /* ResetPasswordPageView.swift */; };
 		D0A94F8D2626D1F3005477B6 /* ForgotPasswordPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A94F8C2626D1F3005477B6 /* ForgotPasswordPageView.swift */; };
+		D0B0556C26D423F7006C1356 /* ChatRegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0B0556B26D423F7006C1356 /* ChatRegisterView.swift */; };
+		D0B0556E26D46CFC006C1356 /* ProfileImagePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0B0556D26D46CFC006C1356 /* ProfileImagePickerView.swift */; };
+		D0B0557126D47BB1006C1356 /* ProfileImageOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0B0557026D47BB1006C1356 /* ProfileImageOption.swift */; };
 		D0B4B03E267E968800E54193 /* CryptoHolding.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0B4B03D267E968800E54193 /* CryptoHolding.swift */; };
 		D0B4B040267EFA0B00E54193 /* OderHistoryCryptoDetailPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0B4B03F267EFA0B00E54193 /* OderHistoryCryptoDetailPageView.swift */; };
 		D0C20853264A0690001B91D3 /* NewsPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C20852264A0690001B91D3 /* NewsPageView.swift */; };
@@ -172,6 +175,9 @@
 		D0A3125B2633A031008993C2 /* EULA.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EULA.swift; sourceTree = "<group>"; };
 		D0A94F892626CF6B005477B6 /* ResetPasswordPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPasswordPageView.swift; sourceTree = "<group>"; };
 		D0A94F8C2626D1F3005477B6 /* ForgotPasswordPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordPageView.swift; sourceTree = "<group>"; };
+		D0B0556B26D423F7006C1356 /* ChatRegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRegisterView.swift; sourceTree = "<group>"; };
+		D0B0556D26D46CFC006C1356 /* ProfileImagePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImagePickerView.swift; sourceTree = "<group>"; };
+		D0B0557026D47BB1006C1356 /* ProfileImageOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageOption.swift; sourceTree = "<group>"; };
 		D0B4B03D267E968800E54193 /* CryptoHolding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoHolding.swift; sourceTree = "<group>"; };
 		D0B4B03F267EFA0B00E54193 /* OderHistoryCryptoDetailPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OderHistoryCryptoDetailPageView.swift; sourceTree = "<group>"; };
 		D0C20852264A0690001B91D3 /* NewsPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsPageView.swift; sourceTree = "<group>"; };
@@ -330,6 +336,7 @@
 		D0369D2925C76FB300718A52 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				D0B0556F26D47B98006C1356 /* Chat */,
 				D0A3125B2633A031008993C2 /* EULA.swift */,
 				D057841D25C88D400039E6CD /* OnBoardCardModel.swift */,
 				D00CA78625CB55CD00232915 /* StockSymbolModel.swift */,
@@ -340,6 +347,7 @@
 		D0369D2A25C76FC700718A52 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				D0B0556A26D423CD006C1356 /* Chat */,
 				D038CEEB2671B0D200F5DA57 /* ViewModifiers */,
 				D034871425C80DAE00CFCAB2 /* SubViews */,
 				D06B311425C7AFF400A37C08 /* LoginPageView.swift */,
@@ -405,6 +413,23 @@
 				D04E9B262651B8BE000A1B7C /* Info.plist */,
 			);
 			path = megastonksUITests;
+			sourceTree = "<group>";
+		};
+		D0B0556A26D423CD006C1356 /* Chat */ = {
+			isa = PBXGroup;
+			children = (
+				D0B0556B26D423F7006C1356 /* ChatRegisterView.swift */,
+				D0B0556D26D46CFC006C1356 /* ProfileImagePickerView.swift */,
+			);
+			path = Chat;
+			sourceTree = "<group>";
+		};
+		D0B0556F26D47B98006C1356 /* Chat */ = {
+			isa = PBXGroup;
+			children = (
+				D0B0557026D47BB1006C1356 /* ProfileImageOption.swift */,
+			);
+			path = Chat;
 			sourceTree = "<group>";
 		};
 		D0FC0FF225D2280C00366B26 /* Frameworks */ = {
@@ -523,6 +548,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D0336E252635F52E004DB6A3 /* AppObjects.swift in Sources */,
+				D0B0556C26D423F7006C1356 /* ChatRegisterView.swift in Sources */,
 				D0FC0FF725D2287600366B26 /* StocksInfoPageView.swift in Sources */,
 				D0E08FF22661F3B4005B0C11 /* CryptoSymbol.swift in Sources */,
 				D0A3125926339880008993C2 /* PromptView.swift in Sources */,
@@ -546,6 +572,7 @@
 				D0D929B226609C7000C14BE2 /* AssetPorfolioPage.swift in Sources */,
 				D0D3C40226249E5E00DC6B36 /* AppPageView.swift in Sources */,
 				D0585E74263856A4000C8546 /* StockSearchResult.swift in Sources */,
+				D0B0556E26D46CFC006C1356 /* ProfileImagePickerView.swift in Sources */,
 				D004685725D43795006C60E9 /* CompanyInfoView.swift in Sources */,
 				D07B3B9B266AF22200B9CD1B /* NewsPage.swift in Sources */,
 				D004686A25D64E87006C60E9 /* LoadingIndicatorView.swift in Sources */,
@@ -572,6 +599,7 @@
 				D0D1933825CCB41900D83D87 /* StockInfoView.swift in Sources */,
 				D02D7C2D25DC496600DAC07A /* ButtonSelectionView.swift in Sources */,
 				D06C297A263F587100F1B31A /* PortfolioStockSymbolView.swift in Sources */,
+				D0B0557126D47BB1006C1356 /* ProfileImageOption.swift in Sources */,
 				D01708012649AFD10009023E /* News.swift in Sources */,
 				D0FC100025D2EFB400366B26 /* MyHoldingsView.swift in Sources */,
 				D0D1933B25CCCFAF00D83D87 /* ChartView.swift in Sources */,
