@@ -17,13 +17,6 @@ struct WatchListPageView: View {
     
     let impactMed = UIImpactFeedbackGenerator(style: .heavy)
     
-    @State var showBanner:Bool = false
-    
-    var stockBannerInfo:BannerData = BannerData(title: "", detail: "Swipe right on page to view stocks watchlist", type: .Info)
-    
-    var cryptoBannerInfo:BannerData = BannerData(title: "", detail: "Swipe left on page to view crypto watchlist", type: .Info)
-    
-    @State var bannerData:BannerData = BannerData(title: "", detail: "", type: .Info)
     
     init() {
         let coloredAppearance = UINavigationBarAppearance()
@@ -58,15 +51,6 @@ struct WatchListPageView: View {
                                 .cornerRadius(6)
                                 .onTapGesture(perform: {
                                     impactMed.impactOccurred()
-                                    if(currentPage != 0){
-                                        showBanner = true
-                                        bannerData = stockBannerInfo
-                                        DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
-                                            withAnimation {
-                                                self.showBanner = false
-                                            }
-                                        }
-                                    }
                                 })
                         }
                         else {
@@ -77,15 +61,7 @@ struct WatchListPageView: View {
                                 .foregroundColor(myColors.greenColor)
                                 .onTapGesture(perform: {
                                     impactMed.impactOccurred()
-                                    if(currentPage != 0){
-                                        showBanner = true
-                                        bannerData = stockBannerInfo
-                                        DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
-                                            withAnimation {
-                                                self.showBanner = false
-                                            }
-                                        }
-                                    }
+                                    self.currentPage = 0
                                 })
                         }
                     }.animation(.easeIn)
@@ -102,15 +78,6 @@ struct WatchListPageView: View {
                                 .cornerRadius(6)
                                 .onTapGesture(perform: {
                                     impactMed.impactOccurred()
-                                    if(currentPage != 1){
-                                        showBanner = true
-                                        bannerData = cryptoBannerInfo
-                                        DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
-                                            withAnimation {
-                                                self.showBanner = false
-                                            }
-                                        }
-                                    }
                                 })
                         }
                         else{
@@ -122,29 +89,25 @@ struct WatchListPageView: View {
                                 .padding(.horizontal, 6)
                                 .onTapGesture(perform: {
                                     impactMed.impactOccurred()
-                                    if(currentPage != 1){
-                                        showBanner = true
-                                        bannerData = cryptoBannerInfo
-                                        DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
-                                            withAnimation {
-                                                self.showBanner = false
-                                            }
-                                        }
-                                    }
+                                    self.currentPage = 1
                                 })
                             
                         }
                     }.animation(.easeIn)
                 }
                 
-                PageView(pages: [AssetWatchListPage(isCrypto: false), AssetWatchListPage(isCrypto: true)], currentPage: $currentPage)
+                
+                TabView(selection: $currentPage) {
+                    AssetWatchListPage(isCrypto: false).tag(0)
+                    AssetWatchListPage(isCrypto: true).tag(1)
+                        }
+                .tabViewStyle(PageTabViewStyle(indexDisplayMode: PageTabViewStyle.IndexDisplayMode.never))
             }
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarTitle("")
             .navigationBarHidden(true)
         }
         .navigationViewStyle(StackNavigationViewStyle())
-        .banner(data: $bannerData, show: $showBanner)
     }
 }
 
