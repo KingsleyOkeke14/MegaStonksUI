@@ -67,8 +67,13 @@ struct RootPageView: View {
                 }
                 .environmentObject(userAuth)
         }
-        else if(userAuth.isInChatMode){
+        else if(userAuth.isInChatMode && !userAuth.isChatLoggedIn){
             ChatRegisterView()
+                .preferredColorScheme(.dark)
+                .environmentObject(userAuth)
+        }
+        else if(userAuth.isInChatMode && userAuth.isChatLoggedIn){
+            ChatView()
                 .preferredColorScheme(.dark)
                 .environmentObject(userAuth)
         }

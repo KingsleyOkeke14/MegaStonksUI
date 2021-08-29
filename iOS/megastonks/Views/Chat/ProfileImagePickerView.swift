@@ -50,17 +50,10 @@ struct ProfileImagePickerView: View {
                                             imageOptions[index].isSelected = false
                                         }
                                         imageOptions[i].isSelected = true
+                                        presentationMode.wrappedValue.dismiss()
                                     })
                             }
                         }
-                        Button(action: {
-                            presentationMode.wrappedValue.dismiss()
-                            
-                        }
-                              , label: {
-                                ButtonView(cornerRadius: 12,  text: "Continue", textColor: myColors.grayColor, textSize: 20, frameWidth: 100, frameHeight: 34, backGroundColor: .green, strokeBorders: false, fillColor: .green).padding(.top, 40)
-                        })
-
                     }.padding(.horizontal)  
                 }
             )

@@ -89,17 +89,21 @@ struct ChatRegisterView: View {
             .frame(height: 60)
             .padding()
             
-            HStack {
-                Spacer()
-                Text("Proceed To Chat")
-                    .font(.custom("", fixedSize: 18))
-                    .foregroundColor(myColors.greenColor)
-                    .bold()
-                Image(systemName: "arrow.right.circle.fill")
-                    .foregroundColor(myColors.greenColor)
-                    .font(.custom("", fixedSize: 22))
-                    .padding(.trailing)
-            }
+            Button(action: {
+                userAuth.isChatLoggedIn = true
+            }, label: {
+                HStack {
+                    Spacer()
+                    Text("Proceed To Chat")
+                        .font(.custom("", fixedSize: 18))
+                        .foregroundColor(myColors.greenColor)
+                        .bold()
+                    Image(systemName: "arrow.right.circle.fill")
+                        .foregroundColor(myColors.greenColor)
+                        .font(.custom("", fixedSize: 22))
+                        .padding(.trailing)
+                }
+            })
             
             Spacer()
             Button(action: {

@@ -73,6 +73,9 @@
 		D0B0556C26D423F7006C1356 /* ChatRegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0B0556B26D423F7006C1356 /* ChatRegisterView.swift */; };
 		D0B0556E26D46CFC006C1356 /* ProfileImagePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0B0556D26D46CFC006C1356 /* ProfileImagePickerView.swift */; };
 		D0B0557126D47BB1006C1356 /* ProfileImageOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0B0557026D47BB1006C1356 /* ProfileImageOption.swift */; };
+		D0B0557326D733C8006C1356 /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0B0557226D733C8006C1356 /* ChatView.swift */; };
+		D0B0557526D82851006C1356 /* ChatOptionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0B0557426D82851006C1356 /* ChatOptionsView.swift */; };
+		D0B0557726D96304006C1356 /* UserInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0B0557626D96304006C1356 /* UserInfoView.swift */; };
 		D0B4B03E267E968800E54193 /* CryptoHolding.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0B4B03D267E968800E54193 /* CryptoHolding.swift */; };
 		D0B4B040267EFA0B00E54193 /* OderHistoryCryptoDetailPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0B4B03F267EFA0B00E54193 /* OderHistoryCryptoDetailPageView.swift */; };
 		D0C20853264A0690001B91D3 /* NewsPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C20852264A0690001B91D3 /* NewsPageView.swift */; };
@@ -178,6 +181,9 @@
 		D0B0556B26D423F7006C1356 /* ChatRegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRegisterView.swift; sourceTree = "<group>"; };
 		D0B0556D26D46CFC006C1356 /* ProfileImagePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImagePickerView.swift; sourceTree = "<group>"; };
 		D0B0557026D47BB1006C1356 /* ProfileImageOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageOption.swift; sourceTree = "<group>"; };
+		D0B0557226D733C8006C1356 /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
+		D0B0557426D82851006C1356 /* ChatOptionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatOptionsView.swift; sourceTree = "<group>"; };
+		D0B0557626D96304006C1356 /* UserInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoView.swift; sourceTree = "<group>"; };
 		D0B4B03D267E968800E54193 /* CryptoHolding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoHolding.swift; sourceTree = "<group>"; };
 		D0B4B03F267EFA0B00E54193 /* OderHistoryCryptoDetailPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OderHistoryCryptoDetailPageView.swift; sourceTree = "<group>"; };
 		D0C20852264A0690001B91D3 /* NewsPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsPageView.swift; sourceTree = "<group>"; };
@@ -420,6 +426,9 @@
 			children = (
 				D0B0556B26D423F7006C1356 /* ChatRegisterView.swift */,
 				D0B0556D26D46CFC006C1356 /* ProfileImagePickerView.swift */,
+				D0B0557226D733C8006C1356 /* ChatView.swift */,
+				D0B0557426D82851006C1356 /* ChatOptionsView.swift */,
+				D0B0557626D96304006C1356 /* UserInfoView.swift */,
 			);
 			path = Chat;
 			sourceTree = "<group>";
@@ -560,6 +569,7 @@
 				D009875F2640CD8000F76AEA /* OrdersPageView.swift in Sources */,
 				D06E429425D3545E009701A2 /* StatisticsView.swift in Sources */,
 				D0356A932665BF0A00C07A3A /* CryptoSearchResult.swift in Sources */,
+				D0B0557326D733C8006C1356 /* ChatView.swift in Sources */,
 				D034870D25C7FE3D00CFCAB2 /* RegisterPageView.swift in Sources */,
 				D049A38B267E3F0D001F98E2 /* OrderCryptoHistory.swift in Sources */,
 				D0A3125C2633A031008993C2 /* EULA.swift in Sources */,
@@ -595,6 +605,7 @@
 				D0C20853264A0690001B91D3 /* NewsPageView.swift in Sources */,
 				D049A38F267E93F5001F98E2 /* HoldingInfoPage.swift in Sources */,
 				D017B3F1264866A3002EA084 /* NewsInfoView.swift in Sources */,
+				D0B0557726D96304006C1356 /* UserInfoView.swift in Sources */,
 				D0369D1A25C76B1900718A52 /* megastonksApp.swift in Sources */,
 				D0D1933825CCB41900D83D87 /* StockInfoView.swift in Sources */,
 				D02D7C2D25DC496600DAC07A /* ButtonSelectionView.swift in Sources */,
@@ -629,6 +640,7 @@
 				D0F948802635B20C0069D2B7 /* BannerViewModifier.swift in Sources */,
 				D040342126783651006E2F5A /* CryptoSymbolHomeView.swift in Sources */,
 				D00A6687263486AD0085EB1C /* User.swift in Sources */,
+				D0B0557526D82851006C1356 /* ChatOptionsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
