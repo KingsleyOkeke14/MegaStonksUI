@@ -10,7 +10,10 @@ import SwiftUI
 struct ChatView: View {
     
     @State var showUserInfo: Bool = false
-    
+    @State var text: String = ""
+    @State var height: CGFloat = 40
+    @State var keyboardHeight: CGFloat = 0
+    @State var isKeyboardVisible: Bool = false
     @EnvironmentObject var userAuth: UserAuth
     
     var body: some View {
@@ -46,14 +49,56 @@ struct ChatView: View {
                     }
                 }
             )
-            Spacer()
+            
+            HStack{
+                Button(action: {
+                    hideKeyboard()
+                }, label: {
+                    Image(systemName: "keyboard.chevron.compact.down")
+                        .font(.custom("", size: 20))
+                        .foregroundColor(isKeyboardVisible ? myColors.greenColor : myColors.lightGrayColor)
+                    
+                })
+                DynamicTextField(text: $text, height: $height)
+                    .frame( height: height < 140 ? height : 140)
+                    .padding(.horizontal, 4)
+                    .background(Color.white.opacity(0.2))
+                    .cornerRadius(14)
+                    
+                
+                Button(action: {
+                    hideKeyboard()
+                }, label: {
+                    Image(systemName: "paperplane.fill")
+                        .font(.custom("", size: 20))
+                        .foregroundColor(myColors.greenColor)
+                })
+            }
+            .padding(8)
+            .padding(.bottom, 12)
+            .padding(.bottom, keyboardHeight)
+            .onAppear{
+                NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: .main) {
+                    (data) in
+                    let height = data.userInfo![UIResponder.keyboardFrameEndUserInfoKey] as! NSValue
+                    self.isKeyboardVisible.toggle()
+                    self.keyboardHeight = height.cgRectValue.height - 8
+                }
+                
+                NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillHideNotification, object: nil, queue: .main) {
+                    _ in
+                    self.isKeyboardVisible.toggle()
+                    self.keyboardHeight = 0
+                }
+            }
+
         } .ignoresSafeArea()
         
         
     }
 }
 
-struct ChatHeaderView: View{
+struct ChatHeaderView : View{
     
     @State private var showChatOptions = false
     @Environment(\.presentationMode) var presentationMode
@@ -122,20 +167,29 @@ struct ChatTextCell : View{
                     VStack{
                         
                     }.frame(width: 20)
-                    Text("Hi Kingsley, I had a question regarding my credit cared. How do i reduce the interest rate on it or pay less. Please let me know. Hi Kingsley, I had a question regarding my credit cared. How do i reduce the interest rate on it or pay less. Please let me know. Hi Kingsley, I had a question regarding my credit cared. How do i reduce the interest rate on it or pay less. Please let me know.")
-                        .font(.custom("Helvetica", fixedSize: 16))
-                        .bold()
-                        .foregroundColor(.black)
-                        .padding()
-                        .background(myColors.greenColor)
-                        .cornerRadius(20)
-                        .contextMenu {
-                            Button(action: {
-                                UIPasteboard.general.string = "Hi Kingsley, I had a question regarding my credit cared. How do i reduce the interest rate on it or pay less. Please let me know. Hi Kingsley, I had a question regarding my credit cared. How do i reduce the interest rate on it or pay less. Please let me know. Hi Kingsley, I had a question regarding my credit cared. How do i reduce the interest rate on it or pay less. Please let me know."
-                            }) {
-                                Text("Copy")
-                                }
+                    VStack(alignment: .trailing) {
+                        Text("Hi Kingsley, I had a question regarding my credit cared. How do i reduce the interest rate on it or pay less. Please let me know. Hi Kingsley, I had a question regarding my credit cared. How do i reduce the interest rate on it or pay less. Please let me know. Hi Kingsley, I had a question regarding my credit cared. How do i reduce the interest rate on it or pay less. Please let me know.")
+                            .font(.custom("Helvetica", fixedSize: 16))
+                            .bold()
+                            .foregroundColor(.white)
+                        
+                        Text("5m ago")
+                            .font(.custom("Helvetica", fixedSize: 10))
+                            .foregroundColor(.white.opacity(0.7))
+                            .bold()
+                            .italic()
+                            .padding(.bottom, 6)
+                    }
+                    .padding([.top, .horizontal])
+                    .background(myColors.greenColor)
+                    .cornerRadius(20)
+                    .contextMenu {
+                        Button(action: {
+                            UIPasteboard.general.string = "Hi Kingsley, I had a question regarding my credit cared. How do i reduce the interest rate on it or pay less. Please let me know. Hi Kingsley, I had a question regarding my credit cared. How do i reduce the interest rate on it or pay less. Please let me know. Hi Kingsley, I had a question regarding my credit cared. How do i reduce the interest rate on it or pay less. Please let me know."
+                        }) {
+                            Text("Copy")
                             }
+                }
                     
                     Image(systemName: "arrowshape.turn.up.backward.fill")
                         .font(.custom("", fixedSize: 12))
@@ -158,21 +212,30 @@ struct ChatTextCell : View{
                         .rotationEffect(Angle(degrees: -180))
                         
                     
-                    Text("Hi Michael, Sorry to hear that. Thanks for Chatting")
-                        .font(.custom("Helvetica", fixedSize: 16))
-                        .bold()
-                        .foregroundColor(.white)
-                        .padding()
-                        .background(myColors.grayColor)
-                        .cornerRadius(20)
-                        .contextMenu {
-                            Button(action: {
-                                UIPasteboard.general.string = "Hi Michael, Sorry to hear that. Thanks for Chatting"
-                            }) {
-                                Text("Copy")
-                                    .font(.custom("", fixedSize: 8))
-                                }
-                        }
+                    VStack(alignment: .trailing) {
+                        Text("Hi Michael, Sorry to hear that. Thanks for Chatting")
+                            .font(.custom("Helvetica", fixedSize: 16))
+                            .bold()
+                            .foregroundColor(.white)
+                        Text("5m ago")
+                            .font(.custom("Helvetica", fixedSize: 10))
+                            .foregroundColor(.gray)
+                            .bold()
+                            .italic()
+                            .padding(.bottom, 6)
+                    }
+                    .padding([.top, .horizontal])
+                    .background(myColors.grayColor)
+                    .cornerRadius(20)
+
+                    .contextMenu {
+                        Button(action: {
+                            UIPasteboard.general.string = "Hi Michael, Sorry to hear that. Thanks for Chatting"
+                        }) {
+                            Text("Copy")
+                                .font(.custom("", fixedSize: 8))
+                            }
+                }
                     
                     VStack{
                         
@@ -187,10 +250,38 @@ struct ChatTextCell : View{
         
     }
 }
+
+struct ChatTextField: View {
+    
+    @State var text: String = ""
+    var body: some View {
+        
+        HStack {
+
+            HStack{
+                
+                    TextEditor(text: $text)
+                        .font(.custom("", fixedSize: 20))
+            }
+            .padding()
+            .padding(.top)
+
+            HStack{
+                Image(systemName: "paperplane.fill")
+                    .font(.custom("", size: 20))
+                    .foregroundColor(myColors.greenColor)
+            }
+        }
+    }
+}
+
+
 struct ChatView_Previews: PreviewProvider {
     static var previews: some View {
         ChatView()
             .preferredColorScheme(.dark)
             .environmentObject(UserAuth())
+        
+        
     }
 }

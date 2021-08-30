@@ -12,6 +12,8 @@ struct ChatOptionsView: View {
     
     @Environment(\.openURL) var openURL
     @EnvironmentObject var userAuth: UserAuth
+    
+    @State var showCloseChatprompt: Bool = false
     var body: some View {
         Color.black
             .ignoresSafeArea()
@@ -48,37 +50,49 @@ struct ChatOptionsView: View {
                             .foregroundColor(.black)
                             .padding(2)
                             .padding(.horizontal, 6)
-                            .background(myColors.greenColor.opacity(0.8))
+                            .background(myColors.greenColor)
                             .cornerRadius(20)
                             
                         Text("Hello there, thank you for downloading the mega stonks app. I am looking forward to chatting with you and helping you understand your financial situation and discussing ways to improve and continue growing. I am really passionate about personal finance and developing tools for individuals to understand and take better control of their finances. My goal is effectively aimed at bridging the ever widening wealth gap and inequality. Feel free to follow me on my social accounts below. Thanks!")
                             .font(.custom("", fixedSize: 16))
                             .padding()
-                            .padding(.horizontal, 1)
-                            .background(myColors.grayColor.opacity(0.6))
-                            .cornerRadius(20)
+                            .padding(.horizontal, 20)
+                            .multilineTextAlignment(.center)
+                          
                         
                         HStack{
-                            Button(action: {
-                                openURL(URL(string: "https://twitter.com/ke_kakes")!)
-                            }, label: {
-                                Image("twitterLogo")
-                                    .resizable()
-                                    .frame(width: 40, height: 36)
-                                    .padding(.horizontal)
-                              
+                            VStack {
+                                Button(action: {
+                                    openURL(URL(string: "https://twitter.com/ke_kakes")!)
+                                }, label: {
+                                    Image("twitterLogo")
+                                        .resizable()
+                                        .frame(width: 40, height: 40)
+                                        .padding(.horizontal)
+                                  
                             })
-                            
-                            Button(action: {
-                                openURL(URL(string: "https://www.instagram.com/ke_kakes")!)
                                 
-                            }, label: {
-                                Image("instagramLogo")
-                                    .resizable()
-                                    .frame(width: 40, height: 40)
-                                    .padding(.horizontal)
-                                   
+                                Text("Ke_Kakes")
+                                    .font(.custom("", fixedSize: 14))
+                                    .opacity(0.2)
+                            }
+                            
+                            VStack {
+                                Button(action: {
+                                    openURL(URL(string: "https://www.instagram.com/ke_kakes")!)
+                                    
+                                }, label: {
+                                    Image("instagramLogo")
+                                        .resizable()
+                                        .frame(width: 40, height: 40)
+                                        .padding(.horizontal)
+                                       
                             })
+                                
+                                Text("Ke_Kakes")
+                                    .font(.custom("", fixedSize: 14))
+                                    .opacity(0.2)
+                            }
                         }
                         VStack{
                             
@@ -86,6 +100,7 @@ struct ChatOptionsView: View {
                         HStack{
                             Button(action: {
                                 
+                                showCloseChatprompt.toggle()
                                 userAuth.isChatLoggedIn = false
                                 
                             }, label: {
@@ -121,14 +136,66 @@ struct ChatOptionsView: View {
                     }
                     
                 }
+                .disabled(showCloseChatprompt)
+                .blur(radius: showCloseChatprompt ? 20 : 0)
+                .overlay(
+                    VStack{
+                        if(showCloseChatprompt){
+                            VStack(spacing: 40){
+                                VStack {
+                                    Text("Are you sure you will like to close your chat session?")
+                                        .font(.custom("Helvetica", fixedSize: 14))
+                                        .bold()
+                                        .multilineTextAlignment(.center)
+                                    Text("Please remember that by closing the chat session, you will lose access to your chat history and you will have to select another display name to start another chat session.")
+                                        .font(.custom("Helvetica", fixedSize: 10))
+                                        .bold()
+                                        .multilineTextAlignment(.center)
+                                        .foregroundColor(.white.opacity(0.4))
+                                }
+
+                                HStack(spacing: 80){
+                                    Button(action: {
+                                        userAuth.isChatLoggedIn = false
+                                    }, label: {
+                                        Text("Yes")
+                                            .font(.custom("Helvetica", fixedSize: 20))
+                                            .bold()
+                                            .foregroundColor(.white)
+                                            .padding()
+
+                                    })
+                                    
+                                    Button(action: {
+                                        showCloseChatprompt = false
+                                    }, label: {
+                                        Text("No")
+                                            .font(.custom("Helvetica", fixedSize: 20))
+                                            .bold()
+                                            .foregroundColor(.white)
+                                            .padding()
+                                            .background(Color.green)
+                                            .cornerRadius(20)
+
+                                    })
+                                }
+                            }
+                                .transition(.scale.animation(.easeIn(duration: 0.4)))
+                                .preferredColorScheme(.dark)
+                        }
+                    }.padding(.horizontal, 20)
+                
+                )
             )
     }
 }
+
 
 struct ChatOptionsView_Previews: PreviewProvider {
     static var previews: some View {
         ChatOptionsView()
             .preferredColorScheme(.dark)
             .environmentObject(UserAuth())
+        
     }
 }
