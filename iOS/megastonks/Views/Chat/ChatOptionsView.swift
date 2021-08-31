@@ -52,47 +52,38 @@ struct ChatOptionsView: View {
                             .padding(.horizontal, 6)
                             .background(myColors.greenColor)
                             .cornerRadius(20)
-                            
+                        
                         Text("Hello there, thank you for downloading the mega stonks app. I am looking forward to chatting with you and helping you understand your financial situation and discussing ways to improve and continue growing. I am really passionate about personal finance and developing tools for individuals to understand and take better control of their finances. My goal is effectively aimed at bridging the ever widening wealth gap and inequality. Feel free to follow me on my social accounts below. Thanks!")
                             .font(.custom("", fixedSize: 16))
                             .padding()
                             .padding(.horizontal, 20)
                             .multilineTextAlignment(.center)
-                          
+                        
                         
                         HStack{
-                            VStack {
-                                Button(action: {
-                                    openURL(URL(string: "https://twitter.com/ke_kakes")!)
-                                }, label: {
-                                    Image("twitterLogo")
-                                        .resizable()
-                                        .frame(width: 40, height: 40)
-                                        .padding(.horizontal)
-                                  
-                            })
+                            Button(action: {
+                                openURL(URL(string: "https://twitter.com/ke_kakes")!)
+                            }, label: {
+                                Image("twitterLogo")
+                                    .resizable()
+                                    .frame(width: 40, height: 40)
+                                    .padding(.horizontal)
                                 
-                                Text("Ke_Kakes")
-                                    .font(.custom("", fixedSize: 14))
-                                    .opacity(0.2)
-                            }
+                            })
                             
-                            VStack {
-                                Button(action: {
-                                    openURL(URL(string: "https://www.instagram.com/ke_kakes")!)
-                                    
-                                }, label: {
-                                    Image("instagramLogo")
-                                        .resizable()
-                                        .frame(width: 40, height: 40)
-                                        .padding(.horizontal)
-                                       
-                            })
+                            
+                            
+                            Button(action: {
+                                openURL(URL(string: "https://www.instagram.com/ke_kakes")!)
                                 
-                                Text("Ke_Kakes")
-                                    .font(.custom("", fixedSize: 14))
-                                    .opacity(0.2)
-                            }
+                            }, label: {
+                                Image("instagramLogo")
+                                    .resizable()
+                                    .frame(width: 40, height: 40)
+                                    .padding(.horizontal)
+                                
+                            })
+                            
                         }
                         VStack{
                             
@@ -101,18 +92,14 @@ struct ChatOptionsView: View {
                             Button(action: {
                                 
                                 showCloseChatprompt.toggle()
-                                userAuth.isChatLoggedIn = false
                                 
                             }, label: {
                                 Text("Close Chat Session")
-                                    .font(.custom("Helvetica", fixedSize: 16))
+                                    .font(.custom("Helvetica", fixedSize: 20))
                                     .bold()
-                                    .foregroundColor(.black)
+                                    .foregroundColor(.red)
                                     .padding(2)
                                     .padding(.horizontal, 6)
-                                    .background(Color.red.opacity(0.8))
-                                    .cornerRadius(20)
-                                    
                             })
                         }.padding()
                         
@@ -124,13 +111,13 @@ struct ChatOptionsView: View {
                                 Image(systemName: "arrow.backward.circle.fill")
                                     .foregroundColor(.green)
                                     .font(.custom("", fixedSize: 22))
-                                    
+                                
                                 Text("Exit To Main App")
                                     .font(.custom("", fixedSize: 18))
                                     .foregroundColor(.green)
                                     .bold()
                                     .padding(.trailing)
-
+                                
                             }.padding()
                         })
                     }
@@ -153,7 +140,7 @@ struct ChatOptionsView: View {
                                         .multilineTextAlignment(.center)
                                         .foregroundColor(.white.opacity(0.4))
                                 }
-
+                                
                                 HStack(spacing: 80){
                                     Button(action: {
                                         userAuth.isChatLoggedIn = false
@@ -161,9 +148,9 @@ struct ChatOptionsView: View {
                                         Text("Yes")
                                             .font(.custom("Helvetica", fixedSize: 20))
                                             .bold()
-                                            .foregroundColor(.white)
+                                            .foregroundColor(.red)
                                             .padding()
-
+                                        
                                     })
                                     
                                     Button(action: {
@@ -176,15 +163,15 @@ struct ChatOptionsView: View {
                                             .padding()
                                             .background(Color.green)
                                             .cornerRadius(20)
-
+                                        
                                     })
                                 }
                             }
-                                .transition(.scale.animation(.easeIn(duration: 0.4)))
-                                .preferredColorScheme(.dark)
+                            .transition(.scale.animation(.easeIn(duration: 0.4)))
+                            .preferredColorScheme(.dark)
                         }
                     }.padding(.horizontal, 20)
-                
+                    
                 )
             )
     }

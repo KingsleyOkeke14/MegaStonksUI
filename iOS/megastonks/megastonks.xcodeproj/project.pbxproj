@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D003DBE326DE298E0089D485 /* Blur.swift in Sources */ = {isa = PBXBuildFile; fileRef = D003DBE226DE298E0089D485 /* Blur.swift */; };
 		D004685725D43795006C60E9 /* CompanyInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D004685625D43795006C60E9 /* CompanyInfoView.swift */; };
 		D004685A25D44037006C60E9 /* PortfolioSummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D004685925D44037006C60E9 /* PortfolioSummaryView.swift */; };
 		D004686025D4D2CD006C60E9 /* ProfilePageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D004685F25D4D2CD006C60E9 /* ProfilePageView.swift */; };
@@ -113,6 +114,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		D003DBE226DE298E0089D485 /* Blur.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Blur.swift; sourceTree = "<group>"; };
 		D004685625D43795006C60E9 /* CompanyInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompanyInfoView.swift; sourceTree = "<group>"; };
 		D004685925D44037006C60E9 /* PortfolioSummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioSummaryView.swift; sourceTree = "<group>"; };
 		D004685F25D4D2CD006C60E9 /* ProfilePageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePageView.swift; sourceTree = "<group>"; };
@@ -409,6 +411,7 @@
 			isa = PBXGroup;
 			children = (
 				D038CEEC2671B0FE00F5DA57 /* RedactedViewModifier.swift */,
+				D003DBE226DE298E0089D485 /* Blur.swift */,
 			);
 			path = ViewModifiers;
 			sourceTree = "<group>";
@@ -565,6 +568,7 @@
 				D0E08FF22661F3B4005B0C11 /* CryptoSymbol.swift in Sources */,
 				D0A3125926339880008993C2 /* PromptView.swift in Sources */,
 				D0356A9126658EF700C07A3A /* PullToRefreshView.swift in Sources */,
+				D003DBE326DE298E0089D485 /* Blur.swift in Sources */,
 				D06B311825C7BA5200A37C08 /* SecretFormView.swift in Sources */,
 				D0B4B040267EFA0B00E54193 /* OderHistoryCryptoDetailPageView.swift in Sources */,
 				D03BBAD9266F2CE400928FB8 /* LocalNotificationManager.swift in Sources */,

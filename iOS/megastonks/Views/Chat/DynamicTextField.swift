@@ -47,6 +47,12 @@ struct DynamicTextField : UIViewRepresentable {
                 textView.textColor = .white
             }
         }
+        func textViewDidEndEditing(_ textView: UITextView) {
+            if(self.parent.text == ""){
+                textView.text = "Enter Message"
+                textView.textColor = .white
+            }
+        }
         
         func textViewDidChange(_ textView: UITextView) {
             DispatchQueue.main.async {
