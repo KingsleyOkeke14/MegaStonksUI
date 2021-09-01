@@ -21,7 +21,7 @@ struct ChatView: View {
             ChatHeaderView()
                 .environmentObject(userAuth)
             
-            ScrollView(showsIndicators: false){
+            ScrollView(showsIndicators: true){
                 Text("Thank you for connecting with me. Send me a message and I will respond as soon as I can")
                     .font(.custom("Helvetica", fixedSize: 10))
                     .bold()
@@ -35,6 +35,8 @@ struct ChatView: View {
                 ChatTextCell(showUserInfo: $showUserInfo,image: "https://kingsleyokeke.blob.core.windows.net/images/1597276037537.jpeg", isOwnedChat: false)
                 ChatTextCell(showUserInfo: $showUserInfo, image: "😎", isOwnedChat: true)
                 ChatTextCell(showUserInfo: $showUserInfo,image: "https://kingsleyokeke.blob.core.windows.net/images/1597276037537.jpeg", isOwnedChat: false)
+                ChatTextCell(showUserInfo: $showUserInfo,image: "😎", isOwnedChat: true)
+               
             }
             .blur(radius: showUserInfo ? 20 : 0)
             .disabled(showUserInfo)
@@ -49,46 +51,8 @@ struct ChatView: View {
                     }
                 }
             )
-            .overlay(
                 
-                HStack{
-                    Button(action: {
-                        hideKeyboard()
-                    }, label: {
-                        Image(systemName: "keyboard.chevron.compact.down")
-                            .font(.custom("", size: 20))
-                            .foregroundColor(isKeyboardVisible ? myColors.greenColor : myColors.lightGrayColor)
-                        
-                    })
-                    DynamicTextField(text: $text, height: $height)
-                        .frame( height: height < 140 ? height : 140)
-                        .padding(.horizontal, 4)
-                        .background(Blur(style: .light))
-                        .cornerRadius(14)
-                        
-                        
-                    
-                    Button(action: {
-                        hideKeyboard()
-                    }, label: {
-                        Image(systemName: "paperplane.fill")
-                            .font(.custom("", size: 20))
-                            .foregroundColor(myColors.greenColor)
-                    })
-                }
-                .padding(8)
-                .padding(.bottom, 12)
-                .padding(.bottom, keyboardHeight)
-                
-                .background(Blur(style: .dark)),
-                alignment: .bottom
-               
 
-            )
-            
-
-            
-            
             
             .onAppear{
                 NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: .main) {
@@ -104,8 +68,47 @@ struct ChatView: View {
                     self.keyboardHeight = 0
                 }
             }
+            Spacer()
+            HStack{
+                Button(action: {
+                    hideKeyboard()
+                }, label: {
+                    Image(systemName: "keyboard.chevron.compact.down")
+                        .font(.custom("", size: 20))
+                        .foregroundColor(isKeyboardVisible ? myColors.greenColor : myColors.lightGrayColor)
+                    
+                })
+                DynamicTextField(text: $text, height: $height)
+                    .frame( height: height < 140 ? height : 140)
+                    .padding(.horizontal, 4)
+                    .background(Blur(style: .light))
+                    .cornerRadius(14)
+                    
+                    
+                
+                Button(action: {
+                    hideKeyboard()
+                }, label: {
+                    Image(systemName: "paperplane.fill")
+                        .font(.custom("", size: 20))
+                        .foregroundColor(myColors.greenColor)
+                })
+            }
+            .padding(8)
+            .padding(.bottom, 12)
+            .padding(.bottom, keyboardHeight)
             
-        } .ignoresSafeArea()
+            .background(Blur(style: .dark))
+            .gesture(DragGesture(minimumDistance: 10, coordinateSpace: .local)
+                                .onEnded({ value in
+
+                                    if value.translation.height > 10 {
+                                        // down
+                                        hideKeyboard()
+                                    }
+                                }))
+            
+        }.ignoresSafeArea()
         
         
     }
