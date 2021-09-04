@@ -242,6 +242,7 @@ extension String {
 extension Notification.Name {
     static let didAuthTokenExpire = Notification.Name("didAuthTokenExpire")
     static let didWalletChange = Notification.Name("didWalletChange")
+    static let newMessageReceived = Notification.Name("newMessageReceived")
 }
 
 extension URL {

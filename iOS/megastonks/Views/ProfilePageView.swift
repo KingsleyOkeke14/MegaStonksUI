@@ -140,7 +140,7 @@ struct ProfilePageView: View {
                             Spacer()
                             Button(action: {
                                 userAuth.isInChatMode = true
-                                
+                                defaults.setValue(true, forKey: "isInChatMode")
                             }, label: {
                                 Label("Chat with the app developer", systemImage: "bubble.left")
                                     

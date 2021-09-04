@@ -108,6 +108,7 @@ struct ChatRegisterView: View {
             Spacer()
             Button(action: {
                 userAuth.isInChatMode = false
+                defaults.setValue(false, forKey: "isInChatMode")
             }, label: {
                 HStack {
                     

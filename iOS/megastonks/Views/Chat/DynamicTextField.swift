@@ -9,9 +9,12 @@ import SwiftUI
 
 struct DynamicTextField : UIViewRepresentable {
     
-    
     @Binding var text: String
     @Binding var height: CGFloat
+    
+    var placeholder = "Enter Message"
+    
+    @State var isEditing: Bool = false
     
     func makeCoordinator() -> Coordinator {
         return DynamicTextField.Coordinator(parent: self)
@@ -28,9 +31,16 @@ struct DynamicTextField : UIViewRepresentable {
         
         return view
     }
-    func updateUIView(_ uiView: UITextView, context: Context) {
+    func updateUIView(_ textView: UITextView, context: Context) {
+        
+        if self.text == "" {
+            textView.text = self.isEditing ? "" : self.placeholder
+            textView.textColor = self.isEditing ? .label : .lightGray
+        }
+        
+        
         DispatchQueue.main.async {
-            self.height = uiView.contentSize.height
+            self.height = textView.contentSize.height
         }
     }
     
@@ -42,15 +52,13 @@ struct DynamicTextField : UIViewRepresentable {
         }
         
         func textViewDidBeginEditing(_ textView: UITextView) {
-            if(self.parent.text == ""){
-                textView.text = ""
-                textView.textColor = .white
+            DispatchQueue.main.async {
+                self.parent.isEditing = true
             }
         }
         func textViewDidEndEditing(_ textView: UITextView) {
-            if(self.parent.text == ""){
-                textView.text = "Enter Message"
-                textView.textColor = .white
+            DispatchQueue.main.async {
+                self.parent.isEditing = false
             }
         }
         

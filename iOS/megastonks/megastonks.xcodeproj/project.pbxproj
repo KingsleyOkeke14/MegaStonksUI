@@ -25,6 +25,10 @@
 		D01707FE2649A5FF0009023E /* NewsSymbolView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D01707FD2649A5FF0009023E /* NewsSymbolView.swift */; };
 		D01708012649AFD10009023E /* News.swift in Sources */ = {isa = PBXBuildFile; fileRef = D01708002649AFD10009023E /* News.swift */; };
 		D017B3F1264866A3002EA084 /* NewsInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D017B3F0264866A3002EA084 /* NewsInfoView.swift */; };
+		D02760D626E185430046853D /* SignalRClient in Frameworks */ = {isa = PBXBuildFile; productRef = D02760D526E185430046853D /* SignalRClient */; };
+		D02760D926E1C4050046853D /* ChatApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = D02760D826E1C4050046853D /* ChatApi.swift */; };
+		D02760DC26E1DFA10046853D /* ChatVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D02760DB26E1DFA10046853D /* ChatVM.swift */; };
+		D02760DE26E1EDDB0046853D /* ChatMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D02760DD26E1EDDB0046853D /* ChatMessage.swift */; };
 		D02CBD5F263331D1003BB203 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D02CBD5E263331D1003BB203 /* LaunchScreen.storyboard */; };
 		D02D7C2D25DC496600DAC07A /* ButtonSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D02D7C2C25DC496600DAC07A /* ButtonSelectionView.swift */; };
 		D031EB3F26118C7F001504B5 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = D031EB3E26118C7F001504B5 /* API.swift */; };
@@ -132,6 +136,9 @@
 		D01707FD2649A5FF0009023E /* NewsSymbolView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsSymbolView.swift; sourceTree = "<group>"; };
 		D01708002649AFD10009023E /* News.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = News.swift; sourceTree = "<group>"; };
 		D017B3F0264866A3002EA084 /* NewsInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsInfoView.swift; sourceTree = "<group>"; };
+		D02760D826E1C4050046853D /* ChatApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatApi.swift; sourceTree = "<group>"; };
+		D02760DB26E1DFA10046853D /* ChatVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatVM.swift; sourceTree = "<group>"; };
+		D02760DD26E1EDDB0046853D /* ChatMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMessage.swift; sourceTree = "<group>"; };
 		D02CBD5E263331D1003BB203 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D02D7C2C25DC496600DAC07A /* ButtonSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonSelectionView.swift; sourceTree = "<group>"; };
 		D031EB3E26118C7F001504B5 /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
@@ -219,6 +226,7 @@
 			files = (
 				D045DB1B262BCEBE0040C067 /* SwiftKeychainWrapper in Frameworks */,
 				D0DEFFB425DB050C008D8C9C /* SwiftUICharts in Frameworks */,
+				D02760D626E185430046853D /* SignalRClient in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -232,9 +240,26 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D02760D726E1C3ED0046853D /* Chat */ = {
+			isa = PBXGroup;
+			children = (
+				D02760D826E1C4050046853D /* ChatApi.swift */,
+			);
+			path = Chat;
+			sourceTree = "<group>";
+		};
+		D02760DA26E1DF930046853D /* Chat */ = {
+			isa = PBXGroup;
+			children = (
+				D02760DB26E1DFA10046853D /* ChatVM.swift */,
+			);
+			path = Chat;
+			sourceTree = "<group>";
+		};
 		D031EB3D26118BAA001504B5 /* Service */ = {
 			isa = PBXGroup;
 			children = (
+				D02760D726E1C3ED0046853D /* Chat */,
 				D031EB4126143B56001504B5 /* Models */,
 				D031EB3E26118C7F001504B5 /* API.swift */,
 				D03BBAD8266F2CE400928FB8 /* LocalNotificationManager.swift */,
@@ -387,6 +412,7 @@
 		D0369D2B25C76FCD00718A52 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				D02760DA26E1DF930046853D /* Chat */,
 				D057841A25C88C5E0039E6CD /* OnBoardCard.swift */,
 				D00CA78325CB50CF00232915 /* StockSymbol.swift */,
 				D0585E73263856A4000C8546 /* StockSearchResult.swift */,
@@ -443,6 +469,7 @@
 			isa = PBXGroup;
 			children = (
 				D0B0557026D47BB1006C1356 /* ProfileImageOption.swift */,
+				D02760DD26E1EDDB0046853D /* ChatMessage.swift */,
 			);
 			path = Chat;
 			sourceTree = "<group>";
@@ -473,6 +500,7 @@
 			packageProductDependencies = (
 				D0DEFFB325DB050C008D8C9C /* SwiftUICharts */,
 				D045DB1A262BCEBE0040C067 /* SwiftKeychainWrapper */,
+				D02760D526E185430046853D /* SignalRClient */,
 			);
 			productName = megastonks;
 			productReference = D0369D1625C76B1900718A52 /* megastonks.app */;
@@ -526,6 +554,7 @@
 			packageReferences = (
 				D0DEFFB225DB050C008D8C9C /* XCRemoteSwiftPackageReference "SwiftUICharts" */,
 				D045DB19262BCEBD0040C067 /* XCRemoteSwiftPackageReference "SwiftKeychainWrapper" */,
+				D02760D426E185430046853D /* XCRemoteSwiftPackageReference "SignalR-Client-Swift" */,
 			);
 			productRefGroup = D0369D1725C76B1900718A52 /* Products */;
 			projectDirPath = "";
@@ -583,6 +612,7 @@
 				D00CA78725CB55CD00232915 /* StockSymbolModel.swift in Sources */,
 				D04F7EA725D323AE00E52997 /* RadialChartView.swift in Sources */,
 				D073A3FF26DC6C52002E1DD5 /* DynamicTextField.swift in Sources */,
+				D02760DC26E1DFA10046853D /* ChatVM.swift in Sources */,
 				D00987632640E3D600F76AEA /* OrderSucessPageView.swift in Sources */,
 				D0E282FC263E5A2C0027EFDB /* NumberPadView.swift in Sources */,
 				D0A94F8A2626CF6B005477B6 /* ResetPasswordPageView.swift in Sources */,
@@ -596,6 +626,7 @@
 				D004686A25D64E87006C60E9 /* LoadingIndicatorView.swift in Sources */,
 				D0A94F8D2626D1F3005477B6 /* ForgotPasswordPageView.swift in Sources */,
 				D034871225C80DA500CFCAB2 /* ButtonView.swift in Sources */,
+				D02760D926E1C4050046853D /* ChatApi.swift in Sources */,
 				D004685A25D44037006C60E9 /* PortfolioSummaryView.swift in Sources */,
 				D004686425D5CCFB006C60E9 /* ProfileSettingsPageView.swift in Sources */,
 				D0D929AE266092C800C14BE2 /* PageView.swift in Sources */,
@@ -623,6 +654,7 @@
 				D0FC100025D2EFB400366B26 /* MyHoldingsView.swift in Sources */,
 				D0D1933B25CCCFAF00D83D87 /* ChartView.swift in Sources */,
 				D0DEBFE5264242DE0086DC36 /* AsyncImage.swift in Sources */,
+				D02760DE26E1EDDB0046853D /* ChatMessage.swift in Sources */,
 				D057841B25C88C5E0039E6CD /* OnBoardCard.swift in Sources */,
 				D0336E1F2635DD09004DB6A3 /* Extensions.swift in Sources */,
 				D0E282F3263E56610027EFDB /* PlaceOrderPageView.swift in Sources */,
@@ -911,6 +943,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		D02760D426E185430046853D /* XCRemoteSwiftPackageReference "SignalR-Client-Swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/moozzyk/SignalR-Client-Swift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.8.0;
+			};
+		};
 		D045DB19262BCEBD0040C067 /* XCRemoteSwiftPackageReference "SwiftKeychainWrapper" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/jrendel/SwiftKeychainWrapper";
@@ -930,6 +970,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		D02760D526E185430046853D /* SignalRClient */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D02760D426E185430046853D /* XCRemoteSwiftPackageReference "SignalR-Client-Swift" */;
+			productName = SignalRClient;
+		};
 		D045DB1A262BCEBE0040C067 /* SwiftKeychainWrapper */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = D045DB19262BCEBD0040C067 /* XCRemoteSwiftPackageReference "SwiftKeychainWrapper" */;

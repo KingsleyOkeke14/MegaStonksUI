@@ -8,14 +8,16 @@
 import SwiftUI
 
 struct ChatView: View {
-    
+    let colors: [Color] = [.red, .green, .blue]
     @State var showUserInfo: Bool = false
     @State var text: String = ""
     @State var height: CGFloat = 40
     @State var keyboardHeight: CGFloat = 0
     @State var isKeyboardVisible: Bool = false
-    @EnvironmentObject var userAuth: UserAuth
     
+    @StateObject var chatVM: ChatVM = ChatVM()
+    
+    @EnvironmentObject var userAuth: UserAuth
     var body: some View {
         VStack{
             ChatHeaderView()
@@ -23,21 +25,34 @@ struct ChatView: View {
             
             ScrollView(showsIndicators: true){
                 Text("Thank you for connecting with me. Send me a message and I will respond as soon as I can")
-                    .font(.custom("Helvetica", fixedSize: 10))
+                    .font(.custom("Helvetica", fixedSize: 12))
                     .bold()
                     .foregroundColor(.white.opacity(0.4))
                     .multilineTextAlignment(.center)
                     .padding(.horizontal, 20)
-                    .padding(.top, 6)
-                ChatTextCell(showUserInfo: $showUserInfo, image: "😎", isOwnedChat: true)
-                ChatTextCell(showUserInfo: $showUserInfo,image: "https://kingsleyokeke.blob.core.windows.net/images/1597276037537.jpeg", isOwnedChat: false)
-                ChatTextCell(showUserInfo: $showUserInfo, image: "😎", isOwnedChat: true)
-                ChatTextCell(showUserInfo: $showUserInfo,image: "https://kingsleyokeke.blob.core.windows.net/images/1597276037537.jpeg", isOwnedChat: false)
-                ChatTextCell(showUserInfo: $showUserInfo, image: "😎", isOwnedChat: true)
-                ChatTextCell(showUserInfo: $showUserInfo,image: "https://kingsleyokeke.blob.core.windows.net/images/1597276037537.jpeg", isOwnedChat: false)
-                ChatTextCell(showUserInfo: $showUserInfo,image: "😎", isOwnedChat: true)
-               
+                    .padding(6)
+                ScrollViewReader{ value in
+                    
+                    LazyVStack{
+                        ForEach(chatVM.messages, id: \.self){ message in
+                            ChatTextCell(message: message.message, isOwnedMessaged: !message.isReply, showUserInfo: $showUserInfo)
+                                .id(message)
+                        }
+                        .onChange(of: chatVM.messages, perform: { v in
+                            value.scrollTo(v.last)
+                        })
+                        .onAppear(perform: {
+                            NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: .main) {
+                                (data) in
+                                value.scrollTo(chatVM.messages.last)
+                            }
+                        })
+                    }
+                }
+                
             }
+            
+            
             .blur(radius: showUserInfo ? 20 : 0)
             .disabled(showUserInfo)
             .onTapGesture {
@@ -47,13 +62,10 @@ struct ChatView: View {
                 VStack{
                     if (showUserInfo){
                         UserInfoView()
-                            .transition(.scale.animation(.easeIn(duration: 0.4)))
+                            .transition(.scale.animation(.easeIn(duration: 0.6)))
                     }
                 }
             )
-                
-
-            
             .onAppear{
                 NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: .main) {
                     (data) in
@@ -68,7 +80,6 @@ struct ChatView: View {
                     self.keyboardHeight = 0
                 }
             }
-            Spacer()
             HStack{
                 Button(action: {
                     hideKeyboard()
@@ -83,30 +94,34 @@ struct ChatView: View {
                     .padding(.horizontal, 4)
                     .background(Blur(style: .light))
                     .cornerRadius(14)
-                    
-                    
+                
+                
+                
                 
                 Button(action: {
-                    hideKeyboard()
+                    print("button tap")
+                    chatVM.sendMessage(user: "Kingsley", message: text)
+                    text = ""
                 }, label: {
                     Image(systemName: "paperplane.fill")
                         .font(.custom("", size: 20))
-                        .foregroundColor(myColors.greenColor)
+                        .foregroundColor(text.isEmpty ? myColors.greenColor.opacity(0.6) : myColors.greenColor)
+                    
                 })
+                .disabled(text.isEmpty)
             }
             .padding(8)
             .padding(.bottom, 12)
             .padding(.bottom, keyboardHeight)
-            
             .background(Blur(style: .dark))
             .gesture(DragGesture(minimumDistance: 10, coordinateSpace: .local)
-                                .onEnded({ value in
-
-                                    if value.translation.height > 10 {
-                                        // down
-                                        hideKeyboard()
-                                    }
-                                }))
+                        .onEnded({ value in
+                            
+                            if value.translation.height > 10 {
+                                // down
+                                hideKeyboard()
+                            }
+                        }))
             
         }.ignoresSafeArea()
         
@@ -170,21 +185,25 @@ struct ChatHeaderView : View{
 
 struct ChatTextCell : View{
     
+    
+    
+    var message: String
+    var image: String? = "😎"
+    var isOwnedMessaged: Bool
+    
     @Binding var showUserInfo: Bool
     
-    var image: String?
-    var isOwnedChat: Bool
     var body: some View {
         HStack(spacing: 10){
             
-            if(isOwnedChat){
+            if(isOwnedMessaged){
                 HStack(spacing: 4) {
                     Spacer()
                     VStack{
                         
                     }.frame(width: 20)
                     VStack(alignment: .trailing) {
-                        Text("Hi Kingsley, I had a question regarding my credit cared. How do i reduce the interest rate on it or pay less. Please let me know. Hi Kingsley, I had a question regarding my credit cared. How do i reduce the interest rate on it or pay less. Please let me know. Hi Kingsley, I had a question regarding my credit cared. How do i reduce the interest rate on it or pay less. Please let me know.")
+                        Text(message)
                             .font(.custom("Helvetica", fixedSize: 16))
                             .bold()
                             .foregroundColor(.white)
@@ -201,7 +220,7 @@ struct ChatTextCell : View{
                     .cornerRadius(20)
                     .contextMenu {
                         Button(action: {
-                            UIPasteboard.general.string = "Hi Kingsley, I had a question regarding my credit cared. How do i reduce the interest rate on it or pay less. Please let me know. Hi Kingsley, I had a question regarding my credit cared. How do i reduce the interest rate on it or pay less. Please let me know. Hi Kingsley, I had a question regarding my credit cared. How do i reduce the interest rate on it or pay less. Please let me know."
+                            UIPasteboard.general.string = message
                         }) {
                             Text("Copy")
                         }
@@ -229,7 +248,7 @@ struct ChatTextCell : View{
                     
                     
                     VStack(alignment: .trailing) {
-                        Text("Hi Michael, Sorry to hear that. Thanks for Chatting")
+                        Text(message)
                             .font(.custom("Helvetica", fixedSize: 16))
                             .bold()
                             .foregroundColor(.white)
@@ -246,7 +265,7 @@ struct ChatTextCell : View{
                     
                     .contextMenu {
                         Button(action: {
-                            UIPasteboard.general.string = "Hi Michael, Sorry to hear that. Thanks for Chatting"
+                            UIPasteboard.general.string = message
                         }) {
                             Text("Copy")
                                 .font(.custom("", fixedSize: 8))
@@ -264,30 +283,6 @@ struct ChatTextCell : View{
         
         
         
-    }
-}
-
-struct ChatTextField: View {
-    
-    @State var text: String = ""
-    var body: some View {
-        
-        HStack {
-            
-            HStack{
-                
-                TextEditor(text: $text)
-                    .font(.custom("", fixedSize: 20))
-            }
-            .padding()
-            .padding(.top)
-            
-            HStack{
-                Image(systemName: "paperplane.fill")
-                    .font(.custom("", size: 20))
-                    .foregroundColor(myColors.greenColor)
-            }
-        }
     }
 }
 

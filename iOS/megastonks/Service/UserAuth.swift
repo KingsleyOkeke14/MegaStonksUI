@@ -9,6 +9,8 @@ import Combine
 import Foundation
 import SwiftKeychainWrapper
 
+let defaults = UserDefaults.standard
+
 class UserAuth: ObservableObject {
     @Published var isLoggedin:Bool?
     @Published var user:User = User(firstName: "", lastName: "", emailAddress: "", currency: "", isOnBoarded: true)
@@ -20,6 +22,8 @@ class UserAuth: ObservableObject {
     init() {
         user.emailAddress = KeychainWrapper.standard.string(forKey: "EmailAddress") ?? ""
         refreshLogin(isFirstLogin: true)
+        
+        isInChatMode = defaults.bool(forKey: "isInChatMode")
     }
     
     func login(email:String, password:String, completion: @escaping (RequestResponse) -> ()) {

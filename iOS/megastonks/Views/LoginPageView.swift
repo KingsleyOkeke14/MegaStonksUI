@@ -119,6 +119,7 @@ struct LoginPageView: View {
                             HStack {
                                 Spacer()
                                 Button(action: {
+                                    defaults.setValue(true, forKey: "isInChatMode")
                                     userAuth.isInChatMode = true
                                     
                                 }, label: {
