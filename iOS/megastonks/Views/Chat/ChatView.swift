@@ -19,111 +19,115 @@ struct ChatView: View {
     
     @EnvironmentObject var userAuth: UserAuth
     var body: some View {
-        VStack{
-            ChatHeaderView()
-                .environmentObject(userAuth)
-            
-            ScrollView(showsIndicators: true){
-                Text("Thank you for connecting with me. Send me a message and I will respond as soon as I can")
-                    .font(.custom("Helvetica", fixedSize: 12))
-                    .bold()
-                    .foregroundColor(.white.opacity(0.4))
-                    .multilineTextAlignment(.center)
-                    .padding(.horizontal, 20)
-                    .padding(6)
-                ScrollViewReader{ value in
-                    
-                    LazyVStack{
-                        ForEach(chatVM.messages, id: \.self){ message in
-                            ChatTextCell(message: message.message, isOwnedMessaged: !message.isReply, showUserInfo: $showUserInfo)
-                                .id(message)
+        GeometryReader { geometry in
+            VStack{
+                ChatHeaderView()
+                    .frame(height: 140)
+                    .environmentObject(userAuth)
+                
+                
+                ScrollView(showsIndicators: true){
+                    Text("Thank you for connecting with me. Send me a message and I will respond as soon as I can")
+                        .font(.custom("Helvetica", fixedSize: 12))
+                        .bold()
+                        .foregroundColor(.white.opacity(0.4))
+                        .multilineTextAlignment(.center)
+                        .padding(.horizontal, 20)
+                        .padding(6)
+                    ScrollViewReader{ value in
+                        
+                        LazyVStack{
+                            ForEach(chatVM.messages, id: \.self){ message in
+                                ChatTextCell(message: message.message, isOwnedMessaged: !message.isReply, showUserInfo: $showUserInfo)
+                                    .id(message)
+                            }
+                            .onChange(of: chatVM.messages, perform: { v in
+                                value.scrollTo(v.last)
+                            })
+                            .onAppear(perform: {
+                                NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: .main) {
+                                    (data) in
+                                    value.scrollTo(chatVM.messages.last)
+                                }
+                            })
                         }
-                        .onChange(of: chatVM.messages, perform: { v in
-                            value.scrollTo(v.last)
-                        })
-                        .onAppear(perform: {
-                            NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: .main) {
-                                (data) in
-                                value.scrollTo(chatVM.messages.last)
-                            }
-                        })
+                    }
+                    
+                }
+                
+                .blur(radius: showUserInfo ? 20 : 0)
+                .disabled(showUserInfo)
+                .onTapGesture {
+                    showUserInfo = false
+                }
+                .overlay(
+                    VStack{
+                        if (showUserInfo){
+                            UserInfoView()
+                                .transition(.scale.animation(.easeIn(duration: 0.6)))
+                        }
+                    }
+                )
+                .onAppear{
+                    NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: .main) {
+                        (data) in
+                        let height = data.userInfo![UIResponder.keyboardFrameEndUserInfoKey] as! NSValue
+                        self.isKeyboardVisible = true
+                        self.keyboardHeight = height.cgRectValue.height - 8
+                    }
+                    
+                    NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillHideNotification, object: nil, queue: .main) {
+                        _ in
+                        self.isKeyboardVisible = false
+                        self.keyboardHeight = 0
                     }
                 }
-                
-            }
-            
-            
-            .blur(radius: showUserInfo ? 20 : 0)
-            .disabled(showUserInfo)
-            .onTapGesture {
-                showUserInfo = false
-            }
-            .overlay(
-                VStack{
-                    if (showUserInfo){
-                        UserInfoView()
-                            .transition(.scale.animation(.easeIn(duration: 0.6)))
-                    }
-                }
-            )
-            .onAppear{
-                NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: .main) {
-                    (data) in
-                    let height = data.userInfo![UIResponder.keyboardFrameEndUserInfoKey] as! NSValue
-                    self.isKeyboardVisible = true
-                    self.keyboardHeight = height.cgRectValue.height - 8
-                }
-                
-                NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillHideNotification, object: nil, queue: .main) {
-                    _ in
-                    self.isKeyboardVisible = false
-                    self.keyboardHeight = 0
-                }
-            }
-            HStack{
-                Button(action: {
-                    hideKeyboard()
-                }, label: {
-                    Image(systemName: "keyboard.chevron.compact.down")
-                        .font(.custom("", size: 20))
-                        .foregroundColor(isKeyboardVisible ? myColors.greenColor : myColors.lightGrayColor)
+                HStack{
+                    Button(action: {
+                        hideKeyboard()
+                    }, label: {
+                        Image(systemName: "keyboard.chevron.compact.down")
+                            .font(.custom("", size: 20))
+                            .foregroundColor(isKeyboardVisible ? myColors.greenColor : myColors.lightGrayColor)
+                        
+                    })
+                    DynamicTextField(text: $text, height: $height)
+                        .frame( height: height < 140 ? height : 140)
+                        .padding(.horizontal, 4)
+                        .background(Blur(style: .light))
+                        .cornerRadius(14)
                     
-                })
-                DynamicTextField(text: $text, height: $height)
-                    .frame( height: height < 140 ? height : 140)
-                    .padding(.horizontal, 4)
-                    .background(Blur(style: .light))
-                    .cornerRadius(14)
-                
-                
-                
-                
-                Button(action: {
-                    print("button tap")
-                    chatVM.sendMessage(user: "Kingsley", message: text)
-                    text = ""
-                }, label: {
-                    Image(systemName: "paperplane.fill")
-                        .font(.custom("", size: 20))
-                        .foregroundColor(text.isEmpty ? myColors.greenColor.opacity(0.6) : myColors.greenColor)
                     
-                })
-                .disabled(text.isEmpty)
-            }
-            .padding(8)
-            .padding(.bottom, 12)
-            .padding(.bottom, keyboardHeight)
-            .background(Blur(style: .dark))
-            .gesture(DragGesture(minimumDistance: 10, coordinateSpace: .local)
-                        .onEnded({ value in
-                            
-                            if value.translation.height > 10 {
-                                // down
-                                hideKeyboard()
-                            }
-                        }))
-            
-        }.ignoresSafeArea()
+                    
+                    
+                    Button(action: {
+                        print("button tap")
+                        chatVM.sendMessage(user: "Kingsley", message: text)
+                        text = ""
+                    }, label: {
+                        Image(systemName: "paperplane.fill")
+                            .font(.custom("", size: 20))
+                            .foregroundColor(text.isEmpty ? myColors.greenColor.opacity(0.6) : myColors.greenColor)
+                        
+                    })
+                    .disabled(text.isEmpty)
+                }
+                .padding(8)
+                .padding(.bottom, 12)
+                .padding(.bottom, keyboardHeight)
+                .background(Blur(style: .dark))
+                .gesture(DragGesture(minimumDistance: 10, coordinateSpace: .local)
+                            .onEnded({ value in
+                                
+                                if value.translation.height > 10 {
+                                    // down
+                                    hideKeyboard()
+                                }
+                            }))
+                
+            }.ignoresSafeArea()
+        }
+        
         
         
     }
