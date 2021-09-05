@@ -136,19 +136,6 @@ struct ProfilePageView: View {
 
                       
                         Spacer()
-                        HStack {
-                            Spacer()
-                            Button(action: {
-                                userAuth.isInChatMode = true
-                                defaults.setValue(true, forKey: "isInChatMode")
-                            }, label: {
-                                Label("Chat with the app developer", systemImage: "bubble.left")
-                                    
-                                    .foregroundColor(myColors.greenColor)
-                                    .font(.system(size: 16, weight: .bold, design: .default))
-                            })
-                            Spacer()
-                        }
                         AdsView(showRandomAd: false).environmentObject(myAppObjects)
                         HStack{
                             

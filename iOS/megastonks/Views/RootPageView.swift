@@ -16,9 +16,13 @@ struct RootPageView: View {
     
     @State var bannerData:BannerData = BannerData(title: "Authentication Failed", detail: "Your Session has expired and cannot be authenticated at this time. You will be logged out in 6 seconds. Please Login Again", type: .Error)
     
-    
     var body: some View {
-        if (userAuth.isLoggedin == nil && !userAuth.isInChatMode) {
+        
+        if(userAuth.isInChatMode){
+            ChatRootView(showExitButton: true)
+                .preferredColorScheme(.dark)
+        }
+        else if (userAuth.isLoggedin == nil) {
             VStack{
                 LoginPageView()
                     .redacted(when: true, redactionType: .customPlaceholder)
@@ -28,10 +32,10 @@ struct RootPageView: View {
                     .font(.custom("Apple SD Gothic Neo", fixedSize: 18))
             }.disabled(true)
         }
-        else if(!userAuth.isLoggedin! && !userAuth.isInChatMode){
+        else if(!userAuth.isLoggedin!){
             LoginPageView().preferredColorScheme(.dark)
         }
-        else if(!userAuth.isInChatMode) {
+        else {
             AppPageView()
                 .preferredColorScheme(.dark)
                 .onAppear(perform: {
@@ -67,16 +71,7 @@ struct RootPageView: View {
                 }
                 .environmentObject(userAuth)
         }
-        else if(userAuth.isInChatMode && !userAuth.isChatLoggedIn){
-            ChatRegisterView()
-                .preferredColorScheme(.dark)
-                .environmentObject(userAuth)
-        }
-        else if(userAuth.isInChatMode && userAuth.isChatLoggedIn){
-            ChatView()
-                .preferredColorScheme(.dark)
-                .environmentObject(userAuth)
-        }
+
     }
 }
 

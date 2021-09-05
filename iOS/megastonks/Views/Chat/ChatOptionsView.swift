@@ -9,11 +9,9 @@ import SwiftUI
 
 struct ChatOptionsView: View {
     let myColors = MyColors()
-    
     @Environment(\.openURL) var openURL
     @EnvironmentObject var userAuth: UserAuth
-    
-    @State var showCloseChatprompt: Bool = false
+    @Environment(\.presentationMode) var presentationMode
     var body: some View {
         Color.black
             .ignoresSafeArea()
@@ -88,92 +86,10 @@ struct ChatOptionsView: View {
                         VStack{
                             
                         }.frame(height: 40)
-                        HStack{
-                            Button(action: {
-                                
-                                showCloseChatprompt.toggle()
-                                
-                            }, label: {
-                                Text("Close Chat Session")
-                                    .font(.custom("Helvetica", fixedSize: 20))
-                                    .bold()
-                                    .foregroundColor(.red)
-                                    .padding(2)
-                                    .padding(.horizontal, 6)
-                            })
-                        }.padding()
                         
-                        Button(action: {
-                            userAuth.isInChatMode = false
-                            defaults.setValue(false, forKey: "isInChatMode")
-                        }, label: {
-                            HStack {
-                                
-                                Image(systemName: "arrow.backward.circle.fill")
-                                    .foregroundColor(.green)
-                                    .font(.custom("", fixedSize: 22))
-                                
-                                Text("Exit To Main App")
-                                    .font(.custom("", fixedSize: 18))
-                                    .foregroundColor(.green)
-                                    .bold()
-                                    .padding(.trailing)
-                                
-                            }.padding()
-                        })
                     }
                     
                 }
-                .disabled(showCloseChatprompt)
-                .blur(radius: showCloseChatprompt ? 20 : 0)
-                .overlay(
-                    VStack{
-                        if(showCloseChatprompt){
-                            VStack(spacing: 40){
-                                VStack {
-                                    Text("Are you sure you will like to close your chat session?")
-                                        .font(.custom("Helvetica", fixedSize: 14))
-                                        .bold()
-                                        .multilineTextAlignment(.center)
-                                    Text("Please remember that by closing the chat session, you will lose access to your chat history and you will have to select another display name to start another chat session.")
-                                        .font(.custom("Helvetica", fixedSize: 10))
-                                        .bold()
-                                        .multilineTextAlignment(.center)
-                                        .foregroundColor(.white.opacity(0.4))
-                                }
-                                
-                                HStack(spacing: 80){
-                                    Button(action: {
-                                        userAuth.isChatLoggedIn = false
-                                    }, label: {
-                                        Text("Yes")
-                                            .font(.custom("Helvetica", fixedSize: 20))
-                                            .bold()
-                                            .foregroundColor(.red)
-                                            .padding()
-                                        
-                                    })
-                                    
-                                    Button(action: {
-                                        showCloseChatprompt = false
-                                    }, label: {
-                                        Text("No")
-                                            .font(.custom("Helvetica", fixedSize: 20))
-                                            .bold()
-                                            .foregroundColor(.white)
-                                            .padding()
-                                            .background(Color.green)
-                                            .cornerRadius(20)
-                                        
-                                    })
-                                }
-                            }
-                            .transition(.scale.animation(.easeIn(duration: 0.4)))
-                            .preferredColorScheme(.dark)
-                        }
-                    }.padding(.horizontal, 20)
-                    
-                )
             )
     }
 }

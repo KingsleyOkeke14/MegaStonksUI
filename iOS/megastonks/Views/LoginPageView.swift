@@ -123,8 +123,7 @@ struct LoginPageView: View {
                                     userAuth.isInChatMode = true
                                     
                                 }, label: {
-                                    Label("Chat with the app developer", systemImage: "bubble.left")
-                                        
+                                    Label("Chat with the app developer", systemImage: "bubble.left.and.bubble.right")
                                         .foregroundColor(myColors.greenColor)
                                         .font(.system(size: 16, weight: .bold, design: .default))
                                 })

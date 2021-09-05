@@ -44,13 +44,20 @@ struct AppPageView: View {
                         }.tag(2)
                         .preferredColorScheme(.dark)
                     
+                    ChatRootView(showExitButton: false)
+                        .tabItem {
+                            Label("Conversations", systemImage: selection == 3 ? "bubble.left.and.bubble.right.fill" : "bubble.left.and.bubble.right")
+                        }.tag(3)
+                        .preferredColorScheme(.dark)
+                    
                     ProfilePageView()
                         .environmentObject(userAuth)
                         .environmentObject(appObject)
                         .tabItem {
-                            Label("Account", systemImage: selection == 3 ? "person.fill" : "person")
-                        }.tag(3)
+                            Label("Account", systemImage: selection == 4 ? "person.fill" : "person")
+                        }.tag(4)
                         .preferredColorScheme(.dark)
+                    
                 }
                 .animation(Animation.default)
                 .accentColor(myColors.greenColor)
