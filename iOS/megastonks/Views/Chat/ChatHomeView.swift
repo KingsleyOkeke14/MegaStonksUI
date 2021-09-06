@@ -17,76 +17,75 @@ struct ChatHomeView: View {
         self.userImage = userImage
     }
     var body: some View {
-        NavigationView{
-            GeometryReader { geometry in
-                VStack{
-                    HStack {
-                        RoundedRectangle(cornerRadius: 30, style: .circular)
-                            .fill(myColors.greenColor.opacity(0.8))
-                            .edgesIgnoringSafeArea(.horizontal)
-                            
-                            .overlay(
-                                Button(action: {
-                                    showUserChatOptions = true
+                NavigationView{
+                    GeometryReader { geometry in
+                        VStack{
+                            HStack {
+                                RoundedRectangle(cornerRadius: 30, style: .circular)
+                                    .fill(myColors.greenColor.opacity(0.8))
+                                    .edgesIgnoringSafeArea(.horizontal)
                                     
-                                }, label: {
-                                    HStack {
-                                        VStack(spacing: 0){
-                                            ZStack {
-                                                Circle()
-                                                    .stroke(myColors.greenColor, lineWidth: 4)
-                                                    .frame(width: 100, height: 100)
-                                                
-                                                Circle()
-                                                    .fill(myColors.grayColor)
-                                                    .frame(width: 100, height: 100)
-                                                
-                                                Text(userImage)
-                                                    .font(.custom("", fixedSize: 70))
-                                                    .offset(y: 3)
-                                                    .opacity(1.0)
-                                                
-                                            }
+                                    .overlay(
+                                        Button(action: {
+                                            showUserChatOptions = true
                                             
-                                            Text("@Kenzodrizzy")
-                                                .font(.custom("Helvetica", fixedSize: 16))
-                                                .bold()
-                                                .foregroundColor(.white)
+                                        }, label: {
+                                            HStack {
+                                                VStack(spacing: 0){
+                                                    ZStack {
+                                                        Circle()
+                                                            .stroke(myColors.greenColor, lineWidth: 4)
+                                                            .frame(width: 100, height: 100)
+                                                        
+                                                        Circle()
+                                                            .fill(myColors.grayColor)
+                                                            .frame(width: 100, height: 100)
+                                                        
+                                                        Text(userImage)
+                                                            .font(.custom("", fixedSize: 70))
+                                                            .offset(y: 3)
+                                                            .opacity(1.0)
+                                                        
+                                                    }
+                                                    
+                                                    Text("@Kenzodrizzy")
+                                                        .font(.custom("Helvetica", fixedSize: 16))
+                                                        .bold()
+                                                        .foregroundColor(.white)
+                                                }
+                                            }.offset(x: 0.0, y: 16)
                                         }
-                                    }.offset(x: 0.0, y: 16)
-                                }
-                                )
-                            )
-                    }
-                    .frame(height: 180)
-                    
-                    ScrollView{
-                        NavigationLink(
-                            destination:
-                                ChatView()
-                                .environmentObject(userAuth)
+                                        )
+                                    )
+                            }
+                            .frame(height: 180)
                             
-                            ,
-                            label: {
-                                ChatCellView()
-                            })
+                            ScrollView{
+                                NavigationLink(
+                                    destination:
+                                        ChatView()
+                                        .environmentObject(userAuth)
+                                    
+                                    ,
+                                    label: {
+                                        ChatCellView()
+                                    })
+                            }
+                            
+                            Spacer()
+                        }
+                        
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.6)
                     }
-                    
-                    Spacer()
+                    .ignoresSafeArea()
+                    .navigationBarHidden(true)
+                    .navigationTitle("")
                 }
-                
-                .lineLimit(1)
-                .minimumScaleFactor(0.6)
                 .sheet(isPresented: $showUserChatOptions, content: {
                     UserInfoView(userImage: userImage, showExitToAppButton: userAuth.isInChatMode)
-                        .preferredColorScheme(.dark)
                 })
-            }
-            .ignoresSafeArea()
-            .navigationBarHidden(true)
-            .navigationTitle("")
-        }
-        
+
     }
 }
 
