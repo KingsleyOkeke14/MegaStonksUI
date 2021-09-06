@@ -59,7 +59,6 @@ struct AppPageView: View {
                         .preferredColorScheme(.dark)
                     
                 }
-                .animation(Animation.default)
                 .accentColor(myColors.greenColor)
                 .onAppear() {
                     UITabBar.appearance().shadowImage = UIImage()

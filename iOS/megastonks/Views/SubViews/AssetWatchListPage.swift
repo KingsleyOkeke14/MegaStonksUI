@@ -126,7 +126,6 @@ struct AssetWatchListPage: View {
                             }
                             .padding(.trailing, 10)
                             .transition(.move(edge: .trailing))
-                            .animation(.default)
                         }
                     }
                     .padding(.horizontal).padding(.vertical, 2)
@@ -350,7 +349,6 @@ struct AssetWatchListPage: View {
                             }
                             .padding(.trailing, 10)
                             .transition(.move(edge: .trailing))
-                            .animation(.default)
                         }
                     }
                     

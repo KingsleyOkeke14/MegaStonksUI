@@ -26,8 +26,7 @@ struct RadialChartView: View {
                 .stroke(style: StrokeStyle(lineWidth: lineWidth, lineCap: lineCapStyle, lineJoin: .round))
                 .foregroundColor(Color.green)
                 .rotationEffect(Angle(degrees: 270))
-                .animation(.linear)
-        }.frame(width: width, height: height, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+        }.frame(width: width, height: height, alignment: .center)
     }
 }
 

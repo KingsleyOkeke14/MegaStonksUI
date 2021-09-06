@@ -64,7 +64,7 @@ struct WatchListPageView: View {
                                     self.currentPage = 0
                                 })
                         }
-                    }.animation(.easeIn)
+                    }
                     
                     VStack{
                         if(currentPage == 1){
@@ -93,7 +93,7 @@ struct WatchListPageView: View {
                                 })
                             
                         }
-                    }.animation(.easeIn)
+                    }
                 }
                 
                 

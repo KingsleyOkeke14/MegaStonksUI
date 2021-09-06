@@ -84,6 +84,8 @@ struct ChatView: View {
                     
                     Button(action: {
                         print("button tap")
+                        let impactMed = UIImpactFeedbackGenerator(style: .soft)
+                        impactMed.impactOccurred()
                         chatVM.sendMessage(user: "Kingsley", message: text)
                         text = ""
                     }, label: {
@@ -108,7 +110,7 @@ struct ChatView: View {
                         .padding(.bottom, keyboardHeight)
                     
                 }
-                .background(Blur(style: .dark))
+                //.background(Blur(style: .dark))
                 
             }
             .sheet(isPresented: $showChatOptions, content: {
