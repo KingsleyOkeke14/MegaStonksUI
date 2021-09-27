@@ -12,28 +12,11 @@ struct NewsPageView: View {
     
     let myColors = MyColors()
     
-    @State private var currentPage: Int = 0
+    //@State private var currentPage: Int = 0
     @State private var selectedItem: String?
     @State var isLoadingNews: Bool = false
     @EnvironmentObject var myAppObjects:AppObjects
     
-    init() {
-        let coloredAppearance = UINavigationBarAppearance()
-        // this overrides everything you have set up earlier.
-        coloredAppearance.configureWithTransparentBackground()
-        coloredAppearance.backgroundColor = .black
-        coloredAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.black]
-        
-        // to make everything work normally
-        UINavigationBar.appearance().standardAppearance = coloredAppearance
-        UINavigationBar.appearance().scrollEdgeAppearance = coloredAppearance
-        
-        UINavigationBar.appearance().tintColor = .systemGray4
-        
-        let color = UIView()
-        color.backgroundColor = .systemGray6
-        UITableViewCell.appearance().selectedBackgroundView = color
-    }
     
     var body: some View {
         NavigationView{
@@ -47,7 +30,8 @@ struct NewsPageView: View {
                                 .padding(.horizontal)
                             Spacer()
                         }
-                       PageView(pages: [NewsPage(isLoadingNews: $isLoadingNews)], currentPage: $currentPage)
+                        NewsPage(isLoadingNews: $isLoadingNews)
+                                            .environmentObject(myAppObjects)
                     }
                 .onAppear(perform: {
                     if(myAppObjects.news.isEmpty){
@@ -65,7 +49,7 @@ struct NewsPageView: View {
                         }
                     }
                 })
-                .navigationBarTitleDisplayMode(.inline)
+                //.navigationBarTitleDisplayMode(.inline)
                 .navigationBarTitle("")
                 .navigationBarHidden(true)
         }

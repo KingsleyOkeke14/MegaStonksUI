@@ -16,7 +16,7 @@ class ChatApi {
     let nc = NotificationCenter.default
     
     init() {
-        hubConnection = HubConnectionBuilder(url: URL(string: "https://localhost:5001/chatHub")!)
+        hubConnection = HubConnectionBuilder(url: URL(string: "https://megastonksdev.azurewebsites.net/chatHub")!)
             .withLogging(minLogLevel: .debug)
             .build()
         

@@ -60,15 +60,6 @@ struct AppPageView: View {
                     
                 }
                 .accentColor(myColors.greenColor)
-                .onAppear() {
-                    UITabBar.appearance().shadowImage = UIImage()
-                    UITabBar.appearance().backgroundImage = UIImage()
-                    UITabBar.appearance().isTranslucent = true
-                    UITabBar.appearance().backgroundColor = .black
-                    UITabBar.appearance().unselectedItemTintColor = UIColor(myColors.greenColor.opacity(0.6))
-
-                    
-                }
             }
             else{
                 OnBoardPageView()

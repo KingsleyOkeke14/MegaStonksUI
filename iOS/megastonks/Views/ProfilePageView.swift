@@ -21,20 +21,6 @@ struct ProfilePageView: View {
     
     let pub = NotificationCenter.default.publisher(for: .didWalletChange)
     
-    init() {
-        let coloredAppearance = UINavigationBarAppearance()
-        
-        // this overrides everything you have set up earlier.
-        coloredAppearance.configureWithTransparentBackground()
-        coloredAppearance.backgroundColor = .black
-        coloredAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.black]
-        
-        // to make everything work normally
-        UINavigationBar.appearance().standardAppearance = coloredAppearance
-        UINavigationBar.appearance().scrollEdgeAppearance = coloredAppearance
-        
-        UINavigationBar.appearance().tintColor = .systemGray4
-    }
     
     var body: some View {
         NavigationView{

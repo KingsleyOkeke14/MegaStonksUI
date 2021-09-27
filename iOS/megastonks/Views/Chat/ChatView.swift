@@ -18,6 +18,7 @@ struct ChatView: View {
     
     @EnvironmentObject var userAuth: UserAuth
 
+    
     var body: some View {
         
         GeometryReader { geometry in
@@ -259,9 +260,9 @@ struct ChatTextCell : View{
 
 struct ChatView_Previews: PreviewProvider {
     static var previews: some View {
-//                ChatView()
-//                    .preferredColorScheme(.dark)
-//                    .environmentObject(UserAuth())
+//        ChatView()
+//            .preferredColorScheme(.dark)
+//            .environmentObject(UserAuth())
         
         ChatHomeView(userImage: "👨‍🦰")
             .preferredColorScheme(.dark)

@@ -28,22 +28,7 @@ struct ForgotPasswordPageView: View {
     
     
     init(emailField: String) {
-        let coloredAppearance = UINavigationBarAppearance()
-        
-        // this overrides everything you have set up earlier.
-        coloredAppearance.configureWithTransparentBackground()
-        coloredAppearance.backgroundColor = .black
-        coloredAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.black]
-        
-        // to make everything work normally
-        UINavigationBar.appearance().standardAppearance = coloredAppearance
-        UINavigationBar.appearance().scrollEdgeAppearance = coloredAppearance
-        
-        UINavigationBar.appearance().tintColor = .systemGray4
-        
         _formText1 = State(initialValue: emailField)
-        
-        
     }
     
     var body: some View {
@@ -111,7 +96,7 @@ struct ForgotPasswordPageView: View {
                         
                     }
                 )
-                .navigationBarTitleDisplayMode(.automatic)
+                .navigationBarTitleDisplayMode(.inline)
                 .navigationBarTitle("")
                 
     }

@@ -21,7 +21,7 @@ struct ChatRootView: View {
     @State var imageOptions: [ProfileImageOption] = ProfileImageOptions().options
     
     @EnvironmentObject var userAuth: UserAuth
- 
+
     var body: some View {
         VStack{
             if(!userAuth.isChatLoggedIn){

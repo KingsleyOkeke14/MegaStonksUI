@@ -16,7 +16,7 @@ struct NewsSymbolView: View {
     var body: some View {
         VStack(spacing: 2){
             HStack{
-                LazyVStack{
+                VStack{
                     AsyncImage(url: URL(string: newsElement.image)!,
                                placeholder: { Image("blackImage") },
                                   image: { Image(uiImage: $0).resizable() })
@@ -41,6 +41,7 @@ struct NewsSymbolView: View {
                             .bold()
                             .foregroundColor(.white)
                             .lineLimit(2)
+                            .multilineTextAlignment(.leading)
                        Spacer()
                     }
                     HStack{
