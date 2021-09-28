@@ -24,6 +24,9 @@ class UserAuth: ObservableObject {
         refreshLogin(isFirstLogin: true)
         
         isInChatMode = defaults.bool(forKey: "isInChatMode")
+        if let _ = ChatUserProfileCache.get() {
+            isChatLoggedIn = true
+        }
     }
     
     func login(email:String, password:String, completion: @escaping (RequestResponse) -> ()) {

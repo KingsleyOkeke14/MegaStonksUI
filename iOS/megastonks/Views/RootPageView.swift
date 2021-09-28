@@ -31,6 +31,7 @@ struct RootPageView: View {
                 Text("Confirming Authentication....")
                     .bold()
                     .font(.custom("Apple SD Gothic Neo", fixedSize: 18))
+                    .redacted(when: true, redactionType: .loading)
             }.disabled(true)
         }
         else if(!userAuth.isLoggedin!){
