@@ -11,13 +11,14 @@ class ChatVM : ObservableObject {
     
     
     
-    let chatAPI = ChatApi.shared
+    let chatAPI = ChatConnection.shared
     
     @Published var messages: [ChatMessage]
+    @Published var error: String
     
     init() {
         messages = [ChatMessage]()
-        
+        error = ""
         NotificationCenter.default.addObserver(self, selector: #selector(updateMessages(_:)), name: .newMessageReceived, object: nil)
     }
     
@@ -33,4 +34,5 @@ class ChatVM : ObservableObject {
             messages.append(ChatMessage(message: message["message"]!, isReply: true))
         }
     }
+
 }

@@ -8,13 +8,12 @@
 import SwiftUI
 
 struct ChatHomeView: View {
-    var userImage: String
+    var user: ChatUser
     @State var showUserChatOptions: Bool = false
     @EnvironmentObject var userAuth: UserAuth
 
-    init(userImage: String) {
-        UINavigationBar.appearance().tintColor = .systemGray4
-        self.userImage = userImage
+    init(user: ChatUser) {
+        self.user = user
     }
     var body: some View {
                 NavigationView{
@@ -41,14 +40,14 @@ struct ChatHomeView: View {
                                                             .fill(myColors.grayColor)
                                                             .frame(width: 100, height: 100)
                                                         
-                                                        Text(userImage)
+                                                        Text(user.image)
                                                             .font(.custom("", fixedSize: 70))
                                                             .offset(y: 3)
                                                             .opacity(1.0)
                                                         
                                                     }
                                                     
-                                                    Text("@Kenzodrizzy")
+                                                    Text("@\(user.userName)")
                                                         .font(.custom("Helvetica", fixedSize: 16))
                                                         .bold()
                                                         .foregroundColor(.white)
@@ -83,7 +82,7 @@ struct ChatHomeView: View {
                     .navigationTitle("")
                 }
                 .sheet(isPresented: $showUserChatOptions, content: {
-                    UserInfoView(userImage: userImage, showExitToAppButton: userAuth.isInChatMode)
+                    UserInfoView(user: user, showExitToAppButton: userAuth.isInChatMode)
                 })
 
     }
@@ -143,7 +142,7 @@ struct ChatCellView : View {
 
 struct ChatHomeView_Previews: PreviewProvider {
     static var previews: some View {
-        ChatHomeView(userImage: "👨‍🦰")
+        ChatHomeView(user: ChatUser(id: 1, userName: "kenzoDrizzy", image: "🥳", connectionId: nil, isConsultant: false, lastUpdated: ""))
             .preferredColorScheme(.dark)
             .environmentObject(UserAuth())
     }

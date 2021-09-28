@@ -45,6 +45,7 @@ struct AppPageView: View {
                         .preferredColorScheme(.dark)
                     
                     ChatRootView(showExitButton: false)
+                        .environmentObject(userAuth)
                         .tabItem {
                             Label("Conversations", systemImage: selection == 3 ? "bubble.left.and.bubble.right.fill" : "bubble.left.and.bubble.right")
                         }.tag(3)

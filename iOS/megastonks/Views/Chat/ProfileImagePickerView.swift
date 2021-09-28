@@ -32,12 +32,9 @@ struct ProfileImagePickerView: View {
                 VStack(alignment: .center){
                     VStack{
                         
-                    }.frame(height: 40)
-                    
+                    }.frame(height: 20)
+                    Spacer()
                     ScrollView{
-                        VStack{
-                            
-                        }.frame(height: 20)
                         LazyVGrid(columns: columns){
                             ForEach(0..<imageOptions.count) { i in
                                 
@@ -52,9 +49,11 @@ struct ProfileImagePickerView: View {
                                         imageOptions[i].isSelected = true
                                         presentationMode.wrappedValue.dismiss()
                                     })
+                                    .padding(6)
                             }
                         }
-                    }.padding(.horizontal)  
+                    }
+                    .padding(.horizontal)
                 }
             )
     }

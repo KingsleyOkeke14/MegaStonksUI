@@ -264,7 +264,7 @@ struct ChatView_Previews: PreviewProvider {
 //            .preferredColorScheme(.dark)
 //            .environmentObject(UserAuth())
         
-        ChatHomeView(userImage: "👨‍🦰")
+        ChatHomeView(user: ChatUser(id: 1, userName: "kenzoDrizzy", image: "🥳", connectionId: nil, isConsultant: false, lastUpdated: ""))
             .preferredColorScheme(.dark)
             .environmentObject(UserAuth())
     }

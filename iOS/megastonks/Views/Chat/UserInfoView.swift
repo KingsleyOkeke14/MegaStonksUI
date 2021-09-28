@@ -8,11 +8,16 @@
 import SwiftUI
 
 struct UserInfoView: View {
-    var userImage: String
+    var user: ChatUser
     var showExitToAppButton: Bool
     @State var showCloseChatprompt: Bool = false
     @EnvironmentObject var userAuth: UserAuth
     @Environment(\.presentationMode) var presentationMode
+    
+    init(user: ChatUser, showExitToAppButton: Bool){
+        self.user = user
+        self.showExitToAppButton = showExitToAppButton
+    }
     var body: some View {
         Color.black
             .ignoresSafeArea()
@@ -27,13 +32,13 @@ struct UserInfoView: View {
                                  .fill(Color.green.opacity(0.1))
                                  .frame(width: 100, height: 100)
                              
-                             Text(userImage)
+                             Text(user.image)
                                  .font(.custom("", fixedSize: 70))
                                  .offset(y: 3)
                              
                          }
                          
-                         Text("@KenzoDrizzy")
+                         Text("@\(user.userName)")
                              .font(.custom("Helvetica", fixedSize: 18))
                              .bold()
                              .foregroundColor(.white)
@@ -105,6 +110,7 @@ struct UserInfoView: View {
                                      
                                      HStack(spacing: 80){
                                          Button(action: {
+                                             ChatUserProfileCache.remove()
                                              presentationMode.wrappedValue.dismiss()
                                              userAuth.isChatLoggedIn = false
                                          }, label: {
@@ -146,7 +152,7 @@ struct UserInfoView: View {
 
 struct UserInfoView_Previews: PreviewProvider {
     static var previews: some View {
-        UserInfoView(userImage: "👨‍🦰", showExitToAppButton: true)
+        UserInfoView(user: ChatUser(id: 1, userName: "KenzoDrizzy", image: "🤩", connectionId: nil, isConsultant: false, lastUpdated: ""), showExitToAppButton: true)
             .environmentObject(UserAuth())
     }
 }

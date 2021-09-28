@@ -20,6 +20,7 @@ struct RootPageView: View {
         
         if(userAuth.isInChatMode){
             ChatRootView(showExitButton: true)
+                .environmentObject(userAuth)
                 .preferredColorScheme(.dark)
         }
         else if (userAuth.isLoggedin == nil) {
