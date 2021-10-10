@@ -8,13 +8,13 @@
 import SwiftUI
 
 struct UserInfoView: View {
-    var user: ChatUser
+    var user: ChatUserResponse
     var showExitToAppButton: Bool
     @State var showCloseChatprompt: Bool = false
     @EnvironmentObject var userAuth: UserAuth
     @Environment(\.presentationMode) var presentationMode
     
-    init(user: ChatUser, showExitToAppButton: Bool){
+    init(user: ChatUserResponse, showExitToAppButton: Bool){
         self.user = user
         self.showExitToAppButton = showExitToAppButton
     }
@@ -152,7 +152,7 @@ struct UserInfoView: View {
 
 struct UserInfoView_Previews: PreviewProvider {
     static var previews: some View {
-        UserInfoView(user: ChatUser(id: 1, userName: "KenzoDrizzy", image: "🤩", connectionId: nil, isConsultant: false, lastUpdated: ""), showExitToAppButton: true)
+        UserInfoView(user: ChatUserResponse(id: 1, userName: "KenzoDrizzy", image: "🤩", connectionId: nil, isConsultant: false, lastUpdated: ""), showExitToAppButton: true)
             .environmentObject(UserAuth())
     }
 }

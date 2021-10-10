@@ -55,18 +55,20 @@ class ChatConnection {
 
 class ChatAPI{
     static let shared = ChatAPI()
-    private let chatURL: URL
-    let decoder = JSONDecoder()
-    init(){
-        chatURL = URL(string: APIRoutes().server + "chat/")!
-    }
+    private let createUserURL: URL = URL(string: APIRoutes().server + "chat/createUser")!
+    private let getFeedURL: URL = URL(string: APIRoutes().server + "chat/getFeed")!
+    private let startChatURL: URL = URL(string: APIRoutes().server + "chat/startChat")!
+    private let saveMessageURL: URL = URL(string: APIRoutes().server + "chat/saveMessage")!
     
-    func CreateUser(userName: String, userImage: String, completion: @escaping (Result<ChatUser, Error>) -> ()) {
+    
+    let decoder = JSONDecoder()
+    
+    func createUser(userName: String, userImage: String, completion: @escaping (Result<ChatUserResponse, Error>) -> ()) {
         
         let queryItems = [URLQueryItem(name: "userName", value: "\(userName)"),
                           URLQueryItem(name: "userImage", value: "\(userImage)")]
-        let rquestURL = chatURL.appending(queryItems)!
-        let request = AppUrlRequest(url: rquestURL, httpMethod: "PUT").request
+        let requestURL = createUserURL.appending(queryItems)!
+        let request = AppUrlRequest(url: requestURL, httpMethod: "PUT").request
 
         
         
@@ -83,7 +85,7 @@ class ChatAPI{
                 
                 if httpResponse.statusCode == 200{
                     if let data = data {
-                        if let chatUser = try? self.decoder.decode(ChatUser.self, from: data){
+                        if let chatUser = try? self.decoder.decode(ChatUserResponse.self, from: data){
                             completion(.success(chatUser))
                             return
                         }
@@ -111,4 +113,52 @@ class ChatAPI{
         }
         task.resume()
     }
+    
+    func fetchFeed(user: ChatUserResponse, completion: @escaping (Result<ChatFeedResponse, Error>) -> ()){
+        let url = getFeedURL.appending([URLQueryItem(name: "userId", value: String(user.id))])!
+        let request = AppUrlRequest(url: url, httpMethod: "GET").request
+        
+        let task = API().session.dataTask(with: request) { [unowned self] (data, response, error) in
+            
+            if error != nil || data == nil {
+                print("Client error!")
+                print("Error is \(error!)")
+                completion(.failure(NSError(domain: "", code: 1, userInfo: [NSLocalizedDescriptionKey : "Error contacting the server. Please Check your internet connection"])))
+                return
+            }
+            
+            if let httpResponse = response as? HTTPURLResponse{
+                
+                if httpResponse.statusCode == 200{
+                    if let data = data {
+                        if let chatFeed = try? self.decoder.decode(ChatFeedResponse.self, from: data){
+                            completion(.success(chatFeed))
+                            return
+                        }
+                        else{
+                            completion(.failure(NSError(domain: "", code: 2, userInfo: [NSLocalizedDescriptionKey :  "Could not parse chat feed object"])))
+                            return
+                        }
+                    }
+                }
+                else{
+                    
+                    if let error = try? self.decoder.decode(CommonAPIResponse.self, from: data!){
+                        completion(.failure(NSError(domain: "", code: 1, userInfo: [NSLocalizedDescriptionKey :  "\(error.message)"])))
+                        return
+                    }
+                    else{
+                        completion(.failure(NSError(domain: "", code: 1, userInfo: [NSLocalizedDescriptionKey :  "Please try again or contact support @ hello@megastonks.com"])))
+                    }
+              
+                    return
+                    
+                }
+            }
+            
+        }
+        task.resume()
+    }
+    
+    
 }

@@ -7,23 +7,15 @@
 
 import Foundation
 
-struct ChatUser : Codable{
-    let id: Int
-    let userName, image: String
-    let connectionId : String?
-    let isConsultant: Bool
-    let lastUpdated: String
-}
-
 struct ChatUserProfileCache {
     static let key = "ChatUser"
-    static func save(_ value: ChatUser!) {
+    static func save(_ value: ChatUserResponse!) {
          UserDefaults.standard.set(try? PropertyListEncoder().encode(value), forKey: key)
     }
-    static func get() -> ChatUser! {
-        var userData: ChatUser!
+    static func get() -> ChatUserResponse! {
+        var userData: ChatUserResponse!
         if let data = UserDefaults.standard.value(forKey: key) as? Data {
-            userData = try? PropertyListDecoder().decode(ChatUser.self, from: data)
+            userData = try? PropertyListDecoder().decode(ChatUserResponse.self, from: data)
             return userData!
         } else {
             return userData

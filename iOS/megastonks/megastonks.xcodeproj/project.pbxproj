@@ -47,7 +47,7 @@
 		D0369D2125C76B1900718A52 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D0369D2025C76B1900718A52 /* Preview Assets.xcassets */; };
 		D038CEED2671B0FE00F5DA57 /* RedactedViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D038CEEC2671B0FE00F5DA57 /* RedactedViewModifier.swift */; };
 		D03BBAD9266F2CE400928FB8 /* LocalNotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D03BBAD8266F2CE400928FB8 /* LocalNotificationManager.swift */; };
-		D03BE33D27026891006248A4 /* ChatUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = D03BE33C27026891006248A4 /* ChatUser.swift */; };
+		D03BE33D27026891006248A4 /* ChatUserProfileCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = D03BE33C27026891006248A4 /* ChatUserProfileCache.swift */; };
 		D040342126783651006E2F5A /* CryptoSymbolHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D040342026783651006E2F5A /* CryptoSymbolHomeView.swift */; };
 		D045DB1B262BCEBE0040C067 /* SwiftKeychainWrapper in Frameworks */ = {isa = PBXBuildFile; productRef = D045DB1A262BCEBE0040C067 /* SwiftKeychainWrapper */; };
 		D045DB1E262BE5530040C067 /* APIRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D045DB1D262BE5530040C067 /* APIRequest.swift */; };
@@ -94,6 +94,7 @@
 		D0D929AC2660925E00C14BE2 /* PageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D929AB2660925E00C14BE2 /* PageViewController.swift */; };
 		D0D929AE266092C800C14BE2 /* PageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D929AD266092C800C14BE2 /* PageView.swift */; };
 		D0D929B226609C7000C14BE2 /* AssetPorfolioPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D929B126609C7000C14BE2 /* AssetPorfolioPage.swift */; };
+		D0DE56822712713000C1E710 /* ChatApiModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0DE56812712713000C1E710 /* ChatApiModels.swift */; };
 		D0DEBFDE26422BC40086DC36 /* AdsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0DEBFDD26422BC40086DC36 /* AdsView.swift */; };
 		D0DEBFE2264240CE0086DC36 /* AdData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0DEBFE1264240CE0086DC36 /* AdData.swift */; };
 		D0DEBFE5264242DE0086DC36 /* AsyncImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0DEBFE4264242DE0086DC36 /* AsyncImage.swift */; };
@@ -162,7 +163,7 @@
 		D0369D2225C76B1900718A52 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D038CEEC2671B0FE00F5DA57 /* RedactedViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RedactedViewModifier.swift; sourceTree = "<group>"; };
 		D03BBAD8266F2CE400928FB8 /* LocalNotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalNotificationManager.swift; sourceTree = "<group>"; };
-		D03BE33C27026891006248A4 /* ChatUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatUser.swift; sourceTree = "<group>"; };
+		D03BE33C27026891006248A4 /* ChatUserProfileCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatUserProfileCache.swift; sourceTree = "<group>"; };
 		D040342026783651006E2F5A /* CryptoSymbolHomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoSymbolHomeView.swift; sourceTree = "<group>"; };
 		D045DB1D262BE5530040C067 /* APIRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIRequest.swift; sourceTree = "<group>"; };
 		D049A38A267E3F0D001F98E2 /* OrderCryptoHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderCryptoHistory.swift; sourceTree = "<group>"; };
@@ -210,6 +211,7 @@
 		D0D929AB2660925E00C14BE2 /* PageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageViewController.swift; sourceTree = "<group>"; };
 		D0D929AD266092C800C14BE2 /* PageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageView.swift; sourceTree = "<group>"; };
 		D0D929B126609C7000C14BE2 /* AssetPorfolioPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetPorfolioPage.swift; sourceTree = "<group>"; };
+		D0DE56812712713000C1E710 /* ChatApiModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatApiModels.swift; sourceTree = "<group>"; };
 		D0DEBFDD26422BC40086DC36 /* AdsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdsView.swift; sourceTree = "<group>"; };
 		D0DEBFE1264240CE0086DC36 /* AdData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdData.swift; sourceTree = "<group>"; };
 		D0DEBFE4264242DE0086DC36 /* AsyncImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncImage.swift; sourceTree = "<group>"; };
@@ -250,7 +252,8 @@
 			isa = PBXGroup;
 			children = (
 				D02760D826E1C4050046853D /* ChatConnection.swift */,
-				D03BE33C27026891006248A4 /* ChatUser.swift */,
+				D03BE33C27026891006248A4 /* ChatUserProfileCache.swift */,
+				D0DE56812712713000C1E710 /* ChatApiModels.swift */,
 			);
 			path = Chat;
 			sourceTree = "<group>";
@@ -652,11 +655,12 @@
 				D0369D1C25C76B1900718A52 /* FormView.swift in Sources */,
 				D09EF9E02624994C00D9EF05 /* UserAuth.swift in Sources */,
 				D0C20853264A0690001B91D3 /* NewsPageView.swift in Sources */,
+				D0DE56822712713000C1E710 /* ChatApiModels.swift in Sources */,
 				D049A38F267E93F5001F98E2 /* HoldingInfoPage.swift in Sources */,
 				D017B3F1264866A3002EA084 /* NewsInfoView.swift in Sources */,
 				D0B0557726D96304006C1356 /* UserInfoView.swift in Sources */,
 				D0369D1A25C76B1900718A52 /* megastonksApp.swift in Sources */,
-				D03BE33D27026891006248A4 /* ChatUser.swift in Sources */,
+				D03BE33D27026891006248A4 /* ChatUserProfileCache.swift in Sources */,
 				D0D1933825CCB41900D83D87 /* StockInfoView.swift in Sources */,
 				D02D7C2D25DC496600DAC07A /* ButtonSelectionView.swift in Sources */,
 				D06C297A263F587100F1B31A /* PortfolioStockSymbolView.swift in Sources */,

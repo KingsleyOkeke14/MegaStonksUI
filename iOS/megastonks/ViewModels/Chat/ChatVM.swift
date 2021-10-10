@@ -23,7 +23,7 @@ class ChatVM : ObservableObject {
     }
     
     func sendMessage(user: String, message: String) {
-        messages.append(ChatMessage(message: message, isReply: false))
+        messages.append(ChatMessage(message: message, isReply: false, timeStamp: ""))
         chatAPI.sendMessage(user: user, message: message)
     }
     
@@ -31,7 +31,7 @@ class ChatVM : ObservableObject {
     
     @objc func updateMessages(_ notification: Notification){
         if let message = notification.userInfo as? [String: String]{
-            messages.append(ChatMessage(message: message["message"]!, isReply: true))
+            messages.append(ChatMessage(message: message["message"]!, isReply: true, timeStamp: ""))
         }
     }
 

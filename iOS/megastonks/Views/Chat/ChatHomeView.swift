@@ -8,11 +8,14 @@
 import SwiftUI
 
 struct ChatHomeView: View {
-    var user: ChatUser
+    var user: ChatUserResponse
     @State var showUserChatOptions: Bool = false
+    @State var isLoading: Bool = true
+    @State var chatFeed: [ChatFeed]?
+    @State var errorMessage: String = ""
     @EnvironmentObject var userAuth: UserAuth
 
-    init(user: ChatUser) {
+    init(user: ChatUserResponse) {
         self.user = user
     }
     var body: some View {
@@ -31,21 +34,8 @@ struct ChatHomeView: View {
                                         }, label: {
                                             HStack {
                                                 VStack(spacing: 0){
-                                                    ZStack {
-                                                        Circle()
-                                                            .stroke(myColors.greenColor, lineWidth: 4)
-                                                            .frame(width: 100, height: 100)
-                                                        
-                                                        Circle()
-                                                            .fill(myColors.grayColor)
-                                                            .frame(width: 100, height: 100)
-                                                        
-                                                        Text(user.image)
-                                                            .font(.custom("", fixedSize: 70))
-                                                            .offset(y: 3)
-                                                            .opacity(1.0)
-                                                        
-                                                    }
+                                                    
+                                                    UserImageView(user: ChatUser(id: user.id, userName: user.userName, image: user.image, connectionId: user.connectionId, isConsultant: user.isConsultant, lastUpdated: user.lastUpdated), isMaxSize: true)
                                                     
                                                     Text("@\(user.userName)")
                                                         .font(.custom("Helvetica", fixedSize: 16))
@@ -58,20 +48,37 @@ struct ChatHomeView: View {
                                     )
                             }
                             .frame(height: 180)
-                            
-                            ScrollView{
-                                NavigationLink(
-                                    destination:
-                                        ChatView()
-                                        .environmentObject(userAuth)
+                            if(!isLoading){
+                                Text(errorMessage)
+                                    .font(.body)
+                                    .foregroundColor(.red)
+                                    .bold()
+                                    .multilineTextAlignment(.center)
+                                ScrollView{
+                                    if let chatFeed = self.chatFeed {
+                                        ForEach(chatFeed, id: \.self) { feed in
+                                            NavigationLink(
+                                                destination:
+                                                    ChatView()
+                                                    .environmentObject(userAuth)
+                                                
+                                                ,
+                                                label: {
+                                                    ChatCellView(chatFeed: feed)
+                                                })
+                                        }
+                                    }
+                                }
                                     
-                                    ,
-                                    label: {
-                                        ChatCellView()
-                                    })
                             }
-                            
-                            Spacer()
+                            else{
+                                Spacer()
+                                ProgressView()
+                                    .accentColor(.green)
+                                    .scaleEffect(x: 1.4, y: 1.4)
+                                    .progressViewStyle(CircularProgressViewStyle(tint: myColors.greenColor))
+                                Spacer()
+                            }
                         }
                         
                         .lineLimit(1)
@@ -84,12 +91,28 @@ struct ChatHomeView: View {
                 .sheet(isPresented: $showUserChatOptions, content: {
                     UserInfoView(user: user, showExitToAppButton: userAuth.isInChatMode)
                 })
+                .onAppear(perform: {
+                    ChatAPI.shared.fetchFeed(user: user){ result in
+                        switch result {
+                        case .success(let result):
+                            self.chatFeed = [ChatFeed]()
+                            result.forEach{ feedResponse in
+                                self.chatFeed?.append(ChatFeed(chatFeedElementResponse: feedResponse))
+                            }
+                            self.isLoading = false
+                        case .failure(let error):
+                            self.errorMessage = error.localizedDescription
+                            self.isLoading = false
+                        }
+                    }
+                })
 
     }
 }
 
 
 struct ChatCellView : View {
+    var chatFeed: ChatFeed
     var body: some View{
         VStack{
             RoundedRectangle(cornerRadius: 20)
@@ -101,17 +124,10 @@ struct ChatCellView : View {
                 .foregroundColor(myColors.lightGrayColor.opacity(0.2))
                 .overlay(
                     HStack{
-                        AsyncImage(url: URL(string: "https://kingsleyokeke.blob.core.windows.net/images/1597276037537.jpeg")!,
-                                   placeholder: { Image("blackImage") },
-                                   image: { Image(uiImage: $0).resizable() })
-                            .frame(width: 50, height: 50, alignment: .center)
-                            .clipShape(Circle())
-                            .aspectRatio(contentMode: .fill)
-                            .shadow(radius: 8)
-                            .padding(.horizontal)
+                        UserImageView(user: chatFeed.user, isMaxSize: false)
                         VStack(alignment: .leading,spacing: 0){
                             
-                            Text("Kingsley Okeke")
+                            Text(chatFeed.user.userName)
                                 .font(.custom("Helvetica", fixedSize: 16))
                                 .bold()
                                 .foregroundColor(.white)
@@ -142,8 +158,44 @@ struct ChatCellView : View {
 
 struct ChatHomeView_Previews: PreviewProvider {
     static var previews: some View {
-        ChatHomeView(user: ChatUser(id: 1, userName: "kenzoDrizzy", image: "🥳", connectionId: nil, isConsultant: false, lastUpdated: ""))
+        ChatHomeView(user: ChatUserResponse(id: 1, userName: "kenzoDrizzy", image: "🥳", connectionId: nil, isConsultant: false, lastUpdated: ""))
             .preferredColorScheme(.dark)
             .environmentObject(UserAuth())
+    }
+}
+
+struct UserImageView : View{
+    var user: ChatUser
+    var isMaxSize: Bool
+    var body : some View{
+        VStack{
+            if(user.isConsultant){
+                AsyncImage(url: URL(string: user.image)!,
+                           placeholder: { Image("blackImage") },
+                           image: { Image(uiImage: $0).resizable() })
+                    .frame(width: isMaxSize ? 100 : 50, height: isMaxSize ? 100 : 50, alignment: .center)
+                    .clipShape(Circle())
+                    .aspectRatio(contentMode: .fill)
+                    .shadow(radius: 8)
+                    .padding(.horizontal)
+            }
+            else{
+                ZStack {
+                    Circle()
+                        .stroke(myColors.greenColor, lineWidth: 4)
+                        .frame(width: isMaxSize ? 100 : 50, height: isMaxSize ? 100 : 50)
+                    
+                    Circle()
+                        .fill(myColors.grayColor)
+                        .frame(width: isMaxSize ? 100 : 50, height: isMaxSize ? 100 : 50)
+                    
+                    Text(user.image)
+                        .font(.custom("", fixedSize: isMaxSize ? 70 : 40))
+                        .offset(y: 3)
+                        .opacity(1.0)
+                    
+                }
+            }
+        }
     }
 }

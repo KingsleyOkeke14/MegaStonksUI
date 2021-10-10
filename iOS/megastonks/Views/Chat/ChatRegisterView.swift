@@ -105,7 +105,7 @@ struct ChatRegisterView: View {
                             
                             isLoading = true
                             
-                            ChatAPI.shared.CreateUser(userName: displayName, userImage: imageOptions.first(where: {$0.isSelected})?.image ?? ""){
+                            ChatAPI.shared.createUser(userName: displayName, userImage: imageOptions.first(where: {$0.isSelected})?.image ?? ""){
                                 result in
                                
                                 switch result{
