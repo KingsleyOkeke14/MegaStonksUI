@@ -11,17 +11,17 @@ struct ChatHomeView: View {
     var user: ChatUserResponse
     @State var showUserChatOptions: Bool = false
     @State var isLoading: Bool = true
-    @State var chatFeed: [ChatFeed]?
     @State var errorMessage: String = ""
+    @StateObject var chatVm = ChatVM()
     @EnvironmentObject var userAuth: UserAuth
-
+    
     init(user: ChatUserResponse) {
         self.user = user
     }
     var body: some View {
-                NavigationView{
+                NavigationView {
                     GeometryReader { geometry in
-                        VStack{
+                        VStack {
                             HStack {
                                 RoundedRectangle(cornerRadius: 30, style: .circular)
                                     .fill(myColors.greenColor.opacity(0.8))
@@ -55,16 +55,17 @@ struct ChatHomeView: View {
                                     .bold()
                                     .multilineTextAlignment(.center)
                                 ScrollView{
-                                    if let chatFeed = self.chatFeed {
-                                        ForEach(chatFeed, id: \.self) { feed in
+                                    if self.chatVm.feed.count != 0 {
+                                        ForEach(chatVm.feed.indices, id: \.self) { index in
                                             NavigationLink(
                                                 destination:
-                                                    ChatView()
+                                                    ChatView(chatFeedIndex: index)
                                                     .environmentObject(userAuth)
+                                                    .environmentObject(chatVm)
                                                 
                                                 ,
                                                 label: {
-                                                    ChatCellView(chatFeed: feed)
+                                                    ChatCellView(chatFeed: chatVm.feed[index])
                                                 })
                                         }
                                     }
@@ -92,12 +93,11 @@ struct ChatHomeView: View {
                     UserInfoView(user: user, showExitToAppButton: userAuth.isInChatMode)
                 })
                 .onAppear(perform: {
-                    ChatAPI.shared.fetchFeed(user: user){ result in
+                    chatVm.chatApi.fetchFeed(user: user){ result in
                         switch result {
                         case .success(let result):
-                            self.chatFeed = [ChatFeed]()
                             result.forEach{ feedResponse in
-                                self.chatFeed?.append(ChatFeed(chatFeedElementResponse: feedResponse))
+                                self.chatVm.feed.append(ChatFeed(chatFeedElementResponse: feedResponse))
                             }
                             self.isLoading = false
                         case .failure(let error):
@@ -133,13 +133,15 @@ struct ChatCellView : View {
                                 .foregroundColor(.white)
                                 .padding(.top)
                             
-                            
-                            Text("Hi there, Thank you for checking in. I appreciate the effort")
-                                .font(.custom("Helvetica", fixedSize: 16))
-                                .bold()
-                                .foregroundColor(myColors.greenColor)
-                                .padding(.top)
-                                .minimumScaleFactor(1)
+                            if chatFeed.user.isConsultant && chatFeed.sessionId == nil {
+                                Text("Tap to Start Chat")
+                                    .font(.custom("Helvetica", fixedSize: 16))
+                                    .bold()
+                                    .foregroundColor(myColors.greenColor)
+                                    .padding(.top)
+                                    .minimumScaleFactor(1)
+                                
+                            }
                             Spacer()
                         }
                         Spacer()
@@ -164,7 +166,7 @@ struct ChatHomeView_Previews: PreviewProvider {
     }
 }
 
-struct UserImageView : View{
+struct UserImageView : View {
     var user: ChatUser
     var isMaxSize: Bool
     var body : some View{

@@ -32,10 +32,27 @@ struct ChatUserResponse: Codable {
 
 // MARK: - Message
 struct MessageResponse: Codable {
-    let id : Int
+    let id: Int
     let message: String
     let isReply, isRead: Bool
     let timeStamp: String
 }
 
 typealias ChatFeedResponse = [ChatFeedElementResponse]
+
+struct PostChatMessageResponse: Codable {
+    let chatSessionId: Int
+    let message: String
+}
+
+
+struct PostChatMessageRequest: Codable {
+    let sender: ChatUserResponse
+    let sessionId: Int
+    let message: String
+}
+
+struct StartChatRequest: Codable {
+    let user: ChatUserResponse
+    let userToStartChatWith: ChatUserResponse
+}

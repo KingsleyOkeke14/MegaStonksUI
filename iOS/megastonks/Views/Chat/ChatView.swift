@@ -9,20 +9,25 @@ import SwiftUI
 
 struct ChatView: View {
     let colors: [Color] = [.red, .green, .blue]
+    var chatFeedIndex: Int
     @State var text: String = ""
     @State var height: CGFloat = 40
     @State var keyboardHeight: CGFloat = 0
     @State var isKeyboardVisible: Bool = false
     @State private var showChatOptions = false
-    @StateObject var chatVM: ChatVM = ChatVM()
+    @State var isLoading: Bool = true
+    @State var errorMessage: String = ""
     
     @EnvironmentObject var userAuth: UserAuth
-
+    @EnvironmentObject var chatVm: ChatVM
     
     var body: some View {
         
         GeometryReader { geometry in
             VStack{
+                Text(errorMessage)
+                    .foregroundColor(.white)
+                    .font(.body)
                 ScrollView(showsIndicators: true){
                     Text("Thank you for connecting with me. Send me a message and I will respond as soon as I can")
                         .font(.custom("Helvetica", fixedSize: 12))
@@ -34,19 +39,21 @@ struct ChatView: View {
                     ScrollViewReader{ value in
                         
                         LazyVStack{
-                            ForEach(chatVM.messages, id: \.self){ message in
-                                ChatTextCell(message: message.message, isOwnedMessaged: !message.isReply)
-                                    .id(message)
-                            }
-                            .onChange(of: chatVM.messages, perform: { v in
-                                value.scrollTo(v.last)
-                            })
-                            .onAppear(perform: {
-                                NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: .main) {
-                                    (data) in
-                                    value.scrollTo(chatVM.messages.last)
+                            if let chatMessages = chatVm.feed[chatFeedIndex].chatMessages {
+                                ForEach(chatMessages, id: \.self){ message in
+                                    ChatTextCell(message: message.message, isOwnedMessaged: !message.isReply)
+                                        .id(message)
                                 }
-                            })
+                                .onChange(of: chatMessages, perform: { v in
+                                    value.scrollTo(v.last)
+                                })
+                                .onAppear(perform: {
+                                    NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: .main) {
+                                        (data) in
+                                        value.scrollTo(chatMessages.last)
+                                    }
+                                })
+                            }
                         }
                     }
                     
@@ -87,7 +94,7 @@ struct ChatView: View {
                         print("button tap")
                         let impactMed = UIImpactFeedbackGenerator(style: .soft)
                         impactMed.impactOccurred()
-                        chatVM.sendMessage(user: "Kingsley", message: text)
+//                        chatVM.sendMessage(user: "Kingsley", message: text)
                         text = ""
                     }, label: {
                         Image(systemName: "paperplane.fill")
@@ -111,14 +118,15 @@ struct ChatView: View {
                         .padding(.bottom, keyboardHeight)
                     
                 }
-                //.background(Blur(style: .dark))
                 
             }
-            .sheet(isPresented: $showChatOptions, content: {
-                ChatOptionsView()
-                    .preferredColorScheme(.dark)
-                    .environmentObject(userAuth)
-            })
+            .if(chatVm.feed[chatFeedIndex].user.isConsultant){ view in
+                view.sheet(isPresented: $showChatOptions, content: {
+                    ChatOptionsView()
+                        .preferredColorScheme(.dark)
+                        .environmentObject(userAuth)
+                })
+            }
             .if(userAuth.isInChatMode){ view in
                 view.ignoresSafeArea(edges: .bottom)
             }
@@ -134,16 +142,38 @@ struct ChatView: View {
                                     Circle()
                                         .stroke(myColors.greenColor, lineWidth: 2)
                                         .frame(width: 30, height: 30)
-                                    AsyncImage(url: URL(string: "https://kingsleyokeke.blob.core.windows.net/images/1597276037537.jpeg")!,
-                                               placeholder: { Image("blackImage") },
-                                               image: { Image(uiImage: $0).resizable() })
-                                        .frame(width: 30, height: 30, alignment: .center)
-                                        .clipShape(Circle())
-                                        .aspectRatio(contentMode: .fill)
-                                        .shadow(radius: 8)
+                                    VStack{
+                                        if(chatVm.feed[chatFeedIndex].user.isConsultant){
+                                            AsyncImage(url: URL(string: chatVm.feed[chatFeedIndex].user.image)!,
+                                                       placeholder: { Image("blackImage") },
+                                                       image: { Image(uiImage: $0).resizable() })
+                                                .frame(width: 30, height: 30, alignment: .center)
+                                                .clipShape(Circle())
+                                                .aspectRatio(contentMode: .fill)
+                                                .shadow(radius: 8)
+                                                .padding(.horizontal)
+                                        }
+                                        else{
+                                            ZStack {
+                                                Circle()
+                                                    .stroke(myColors.greenColor, lineWidth: 4)
+                                                    .frame(width: 30, height: 30)
+                                                
+                                                Circle()
+                                                    .fill(myColors.grayColor)
+                                                    .frame(width: 30, height: 30)
+                                                
+                                                Text(chatVm.feed[chatFeedIndex].user.image)
+                                                    .font(.custom("", fixedSize: 30))
+                                                    .offset(y: 3)
+                                                    .opacity(1.0)
+                                                
+                                            }
+                                        }
+                                    }
                                 }.padding(.horizontal)
 
-                                Text("Kingsley Okeke")
+                                Text(chatVm.feed[chatFeedIndex].user.userName)
                                     .font(.custom("Helvetica", fixedSize: 12))
                                     .bold()
                                     .foregroundColor(.white)
@@ -154,6 +184,31 @@ struct ChatView: View {
                 }
             })
         }
+        .onAppear(perform: {
+            if chatVm.feed[chatFeedIndex].sessionId == nil && chatVm.feed[chatFeedIndex].user.isConsultant {
+                self.isLoading = true
+                if let chatUser = userAuth.chatUser {
+                    let userToStartChatWith = chatVm.feed[chatFeedIndex].user
+                    chatVm.chatApi.startChat(user: chatUser,
+                                             userToStartChatWith: ChatUserResponse(id: userToStartChatWith.id,
+                                                                                   userName: userToStartChatWith.userName, image: userToStartChatWith.image, connectionId: userToStartChatWith.connectionId, isConsultant: userToStartChatWith.isConsultant, lastUpdated: userToStartChatWith.lastUpdated)){
+                        result in
+                        switch result {
+                        case .success(let chatSession):
+                            DispatchQueue.main.async {
+                                chatVm.feed[chatFeedIndex].sessionId = chatSession.id
+                            }
+                            self.isLoading = true
+                        case .failure(let error):
+                            DispatchQueue.main.async {
+                                self.errorMessage = error.localizedDescription
+                            }
+                            self.isLoading = true
+                        }
+                    }
+                }
+            }
+        })
         .navigationBarTitleDisplayMode(.inline)
     }
 }
