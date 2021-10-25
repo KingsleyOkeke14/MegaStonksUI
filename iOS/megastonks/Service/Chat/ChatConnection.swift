@@ -31,21 +31,23 @@ class ChatConnection {
         hubConnection.start()
     }
     
-    func startChat(){
-        
-    }
-    func sendMessage(user: ChatUser, sessionId: Int, message: String) {
-        let postMessageRequest = PostChatMessageRequest(sender: ChatUserResponse(id: user.id, userName: user.userName, image: user.image, connectionId: user.connectionId, isConsultant: user.isConsultant, lastUpdated: user.lastUpdated),
-                                                        sessionId: sessionId,
-                                                        message: message)
+    func sendMessage(user: ChatUserResponse, sessionId: Int, message: String, completion: @escaping (Result<PostChatMessageResponse, Error>) -> ()) {
+        let postMessageRequest = PostChatMessageRequest(sender: user, sessionId: sessionId, message: message)
         hubConnection.invoke(method: "SendMessage",
                              postMessageRequest,
-                             resultType: String.self)
+                             resultType: PostChatMessageResponse.self)
         { result, error in
             if let error = error {
-                print("error: \(error)")
+                print("DEBUG: \(error)")
+                completion(.failure(error))
             } else {
-                print("Add result: \(result!)")
+                if let result = result {
+                    completion(.success(result))
+                }
+                else{
+                    completion(.failure(NSError(domain: "", code: 4, userInfo: [NSLocalizedDescriptionKey :  "Could not send message to User"])))
+                }
+             
             }
         }
     }
@@ -59,8 +61,9 @@ class ChatConnection {
     }
 }
 
-class ChatAPI{
+class ChatAPI {
     static let shared = ChatAPI()
+    private let getAdminURL: URL = URL(string: APIRoutes().server + "chat/getAdmin")!
     private let createUserURL: URL = URL(string: APIRoutes().server + "chat/createUser")!
     private let getFeedURL: URL = URL(string: APIRoutes().server + "chat/getFeed")!
     private let startChatURL: URL = URL(string: APIRoutes().server + "chat/startChat")!
@@ -68,6 +71,56 @@ class ChatAPI{
     private let startChatUrl: URL = URL(string: APIRoutes().server + "chat/startChat")!
     
     let decoder = JSONDecoder()
+    
+    func getAdmin(authCode: String, completion: @escaping (Result<ChatUserResponse, Error>) -> ()) {
+        
+        let queryItems = [URLQueryItem(name: "authCode", value: "\(authCode)")]
+        let requestURL = getAdminURL.appending(queryItems)!
+        let request = AppUrlRequest(url: requestURL, httpMethod: "GET").request
+
+        
+        
+        let task = API().session.dataTask(with: request) { [unowned self] (data, response, error) in
+            
+            if error != nil || data == nil {
+                print("Client error!")
+                print("Error is \(error!)")
+                completion(.failure(NSError(domain: "", code: 1, userInfo: [NSLocalizedDescriptionKey : "Error contacting the server. Please Check your internet connection"])))
+                return
+            }
+            
+            if let httpResponse = response as? HTTPURLResponse{
+                
+                if httpResponse.statusCode == 200{
+                    if let data = data {
+                        if let chatUser = try? self.decoder.decode(ChatUserResponse.self, from: data){
+                            completion(.success(chatUser))
+                            return
+                        }
+                        else{
+                            completion(.failure(NSError(domain: "", code: 1, userInfo: [NSLocalizedDescriptionKey :  "Could not parse user object"])))
+                            return
+                        }
+                    }
+                }
+                else{
+                    
+                    if let error = try? self.decoder.decode(CommonAPIResponse.self, from: data!){
+                        completion(.failure(NSError(domain: "", code: 1, userInfo: [NSLocalizedDescriptionKey :  "\(error.message)"])))
+                        return
+                    }
+                    else{
+                        completion(.failure(NSError(domain: "", code: 1, userInfo: [NSLocalizedDescriptionKey :  "Please try again with a code"])))
+                    }
+              
+                    return
+                    
+                }
+            }
+            
+        }
+        task.resume()
+    }
     
     func createUser(userName: String, userImage: String, completion: @escaping (Result<ChatUserResponse, Error>) -> ()) {
         

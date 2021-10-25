@@ -15,6 +15,7 @@ struct ChatRegisterView: View {
     @State private var isLoading: Bool = false
 
     @State private var showImagePicker = false
+    @State private var showAdminLogin = false
     @State private var showImagePickerHint: Bool = true
     @State private var showSignUpHint: Bool = false
     
@@ -91,15 +92,18 @@ struct ChatRegisterView: View {
                             Image(systemName: "questionmark.circle")
                                 .foregroundColor(myColors.greenColor)
                                 .font(.custom("", fixedSize: 22))
-                                
+                            
                         })
                     }
                     .frame(height: 60)
                     .padding()
                     
                     Button(action: {
-                        if(showImagePickerHint){
+                        if showImagePickerHint {
                            error = "Please select a display image to proceed"
+                        }
+                        else if !isUserNameValid(username: displayName).0 {
+                            error = isUserNameValid(username: displayName).1
                         }
                         else{
                             
@@ -114,6 +118,7 @@ struct ChatRegisterView: View {
                                     ChatUserProfileCache.save(user)
                                     DispatchQueue.main.async {
                                         self.isLoading = false
+                                        userAuth.chatUser = user
                                         userAuth.isChatLoggedIn = true
                                     }
                                 case .failure(let error):
@@ -169,8 +174,14 @@ struct ChatRegisterView: View {
                 .onTapGesture {
                     showSignUpHint = false
                 }
+                .onLongPressGesture(minimumDuration: 6, perform: {
+                    self.showAdminLogin = true
+                })
                 .sheet(isPresented: $showImagePicker) {
                     ProfileImagePickerView(imageOptions: $imageOptions).preferredColorScheme(.dark)
+                }
+                .sheet(isPresented: $showAdminLogin) {
+                    AdminLoginView().environmentObject(userAuth)
                 }
         }
         .disabled(isLoading)
@@ -182,6 +193,75 @@ struct ChatRegisterView: View {
                 }
             }
         )
+    }
+}
+
+func isUserNameValid(username: String) -> (Bool, String) {
+    if username.containsWhiteSpace() {
+        return (false, "Display Name cannot cotain white spaces")
+    }
+    else{
+        if let _ =  username.range(of: ".*[^A-Za-z0-9].*", options: .regularExpression){
+               return (false, "Special Characters are not allowed")
+            }
+        return (true, "")
+    }
+}
+
+struct AdminLoginView: View {
+    @State var authCode: String = ""
+    @State var error: String = ""
+    @State var isLoading = false
+    @EnvironmentObject var userAuth: UserAuth
+    var body: some View {
+        Color.black.ignoresSafeArea()
+            .overlay(
+                VStack{
+                    if isLoading {
+                        VStack{
+                            LoadingIndicatorView()
+                        }
+                    }
+                    else{
+                        VStack{
+                            FormView(formField: "Enter Auth Code", formText: $authCode)
+                            Text(error)
+                                .font(.title2)
+                                .foregroundColor(.red)
+                                .multilineTextAlignment(.center)
+                            Button(action: {
+                                self.isLoading = true
+                                ChatAPI.shared.getAdmin(authCode: authCode){
+                                    result in
+                                    
+                                    switch result{
+                                        
+                                    case .success(let user):
+                                        ChatUserProfileCache.save(user)
+                                        DispatchQueue.main.async {
+                                            self.isLoading = false
+                                            userAuth.chatUser = user
+                                            userAuth.isChatLoggedIn = true
+                                        }
+                                    case .failure(let error):
+                                        DispatchQueue.main.async {
+                                            self.isLoading = false
+                                            self.error = error.localizedDescription
+                                        }
+                                    }
+                                    
+                                    
+                                    
+                                }
+                            }, label: {
+                                Text("Login")
+                                    .font(.title2)
+                                    .foregroundColor(myColors.greenColor)
+                            })
+                        }
+                    }
+                }
+            )
     }
 }
 

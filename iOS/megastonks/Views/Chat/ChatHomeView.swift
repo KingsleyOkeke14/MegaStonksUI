@@ -35,7 +35,7 @@ struct ChatHomeView: View {
                                             HStack {
                                                 VStack(spacing: 0){
                                                     
-                                                    UserImageView(user: ChatUser(id: user.id, userName: user.userName, image: user.image, connectionId: user.connectionId, isConsultant: user.isConsultant, lastUpdated: user.lastUpdated), isMaxSize: true)
+                                                    UserImageView(chatUser: user, isMaxSize: true)
                                                     
                                                     Text("@\(user.userName)")
                                                         .font(.custom("Helvetica", fixedSize: 16))
@@ -96,8 +96,10 @@ struct ChatHomeView: View {
                     chatVm.chatApi.fetchFeed(user: user){ result in
                         switch result {
                         case .success(let result):
-                            result.forEach{ feedResponse in
-                                self.chatVm.feed.append(ChatFeed(chatFeedElementResponse: feedResponse))
+                            DispatchQueue.main.async {
+                                result.forEach{ feedResponse in
+                                    self.chatVm.feed.append(ChatFeed(chatFeedElementResponse: feedResponse))
+                                }
                             }
                             self.isLoading = false
                         case .failure(let error):
@@ -124,7 +126,7 @@ struct ChatCellView : View {
                 .foregroundColor(myColors.lightGrayColor.opacity(0.2))
                 .overlay(
                     HStack{
-                        UserImageView(user: chatFeed.user, isMaxSize: false)
+                        UserImageView(chatUser: chatFeed.user.toChatUserResponse(), isMaxSize: false).padding()
                         VStack(alignment: .leading,spacing: 0){
                             
                             Text(chatFeed.user.userName)
@@ -141,6 +143,16 @@ struct ChatCellView : View {
                                     .padding(.top)
                                     .minimumScaleFactor(1)
                                 
+                            }
+                            else {
+                                if let chatMessage = chatFeed.chatMessages?.last {
+                                    Text(chatMessage.message)
+                                        .font(.custom("Helvetica", fixedSize: 16))
+                                        .bold()
+                                        .foregroundColor(chatMessage.isReply ? myColors.greenColor : .white)
+                                        .padding(.top)
+                                        .minimumScaleFactor(1)
+                                }
                             }
                             Spacer()
                         }
@@ -167,35 +179,74 @@ struct ChatHomeView_Previews: PreviewProvider {
 }
 
 struct UserImageView : View {
-    var user: ChatUser
+    var chatUser: ChatUserResponse?
     var isMaxSize: Bool
     var body : some View{
         VStack{
-            if(user.isConsultant){
-                AsyncImage(url: URL(string: user.image)!,
-                           placeholder: { Image("blackImage") },
-                           image: { Image(uiImage: $0).resizable() })
-                    .frame(width: isMaxSize ? 100 : 50, height: isMaxSize ? 100 : 50, alignment: .center)
-                    .clipShape(Circle())
-                    .aspectRatio(contentMode: .fill)
-                    .shadow(radius: 8)
-                    .padding(.horizontal)
+            if let chatUser = chatUser {
+                if(chatUser.isConsultant){
+                    ZStack{
+                        Circle()
+                            .stroke(myColors.greenColor, lineWidth: 4)
+                            .frame(width: isMaxSize ? 100 : 50, height: isMaxSize ? 100 : 50)
+                        AsyncImage(url: URL(string: chatUser.image)!,
+                                   placeholder: { Image("blackImage") },
+                                   image: { Image(uiImage: $0).resizable() })
+                            .frame(width: isMaxSize ? 100 : 50, height: isMaxSize ? 100 : 50, alignment: .center)
+                            .clipShape(Circle())
+                            .aspectRatio(contentMode: .fill)
+                            .shadow(radius: 8)
+                            .padding(.horizontal)
+                    }
+                }
+                else{
+                    ZStack {
+                        Circle()
+                            .stroke(myColors.greenColor, lineWidth: 4)
+                            .frame(width: isMaxSize ? 100 : 50, height: isMaxSize ? 100 : 50)
+                        
+                        Circle()
+                            .fill(myColors.grayColor)
+                            .frame(width: isMaxSize ? 100 : 50, height: isMaxSize ? 100 : 50)
+                        
+                        Text(chatUser.image)
+                            .font(.custom("", fixedSize: isMaxSize ? 70 : 40))
+                            .offset(y: 3)
+                            .opacity(1.0)
+                        
+                    }
+                }
             }
-            else{
-                ZStack {
-                    Circle()
-                        .stroke(myColors.greenColor, lineWidth: 4)
-                        .frame(width: isMaxSize ? 100 : 50, height: isMaxSize ? 100 : 50)
-                    
-                    Circle()
-                        .fill(myColors.grayColor)
-                        .frame(width: isMaxSize ? 100 : 50, height: isMaxSize ? 100 : 50)
-                    
-                    Text(user.image)
-                        .font(.custom("", fixedSize: isMaxSize ? 70 : 40))
-                        .offset(y: 3)
-                        .opacity(1.0)
-                    
+        }
+    }
+}
+
+struct MiniUserImageView : View {
+    var chatUser: ChatUserResponse?
+    var body : some View{
+        VStack{
+            if let chatUser = chatUser {
+                if(chatUser.isConsultant){
+                    AsyncImage(url: URL(string: chatUser.image)!,
+                               placeholder: { Image("blackImage") },
+                               image: { Image(uiImage: $0).resizable() })
+                        .frame(width: 22, height: 22, alignment: .center)
+                        .clipShape(Circle())
+                        .aspectRatio(contentMode: .fill)
+                        .shadow(radius: 6)
+                }
+                else{
+                    ZStack {
+                        Circle()
+                            .stroke(myColors.greenColor, lineWidth: 4)
+                            .frame(width: 24, height: 24)
+                        
+                        Text(chatUser.image)
+                            .font(.custom("", fixedSize: 22))
+                            .offset(y: 1)
+                            .opacity(1.0)
+                        
+                    }
                 }
             }
         }

@@ -23,20 +23,7 @@ struct UserInfoView: View {
             .ignoresSafeArea()
             .overlay(
                      VStack {
-                         ZStack {
-                             Circle()
-                                 .stroke(myColors.greenColor, lineWidth: 4)
-                                 .frame(width: 100, height: 100)
-                             
-                             Circle()
-                                 .fill(Color.green.opacity(0.1))
-                                 .frame(width: 100, height: 100)
-                             
-                             Text(user.image)
-                                 .font(.custom("", fixedSize: 70))
-                                 .offset(y: 3)
-                             
-                         }
+                         UserImageView(chatUser: user, isMaxSize: true)
                          
                          Text("@\(user.userName)")
                              .font(.custom("Helvetica", fixedSize: 18))
@@ -113,6 +100,7 @@ struct UserInfoView: View {
                                              ChatUserProfileCache.remove()
                                              presentationMode.wrappedValue.dismiss()
                                              userAuth.isChatLoggedIn = false
+                                             userAuth.chatUser = nil
                                          }, label: {
                                              Text("Yes")
                                                  .font(.custom("Helvetica", fixedSize: 20))

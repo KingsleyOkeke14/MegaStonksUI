@@ -41,3 +41,9 @@ struct ChatFeed : Identifiable, Hashable {
         }
     }
 }
+
+extension ChatUser {
+    func toChatUserResponse() -> ChatUserResponse {
+        return ChatUserResponse(id: self.id, userName: self.userName, image: self.image, connectionId: self.connectionId, isConsultant: self.isConsultant, lastUpdated: self.lastUpdated)
+    }
+}

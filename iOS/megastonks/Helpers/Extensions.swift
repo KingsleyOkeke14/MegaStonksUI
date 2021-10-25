@@ -221,8 +221,11 @@ extension String {
         if(dateToConvert.count == 28){//This is because dotnet DateTime.UtcNow returns the Z with the milliseconds but efCore truncates this Z
             dateToConvert.removeLast(9)
         }
-        else{
+        else if (dateToConvert.count == 27){
             dateToConvert.removeLast(8)
+        }
+        else {
+            dateToConvert.removeLast(7)
         }
         
         let dateFromString = dateFormatter.date(from: dateToConvert)
@@ -235,6 +238,20 @@ extension String {
         let timeInterval = formatter.string(from: dateFromString ?? Date(), to: Date()) ?? ""
         
         return (!timeInterval.isEmpty ? "\(timeInterval) ago" : "-")
+    }
+    
+
+    func containsWhiteSpace() -> Bool {
+        
+        // check if there's a range for a whitespace
+        let range = self.rangeOfCharacter(from: .whitespacesAndNewlines)
+        
+        // returns false when there's no range for whitespace
+        if let _ = range {
+            return true
+        } else {
+            return false
+        }
     }
     
 }

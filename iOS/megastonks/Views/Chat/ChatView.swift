@@ -26,8 +26,10 @@ struct ChatView: View {
         GeometryReader { geometry in
             VStack{
                 Text(errorMessage)
-                    .foregroundColor(.white)
-                    .font(.body)
+                    .foregroundColor(.red)
+                    .font(.custom("Helvetica", size: 12))
+                    .bold()
+                    .multilineTextAlignment(.center)
                 ScrollView(showsIndicators: true){
                     Text("Thank you for connecting with me. Send me a message and I will respond as soon as I can")
                         .font(.custom("Helvetica", fixedSize: 12))
@@ -41,13 +43,14 @@ struct ChatView: View {
                         LazyVStack{
                             if let chatMessages = chatVm.feed[chatFeedIndex].chatMessages {
                                 ForEach(chatMessages, id: \.self){ message in
-                                    ChatTextCell(message: message.message, isOwnedMessaged: !message.isReply)
+                                    ChatTextCell(user: userAuth.chatUser, chatMessage: message)
                                         .id(message)
                                 }
                                 .onChange(of: chatMessages, perform: { v in
                                     value.scrollTo(v.last)
                                 })
                                 .onAppear(perform: {
+                                    value.scrollTo(chatMessages.last)
                                     NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: .main) {
                                         (data) in
                                         value.scrollTo(chatMessages.last)
@@ -94,7 +97,20 @@ struct ChatView: View {
                         print("button tap")
                         let impactMed = UIImpactFeedbackGenerator(style: .soft)
                         impactMed.impactOccurred()
-//                        chatVM.sendMessage(user: "Kingsley", message: text)
+                        if let chatUser = userAuth.chatUser {
+                            if let sessionId = chatVm.feed[chatFeedIndex].sessionId {
+                                chatVm.sendMessage(user: chatUser, sessionId: sessionId, message: text){ result in
+                                    
+                                    switch result {
+                                    case .success(_):
+                                        print("Successfully Sent Message")
+                                    case .failure(let error):
+                                        errorMessage = "Could not send message. Please check your internet connection or try again \(error.localizedDescription) "
+                                    }
+                                }
+                            }
+                        }
+
                         text = ""
                     }, label: {
                         Image(systemName: "paperplane.fill")
@@ -154,21 +170,22 @@ struct ChatView: View {
                                                 .padding(.horizontal)
                                         }
                                         else{
-                                            ZStack {
-                                                Circle()
-                                                    .stroke(myColors.greenColor, lineWidth: 4)
-                                                    .frame(width: 30, height: 30)
-                                                
-                                                Circle()
-                                                    .fill(myColors.grayColor)
-                                                    .frame(width: 30, height: 30)
-                                                
                                                 Text(chatVm.feed[chatFeedIndex].user.image)
-                                                    .font(.custom("", fixedSize: 30))
-                                                    .offset(y: 3)
-                                                    .opacity(1.0)
+                                                    .font(.custom("", fixedSize: 24))
+                                                    .scaledToFit()
+                                                    .background(
+                                                        ZStack{
+                                                            Circle()
+                                                                .stroke(myColors.greenColor, lineWidth: 4)
+                                                                .frame(width: 30, height: 30)
+
+                                                            Circle()
+                                                                .fill(myColors.grayColor)
+                                                                .frame(width: 30, height: 30)
+                                                        }
+                                                    )
                                                 
-                                            }
+                                            
                                         }
                                     }
                                 }.padding(.horizontal)
@@ -190,8 +207,7 @@ struct ChatView: View {
                 if let chatUser = userAuth.chatUser {
                     let userToStartChatWith = chatVm.feed[chatFeedIndex].user
                     chatVm.chatApi.startChat(user: chatUser,
-                                             userToStartChatWith: ChatUserResponse(id: userToStartChatWith.id,
-                                                                                   userName: userToStartChatWith.userName, image: userToStartChatWith.image, connectionId: userToStartChatWith.connectionId, isConsultant: userToStartChatWith.isConsultant, lastUpdated: userToStartChatWith.lastUpdated)){
+                                             userToStartChatWith: ChatUserResponse(id: userToStartChatWith.id, userName: userToStartChatWith.userName, image: userToStartChatWith.image, connectionId: userToStartChatWith.connectionId, isConsultant: userToStartChatWith.isConsultant, lastUpdated: userToStartChatWith.lastUpdated)){
                         result in
                         switch result {
                         case .success(let chatSession):
@@ -209,6 +225,10 @@ struct ChatView: View {
                 }
             }
         })
+        .onDisappear{
+            guard let chatUser = self.userAuth.chatUser else {return}
+            self.chatVm.updateFeed(user: chatUser)
+        }
         .navigationBarTitleDisplayMode(.inline)
     }
 }
@@ -217,27 +237,26 @@ struct ChatTextCell : View{
     
     
     
-    var message: String
-    var image: String? = "😎"
-    var isOwnedMessaged: Bool
-    
+    var user: ChatUserResponse?
+    var chatMessage: ChatMessage
     
     var body: some View {
         HStack(spacing: 10){
             
-            if(isOwnedMessaged){
+            if(!chatMessage.isReply){
                 HStack(spacing: 4) {
                     Spacer()
                     VStack{
                         
                     }.frame(width: 20)
                     VStack(alignment: .trailing) {
-                        Text(message)
-                            .font(.custom("Helvetica", fixedSize: 16))
-                            .bold()
-                            .foregroundColor(.white)
+                        Text(chatMessage.message)
+                                .font(.custom("Helvetica", fixedSize: 16))
+                                .bold()
+                                .foregroundColor(.white)
                         
-                        Text("5m ago")
+                        
+                        Text(chatMessage.timeStamp)
                             .font(.custom("Helvetica", fixedSize: 10))
                             .foregroundColor(.white.opacity(0.7))
                             .bold()
@@ -249,7 +268,7 @@ struct ChatTextCell : View{
                     .cornerRadius(20)
                     .contextMenu {
                         Button(action: {
-                            UIPasteboard.general.string = message
+                            UIPasteboard.general.string = chatMessage.message
                         }) {
                             Text("Copy")
                         }
@@ -259,8 +278,7 @@ struct ChatTextCell : View{
                         .font(.custom("", fixedSize: 12))
                         .foregroundColor(myColors.greenColor)
                     
-                    Text(image!)
-                        .font(.custom("", fixedSize: 22))
+                    MiniUserImageView(chatUser: user)
                 }.padding(.top)
             }
             
@@ -273,17 +291,20 @@ struct ChatTextCell : View{
                         .rotationEffect(Angle(degrees: -180))
                     
                     
-                    VStack(alignment: .trailing) {
-                        Text(message)
-                            .font(.custom("Helvetica", fixedSize: 16))
-                            .bold()
-                            .foregroundColor(myColors.greenColor)
-                        Text("5m ago")
-                            .font(.custom("Helvetica", fixedSize: 10))
-                            .foregroundColor(.gray)
-                            .bold()
-                            .italic()
-                            .padding(.bottom, 6)
+                    VStack(alignment: .leading) {
+                            Text(chatMessage.message)
+                                .font(.custom("Helvetica", fixedSize: 16))
+                                .bold()
+                                .foregroundColor(myColors.greenColor)
+
+                            Text(chatMessage.timeStamp)
+                                .font(.custom("Helvetica", fixedSize: 10))
+                                .foregroundColor(.gray)
+                                .bold()
+                                .italic()
+                                .padding(.bottom, 6)
+                                .alignmentGuide(.trailing) { d in d[.leading] }
+                        
                     }
                     .padding([.top, .horizontal])
                     .background(myColors.grayColor)
@@ -291,7 +312,7 @@ struct ChatTextCell : View{
                     
                     .contextMenu {
                         Button(action: {
-                            UIPasteboard.general.string = message
+                            UIPasteboard.general.string = chatMessage.message
                         }) {
                             Text("Copy")
                                 .font(.custom("", fixedSize: 8))

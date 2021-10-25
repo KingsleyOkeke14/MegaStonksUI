@@ -16,19 +16,30 @@ class ChatVM : ObservableObject {
     @Published var error: String
     
     init() {
-        feed = [ChatFeed]()
-        error = ""
+        self.feed = [ChatFeed]()
+        self.error = ""
+        
         NotificationCenter.default.addObserver(self, selector: #selector(updateMessages(_:)), name: .newMessageReceived, object: nil)
     }
     
     
     
-    func sendMessage(user: ChatUser, sessionId: Int, message: String) {
-        let feedToUpdate = feed.firstIndex(where: { $0.sessionId == sessionId })
-        if let feedToUpdate = feedToUpdate {
-            feed[feedToUpdate].chatMessages?.append(ChatMessage(message: message, isReply: false, timeStamp: String(describing: Date())))
+    func sendMessage(user: ChatUserResponse, sessionId: Int, message: String, completion: @escaping (Result<PostChatMessageResponse, Error>) -> ()) {
+        chatConnection.sendMessage(user: user, sessionId: sessionId, message: message) { result in
+            switch result {
+                
+            case .success(let response):
+                DispatchQueue.main.async {
+                    let feedToUpdate = self.feed.firstIndex(where: { $0.sessionId == sessionId })
+                    if let feedToUpdate = feedToUpdate {
+                        self.feed[feedToUpdate].chatMessages?.append(ChatMessage(message: response.message, isReply: response.isReply, timeStamp: response.timeStamp.getTimeInterval()))
+                    }
+                }
+                completion(.success(response))
+            case .failure(let error):
+                completion(.failure(error))
+            }
         }
-        chatConnection.sendMessage(user: user, sessionId: sessionId, message: message)
     }
 
 
@@ -43,7 +54,9 @@ class ChatVM : ObservableObject {
                 feedResponse.forEach({ resp in
                     feedToAppend.append(ChatFeed(chatFeedElementResponse: resp))
                 })
-                self.feed = feedToAppend
+                DispatchQueue.main.async {
+                    self.feed = feedToAppend
+                }
             case .failure(_):
                 print("Error")
             }
@@ -52,12 +65,13 @@ class ChatVM : ObservableObject {
     
     @objc func updateMessages(_ notification: Notification){
         if let incomingMessage = notification.userInfo as? [String: PostChatMessageResponse]{
-            let message = incomingMessage["message"]
-            let feedToUpdate = feed.firstIndex(where: { $0.sessionId == message?.chatSessionId })
+            if let message = incomingMessage["message"] {
+            let feedToUpdate = feed.firstIndex(where: { $0.sessionId == message.chatSessionId })
             
             if let feedToUpdate = feedToUpdate {
-                feed[feedToUpdate].chatMessages?.append(ChatMessage(message: message?.message ?? "", isReply: true, timeStamp: String(describing: Date())))
+                feed[feedToUpdate].chatMessages?.append(ChatMessage(message: message.message, isReply: true, timeStamp: message.timeStamp.getTimeInterval()))
             }
+         }
         }
     }
 }
