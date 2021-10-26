@@ -200,6 +200,9 @@ func isUserNameValid(username: String) -> (Bool, String) {
     if username.containsWhiteSpace() {
         return (false, "Display Name cannot cotain white spaces")
     }
+    else if username.count > 16{
+        return (false, "You have exceeded the limit of 16 characters")
+    }
     else{
         if let _ =  username.range(of: ".*[^A-Za-z0-9].*", options: .regularExpression){
                return (false, "Special Characters are not allowed")

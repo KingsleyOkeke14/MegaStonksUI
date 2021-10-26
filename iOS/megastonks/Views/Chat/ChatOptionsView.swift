@@ -51,7 +51,7 @@ struct ChatOptionsView: View {
                                 .padding(.horizontal, 6)
                                 .background(myColors.greenColor)
                                 .cornerRadius(20)
-                            Text("Hello there, thank you for downloading the mega stonks app. I am looking forward to chatting with you and helping you understand your financial situation and discussing ways to improve and continue growing. I am really passionate about personal finance and developing tools for individuals to understand and take better control of their finances. My goal is effectively aimed at bridging the ever widening wealth gap and inequality. Feel free to follow me on my social accounts below. Thanks!")
+                            Text("Hello there, thank you for downloading the mega stonks app. I am looking forward to chatting with you and helping you understand your financial situation and discussing ways to improve and continue growing. I am really passionate about personal finance and developing tools for individuals to understand and take better control of their finances. My goal is effectively aimed at bridging the ever widening wealth gap and inequality through financial education. Feel free to follow me on my social accounts below. Thanks!")
                                 .font(.custom("", fixedSize: 16))
                                 .padding()
                                 .padding(.horizontal, 20)

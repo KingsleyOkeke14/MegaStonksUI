@@ -11,24 +11,46 @@ import SignalRClient
 class ChatConnection {
     
     static let shared = ChatConnection()
-    
+    let hubURL = APIRoutes().server + "/chatHub"
     var hubConnection: HubConnection
     let nc = NotificationCenter.default
-    
+
     init() {
-        hubConnection = HubConnectionBuilder(url: URL(string: "https://megastonksdev.azurewebsites.net/chatHub")!)
+        hubConnection = HubConnectionBuilder(url: URL(string: hubURL)!)
+            .withAutoReconnect()
             .withLogging(minLogLevel: .debug)
             .build()
         
         //Register Event
-        hubConnection.on(method: "ReceiveMessage") {(user: String, message: String) in
+        hubConnection.on(method: "ReceiveMessage") { (response: PostChatMessageResponse) in
             
-            self.nc.post(name: .newMessageReceived, object: nil, userInfo: ["message" : message])
-            print(">>> \(user): \(message)")
+            self.nc.post(name: .newMessageReceived, object: nil, userInfo: ["response" : response])
+           print("DEBUG1: Receive Message Called")
         }
         
         //Start Connection
         hubConnection.start()
+    }
+    
+    func restartHubConnection(user: ChatUserResponse) {
+        
+        hubConnection.stop()
+        
+        hubConnection = HubConnectionBuilder(url: URL(string: hubURL)!)
+            .withAutoReconnect()
+            .withLogging(minLogLevel: .debug)
+            .build()
+        
+        //Register Event
+        hubConnection.on(method: "ReceiveMessage") { (response: PostChatMessageResponse) in
+            self.nc.post(name: .newMessageReceived, object: nil, userInfo: ["response" : response])
+           print("DEBUG: Receive Message Called")
+            
+        }
+        
+        //Start Connection
+        hubConnection.start()
+        updateConnectionId(user: user)
     }
     
     func sendMessage(user: ChatUserResponse, sessionId: Int, message: String, completion: @escaping (Result<PostChatMessageResponse, Error>) -> ()) {
@@ -50,6 +72,10 @@ class ChatConnection {
              
             }
         }
+    }
+    
+    func updateConnectionId(user: ChatUserResponse) {
+        hubConnection.invoke(method: "UpdateConnectionID", user.userName){ _ in }
     }
     
 

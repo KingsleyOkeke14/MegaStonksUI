@@ -33,7 +33,7 @@ struct ChatHomeView: View {
                                             
                                         }, label: {
                                             HStack {
-                                                VStack(spacing: 0){
+                                                VStack(spacing: 10){
                                                     
                                                     UserImageView(chatUser: user, isMaxSize: true)
                                                     
@@ -55,18 +55,45 @@ struct ChatHomeView: View {
                                     .bold()
                                     .multilineTextAlignment(.center)
                                 ScrollView{
+                                    VStack(spacing: 0) {
+                                        PullToRefreshView(onRefresh:{
+                                            self.errorMessage = ""
+                                            self.isLoading = true
+                                            chatVm.chatConnection.updateConnectionId(user: user)
+
+                                            chatVm.chatApi.fetchFeed(user: user){ result in
+                                                switch result {
+                                                case .success(let result):
+                                                    var newFeed = [ChatFeed]()
+                                                    DispatchQueue.main.async {
+                                                        result.forEach{ feedResponse in
+                                                            newFeed.append(ChatFeed(chatFeedElementResponse: feedResponse))
+                                                                                            self.chatVm.feed = newFeed
+                                                        }
+                                                    }
+                                                    self.isLoading = false
+                                                case .failure(let error):
+                                                    self.errorMessage = error.localizedDescription
+                                                    self.isLoading = false
+                                                }
+                                            }
+                                        })
+                                    }
                                     if self.chatVm.feed.count != 0 {
-                                        ForEach(chatVm.feed.indices, id: \.self) { index in
-                                            NavigationLink(
-                                                destination:
-                                                    ChatView(chatFeedIndex: index)
-                                                    .environmentObject(userAuth)
-                                                    .environmentObject(chatVm)
-                                                
-                                                ,
-                                                label: {
-                                                    ChatCellView(chatFeed: chatVm.feed[index])
-                                                })
+                                        LazyVStack{
+                                            ForEach(chatVm.feed.indices, id: \.self) { index in
+                                                NavigationLink(
+                                                    destination:
+                                                        ChatView(chatFeedIndex: index)
+                                                        .environmentObject(userAuth)
+                                                        .environmentObject(chatVm)
+                                                    
+                                                    ,
+                                                    label: {
+                                                        ChatCellView(chatFeedIndex: index)
+                                                            .environmentObject(chatVm)
+                                                    })
+                                            }
                                         }
                                     }
                                 }
@@ -85,7 +112,7 @@ struct ChatHomeView: View {
                         .lineLimit(1)
                         .minimumScaleFactor(0.6)
                     }
-                    .ignoresSafeArea()
+                    .ignoresSafeArea(.container, edges: .top)
                     .navigationBarHidden(true)
                     .navigationTitle("")
                 }
@@ -96,10 +123,16 @@ struct ChatHomeView: View {
                     chatVm.chatApi.fetchFeed(user: user){ result in
                         switch result {
                         case .success(let result):
+                            var newFeed = [ChatFeed]()
                             DispatchQueue.main.async {
                                 result.forEach{ feedResponse in
-                                    self.chatVm.feed.append(ChatFeed(chatFeedElementResponse: feedResponse))
+                                    newFeed.append(ChatFeed(chatFeedElementResponse: feedResponse))
+                                    self.chatVm.feed = newFeed
                                 }
+                            }
+                            // I have to do this because the SignalR connection is possibly still instanciaiting
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 4){
+                                chatVm.chatConnection.updateConnectionId(user: user)
                             }
                             self.isLoading = false
                         case .failure(let error):
@@ -114,53 +147,56 @@ struct ChatHomeView: View {
 
 
 struct ChatCellView : View {
-    var chatFeed: ChatFeed
+    
+    var chatFeedIndex: Int
+    @EnvironmentObject var chatVm: ChatVM
     var body: some View{
         VStack{
             RoundedRectangle(cornerRadius: 20)
                 .overlay(
                     RoundedRectangle(cornerRadius: 20)
                         .stroke(Color.gray.opacity(0), lineWidth: 1)
-                    
                 )
                 .foregroundColor(myColors.lightGrayColor.opacity(0.2))
                 .overlay(
                     HStack{
-                        UserImageView(chatUser: chatFeed.user.toChatUserResponse(), isMaxSize: false).padding()
-                        VStack(alignment: .leading,spacing: 0){
-                            
-                            Text(chatFeed.user.userName)
-                                .font(.custom("Helvetica", fixedSize: 16))
-                                .bold()
-                                .foregroundColor(.white)
-                                .padding(.top)
-                            
-                            if chatFeed.user.isConsultant && chatFeed.sessionId == nil {
-                                Text("Tap to Start Chat")
+                        if let chatFeed = chatVm.feed[chatFeedIndex] {
+                            UserImageView(chatUser: chatFeed.user.toChatUserResponse(), isMaxSize: false).padding()
+                            VStack(alignment: .leading,spacing: 0){
+                                
+                                Text(chatFeed.user.userName)
                                     .font(.custom("Helvetica", fixedSize: 16))
                                     .bold()
-                                    .foregroundColor(myColors.greenColor)
+                                    .foregroundColor(.white)
                                     .padding(.top)
-                                    .minimumScaleFactor(1)
                                 
-                            }
-                            else {
-                                if let chatMessage = chatFeed.chatMessages?.last {
-                                    Text(chatMessage.message)
+                                if chatFeed.user.isConsultant && chatFeed.sessionId == nil {
+                                    Text("Tap to Start Chat")
                                         .font(.custom("Helvetica", fixedSize: 16))
                                         .bold()
-                                        .foregroundColor(chatMessage.isReply ? myColors.greenColor : .white)
+                                        .foregroundColor(myColors.greenColor)
                                         .padding(.top)
                                         .minimumScaleFactor(1)
+                                    
                                 }
+                                else {
+                                    if let chatMessage = chatFeed.chatMessages?.last {
+                                        Text(chatMessage.message)
+                                            .font(.custom("Helvetica", fixedSize: 16))
+                                            .bold()
+                                            .foregroundColor(chatMessage.isReply ? myColors.greenColor : .white)
+                                            .padding(.top)
+                                            .minimumScaleFactor(1)
+                                    }
+                                }
+                                Spacer()
                             }
                             Spacer()
+                            Image(systemName: "chevron.right")
+                                .font(.custom("Helvetica", fixedSize: 16).bold())
+                                .foregroundColor(myColors.greenColor)
+                                .padding()
                         }
-                        Spacer()
-                        Image(systemName: "chevron.right")
-                            .font(.custom("Helvetica", fixedSize: 16).bold())
-                            .foregroundColor(myColors.greenColor)
-                            .padding()
                     }
                 )
         }
@@ -196,25 +232,24 @@ struct UserImageView : View {
                             .clipShape(Circle())
                             .aspectRatio(contentMode: .fill)
                             .shadow(radius: 8)
-                            .padding(.horizontal)
                     }
                 }
                 else{
-                    ZStack {
-                        Circle()
-                            .stroke(myColors.greenColor, lineWidth: 4)
-                            .frame(width: isMaxSize ? 100 : 50, height: isMaxSize ? 100 : 50)
+                    Text(chatUser.image)
+                        .font(.custom("", fixedSize: isMaxSize ? 70 : 40))
+                        .scaledToFit()
+                        .background(
                         
-                        Circle()
-                            .fill(myColors.grayColor)
-                            .frame(width: isMaxSize ? 100 : 50, height: isMaxSize ? 100 : 50)
-                        
-                        Text(chatUser.image)
-                            .font(.custom("", fixedSize: isMaxSize ? 70 : 40))
-                            .offset(y: 3)
-                            .opacity(1.0)
-                        
-                    }
+                            ZStack {
+                                Circle()
+                                    .stroke(myColors.greenColor, lineWidth: 4)
+                                    .frame(width: isMaxSize ? 100 : 50, height: isMaxSize ? 100 : 50)
+                                
+                                Circle()
+                                    .fill(myColors.grayColor)
+                                    .frame(width: isMaxSize ? 100 : 50, height: isMaxSize ? 100 : 50)
+                            }
+                        )
                 }
             }
         }
@@ -243,8 +278,6 @@ struct MiniUserImageView : View {
                         
                         Text(chatUser.image)
                             .font(.custom("", fixedSize: 22))
-                            .offset(y: 1)
-                            .opacity(1.0)
                         
                     }
                 }

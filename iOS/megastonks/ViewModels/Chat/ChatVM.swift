@@ -49,13 +49,13 @@ class ChatVM : ObservableObject {
             switch result {
                 
             case .success(let feedResponse):
-                var feedToAppend = [ChatFeed]()
+                var newFeed = [ChatFeed]()
                 
                 feedResponse.forEach({ resp in
-                    feedToAppend.append(ChatFeed(chatFeedElementResponse: resp))
+                    newFeed.append(ChatFeed(chatFeedElementResponse: resp))
                 })
                 DispatchQueue.main.async {
-                    self.feed = feedToAppend
+                    self.feed = newFeed
                 }
             case .failure(_):
                 print("Error")
@@ -64,8 +64,8 @@ class ChatVM : ObservableObject {
     }
     
     @objc func updateMessages(_ notification: Notification){
-        if let incomingMessage = notification.userInfo as? [String: PostChatMessageResponse]{
-            if let message = incomingMessage["message"] {
+        if let incomingResponse = notification.userInfo as? [String: PostChatMessageResponse]{
+            if let message = incomingResponse["response"] {
             let feedToUpdate = feed.firstIndex(where: { $0.sessionId == message.chatSessionId })
             
             if let feedToUpdate = feedToUpdate {

@@ -15,9 +15,10 @@ struct ChatView: View {
     @State var keyboardHeight: CGFloat = 0
     @State var isKeyboardVisible: Bool = false
     @State private var showChatOptions = false
-    @State var isLoading: Bool = true
+    @State var isLoading: Bool = false
     @State var errorMessage: String = ""
-    
+    @State var showReconnectButton: Bool = false
+    @State var connectionErrorCount: Int = 0
     @EnvironmentObject var userAuth: UserAuth
     @EnvironmentObject var chatVm: ChatVM
     
@@ -103,9 +104,11 @@ struct ChatView: View {
                                     
                                     switch result {
                                     case .success(_):
-                                        print("Successfully Sent Message")
+                                        errorMessage = ""
                                     case .failure(let error):
-                                        errorMessage = "Could not send message. Please check your internet connection or try again \(error.localizedDescription) "
+                                        connectionErrorCount += 1
+                                        showReconnectButton = true
+                                        errorMessage = "Could not send message. Please check your internet connection and restart the app \(error.localizedDescription)"
                                     }
                                 }
                             }
@@ -136,6 +139,63 @@ struct ChatView: View {
                 }
                 
             }
+            .overlay(
+                    VStack{
+                        if showReconnectButton && connectionErrorCount == 1 {
+                            VStack{
+                                Color.black.opacity(0.6).overlay(
+                                    Button(action: {
+                                        self.errorMessage = ""
+                                        self.showReconnectButton = false
+                                        self.isLoading = true
+                                        if let chatUser = userAuth.chatUser{
+                                            self.chatVm.chatConnection.restartHubConnection(user: chatUser)
+                                        }
+                                    
+                                        //Assume it takes about 6 seconds to restablish connection
+                                            DispatchQueue.main.asyncAfter(deadline: .now() + 6){
+                                                self.isLoading = false
+                                            }
+                                        
+                                        
+                                    }, label: {
+                                        VStack{
+                                            Text("Lost Connection")
+                                                .font(.custom("Helvetica", size: 12))
+                                                .foregroundColor(.red)
+                                            
+                                            Text("Tap to Reconnect")
+                                                .font(.custom("Helvetica", size: 20))
+                                                .bold()
+                                                .foregroundColor(.green)
+                                                .padding()
+                                                .background(Color.black.opacity(0.6))
+                                                .cornerRadius(10)
+                                        }
+                                    })
+                                )
+                            }
+                        }
+                    }
+                
+                
+            )
+            .overlay(
+                VStack{
+                    if self.isLoading {
+                        Color.black.opacity(0.6).overlay(
+                            VStack{
+                                Spacer()
+                                ProgressView()
+                                    .accentColor(.green)
+                                    .scaleEffect(x: 1.4, y: 1.4)
+                                    .progressViewStyle(CircularProgressViewStyle(tint: myColors.greenColor))
+                                Spacer()
+                            }
+                        )
+                    }
+                }
+            )
             .if(chatVm.feed[chatFeedIndex].user.isConsultant){ view in
                 view.sheet(isPresented: $showChatOptions, content: {
                     ChatOptionsView()
@@ -214,12 +274,12 @@ struct ChatView: View {
                             DispatchQueue.main.async {
                                 chatVm.feed[chatFeedIndex].sessionId = chatSession.id
                             }
-                            self.isLoading = true
+                            self.isLoading = false
                         case .failure(let error):
                             DispatchQueue.main.async {
                                 self.errorMessage = error.localizedDescription
                             }
-                            self.isLoading = true
+                            self.isLoading = false
                         }
                     }
                 }
@@ -233,7 +293,7 @@ struct ChatView: View {
     }
 }
 
-struct ChatTextCell : View{
+struct ChatTextCell : View {
     
     
     
