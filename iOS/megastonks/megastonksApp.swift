@@ -81,7 +81,14 @@ class AppDelegate: NSObject, UIApplicationDelegate
     ) {
       let tokenParts = deviceToken.map { data in String(format: "%02.2hhx", data) }
       let token = tokenParts.joined()
-      print("Device Token: \(token)")
+        
+        defaults.set(token, forKey: "deviceToken")
+        
+        guard let chatUser = ChatUserProfileCache.get() else { return }
+        
+        ChatAPI.shared.updateDeviceToken(user: chatUser, deviceToken: token)
+        
+        print("Device Token: \(token)")
     }
     
     func application(

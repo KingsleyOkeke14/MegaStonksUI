@@ -141,6 +141,28 @@ struct ChatHomeView: View {
                         }
                     }
                 })
+                .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
+                    chatVm.chatApi.fetchFeed(user: user){ result in
+                        switch result {
+                        case .success(let result):
+                            var newFeed = [ChatFeed]()
+                            DispatchQueue.main.async {
+                                result.forEach{ feedResponse in
+                                    newFeed.append(ChatFeed(chatFeedElementResponse: feedResponse))
+                                    self.chatVm.feed = newFeed
+                                }
+                            }
+                            // I have to do this because the SignalR connection is possibly still instanciaiting
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 4){
+                                chatVm.chatConnection.updateConnectionId(user: user)
+                            }
+                            self.isLoading = false
+                        case .failure(let error):
+                            self.errorMessage = error.localizedDescription
+                            self.isLoading = false
+                        }
+                    }
+                }
 
     }
 }

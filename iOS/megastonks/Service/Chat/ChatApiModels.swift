@@ -59,3 +59,8 @@ struct StartChatRequest: Codable {
     let user: ChatUserResponse
     let userToStartChatWith: ChatUserResponse
 }
+
+struct UpdateDeviceTokenRequest: Codable {
+    let chatUser: ChatUserResponse
+    let deviceToken: String
+}

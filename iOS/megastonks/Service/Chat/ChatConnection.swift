@@ -95,6 +95,7 @@ class ChatAPI {
     private let startChatURL: URL = URL(string: APIRoutes().server + "chat/startChat")!
     private let saveMessageURL: URL = URL(string: APIRoutes().server + "chat/saveMessage")!
     private let startChatUrl: URL = URL(string: APIRoutes().server + "chat/startChat")!
+    private let updateDeviceTokenUrl: URL = URL(string: APIRoutes().server + "chat/updateDeviceToken")!
     
     let decoder = JSONDecoder()
     
@@ -289,6 +290,21 @@ class ChatAPI {
                 }
             }
             
+        }
+        task.resume()
+    }
+    
+    func updateDeviceToken(user: ChatUserResponse, deviceToken: String){
+        let url = updateDeviceTokenUrl
+        let request = AppUrlRequest(url: url, httpMethod: "POST").request
+        let jsonData = try! JSONEncoder().encode(UpdateDeviceTokenRequest(chatUser: user, deviceToken: deviceToken))
+        
+        let task = API().session.uploadTask(with: request, from: jsonData ) { (data, _ , error) in
+            
+            if error != nil || data == nil {
+                print("Client error!")
+                print("Error is \(error!)")
+            }
         }
         task.resume()
     }

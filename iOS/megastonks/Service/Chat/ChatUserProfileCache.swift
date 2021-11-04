@@ -12,11 +12,11 @@ struct ChatUserProfileCache {
     static func save(_ value: ChatUserResponse!) {
          UserDefaults.standard.set(try? PropertyListEncoder().encode(value), forKey: key)
     }
-    static func get() -> ChatUserResponse! {
-        var userData: ChatUserResponse!
+    static func get() -> ChatUserResponse? {
+        var userData: ChatUserResponse?
         if let data = UserDefaults.standard.value(forKey: key) as? Data {
             userData = try? PropertyListDecoder().decode(ChatUserResponse.self, from: data)
-            return userData!
+            return userData
         } else {
             return userData
         }

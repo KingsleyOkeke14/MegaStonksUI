@@ -12,7 +12,6 @@ struct ChatView: View {
     var chatFeedIndex: Int
     @State var text: String = ""
     @State var height: CGFloat = 40
-    @State var keyboardHeight: CGFloat = 0
     @State var isKeyboardVisible: Bool = false
     @State private var showChatOptions = false
     @State var isLoading: Bool = false
@@ -64,16 +63,13 @@ struct ChatView: View {
                 }
                 .onAppear{
                     NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: .main) {
-                        (data) in
-                        let height = data.userInfo![UIResponder.keyboardFrameEndUserInfoKey] as! NSValue
+                        _ in
                         self.isKeyboardVisible = true
-                        self.keyboardHeight = height.cgRectValue.height - 8
                     }
                     
                     NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillHideNotification, object: nil, queue: .main) {
                         _ in
                         self.isKeyboardVisible = false
-                        self.keyboardHeight = 0
                     }
                 }
                 HStack{
@@ -126,17 +122,11 @@ struct ChatView: View {
                 .padding(8)
                 .gesture(DragGesture(minimumDistance: 10, coordinateSpace: .local)
                             .onEnded({ value in
-                                
                                 if value.translation.height > 10 {
                                     // down
                                     hideKeyboard()
                                 }
                             }))
-                .if(userAuth.isInChatMode){ view in
-                    view.padding(.bottom, 12)
-                        .padding(.bottom, keyboardHeight)
-                    
-                }
                 
             }
             .overlay(
@@ -202,9 +192,6 @@ struct ChatView: View {
                         .preferredColorScheme(.dark)
                         .environmentObject(userAuth)
                 })
-            }
-            .if(userAuth.isInChatMode){ view in
-                view.ignoresSafeArea(edges: .bottom)
             }
            .toolbar(content: {
                 ToolbarItem(placement: .principal){

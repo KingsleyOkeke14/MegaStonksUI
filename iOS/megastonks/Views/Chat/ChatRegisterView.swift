@@ -83,7 +83,7 @@ struct ChatRegisterView: View {
 
                             
                         Spacer()
-                        Button(action: {
+                        Button(action: { 
                             let impactMed = UIImpactFeedbackGenerator(style: .medium)
                             impactMed.impactOccurred()
                             showSignUpHint.toggle()
@@ -115,6 +115,11 @@ struct ChatRegisterView: View {
                                 switch result{
 
                                 case .success(let user):
+                                    if let deviceToken = defaults.string(forKey: "isInChatMode") {
+                                        //Set Device Token after Registration
+                                        ChatAPI.shared.updateDeviceToken(user: user, deviceToken: deviceToken)
+                                    }
+                                    
                                     ChatUserProfileCache.save(user)
                                     DispatchQueue.main.async {
                                         self.isLoading = false
@@ -240,6 +245,12 @@ struct AdminLoginView: View {
                                     switch result{
                                         
                                     case .success(let user):
+                                        
+                                        if let deviceToken = defaults.string(forKey: "isInChatMode") {
+                                            //Set Device Token after Registration
+                                            ChatAPI.shared.updateDeviceToken(user: user, deviceToken: deviceToken)
+                                        }
+                                        
                                         ChatUserProfileCache.save(user)
                                         DispatchQueue.main.async {
                                             self.isLoading = false

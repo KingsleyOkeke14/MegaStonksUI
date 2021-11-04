@@ -13,7 +13,9 @@ struct ChatRootView: View {
     
     var body: some View {
         if(userAuth.isChatLoggedIn){
-            ChatHomeView(user: ChatUserProfileCache.get())
+            if let chatUser = ChatUserProfileCache.get() {
+                ChatHomeView(user: chatUser)
+            }
         }
         else{
             ChatRegisterView(showExitButton: showExitButton)
