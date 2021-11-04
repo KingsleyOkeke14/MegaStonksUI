@@ -117,7 +117,7 @@ struct ChatHomeView: View {
                     .navigationTitle("")
                 }
                 .sheet(isPresented: $showUserChatOptions, content: {
-                    UserInfoView(user: user, showExitToAppButton: userAuth.isInChatMode)
+                    UserInfoView(user: user, showExitToAppButton: userAuth.isInChatMode).environmentObject(chatVm)
                 })
                 .onAppear(perform: {
                     chatVm.chatApi.fetchFeed(user: user){ result in

@@ -11,7 +11,10 @@ struct UserInfoView: View {
     var user: ChatUserResponse
     var showExitToAppButton: Bool
     @State var showCloseChatprompt: Bool = false
+    @State var errorMessage = ""
+    @State var isLoading = false
     @EnvironmentObject var userAuth: UserAuth
+    @EnvironmentObject var chatVm: ChatVM
     @Environment(\.presentationMode) var presentationMode
     
     init(user: ChatUserResponse, showExitToAppButton: Bool){
@@ -53,9 +56,8 @@ struct UserInfoView: View {
                                      .padding(.horizontal, 6)
                              })
                          }.padding()
+                         
                          if(showExitToAppButton){
-                             
-                             
                              Button(action: {
                                  presentationMode.wrappedValue.dismiss()
                                  userAuth.isInChatMode = false
@@ -83,6 +85,11 @@ struct UserInfoView: View {
                          VStack{
                              if(showCloseChatprompt){
                                  VStack(spacing: 40){
+                                     Text(errorMessage)
+                                         .foregroundColor(.red)
+                                         .font(.custom("Helvetica", size: 12))
+                                         .bold()
+                                         .multilineTextAlignment(.center)
                                      VStack {
                                          Text("Are you sure you will like to close your chat session?")
                                              .font(.custom("Helvetica", fixedSize: 14))
@@ -97,10 +104,21 @@ struct UserInfoView: View {
                                      
                                      HStack(spacing: 80){
                                          Button(action: {
-                                             ChatUserProfileCache.remove()
-                                             presentationMode.wrappedValue.dismiss()
-                                             userAuth.isChatLoggedIn = false
-                                             userAuth.chatUser = nil
+                                             self.isLoading = true
+                                             chatVm.chatApi.removeDeviceToken(user: user) { result in
+                                                 switch result {
+                                                 case .success(_):
+                                                     ChatUserProfileCache.remove()
+                                                     presentationMode.wrappedValue.dismiss()
+                                                     userAuth.isChatLoggedIn = false
+                                                     userAuth.chatUser = nil
+                                                     self.isLoading = false
+                                                 case .failure(let error):
+                                                     self.isLoading = false
+                                                     errorMessage = error.localizedDescription
+                                                 }
+                                             }
+                                             
                                          }, label: {
                                              Text("Yes")
                                                  .font(.custom("Helvetica", fixedSize: 20))
@@ -113,6 +131,7 @@ struct UserInfoView: View {
                                          })
                                          
                                          Button(action: {
+                                             errorMessage = ""
                                              showCloseChatprompt = false
                                          }, label: {
                                              Text("No")
@@ -132,7 +151,25 @@ struct UserInfoView: View {
                          }.padding(.horizontal, 20)
                          
                      )
-            
+                     .overlay(
+                        VStack{
+                            if self.isLoading {
+                                Color.black.opacity(0.6).overlay(
+                                    VStack{
+                                        Spacer()
+                                        ProgressView()
+                                            .accentColor(.green)
+                                            .scaleEffect(x: 1.4, y: 1.4)
+                                            .progressViewStyle(CircularProgressViewStyle(tint: myColors.greenColor))
+                                        Spacer()
+                                    }
+                                )
+                            }
+                        }
+                       )
+                     .onAppear(perform: {
+                            errorMessage = ""
+                      })
             
             )
     }

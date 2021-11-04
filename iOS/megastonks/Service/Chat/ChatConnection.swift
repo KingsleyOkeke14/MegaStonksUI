@@ -96,6 +96,7 @@ class ChatAPI {
     private let saveMessageURL: URL = URL(string: APIRoutes().server + "chat/saveMessage")!
     private let startChatUrl: URL = URL(string: APIRoutes().server + "chat/startChat")!
     private let updateDeviceTokenUrl: URL = URL(string: APIRoutes().server + "chat/updateDeviceToken")!
+    private let removeDeviceTokenUrl: URL = URL(string: APIRoutes().server + "chat/removeDeviceToken")!
     
     let decoder = JSONDecoder()
     
@@ -304,6 +305,38 @@ class ChatAPI {
             if error != nil || data == nil {
                 print("Client error!")
                 print("Error is \(error!)")
+            }
+        }
+        task.resume()
+    }
+    
+    func removeDeviceToken(user: ChatUserResponse, completion: @escaping (Result<Bool, Error>) -> ()){
+        let url = removeDeviceTokenUrl
+        let request = AppUrlRequest(url: url, httpMethod: "POST").request
+        let jsonData = try! JSONEncoder().encode(user)
+        
+        let task = API().session.uploadTask(with: request, from: jsonData ) { (data, response , error) in
+            
+            if error != nil || data == nil {
+                print("Client error!")
+                print("Error is \(error!)")
+                
+                completion(.failure(NSError(domain: "", code: 1, userInfo: [NSLocalizedDescriptionKey : "Error contacting the server. Please Check your internet connection"])))
+                return
+            }
+            
+            if let httpResponse = response as? HTTPURLResponse{
+                
+                if httpResponse.statusCode == 200{
+                    if let _ = data {
+                        completion(.success(true))
+                    }
+                    return
+                }
+                else{
+                    completion(.failure(NSError(domain: "", code: 1, userInfo: [NSLocalizedDescriptionKey :  "Could not close Chat Session. Please try again or contact support @ hello@megastonks.com"])))
+                    return
+                }
             }
         }
         task.resume()
