@@ -110,9 +110,12 @@ struct UserInfoView: View {
                                                  case .success(_):
                                                      ChatUserProfileCache.remove()
                                                      presentationMode.wrappedValue.dismiss()
-                                                     userAuth.isChatLoggedIn = false
-                                                     userAuth.chatUser = nil
-                                                     self.isLoading = false
+                                                     DispatchQueue.main.async {
+                                                         userAuth.isChatLoggedIn = false
+                                                         userAuth.chatUser = nil
+                                                         self.isLoading = false
+                                                     }
+
                                                  case .failure(let error):
                                                      self.isLoading = false
                                                      errorMessage = error.localizedDescription

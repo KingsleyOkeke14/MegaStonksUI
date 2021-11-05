@@ -115,7 +115,10 @@ struct ChatRegisterView: View {
                                 switch result{
 
                                 case .success(let user):
-                                    if let deviceToken = defaults.string(forKey: "isInChatMode") {
+                                    DispatchQueue.main.async {
+                                        UIApplication.shared.registerForRemoteNotifications()
+                                    }
+                                    if let deviceToken = defaults.string(forKey: "deviceToken") {
                                         //Set Device Token after Registration
                                         ChatAPI.shared.updateDeviceToken(user: user, deviceToken: deviceToken)
                                     }
@@ -132,9 +135,6 @@ struct ChatRegisterView: View {
                                         self.error = error.localizedDescription
                                     }
                                 }
-
-
-
                             }
                           
                         }
@@ -246,7 +246,10 @@ struct AdminLoginView: View {
                                         
                                     case .success(let user):
                                         
-                                        if let deviceToken = defaults.string(forKey: "isInChatMode") {
+                                        DispatchQueue.main.async {
+                                            UIApplication.shared.registerForRemoteNotifications()
+                                        }
+                                        if let deviceToken = defaults.string(forKey: "deviceToken") {
                                             //Set Device Token after Registration
                                             ChatAPI.shared.updateDeviceToken(user: user, deviceToken: deviceToken)
                                         }

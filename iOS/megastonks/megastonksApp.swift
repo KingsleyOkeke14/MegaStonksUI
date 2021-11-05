@@ -73,7 +73,6 @@ class AppDelegate: NSObject, UIApplicationDelegate
             guard granted else { return }
             self?.getNotificationSettings()
           }
-
     }
     
     func application(_ application: UIApplication,
