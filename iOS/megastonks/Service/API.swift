@@ -9,8 +9,12 @@ import Foundation
 import SwiftKeychainWrapper
 
 struct APIRoutes {
-    private let server:String
+    let server:String
+    #if DEBUG
+    let domain = "megastonksdev.azurewebsites.net"
+    #else
     let domain = "megastonksprod.azurewebsites.net"
+    #endif
     private let authRoute = "accounts/authenticate"
     private let registerRoute = "accounts/register"
     private let stockWatchlistRoute = "watchlist/getwatchlist"

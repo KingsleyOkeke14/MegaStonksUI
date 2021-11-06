@@ -22,19 +22,6 @@ struct ProfileSettingsPageView: View {
     @Environment(\.presentationMode) var presentation
     @Environment(\.openURL) var openURL
     
-    init() {
-        let coloredAppearance = UINavigationBarAppearance()
-        // this overrides everything you have set up earlier.
-        coloredAppearance.configureWithTransparentBackground()
-        coloredAppearance.backgroundColor = .black
-        coloredAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.black]
-        
-        // to make everything work normally
-        UINavigationBar.appearance().standardAppearance = coloredAppearance
-        UINavigationBar.appearance().scrollEdgeAppearance = coloredAppearance
-        
-        UINavigationBar.appearance().tintColor = .systemGray4
-    }
     
     let myColors = MyColors()
     var body: some View {

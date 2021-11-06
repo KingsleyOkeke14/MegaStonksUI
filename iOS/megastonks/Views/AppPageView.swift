@@ -44,25 +44,23 @@ struct AppPageView: View {
                         }.tag(2)
                         .preferredColorScheme(.dark)
                     
+                    ChatRootView(showExitButton: false)
+                        .environmentObject(userAuth)
+                        .tabItem {
+                            Label("Conversations", systemImage: selection == 3 ? "bubble.left.and.bubble.right.fill" : "bubble.left.and.bubble.right")
+                        }.tag(3)
+                        .preferredColorScheme(.dark)
+                    
                     ProfilePageView()
                         .environmentObject(userAuth)
                         .environmentObject(appObject)
                         .tabItem {
-                            Label("Account", systemImage: selection == 3 ? "person.fill" : "person")
-                        }.tag(3)
+                            Label("Account", systemImage: selection == 4 ? "person.fill" : "person")
+                        }.tag(4)
                         .preferredColorScheme(.dark)
-                }
-                .animation(Animation.default)
-                .accentColor(myColors.greenColor)
-                .onAppear() {
-                    UITabBar.appearance().shadowImage = UIImage()
-                    UITabBar.appearance().backgroundImage = UIImage()
-                    UITabBar.appearance().isTranslucent = true
-                    UITabBar.appearance().backgroundColor = .black
-                    UITabBar.appearance().unselectedItemTintColor = UIColor(myColors.greenColor.opacity(0.6))
-
                     
                 }
+                .accentColor(myColors.greenColor)
             }
             else{
                 OnBoardPageView()

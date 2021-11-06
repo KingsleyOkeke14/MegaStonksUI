@@ -2,6 +2,15 @@
   "object": {
     "pins": [
       {
+        "package": "SignalRClient",
+        "repositoryURL": "https://github.com/moozzyk/SignalR-Client-Swift.git",
+        "state": {
+          "branch": null,
+          "revision": "a998729a4a525d30228bd0893bb3200304726289",
+          "version": "0.8.0"
+        }
+      },
+      {
         "package": "SwiftKeychainWrapper",
         "repositoryURL": "https://github.com/jrendel/SwiftKeychainWrapper",
         "state": {

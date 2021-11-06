@@ -9,16 +9,26 @@ import Combine
 import Foundation
 import SwiftKeychainWrapper
 
+let defaults = UserDefaults.standard
+
 class UserAuth: ObservableObject {
     @Published var isLoggedin:Bool?
     @Published var user:User = User(firstName: "", lastName: "", emailAddress: "", currency: "", isOnBoarded: true)
     @Published var showAuthError:Bool = false
     @Published var isRefreshingAuth:Bool = false
     @Published var isInChatMode:Bool = false
+    @Published var isChatLoggedIn:Bool = false
+    @Published var chatUser:ChatUserResponse?
     
     init() {
         user.emailAddress = KeychainWrapper.standard.string(forKey: "EmailAddress") ?? ""
         refreshLogin(isFirstLogin: true)
+        
+        isInChatMode = defaults.bool(forKey: "isInChatMode")
+        if let chatUser = ChatUserProfileCache.get() {
+            self.chatUser = chatUser
+            isChatLoggedIn = true
+        }
     }
     
     func login(email:String, password:String, completion: @escaping (RequestResponse) -> ()) {

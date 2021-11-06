@@ -32,34 +32,28 @@ struct ProfileImagePickerView: View {
                 VStack(alignment: .center){
                     VStack{
                         
-                    }.frame(height: 40)
-                    
+                    }.frame(height: 20)
+                    Spacer()
                     ScrollView{
-                        VStack{
-                            
-                        }.frame(height: 20)
                         LazyVGrid(columns: columns){
                             ForEach(0..<imageOptions.count) { i in
                                 
                                 
                                 ProfileImageView(image: imageOptions[i].image, isSelected: $imageOptions[i].isSelected)
                                     .onTapGesture(perform: {
+                                        let impactMed = UIImpactFeedbackGenerator(style: .medium)
+                                        impactMed.impactOccurred()
                                         imageOptions.indices.forEach { index in
                                             imageOptions[index].isSelected = false
                                         }
                                         imageOptions[i].isSelected = true
+                                        presentationMode.wrappedValue.dismiss()
                                     })
+                                    .padding(6)
                             }
                         }
-                        Button(action: {
-                            presentationMode.wrappedValue.dismiss()
-                            
-                        }
-                              , label: {
-                                ButtonView(cornerRadius: 12,  text: "Continue", textColor: myColors.grayColor, textSize: 20, frameWidth: 100, frameHeight: 34, backGroundColor: .green, strokeBorders: false, fillColor: .green).padding(.top, 40)
-                        })
-
-                    }.padding(.horizontal)  
+                    }
+                    .padding(.horizontal)
                 }
             )
     }
@@ -83,8 +77,9 @@ struct ProfileImageView: View {
                     VStack{
                         if(isSelected){
                             Image(systemName: "checkmark.circle.fill")
+                                .font(.custom("", fixedSize: 18))
                                 .foregroundColor(myColors.greenColor)
-                                .offset(x: 44, y: -42)
+                                .offset(x: 46, y: -42)
                             
                         }
                     }

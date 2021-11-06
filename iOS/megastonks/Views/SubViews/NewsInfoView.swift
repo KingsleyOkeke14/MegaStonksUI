@@ -78,6 +78,7 @@ struct NewsInfoView: View {
         .sheet(isPresented: $showSafari) {
             SafariView(url:URL(string: self.newsElement.url)!).preferredColorScheme(.dark)
         }
+        .navigationBarTitleDisplayMode(.inline)
        
     }
 }

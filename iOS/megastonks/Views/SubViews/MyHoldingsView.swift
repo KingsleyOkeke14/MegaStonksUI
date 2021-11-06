@@ -126,8 +126,7 @@ struct DoubleColumnedView: View {
                                         .stroke(style: StrokeStyle(lineWidth: 2, lineCap: CGLineCap.round, lineJoin: .round))
                                         .foregroundColor(themeColor)
                                         .rotationEffect(Angle(degrees: 270))
-                                        .animation(.linear)
-                                }.frame(width: 20, height: 20, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                                }.frame(width: 20, height: 20, alignment: .center)
                                 
                                 //RadialChartView(percentage: 0.4, width: 20, height: 20, lineWidth: 2, lineCapStyle: CGLineCap.round).offset(x: 0, y: 2)
                                 Text(column2Text)
