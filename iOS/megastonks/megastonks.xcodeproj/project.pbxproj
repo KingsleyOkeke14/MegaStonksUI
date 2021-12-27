@@ -14,7 +14,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		D0A578AC2779A60D007650E3 /* megastonks.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = megastonks.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D0A578AC2779A60D007650E3 /* Mega Stonks.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Mega Stonks.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0A578AF2779A60D007650E3 /* megastonksApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = megastonksApp.swift; sourceTree = "<group>"; };
 		D0A578B12779A60D007650E3 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		D0A578B32779A60E007650E3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -43,7 +43,7 @@
 		D0A578AD2779A60D007650E3 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				D0A578AC2779A60D007650E3 /* megastonks.app */,
+				D0A578AC2779A60D007650E3 /* Mega Stonks.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -84,7 +84,7 @@
 			);
 			name = megastonks;
 			productName = megastonks;
-			productReference = D0A578AC2779A60D007650E3 /* megastonks.app */;
+			productReference = D0A578AC2779A60D007650E3 /* Mega Stonks.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -283,7 +283,7 @@
 				);
 				MARKETING_VERSION = 3.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.strikingfinancial.megastonks;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Mega Stonks";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -312,7 +312,7 @@
 				);
 				MARKETING_VERSION = 3.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.strikingfinancial.megastonks;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Mega Stonks";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
