@@ -8,17 +8,24 @@
 
 /* Begin PBXBuildFile section */
 		D000DF1D277ADE5300A22FC9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D000DF1C277ADE5300A22FC9 /* LaunchScreen.storyboard */; };
+		D027BBD227839B6400B7AD6C /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = D027BBD127839B6400B7AD6C /* Colors.swift */; };
+		D027BBDA2783A6AA00B7AD6C /* Poppins-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D027BBD92783A6AA00B7AD6C /* Poppins-Regular.ttf */; };
+		D027BBDE2783A6EE00B7AD6C /* Poppins-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D027BBDD2783A6EE00B7AD6C /* Poppins-SemiBold.ttf */; };
 		D0A578B02779A60D007650E3 /* megastonksApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A578AF2779A60D007650E3 /* megastonksApp.swift */; };
-		D0A578B22779A60D007650E3 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A578B12779A60D007650E3 /* ContentView.swift */; };
+		D0A578B22779A60D007650E3 /* LoginPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A578B12779A60D007650E3 /* LoginPageView.swift */; };
 		D0A578B42779A60E007650E3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D0A578B32779A60E007650E3 /* Assets.xcassets */; };
 		D0A578B72779A60E007650E3 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D0A578B62779A60E007650E3 /* Preview Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		D000DF1C277ADE5300A22FC9 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
+		D027BBD127839B6400B7AD6C /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
+		D027BBD82783A59000B7AD6C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		D027BBD92783A6AA00B7AD6C /* Poppins-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Regular.ttf"; sourceTree = "<group>"; };
+		D027BBDD2783A6EE00B7AD6C /* Poppins-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-SemiBold.ttf"; sourceTree = "<group>"; };
 		D0A578AC2779A60D007650E3 /* Mega Stonks.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Mega Stonks.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0A578AF2779A60D007650E3 /* megastonksApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = megastonksApp.swift; sourceTree = "<group>"; };
-		D0A578B12779A60D007650E3 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		D0A578B12779A60D007650E3 /* LoginPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginPageView.swift; sourceTree = "<group>"; };
 		D0A578B32779A60E007650E3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D0A578B62779A60E007650E3 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -34,6 +41,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D027BBD027839B5700B7AD6C /* Styles */ = {
+			isa = PBXGroup;
+			children = (
+				D027BBD127839B6400B7AD6C /* Colors.swift */,
+			);
+			path = Styles;
+			sourceTree = "<group>";
+		};
+		D027BBD32783A3C400B7AD6C /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				D027BBDD2783A6EE00B7AD6C /* Poppins-SemiBold.ttf */,
+				D027BBD92783A6AA00B7AD6C /* Poppins-Regular.ttf */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
 		D0A578A32779A60D007650E3 = {
 			isa = PBXGroup;
 			children = (
@@ -53,8 +77,11 @@
 		D0A578AE2779A60D007650E3 /* megastonks */ = {
 			isa = PBXGroup;
 			children = (
+				D027BBD82783A59000B7AD6C /* Info.plist */,
+				D027BBD32783A3C400B7AD6C /* Fonts */,
+				D027BBD027839B5700B7AD6C /* Styles */,
 				D0A578AF2779A60D007650E3 /* megastonksApp.swift */,
-				D0A578B12779A60D007650E3 /* ContentView.swift */,
+				D0A578B12779A60D007650E3 /* LoginPageView.swift */,
 				D0A578B32779A60E007650E3 /* Assets.xcassets */,
 				D0A578B52779A60E007650E3 /* Preview Content */,
 				D000DF1C277ADE5300A22FC9 /* LaunchScreen.storyboard */,
@@ -128,9 +155,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D027BBDE2783A6EE00B7AD6C /* Poppins-SemiBold.ttf in Resources */,
 				D000DF1D277ADE5300A22FC9 /* LaunchScreen.storyboard in Resources */,
 				D0A578B72779A60E007650E3 /* Preview Assets.xcassets in Resources */,
 				D0A578B42779A60E007650E3 /* Assets.xcassets in Resources */,
+				D027BBDA2783A6AA00B7AD6C /* Poppins-Regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -141,7 +170,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D0A578B22779A60D007650E3 /* ContentView.swift in Sources */,
+				D0A578B22779A60D007650E3 /* LoginPageView.swift in Sources */,
+				D027BBD227839B6400B7AD6C /* Colors.swift in Sources */,
 				D0A578B02779A60D007650E3 /* megastonksApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -276,6 +306,7 @@
 				DEVELOPMENT_TEAM = HMK8J32K98;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = megastonks/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -307,6 +338,7 @@
 				DEVELOPMENT_TEAM = HMK8J32K98;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = megastonks/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
