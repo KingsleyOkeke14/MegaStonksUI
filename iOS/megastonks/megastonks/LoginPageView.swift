@@ -17,7 +17,7 @@ struct LoginPageView: View {
             .overlay(
                 ScrollView {
                     VStack(spacing: 0) {
-                       Image("logoTransparent")
+                       Image("logo")
                             .resizable()
                             .frame(width: 300, height: 300)
                         VStack(spacing: 0) {
@@ -55,6 +55,7 @@ struct LoginPageView: View {
                                 .background(Color.megaStonksLightGreen)
                                 .cornerRadius(20)
                         }
+                        .padding(.top, 20)
                         Spacer()
                     }
                 }
