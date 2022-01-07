@@ -12,9 +12,11 @@
 		D027BBDA2783A6AA00B7AD6C /* Poppins-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D027BBD92783A6AA00B7AD6C /* Poppins-Regular.ttf */; };
 		D027BBDE2783A6EE00B7AD6C /* Poppins-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D027BBDD2783A6EE00B7AD6C /* Poppins-SemiBold.ttf */; };
 		D0A578B02779A60D007650E3 /* megastonksApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A578AF2779A60D007650E3 /* megastonksApp.swift */; };
-		D0A578B22779A60D007650E3 /* LoginPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A578B12779A60D007650E3 /* LoginPageView.swift */; };
+		D0A578B22779A60D007650E3 /* AuthPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A578B12779A60D007650E3 /* AuthPageView.swift */; };
 		D0A578B42779A60E007650E3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D0A578B32779A60E007650E3 /* Assets.xcassets */; };
 		D0A578B72779A60E007650E3 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D0A578B62779A60E007650E3 /* Preview Assets.xcassets */; };
+		D0FF77C12787B4C500E613F7 /* FormFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0FF77C02787B4C500E613F7 /* FormFieldView.swift */; };
+		D0FF77C52787BDDF00E613F7 /* AuthPageView+ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0FF77C42787BDDF00E613F7 /* AuthPageView+ViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,9 +27,11 @@
 		D027BBDD2783A6EE00B7AD6C /* Poppins-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-SemiBold.ttf"; sourceTree = "<group>"; };
 		D0A578AC2779A60D007650E3 /* Mega Stonks.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Mega Stonks.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0A578AF2779A60D007650E3 /* megastonksApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = megastonksApp.swift; sourceTree = "<group>"; };
-		D0A578B12779A60D007650E3 /* LoginPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginPageView.swift; sourceTree = "<group>"; };
+		D0A578B12779A60D007650E3 /* AuthPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthPageView.swift; sourceTree = "<group>"; };
 		D0A578B32779A60E007650E3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D0A578B62779A60E007650E3 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		D0FF77C02787B4C500E613F7 /* FormFieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormFieldView.swift; sourceTree = "<group>"; };
+		D0FF77C42787BDDF00E613F7 /* AuthPageView+ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AuthPageView+ViewModel.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,11 +81,13 @@
 		D0A578AE2779A60D007650E3 /* megastonks */ = {
 			isa = PBXGroup;
 			children = (
+				D0FF77C22787BDA900E613F7 /* View */,
+				D0FF77C32787BDBC00E613F7 /* ViewModel */,
 				D027BBD82783A59000B7AD6C /* Info.plist */,
 				D027BBD32783A3C400B7AD6C /* Fonts */,
 				D027BBD027839B5700B7AD6C /* Styles */,
 				D0A578AF2779A60D007650E3 /* megastonksApp.swift */,
-				D0A578B12779A60D007650E3 /* LoginPageView.swift */,
+				D0A578B12779A60D007650E3 /* AuthPageView.swift */,
 				D0A578B32779A60E007650E3 /* Assets.xcassets */,
 				D0A578B52779A60E007650E3 /* Preview Content */,
 				D000DF1C277ADE5300A22FC9 /* LaunchScreen.storyboard */,
@@ -95,6 +101,30 @@
 				D0A578B62779A60E007650E3 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		D0FF77BD2787B49F00E613F7 /* SubViews */ = {
+			isa = PBXGroup;
+			children = (
+				D0FF77C02787B4C500E613F7 /* FormFieldView.swift */,
+			);
+			path = SubViews;
+			sourceTree = "<group>";
+		};
+		D0FF77C22787BDA900E613F7 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				D0FF77BD2787B49F00E613F7 /* SubViews */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		D0FF77C32787BDBC00E613F7 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				D0FF77C42787BDDF00E613F7 /* AuthPageView+ViewModel.swift */,
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -170,8 +200,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D0A578B22779A60D007650E3 /* LoginPageView.swift in Sources */,
+				D0A578B22779A60D007650E3 /* AuthPageView.swift in Sources */,
+				D0FF77C12787B4C500E613F7 /* FormFieldView.swift in Sources */,
 				D027BBD227839B6400B7AD6C /* Colors.swift in Sources */,
+				D0FF77C52787BDDF00E613F7 /* AuthPageView+ViewModel.swift in Sources */,
 				D0A578B02779A60D007650E3 /* megastonksApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
