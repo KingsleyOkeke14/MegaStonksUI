@@ -17,8 +17,8 @@ extension Color {
 }
 
 extension UIColor {
-    static var megaStonksLightGreen: UIColor { .init(red: 0.14, green: 0.24, blue: 0.16, alpha: 1) }
-    static var megaStonksDarkGreen: UIColor { .init(red: 0.0, green: 0.12, blue: 0.05, alpha: 1) }
+    static var megaStonksLightGreen: UIColor { .init(red: 0.08, green: 0.12, blue: 0.09, alpha: 1) }
+    static var megaStonksDarkGreen: UIColor { .init(red: 0.0, green: 0.04, blue: 0.02, alpha: 1) }
     static var megaStonksLightGray: UIColor { .init(red: 0.33, green: 0.33, blue: 0.33, alpha: 1) }
     static var megaStonksOffWhite: UIColor { .init(red: 0.74, green: 0.74, blue: 0.74, alpha: 1)}
     static var megaStonksRed: UIColor { .init(red: 0.99, green: 0.34, blue: 0.34, alpha: 1)}

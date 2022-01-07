@@ -96,7 +96,7 @@ struct AuthPageView: View {
     @ViewBuilder
     func button(text: String, fontSize: CGFloat = 18) -> some View {
         Text(text)
-            .font(.custom("Poppins-SemiBold", fixedSize: fontSize))
+            .font(.custom("Poppins-Regular", fixedSize: fontSize))
             .foregroundColor(.white)
             .padding(.vertical, 6)
             .padding(.horizontal, 24)
