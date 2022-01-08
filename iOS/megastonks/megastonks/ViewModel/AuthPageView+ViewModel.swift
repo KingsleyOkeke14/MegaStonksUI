@@ -42,6 +42,9 @@ extension AuthPageView {
         
         func setMode(mode: ViewModel.Mode) {
             self.mode = mode
+            if mode == .login {
+                self.registerMode = .email
+            }
         }
         
         func setRegisterMode(mode: ViewModel.RegisterMode) {

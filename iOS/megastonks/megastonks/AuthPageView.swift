@@ -11,15 +11,17 @@ struct AuthPageView: View {
     
     @StateObject private var viewModel = ViewModel()
     
+    @FocusState private var focusedField: ViewModel.RegisterMode?
+    
     var body: some View {
         Color.megaStonksDarkGreen
             .ignoresSafeArea()
             .overlay(
-                ScrollView {
                     VStack(spacing: 0) {
-                        Image("logo")
+                        Image("logoSmall")
                             .resizable()
                             .frame(width: 260, height: 260)
+                            .offset(y: 40)
 
                         switch viewModel.mode {
                         case .loading:
@@ -38,7 +40,12 @@ struct AuthPageView: View {
                                         .frame(maxWidth: .infinity, alignment: .trailing)
                                 }
                                 
-                                Button(action: { withAnimation(.linear(duration: 0.4)) { viewModel.setMode(mode: .register) }  }) {
+                                Button(action: {
+                                    withAnimation(.linear(duration: 0.4)) {
+                                        viewModel.setMode(mode: .register)
+                                        focusedField = .email
+                                    }
+                                }) {
                                     Text("Register")
                                         .font(.custom("Poppins-Regular", fixedSize: 16))
                                         .foregroundColor(.megaStonksOffWhite)
@@ -48,7 +55,7 @@ struct AuthPageView: View {
                             .padding(.top, 8)
                             .padding()
                         case .register:
-                            VStack(spacing: 30) {
+                            VStack(spacing: 2) {
                                 switch viewModel.registerMode {
                                 case .email:
                                     registerViewEmail()
@@ -62,7 +69,12 @@ struct AuthPageView: View {
                                     .foregroundColor(.megaStonksRed)
                                     .padding(-20)
                                     .lineLimit(2)
-                                Button(action: { withAnimation(.linear(duration: 0.4)) { viewModel.setMode(mode: .login) } } ) {
+                                Button(action: {
+                                    withAnimation(.linear(duration: 0.4)) {
+                                        viewModel.setMode(mode: .login)
+                                        focusedField = nil
+                                    }
+                                } ) {
                                     HStack {
                                         Image(systemName: "arrow.left")
                                         Text("Login")
@@ -75,7 +87,10 @@ struct AuthPageView: View {
                             }
                         case .forgotPassword:
                             EmptyView()
-                            Button(action: { viewModel.setMode(mode: .login) }) {
+                            Button(action: {
+                                viewModel.setMode(mode: .login)
+                                focusedField = nil
+                            }) {
                                 HStack {
                                     Image(systemName: "arrow.left")
                                     Text("Login")
@@ -89,7 +104,6 @@ struct AuthPageView: View {
                  
                         Spacer()
                     }
-                }
             )
     }
     
@@ -114,7 +128,9 @@ struct AuthPageView: View {
                 .foregroundColor(.megaStonksRed)
                 .padding(-20)
                 .lineLimit(2)
-            Button (action: {}) {
+            Button (action: {
+                focusedField = nil
+            }) {
                 button(text: "Login")
             }
         }
@@ -126,6 +142,7 @@ struct AuthPageView: View {
     func registerViewEmail() -> some View {
         VStack(spacing: 30) {
             FormFieldView(formTitle: "User Name", formText: $viewModel.userNameRegister)
+                .focused($focusedField, equals: .email)
             FormFieldView(formTitle: "Email Address", formText: $viewModel.emailRegister)
             Text(viewModel.errorMessage)
                 .font(.custom("Poppins-Regular", fixedSize: 14))
@@ -133,7 +150,11 @@ struct AuthPageView: View {
                 .padding(-20)
                 .lineLimit(2)
             
-            Button (action: { withAnimation(.linear(duration: 0.4)) { viewModel.setRegisterMode(mode: .password) } } ) {
+            Button (action: {
+                withAnimation(.linear(duration: 0.4)) {
+                    viewModel.setRegisterMode(mode: .password)
+                    focusedField = .password
+                } } ) {
                 button(text: "Next")
             }
         }
@@ -144,6 +165,7 @@ struct AuthPageView: View {
     func registerViewPassword() -> some View {
         VStack(spacing: 30) {
             FormFieldView(formTitle: "Password", formText: $viewModel.passwordRegister)
+                .focused($focusedField, equals: .password)
             FormFieldView(formTitle: "Confirm Password", formText: $viewModel.confirmPasswordRegister)
             Text(viewModel.errorMessage)
                 .font(.custom("Poppins-Regular", fixedSize: 14))

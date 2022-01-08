@@ -20,9 +20,11 @@ struct FormFieldView: View {
             HStack {
                 if isSecureField {
                     SecureField(defaultText, text: $formText)
+                        .disableAutocorrection(true)
                 }
                 else {
                     TextField(defaultText, text: $formText)
+                        .disableAutocorrection(true)
                 }
             }
             .font(.custom("Poppins-SemiBold", fixedSize: 14))
