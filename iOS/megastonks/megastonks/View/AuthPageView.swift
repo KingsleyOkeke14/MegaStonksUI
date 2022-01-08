@@ -1,5 +1,5 @@
 //
-//  LoginPageView.swift
+//  AuthPageView.swift
 //  megastonks
 //
 //  Created by Kingsley Okeke on 2021-12-26.
@@ -18,10 +18,10 @@ struct AuthPageView: View {
             .ignoresSafeArea()
             .overlay(
                     VStack(spacing: 0) {
-                        Image("logoSmall")
+                        Image("logo")
                             .resizable()
                             .frame(width: 260, height: 260)
-                            .offset(y: 40)
+                            .offset(y: 20)
 
                         switch viewModel.mode {
                         case .loading:

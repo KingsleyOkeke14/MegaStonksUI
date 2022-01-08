@@ -87,7 +87,6 @@
 				D027BBD32783A3C400B7AD6C /* Fonts */,
 				D027BBD027839B5700B7AD6C /* Styles */,
 				D0A578AF2779A60D007650E3 /* megastonksApp.swift */,
-				D0A578B12779A60D007650E3 /* AuthPageView.swift */,
 				D0A578B32779A60E007650E3 /* Assets.xcassets */,
 				D0A578B52779A60E007650E3 /* Preview Content */,
 				D0FF77C627882E1300E613F7 /* LaunchScreen.storyboard */,
@@ -115,6 +114,7 @@
 			isa = PBXGroup;
 			children = (
 				D0FF77BD2787B49F00E613F7 /* SubViews */,
+				D0A578B12779A60D007650E3 /* AuthPageView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
