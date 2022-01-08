@@ -12,6 +12,7 @@ struct megastonksApp: App {
     var body: some Scene {
         WindowGroup {
             AuthPageView()
+                .preferredColorScheme(.dark)
         }
     }
 }

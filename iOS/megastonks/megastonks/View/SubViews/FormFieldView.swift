@@ -31,6 +31,7 @@ struct FormFieldView: View {
             Rectangle()
                 .fill(Color.megaStonksLightGray)
                 .frame(height: 1)
+                .padding(.top, -8)
         }
     }
 }
