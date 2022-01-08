@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
-    <device id="retina6_7" orientation="portrait" appearance="light"/>
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -12,22 +12,22 @@
             <objects>
                 <viewController id="01J-lp-oVM" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="Ze5-6b-2t3">
-                        <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" insetsLayoutMarginsFromSafeArea="NO" image="logo" adjustsImageSizeForAccessibilityContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Wrb-xn-P4M">
-                                <rect key="frame" x="34" y="283" width="360" height="360"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logoSmall" translatesAutoresizingMaskIntoConstraints="NO" id="hi7-uR-KyI">
+                                <rect key="frame" x="57" y="298" width="300" height="300"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="360" id="W8l-vb-old"/>
-                                    <constraint firstAttribute="width" constant="360" id="svI-Q2-nKQ"/>
+                                    <constraint firstAttribute="width" constant="300" id="ALM-8c-gAJ"/>
+                                    <constraint firstAttribute="height" constant="300" id="gyp-7Z-BjY"/>
                                 </constraints>
                             </imageView>
                         </subviews>
-                        <viewLayoutGuide key="safeArea" id="Fma-ev-PMr"/>
-                        <color key="backgroundColor" red="0.032800391319999997" green="0.1197991595" blue="0.056972734630000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <viewLayoutGuide key="safeArea" id="tOQ-tw-qWA"/>
+                        <color key="backgroundColor" red="0.0066037750799999998" green="0.038668755440000001" blue="0.016335230320000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <constraints>
-                            <constraint firstItem="Wrb-xn-P4M" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="agm-3H-zfL"/>
-                            <constraint firstItem="Wrb-xn-P4M" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="fvA-nS-TC5"/>
+                            <constraint firstItem="hi7-uR-KyI" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="8Cb-9J-kOx"/>
+                            <constraint firstItem="hi7-uR-KyI" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="vBB-Ro-UFi"/>
                         </constraints>
                     </view>
                 </viewController>
@@ -37,6 +37,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="logo" width="4168" height="4168"/>
+        <image name="logoSmall" width="512" height="512"/>
     </resources>
 </document>
