@@ -31,6 +31,7 @@ extension AuthPageView {
         @Published var emailRegister = ""
         @Published var passwordRegister = ""
         @Published var confirmPasswordRegister = ""
+        @Published var showTermsSheet: Bool = false
         @Published var didOpenTerms: Bool = false
         @Published var didAcceptTerms: Bool = false
         
@@ -50,5 +51,19 @@ extension AuthPageView {
         func setRegisterMode(mode: ViewModel.RegisterMode) {
             self.registerMode = mode
         }
+        
+        func toggleTermsSheet() {
+            self.showTermsSheet.toggle()
+        }
+        
+        func openTerms() {
+            self.didOpenTerms = true
+        }
+        
+        func toggleTerms() {
+            self.didAcceptTerms.toggle()
+        }
+        
+        
     }
 }

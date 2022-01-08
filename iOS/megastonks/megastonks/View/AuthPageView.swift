@@ -167,25 +167,88 @@ struct AuthPageView: View {
             FormFieldView(formTitle: "Password", formText: $viewModel.passwordRegister)
                 .focused($focusedField, equals: .password)
             FormFieldView(formTitle: "Confirm Password", formText: $viewModel.confirmPasswordRegister)
-            Text(viewModel.errorMessage)
-                .font(.custom("Poppins-Regular", fixedSize: 14))
-                .foregroundColor(.megaStonksRed)
-                .padding(-20)
-                .lineLimit(2)
             
-            HStack(spacing: 20) {
-                Button (action: { withAnimation(.linear(duration: 0.4)) { viewModel.setRegisterMode(mode: .email) } } ) {
-                    button(text: "Back")
+            VStack(spacing: 0) {
+                Text(viewModel.errorMessage)
+                    .font(.custom("Poppins-Regular", fixedSize: 14))
+                    .foregroundColor(.megaStonksRed)
+                    .padding(-20)
+                    .lineLimit(2)
+                HStack{
+                    if viewModel.didOpenTerms {
+                        Button(action: { viewModel.toggleTerms() })
+                        {
+                            Image(systemName: viewModel.didAcceptTerms ? "checkmark.square.fill" : "square")
+                                .foregroundColor(.megaStonksGreen)
+                        }
+                    }
+                    
+                    Button(action: {
+                        hideKeyboard()
+                        viewModel.openTerms()
+                        viewModel.toggleTermsSheet()
+                    })
+                    {
+                        Text("TERMS AND CONDITIONS")
+                            .font(.custom("Poppins-SemiBold", fixedSize: 14))
+                            .foregroundColor(.white)
+                    }
+                    .sheet(isPresented: $viewModel.showTermsSheet) {
+                        TermsSheet()
+                    }
                 }
-                Button (action: {}) {
-                    button(text: "Register")
+                HStack(spacing: 20) {
+                    Button (action: { withAnimation(.linear(duration: 0.4)) { viewModel.setRegisterMode(mode: .email) } } ) {
+                        button(text: "Back")
+                    }
+                    Button (action: {}) {
+                        button(text: "Register")
+                    }
                 }
+                .padding(.top, 10)
             }
+            .padding(.top, -10)
         }
         .padding()
         .padding(.horizontal, 30)
     }
 }
+
+struct TermsSheet: View {
+    @Environment(\.presentationMode) var presentationMode
+    
+    var body: some View {
+        Color.megaStonksDarkGreen
+            .ignoresSafeArea()
+            .overlay(
+                VStack{
+                    ScrollView{
+                        VStack{
+                            Spacer()
+                            Text("Terms and Conditions")
+                                .font(.custom("Poppins-SemiBold", fixedSize: 20))
+                                .foregroundColor(.megaStonksOffWhite)
+                            Spacer()
+                            Text(EULA.eula)
+                                .font(.custom("Poppins-SemiBold", fixedSize: 14))
+                                .foregroundColor(.megaStonksOffWhite)
+                                .multilineTextAlignment(.center)
+                            Spacer()
+                            Button(action: {
+                                presentationMode.wrappedValue.dismiss()
+                            }, label: {
+                                Text("Press to Dismiss")
+                                    .font(.custom("Poppins-SemiBold", fixedSize: 14))
+                                    .foregroundColor(.megaStonksGreen)
+                            })
+                        }.padding(.horizontal, 20)
+                    }
+                }
+            )
+        
+    }
+}
+
 
 struct AuthPageView_Previews: PreviewProvider {
     static var previews: some View {
