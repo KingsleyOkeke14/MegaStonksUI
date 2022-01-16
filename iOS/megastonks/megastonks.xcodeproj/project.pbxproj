@@ -17,6 +17,7 @@
 		D0B3FE52278A433600BE257F /* Eula.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0B3FE51278A433600BE257F /* Eula.swift */; };
 		D0B3FE56278A48EA00BE257F /* View+Keyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0B3FE55278A48EA00BE257F /* View+Keyboard.swift */; };
 		D0B3FE59278BAF8E00BE257F /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0B3FE58278BAF8E00BE257F /* APIClient.swift */; };
+		D0F63F362793BE5700540231 /* CryptoPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0F63F352793BE5700540231 /* CryptoPageView.swift */; };
 		D0FF77C12787B4C500E613F7 /* FormFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0FF77C02787B4C500E613F7 /* FormFieldView.swift */; };
 		D0FF77C52787BDDF00E613F7 /* AuthPageView+ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0FF77C42787BDDF00E613F7 /* AuthPageView+ViewModel.swift */; };
 		D0FF77C727882E1300E613F7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D0FF77C627882E1300E613F7 /* LaunchScreen.storyboard */; };
@@ -35,6 +36,7 @@
 		D0B3FE51278A433600BE257F /* Eula.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Eula.swift; sourceTree = "<group>"; };
 		D0B3FE55278A48EA00BE257F /* View+Keyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Keyboard.swift"; sourceTree = "<group>"; };
 		D0B3FE58278BAF8E00BE257F /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
+		D0F63F352793BE5700540231 /* CryptoPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoPageView.swift; sourceTree = "<group>"; };
 		D0FF77C02787B4C500E613F7 /* FormFieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormFieldView.swift; sourceTree = "<group>"; };
 		D0FF77C42787BDDF00E613F7 /* AuthPageView+ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AuthPageView+ViewModel.swift"; sourceTree = "<group>"; };
 		D0FF77C627882E1300E613F7 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -143,6 +145,14 @@
 			path = APIClient;
 			sourceTree = "<group>";
 		};
+		D0F63F342793BE3000540231 /* CryptoView */ = {
+			isa = PBXGroup;
+			children = (
+				D0F63F352793BE5700540231 /* CryptoPageView.swift */,
+			);
+			path = CryptoView;
+			sourceTree = "<group>";
+		};
 		D0FF77BD2787B49F00E613F7 /* SubViews */ = {
 			isa = PBXGroup;
 			children = (
@@ -154,6 +164,7 @@
 		D0FF77C22787BDA900E613F7 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				D0F63F342793BE3000540231 /* CryptoView */,
 				D0FF77BD2787B49F00E613F7 /* SubViews */,
 				D0A578B12779A60D007650E3 /* AuthPageView.swift */,
 			);
@@ -243,6 +254,7 @@
 			files = (
 				D0A578B22779A60D007650E3 /* AuthPageView.swift in Sources */,
 				D0FF77C12787B4C500E613F7 /* FormFieldView.swift in Sources */,
+				D0F63F362793BE5700540231 /* CryptoPageView.swift in Sources */,
 				D0B3FE52278A433600BE257F /* Eula.swift in Sources */,
 				D0B3FE59278BAF8E00BE257F /* APIClient.swift in Sources */,
 				D027BBD227839B6400B7AD6C /* Colors.swift in Sources */,
