@@ -24,9 +24,11 @@ struct CryptoPageView: View {
         VStack(spacing: 0) {
             HStack {
                 Spacer()
-                Image(systemName: "person.fill")
-                    .foregroundColor(.blue)
-                    .padding()
+                AsyncImage(url: URL(string: "https://w7.pngwing.com/pngs/844/873/png-transparent-cardano-zug-cryptocurrency-blockchain-ethereum-bitcoin-wallet-thumbnail.png")!, placeholder: {
+                    Image(systemName: "person.fill")
+                        .foregroundColor(.blue)
+                })
+
                 Group {
                     Text("Cardano")
                         .font(.custom("Poppins-SemiBold", fixedSize: 34))
