@@ -14,15 +14,18 @@ struct AsyncImage<Placeholder: View>: View {
     @StateObject private var loader: ImageLoader
     private let placeholder: Placeholder
     private let image: (UIImage) -> Image
+    private let contentMode: ContentMode
     
     init(
         url: URL,
         @ViewBuilder placeholder: () -> Placeholder,
-        @ViewBuilder image: @escaping (UIImage) -> Image = Image.init(uiImage:)
+        @ViewBuilder image: @escaping (UIImage) -> Image = Image.init(uiImage:),
+        contentMode: ContentMode = .fill
     ) {
         self.placeholder = placeholder()
         self.image = image
         _loader = StateObject(wrappedValue: ImageLoader(url: url, cache: Environment(\.imageCache).wrappedValue))
+        self.contentMode = contentMode
     }
     
     var body: some View {
@@ -34,6 +37,8 @@ struct AsyncImage<Placeholder: View>: View {
         Group {
             if loader.image != nil {
                 image(loader.image!)
+                    .resizable()
+                    .aspectRatio(contentMode: contentMode)
             } else {
                 placeholder
             }

@@ -1,5 +1,5 @@
 //
-//  View+Keyboard.swift
+//  View.swift
 //  megastonks
 //
 //  Created by Kingsley Okeke on 2022-01-08.
@@ -14,3 +14,9 @@ extension View {
     }
 }
 #endif
+
+extension View {
+    func frame(dimension: CGFloat?) -> some View {
+        frame(width: dimension, height: dimension)
+    }
+}

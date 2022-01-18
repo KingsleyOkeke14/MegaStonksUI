@@ -24,10 +24,11 @@ struct CryptoPageView: View {
         VStack(spacing: 0) {
             HStack {
                 Spacer()
-                AsyncImage(url: URL(string: "https://w7.pngwing.com/pngs/844/873/png-transparent-cardano-zug-cryptocurrency-blockchain-ethereum-bitcoin-wallet-thumbnail.png")!, placeholder: {
+                AsyncImage(url: URL(string: "https://s2.coinmarketcap.com/static/img/coins/64x64/2010.png")!, placeholder: {
                     Image(systemName: "person.fill")
                         .foregroundColor(.blue)
                 })
+                .frame(dimension: 60)
 
                 Group {
                     Text("Cardano")
