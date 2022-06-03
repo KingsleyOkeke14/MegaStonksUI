@@ -1,5 +1,5 @@
 # MegaStonksUI
-This repository contains the UI Projects for the MegaStonks Application 
+This repository contains the UI Projects for the MegaStonks Application deployed on the ios AppStore
 
 WatchlistPage ![WatchlistPage](https://kingsleyokeke.blob.core.windows.net/images/Watchlist_Crypto.PNG) 
 || PortfolioPage ![PortfolioPage](https://kingsleyokeke.blob.core.windows.net/images/Portfolio.PNG)
